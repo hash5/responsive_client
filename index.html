@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+        <title>hash5</title>
+
+		<link rel="stylesheet" media="all" href="asset/common/css/application.css" type="text/css" />
+	</head>
+	<body>
+
+        <noscript>
+            <div class="noscript-error">
+                <div class="text">
+                    <h2>Bitte aktivieren Sie JavaScript in Ihrem Browser!</h2>
+                    Diese Seite kann leider nur mit aktiviertem JavaScript benutzt werden.
+                </div>
+            </div>
+        </noscript>
+
+        <div id="page">
+            <header>
+                <div class="logo">hash<span>5</span></div>
+
+                <div class="fx search-field">
+                    <input type="text" class="search-input" placeholder="suchen..." />
+                    <ul class="search-suggests"></ul>
+                </div>
+            </header>
+
+            <sidebar class="page-sidebar">
+                <nav>
+
+                </nav>
+            </sidebar>
+
+            <div class="main-panel">
+                <div class="fx create-entry" style="padding-left: 300px; padding-top: 20px; border: 1px solid gray;">
+                    <textarea class="entry-text"></textarea><br />
+                    <button class="btn enabled save-entry-btn">Speichern</button>
+                </div>
+            </div>
+
+            <div class="fx login-form">
+                <h2 class="registration-visible">
+                    Registrieren
+                </h2>
+                <div id="form"><div>
+                    <div class="form-item">
+                        <div class="form-item-label">Username</div>
+                        <div class="form-item-control"><input type="text" name="username" class="textbox form-control" /></div>
+                    </div>
+                    <div class="form-item">
+                        <div class="form-item-label">Passwort</div>
+                        <div class="form-item-control"><input type="password" name="password" class="textbox form-control" /></div>
+                    </div>
+                    <div class="form-item registration-visible">
+                        <div class="form-item-label">Passwort wiederholen</div>
+                        <div class="form-item-control"><input type="password" name="password-repeat" class="textbox form-control" /></div>
+                    </div>
+                </div>
+                <button class="btn enabled primary btn-login">Login</button>
+                <button class="btn enabled primary btn-register">Registrieren</button>
+            </div>
+
+            <footer></footer>
+        </div>
+
+        <script src="asset/closure-library/closure/goog/base.js"></script>
+        <script src="asset/common/js/deps.js"></script>
+        <script>
+            goog.require('hash5.App');
+        </script>
+
+        <script>
+            hash5.bootstrap();
+        </script>
+    </body>
+</html>

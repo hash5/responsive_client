@@ -1,0 +1,33 @@
+
+.search-field
+{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+.search-input
+{
+    padding: 5px;
+}
+.search-suggests
+{
+    position: absolute;
+    top: 30px;
+
+    &.hidden
+    {
+        display: none;
+    }
+
+    li
+    {
+        padding: 8px;
+        margin-bottom: 2px;
+        background: #cecece;
+
+        &:hover
+        {
+            background: $colorBlackLight;
+        }
+    }
+}
