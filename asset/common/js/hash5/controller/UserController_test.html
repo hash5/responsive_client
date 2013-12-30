@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<head>
+    <title>Unit Tests - hash5.controller</title>
+    <script src="../../../../closure-library/closure/goog/base.js"></script>
+    <script src="../../deps.js"></script>
+</head>
+<body>
+    <script>
+        goog.require('hash5.controller.UserController');
+
+        goog.require('goog.testing.jsunit');
+        goog.require('goog.testing.AsyncTestCase');
+    </script>
+    <script>
+
+        var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
+
+        /** @type {hash5.controller.UserController} */
+        var userController = hash5.controller.UserController.getInstance();
+
+        var eventHandler = new goog.events.EventHandler();
+
+        /** @type {string} */
+        var testUserName = 'testUser';
+        /** @type {string} */
+        var testPassword = 'testPass';
+
+        function setUp()
+        {
+            eventHandler.dispose();
+            eventHandler = new goog.events.EventHandler();
+        }
+
+        function testASuccessfullRegister()
+        {
+            asyncTestCase.waitForAsync('wait for userController callback');
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.REGISTERED, function(){
+                asyncTestCase.continueTesting();
+            });
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.CONFLICT, function(){
+                fail('userName should be working!');
+                asyncTestCase.continueTesting();
+            });
+
+            userController.register(testUserName, testPassword);
+        }
+
+        function testBConflictingRegister()
+        {
+            asyncTestCase.waitForAsync('wait for userController callback');
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.REGISTERED, function(){
+                fail('CONFLICT event should be dispatched');
+                asyncTestCase.continueTesting();
+            });
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.CONFLICT, function(){
+                asyncTestCase.continueTesting();
+            });
+
+            userController.register(testUserName, testPassword);
+        }
+
+        function testCFailingLogin()
+        {
+            asyncTestCase.waitForAsync('wait for userController callback');
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, function(){
+                asyncTestCase.continueTesting();
+            });
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
+                fail('user credentials are not correct!');
+                asyncTestCase.continueTesting();
+            });
+
+            userController.login(testUserName, testPassword + 'a');
+        }
+
+        function testDSuccessfullLogin()
+        {
+            asyncTestCase.waitForAsync('wait for userController callback');
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, function(){
+                fail('user credentials should be correct!');
+                asyncTestCase.continueTesting();
+            });
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
+                asyncTestCase.continueTesting();
+            });
+
+            userController.login(testUserName, testPassword);
+        }
+
+        function testEGetCurrentUser()
+        {
+            var currentUser = userController.getCurrentUser();
+            assertEquals(currentUser.getUserName(), testUserName);
+        }
+
+        function testFUserSettingsLoading(){
+            userController.loadUserSettings();
+        }
+
+        function testGUserSettingSet(){
+            var settings = {a: 5, b: 'c'};
+
+            userController.setUserSetting('key', settings);
+            var loadedSettings = userController.getUserSettings('key');
+
+            assertEquals('getUserSetting returned wrong value', settings, loadedSettings);
+        }
+
+        function testHLogout()
+        {
+            asyncTestCase.waitForAsync('wait for userController callback');
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, function(){
+                asyncTestCase.continueTesting();
+            });
+
+            userController.logout();
+        }
+    </script>
+</body>
+</html>
+
+
+
+

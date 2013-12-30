@@ -4,6 +4,7 @@ goog.provide('hash5.controller.UserController.EventType');
 goog.require('goog.net.XhrIo');
 
 goog.require('hash5.controller.BaseController');
+goog.require('hash5.model.User');
 
 /**
  *
@@ -19,6 +20,12 @@ hash5.controller.UserController = function()
      * @private
      */
     this.currentUser_ = null;
+
+    /**
+     * @type {Object}
+     * @private
+     */
+    this.userSettings_ = {};
 };
 goog.inherits(hash5.controller.UserController, hash5.controller.BaseController);
 goog.addSingletonGetter(hash5.controller.UserController);
@@ -26,36 +33,69 @@ goog.addSingletonGetter(hash5.controller.UserController);
 
 hash5.controller.UserController.prototype.initialize = function(config)
 {
-    this.loadUserSettings(function(settings){
-        console.log(settings);
-    });
+    if(goog.isDef(config['user-settings']))
+    {
+        this.setUserSettings(config['user-settings']);
+        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
+    }
+    else
+    {
+        this.loadUserSettings();
+    }
 
 };
 
-hash5.controller.UserController.prototype.loadUserSettings = function(callback)
+/**
+ * stores the userSettings in the controller
+ *
+ * @param {*} userSettings
+ */
+hash5.controller.UserController.prototype.setUserSettings = function(userSettings)
+{
+    this.userSettings_ = userSettings;
+};
+
+/**
+ * stores the userSettings for the specified key
+ *
+ * @param {string} key
+ * @param {*} userSetting
+ */
+hash5.controller.UserController.prototype.setUserSetting = function(key, userSetting)
+{
+    this.userSettings_[key] = userSetting;
+};
+
+/**
+ * returns userSettings for specific key
+ *
+ * @param {string} key
+ */
+hash5.controller.UserController.prototype.getUserSettings = function(key)
+{
+    return this.userSettings_[key];
+};
+
+hash5.controller.UserController.prototype.loadUserSettings = function()
 {
     var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, goog.bind(this.handleUserSettingsLoaded_, this, callback), false, this);
+    xhr.listen(goog.net.EventType.COMPLETE, this.handleUserSettingsLoaded_, false, this);
     xhr.send('/usersettings');
 };
 
 /**
  * @param  {goog.events.Event} e
  */
-hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(callback, e)
+hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(e)
 {
     var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
     if(xhr.isSuccess())
     {
-        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
-        // TODO set usersettings
-        var userConfig = xhr.getResponseJson();
+        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN); // TODO eventDispatch?
 
-        if(callback)
-        {
-            callback(userConfig);
-        }
+        var userSettings = xhr.getResponseJson();
+        this.setUserSettings(userSettings);
     }
     else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
     {
@@ -69,12 +109,24 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(c
 };
 
 /**
+ * saves the userSettings at server
+ *
+ */
+hash5.controller.UserController.prototype.saveUserSetting = function()
+{
+    var xhr = new goog.net.XhrIo();
+    xhr.send('/usersettings', 'POST', 'settings=' + JSON.stringify(this.userSettings_));
+};
+
+/**
  * returns current logged in user
  *
  * @return {hash5.model.User}
  */
 hash5.controller.UserController.prototype.getCurrentUser = function()
 {
+
+            console.log(this);
     return this.currentUser_;
 };
 
@@ -88,35 +140,25 @@ hash5.controller.UserController.prototype.getCurrentUser = function()
 hash5.controller.UserController.prototype.login = function(username, password)
 {
     var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, this.handleLogin_, false, this);
+    xhr.listen(goog.net.EventType.COMPLETE, function(e){
+        var xhr = /** @type {goog.net.XhrIo} */ (e.target);
+
+        if(xhr.isSuccess())
+        {
+            this.currentUser_ = new hash5.model.User(username);
+            this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
+        }
+        else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
+        {
+            this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
+        }
+        else
+        {
+            this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
+        }
+
+    }, false, this);
     xhr.send('/login', 'post', 'user=' + username + '&pass=' + password);
-};
-
-
-/**
- * @param  {goog.events.Event} e
- *
- * @private
- */
-hash5.controller.UserController.prototype.handleLogin_ = function(e)
-{
-    var xhr = /** @type {goog.net.XhrIo} */ (e.target);
-
-    if(xhr.isSuccess())
-    {
-        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
-    }
-    else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
-    {
-        this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
-    }
-    else
-    {
-        this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
-    }
-
-    // TODO set current user!
-
 };
 
 /**
@@ -141,7 +183,7 @@ hash5.controller.UserController.prototype.handleLoggedOut_ = function(e)
 
     if(xhr.isSuccess())
     {
-        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
+        this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
     }
     else
     {
