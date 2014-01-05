@@ -17,19 +17,47 @@
             </div>
         </noscript>
 
-        <div id="page">
-            <header>
+        <div class="fx login-form">
+            <h2 class="registration-visible">
+                Registrieren
+            </h2>
+            <div id="form">
+                <div class="form-item">
+                    <div class="form-item-label">Username</div>
+                    <div class="form-item-control"><input type="text" name="username" class="textbox form-control" /></div>
+                </div>
+                <div class="form-item">
+                    <div class="form-item-label">Passwort</div>
+                    <div class="form-item-control"><input type="password" name="password" class="textbox form-control" /></div>
+                </div>
+                <div class="form-item registration-visible">
+                    <div class="form-item-label">Passwort wiederholen</div>
+                    <div class="form-item-control"><input type="password" name="password-repeat" class="textbox form-control" /></div>
+                </div>
+            </div>
+            <button class="btn enabled primary btn-login">Login</button>
+            <button class="btn enabled primary btn-register">Registrieren</button>
+        </div>
+
+        <div id="page" class="hidden">
+            <header class="fx page-header">
                 <div class="logo">hash<span>5</span></div>
 
                 <div class="fx search-field">
                     <input type="text" class="search-input" placeholder="suchen..." />
                     <ul class="search-suggests"></ul>
                 </div>
+
+                <div class="right-bar">
+                    <button class="logout-btn btn enabled">LogOut</button>
+                </div>
             </header>
 
             <sidebar class="page-sidebar">
-                <nav>
-
+                <nav class="main-nav">
+                    <ul>
+                        <li>Dashboard</li>
+                    </ul>
                 </nav>
             </sidebar>
 
@@ -40,39 +68,36 @@
                 </div>
             </div>
 
-            <div class="fx login-form">
-                <h2 class="registration-visible">
-                    Registrieren
-                </h2>
-                <div id="form"><div>
-                    <div class="form-item">
-                        <div class="form-item-label">Username</div>
-                        <div class="form-item-control"><input type="text" name="username" class="textbox form-control" /></div>
-                    </div>
-                    <div class="form-item">
-                        <div class="form-item-label">Passwort</div>
-                        <div class="form-item-control"><input type="password" name="password" class="textbox form-control" /></div>
-                    </div>
-                    <div class="form-item registration-visible">
-                        <div class="form-item-label">Passwort wiederholen</div>
-                        <div class="form-item-control"><input type="password" name="password-repeat" class="textbox form-control" /></div>
-                    </div>
-                </div>
-                <button class="btn enabled primary btn-login">Login</button>
-                <button class="btn enabled primary btn-register">Registrieren</button>
-            </div>
-
             <footer></footer>
         </div>
 
-        <script src="asset/closure-library/closure/goog/base.js"></script>
-        <script src="asset/common/js/deps.js"></script>
         <script>
-            goog.require('hash5.App');
+            (function() {
+
+                var writeScriptTag = function(src){
+                    document.write('<script type="text/javascript" src="' + src + '"></' + 'script>');
+                };
+                var writeScriptContent = function(content){
+                    document.write('<script type="text/javascript"> ' + content + '</' + 'script>');
+                };
+
+                if(/local/gi.test(document.location.href)){
+                    // development mode
+                    writeScriptTag('asset/closure-library/closure/goog/base.js');
+                    writeScriptTag('asset/common/js/deps.js');
+                    writeScriptContent('goog.require("hash5.App");');
+                }else{
+                    // production mode
+                    writeScriptTag('asset/common/js-min/app.js');
+                }
+
+            })();
         </script>
 
         <script>
-            hash5.bootstrap();
+            hash5.bootstrap({
+                //'user-settings': {}
+            });
         </script>
     </body>
 </html>
