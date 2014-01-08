@@ -59,11 +59,20 @@ hash5.forms.Textbox = function(content, opt_renderer, opt_domHelper)
      */
     this.value_ = '';
 
+    /**
+     * Textbox placeholder
+     *
+     * @type {string}
+     * @private
+     */
+    this.placeholder_ = '';
+
+
     this.setHandleMouseEvents(false);
     this.setAllowTextSelection(true);
     if (!content)
     {
-        this.setContentInternal('');
+        this.setContent('');
     }
 };
 goog.inherits(hash5.forms.Textbox, goog.ui.Control);
@@ -88,9 +97,15 @@ hash5.forms.Textbox.prototype.enterDocument = function()
 
     var el = this.getElement();
 
-    this.getHandler().listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_);
+    if (this.placeholder_)
+    {
+        el.placeholder = this.placeholder_;
+    }
 
-    this.getHandler().listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_);
+    this.getHandler()
+        .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
+        .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
+        .listen(el, goog.events.EventType.CHANGE, this.fireChangeEvent_);
 };
 
 /**
@@ -184,19 +199,41 @@ hash5.forms.Textbox.prototype.reset = function()
  */
 hash5.forms.Textbox.prototype.setConfig = function(config)
 {
-    if (typeof config.delayChangeEvent != 'undefined')
+    if (goog.isDef(config.delayChangeEvent))
     {
         this.delayChangeEvent_ = !!config.delayChangeEvent;
     }
 
-    if (typeof config.className != 'undefined')
+    if (goog.isDef(config.className))
     {
         this.addClassName(config.className);
     }
 
-    if (typeof config.fieldName != 'undefined')
+    if (goog.isDef(config.fieldName))
     {
         this.fieldName_ = config.fieldName;
+    }
+
+    if (goog.isDef(config.placeholder))
+    {
+        this.setPlaceholder(config.placeholder);
+
+    }
+};
+
+/**
+ * Sets textbox placeholder
+ *
+ * @param {string} placeholder
+ */
+hash5.forms.Textbox.prototype.setPlaceholder = function(placeholder)
+{
+    this.placeholder_ = placeholder;
+
+    this.placeholder_ = placeholder;
+    if (this.getElement())
+    {
+        this.getElement().placeholder = this.placeholder_;
     }
 };
 

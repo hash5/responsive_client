@@ -41,6 +41,8 @@ goog.inherits(hash5.forms.Form, goog.ui.Component);
  * @param {string} label
  * @param {string} className
  * @param {Object=} controlConfig
+ *
+ * @return {hash5.forms.FormItem} created FormItem
  */
 hash5.forms.Form.prototype.addFormItem = function(label, className, controlConfig)
 {
