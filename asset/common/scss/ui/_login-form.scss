@@ -2,12 +2,15 @@
 .login-form
 {
     position: absolute;
-    top: 100px;
     left: 50%;
-    margin-left: -200px;
-    width: 400px;
-    background: $color-light-gray;
+    top: 20%;
+    @include transform(translate(-50%, 0));
+    width: 100%;
+    max-width: 400px;
+    background: $colorLightGray;
     padding: 20px;
+    @include box-sizing(border-box);
+    z-index: 9999;
 
     &.hidden
     {

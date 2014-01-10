@@ -105,7 +105,8 @@ hash5.forms.Textbox.prototype.enterDocument = function()
     this.getHandler()
         .listen(el, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
         .listen(el, goog.events.EventType.KEYUP, this.handleKeyUp_)
-        .listen(el, goog.events.EventType.CHANGE, this.fireChangeEvent_);
+        .listen(el, goog.events.EventType.CHANGE, this.fireChangeEvent_)
+        .listen(el, goog.events.EventType.FOCUS, this.handleFocus_);
 };
 
 /**
@@ -128,6 +129,17 @@ hash5.forms.Textbox.prototype.fireChangeEvent_ = function()
 hash5.forms.Textbox.prototype.focus = function()
 {
     this.getElement().focus();
+};
+
+
+/**
+ * handles focus event and redispatches it
+ *
+ * @param {goog.events.BrowserEvent} e
+ */
+hash5.forms.Textbox.prototype.handleFocus_ = function(e)
+{
+    this.dispatchEvent(e);
 };
 
 /**

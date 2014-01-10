@@ -3,16 +3,44 @@
 {
     position: absolute;
     top: 5px;
-    right: 10px;
+    left: 200px;
+
+
 }
 .search-input
 {
-    padding: 5px;
+    width: 400px;
+
+    @include breakpoint(mobile){
+        display: none;
+    }
 }
+
+.search-btn
+{
+    position: absolute;
+    right: 0;
+    top: 5px;
+
+    border: 0;
+    background: transparent;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    cursor: pointer;
+
+    &:before
+    {
+        margin: 0;
+    }
+}
+
 .search-suggests
 {
     position: absolute;
-    top: 30px;
+    top: 42px;
+    width: 400px;
+    background: rgba(0, 0, 0, 0.4);
 
     &.hidden
     {
@@ -22,12 +50,12 @@
     li
     {
         padding: 8px;
-        margin-bottom: 2px;
-        background: #cecece;
+        background: #FFF;
+        margin: 3px;
 
         &:hover
         {
-            background: $colorBlackLight;
+            background: $colorOrange;
         }
     }
 }

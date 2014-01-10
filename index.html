@@ -4,6 +4,7 @@
 		<meta charset="utf-8" />
         <title>hash5</title>
 
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css' />
 		<link rel="stylesheet" media="all" href="asset/common/css/application.css" type="text/css" />
 	</head>
 	<body>
@@ -44,12 +45,24 @@
                 <div class="logo">hash<span>5</span></div>
 
                 <div class="fx search-field">
-                    <input type="text" class="search-input" placeholder="suchen..." />
+                    <div class="search-box">
+                        <div class="search-input"></div>
+                        <button class="search-btn flaticon-search" aria-label="Suchen"></button>
+                    </div>
                     <ul class="search-suggests"></ul>
                 </div>
 
-                <div class="right-bar">
-                    <button class="logout-btn btn enabled">LogOut</button>
+                <div class="header-right-bar">
+                    <div class="settings-links">
+                        <div class="toggle-icon flaticon-gears"></div>
+                        <ul>
+                            <li>
+                                <button class="logout-btn btn enabled">LogOut</button>
+                            </li>
+                        </ul>
+                    </div>
+
+
                 </div>
             </header>
 
@@ -62,10 +75,6 @@
             </sidebar>
 
             <div class="main-panel">
-                <div class="fx create-entry" style="padding-left: 300px; padding-top: 20px; border: 1px solid gray;">
-                    <textarea class="entry-text"></textarea><br />
-                    <button class="btn enabled save-entry-btn">Speichern</button>
-                </div>
             </div>
 
             <footer></footer>
