@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+    <title>Unit Tests - hash5.model.collection</title>
+    <script src="../../../../closure-library/closure/goog/base.js"></script>
+    <script src="../../deps.js"></script>
+</head>
+<body>
+    <script>
+        goog.require('hash5.model.Collection');
+
+        goog.require('goog.testing.jsunit');
+        goog.require('goog.events.EventHandler');
+    </script>
+    <script>
+
+        /** @type {hash5.model.Collection} */
+        var collection;
+
+        /** @type {goog.events.EventHandler} */
+        var eventHandler;
+
+        function setUp()
+        {
+            if(eventHandler){
+                eventHandler.dispose();
+            }
+            eventHandler = new goog.events.EventHandler();
+
+            collection = new hash5.model.Collection();
+        }
+
+        function testInsert()
+        {
+            var testItem = {a: 1};
+
+            assertEquals(0, collection.count());
+
+            eventHandler.listenOnce(collection, hash5.model.Collection.EventType.INSERT, function(e){
+                assertEquals(testItem, e.item);
+            });
+
+            collection.insert(testItem);
+            assert(collection.contains(testItem));
+            assertFalse(collection.contains({b: 2}));
+            assert(collection.count() == 1);
+
+
+            collection.insert({c:1});
+            collection.insert({x:21});
+
+            assertEquals(collection.getAt(0), testItem);
+
+            var testItem1 = {x:12};
+            collection.insertAt(testItem1, 2);
+            assertEquals(collection.getAt(2), testItem1);
+        }
+
+        function testMove()
+        {
+            var testItem1 = {a: 1};
+
+            collection.insertAt(testItem1, 0);
+            assertEquals(collection.getAt(0), testItem1);
+
+            eventHandler.listenOnce(collection, hash5.model.Collection.EventType.MOVE, function(e){
+                assert(0 === e.oldIndex);
+                assert(1 === e.newIndex);
+            });
+
+            collection.move(0, 1);
+            assertEquals(collection.getAt(0), testItem1);
+        }
+
+        function testRemove()
+        {
+            var testItem = {a: 1};
+
+            collection.insert(testItem);
+            assert(collection.contains(testItem));
+            collection.remove(testItem);
+            assertFalse(collection.contains(testItem));
+        }
+    </script>
+</body>
+</html>
