@@ -30,7 +30,9 @@ hash5.controller.UserController = function()
 goog.inherits(hash5.controller.UserController, hash5.controller.BaseController);
 goog.addSingletonGetter(hash5.controller.UserController);
 
-
+/**
+ * @param  {Object} config
+ */
 hash5.controller.UserController.prototype.initialize = function(config)
 {
     if(goog.isDef(config['user-settings']))
@@ -48,7 +50,7 @@ hash5.controller.UserController.prototype.initialize = function(config)
 /**
  * stores the userSettings in the controller
  *
- * @param {*} userSettings
+ * @param {Object} userSettings
  */
 hash5.controller.UserController.prototype.setUserSettings = function(userSettings)
 {
@@ -94,7 +96,7 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(e
     {
         this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN); // TODO eventDispatch?
 
-        var userSettings = xhr.getResponseJson();
+        var userSettings = xhr.getResponseJson() || {};
         this.setUserSettings(userSettings);
     }
     else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)

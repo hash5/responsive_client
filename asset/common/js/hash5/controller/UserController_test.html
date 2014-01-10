@@ -12,22 +12,23 @@
         goog.require('goog.testing.AsyncTestCase');
     </script>
     <script>
-
         var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
 
         /** @type {hash5.controller.UserController} */
-        var userController = hash5.controller.UserController.getInstance();
+        var userController =  hash5.controller.UserController.getInstance();
 
-        var eventHandler = new goog.events.EventHandler();
+        var eventHandler;
 
         /** @type {string} */
-        var testUserName = 'testUser';
+        var testUserName = 'testUser' + Date.now();
         /** @type {string} */
         var testPassword = 'testPass';
 
         function setUp()
         {
-            eventHandler.dispose();
+            if(eventHandler){
+                eventHandler.dispose();
+            }
             eventHandler = new goog.events.EventHandler();
         }
 
@@ -102,6 +103,12 @@
         }
 
         function testFUserSettingsLoading(){
+            asyncTestCase.waitForAsync('wait for userController callback');
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
+                asyncTestCase.continueTesting();
+            });
+
             userController.loadUserSettings();
         }
 
@@ -110,8 +117,19 @@
 
             userController.setUserSetting('key', settings);
             var loadedSettings = userController.getUserSettings('key');
-
             assertEquals('getUserSetting returned wrong value', settings, loadedSettings);
+
+            // try to store on server:
+            asyncTestCase.waitForAsync('wait for userController callback');
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
+                var loadedSettings = userController.getUserSettings('key');
+                assertEquals('getUserSetting returned wrong value', settings, loadedSettings);
+
+                asyncTestCase.continueTesting();
+            });
+
+            userController.loadUserSettings();
         }
 
         function testHLogout()
@@ -127,7 +145,3 @@
     </script>
 </body>
 </html>
-
-
-
-
