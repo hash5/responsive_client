@@ -1,0 +1,10 @@
+
+.main-panel
+{
+    padding-left: $sidebarWidth;
+
+
+    @include breakpoint(tablet){
+        padding-left: 0;
+    }
+}
