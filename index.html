@@ -3,12 +3,12 @@
 	<head>
 		<meta charset="utf-8" />
         <title>hash5</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css' />
 		<link rel="stylesheet" media="all" href="asset/common/css/application.css" type="text/css" />
 	</head>
 	<body>
-
         <noscript>
             <div class="noscript-error">
                 <div class="text">
@@ -42,6 +42,7 @@
 
         <div id="page" class="hidden">
             <header class="fx page-header">
+                <div class="sidebar-toggle-btn"></div>
                 <div class="logo">hash<span>5</span></div>
 
                 <div class="fx search-field">
@@ -52,24 +53,15 @@
                     <ul class="search-suggests"></ul>
                 </div>
 
-                <div class="header-right-bar">
-                    <div class="settings-links">
-                        <div class="toggle-icon flaticon-gears"></div>
-                        <ul>
-                            <li>
-                                <button class="logout-btn btn enabled">LogOut</button>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                </div>
+                <div class="header-right-bar"></div>
             </header>
 
-            <sidebar class="page-sidebar">
+            <sidebar class="fx page-sidebar">
                 <nav class="main-nav">
                     <ul>
-                        <li>Dashboard</li>
+                        <li class="flaticon-home">
+                            <span>Dashboard</span>
+                        </li>
                     </ul>
                 </nav>
             </sidebar>
@@ -90,7 +82,7 @@
                     document.write('<script type="text/javascript"> ' + content + '</' + 'script>');
                 };
 
-                if(/local/gi.test(document.location.href)){
+                if(/local/gi.test(document.location.host) || /debug/gi.test(document.location.search)){
                     // development mode
                     writeScriptTag('asset/closure-library/closure/goog/base.js');
                     writeScriptTag('asset/common/js/deps.js');

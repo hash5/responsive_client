@@ -3,15 +3,20 @@ $headerHeight: 50px;
 
 header
 {
-    position: relative;
+    position: fixed;
     width: 100%;
     height: $headerHeight;
     background: $colorBlue;
     z-index: 10;
+    @include box-shadow(0 2px 10px rgba(0, 0, 0, 0.2));
+    // create new view layer
+    @include translate3d(0,0,0);
+    z-index: 1001;
 
     .logo
     {
         position: relative;
+        float: left;
         padding-left: 20px;
         font-weight: 300;
         color: #FFF;
@@ -27,55 +32,80 @@ header
             color: $colorLighterGray;
         }
     }
+}
 
-    .right-bar
-    {
-        position: absolute;
-        right: 10px;
-        top: 10px;
+
+.sidebar-toggle-btn
+{
+    height: 20px;
+    width: 28px;
+    margin: 15px;
+    margin-right: 0;
+    float: left;
+
+    // striped background:
+    @include background(linear-gradient(#000 50%, rgba(255, 255, 255, 0) 50%));
+    background-size: 8px 8px;
+    color: transparent;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+
+    @include breakpoint(desktop){
+        display: none;
     }
 }
 
 .header-right-bar
 {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+    float: right;
 
-
-    .settings-links
+    .action-item
     {
         position: relative;
+        float: left;
+        cursor: pointer;
 
-        .toggle-icon:before
+        .toggle-icon
         {
-            font-size: 20px;
+            text-align: center;
+            height: 30px;
+            padding: 10px 15px;
+
+            &:before
+            {
+                font-size: 22px;
+                margin: 0;
+            }
         }
 
         ul
         {
             display: none;
             position: absolute;
-            top: 20px;
+            top: 50px;
             right: 0;
 
-            background: #fff;
+            background: rgba(0,0,0,0.4);
         }
         &:hover, &.visible
         {
+            background: rgba(0,0,0,0.4);
             ul {display: block;}
+        }
+        li
+        {
+            padding: 10px;
+            color: #fff;
 
+            &:before
+            {
+                margin: 0 10px 0 0;
+            }
+            &:hover
+            {
+                background: $colorOrange;
+            }
         }
     }
-}
-
-.sidebar-toggle-btn
-{
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 32px;
-    height: 32px;
-    background: url('../img/icons/menu.png') no-repeat;
-
 }
