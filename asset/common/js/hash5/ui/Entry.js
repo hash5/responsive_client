@@ -1,7 +1,6 @@
 goog.provide('hash5.ui.Entry');
 
 goog.require('goog.ui.Component');
-goog.require('goog.ui.registry');
 goog.require('goog.date.relative');
 
 goog.require('hash5.model.Entry');
@@ -63,14 +62,3 @@ hash5.ui.Entry.prototype.enterDocument = function()
 
 
 };
-
-
-/**
- * Register this control so it can be created from markup.
- */
-goog.ui.registry.setDecoratorByClassName(
-    'entry',
-    function() {
-      return new hash5.ui.Entry();
-    }
-);

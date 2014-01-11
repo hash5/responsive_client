@@ -15,7 +15,7 @@ hash5.ui.QuickCreateEntry = function(textTemplate)
     goog.base(this);
 
     /**
-     * @type {Element}
+     * @type {hash5.forms.Textbox}
      * @private
      */
     this.textbox_ = new hash5.forms.Textbox();
@@ -75,7 +75,7 @@ hash5.ui.QuickCreateEntry.prototype.handleFocus_ = function(e)
  */
 hash5.ui.QuickCreateEntry.prototype.handleSaveEntry_ = function(e)
 {
-    var entryText = this.textbox_.getValue();
+    var entryText = /** @type {string} */ (this.textbox_.getValue());
 
     if(entryText)
     {

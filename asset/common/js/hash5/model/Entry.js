@@ -1,8 +1,10 @@
 goog.provide('hash5.model.Entry');
+goog.provide('hash5.model.Entry.EntryStore');
 
-goog.require('goog.date.Date');
+goog.require('goog.date.DateTime');
 
 goog.require('hash5.model.BaseModel');
+goog.require('hash5.ds.Store');
 
 /**
  * @param {string=} id
@@ -13,6 +15,13 @@ goog.require('hash5.model.BaseModel');
 hash5.model.Entry = function(id)
 {
     goog.base(this);
+
+    // make sure that same entries are represented by the same object
+    var cached;
+    if(id && (cached = hash5.model.Entry.EntryStore.get(id)))
+    {
+        return cached;
+    }
 
     /**
      * @type {string}
@@ -27,7 +36,7 @@ hash5.model.Entry = function(id)
     this.text_ = '';
 
     /**
-     * @type {goog.date.Date}
+     * @type {goog.date.DateTime}
      * @private
      */
     this.createDate_ = null;
@@ -51,15 +60,13 @@ hash5.model.Entry = function(id)
 goog.inherits(hash5.model.Entry, hash5.model.BaseModel);
 
 /**
- * @param {*} data
+ * @param {Object} data
  * @return {hash5.model.Entry}
  */
 hash5.model.Entry.factory = function(data)
 {
     var entry = new hash5.model.Entry(data['_id']);
-
-    entry.setText(data['text']);
-    entry.setCreatedDate(goog.date.fromIsoString(data['created_date']));
+    entry.update(data);
 
     return entry;
 }
@@ -98,7 +105,7 @@ hash5.model.Entry.prototype.getSimpleTags = function()
 };
 
 /**
- * @param {string} date
+ * @param {goog.date.DateTime} date
  */
 hash5.model.Entry.prototype.setCreatedDate = function(date)
 {
@@ -106,7 +113,7 @@ hash5.model.Entry.prototype.setCreatedDate = function(date)
 };
 
 /**
- * @return {goog.date.Date}
+ * @return {goog.date.DateTime}
  */
 hash5.model.Entry.prototype.getCreatedDate = function()
 {
@@ -124,9 +131,37 @@ hash5.model.Entry.prototype.getComplexTags = function()
 /** @inheritDoc */
 hash5.model.Entry.prototype.update = function(data)
 {
-    // TODO provide keyMapping
+    var keyMapping = {};
 
-    goog.base(this, 'update', data);
+    if(goog.isDef(data['_id']))
+    {
+        keyMapping.id_ = data['_id'];
+
+        // TODO place anywhere else...
+        if(this.id_ != data['_id'])
+        {
+            hash5.model.Entry.EntryStore.set(data['_id'], this);
+        }
+    }
+
+    if(goog.isDef(data['text']))
+    {
+        keyMapping.text_ = data['text'];
+    }
+
+    if(goog.isDef(data['created_date']))
+    {
+        if(goog.isString(data['created_date']))
+        {
+            keyMapping.createDate_ = goog.date.fromIsoString(data['created_date']);
+        }
+        else
+        {
+            keyMapping.createDate_ = data['created_date'];
+        }
+    }
+
+    goog.base(this, 'update', keyMapping);
 };
 
 /** @inheritDoc */
@@ -136,3 +171,11 @@ hash5.model.Entry.prototype.serialize = function()
         'text': this.text_
     };
 };
+
+
+/**
+ * store to cache Entry objects
+ *
+ * @type {hash5.ds.Store.<hash5.model.Entry>}
+ */
+hash5.model.Entry.EntryStore = new hash5.ds.Store();

@@ -127,8 +127,6 @@ hash5.controller.UserController.prototype.saveUserSetting = function()
  */
 hash5.controller.UserController.prototype.getCurrentUser = function()
 {
-
-            console.log(this);
     return this.currentUser_;
 };
 

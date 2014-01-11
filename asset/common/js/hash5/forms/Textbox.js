@@ -12,7 +12,7 @@ goog.require('hash5.forms.TextboxRenderer');
 /**
  * A textbox control
  *
- * @param {string} content Text to set as the textbox's value.
+ * @param {string=} content Text to set as the textbox's value.
  * @param {hash5.forms.TextboxRenderer=} opt_renderer Renderer used to render or
  *     decorate the textbox.
  * @param {goog.dom.DomHelper=} opt_domHelper Optional DOM hepler, used for

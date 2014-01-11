@@ -268,11 +268,12 @@ hash5.model.Collection.EventType = {
 };
 
 /**
- * @constructor
  * @param {string} type Event Type.
  * @param {T=} opt_target Reference to the object that is the target of
  *     this event. It has to implement the {@code EventTarget} interface
  *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
+ * @template T
+ * @constructor
  * @extends {goog.events.Event}
  */
 hash5.model.Collection.ChangeEvent = function(type, opt_target)

@@ -14,6 +14,30 @@ hash5.model.BaseModel = function()
 goog.inherits(hash5.model.BaseModel, goog.events.EventTarget);
 
 /**
+ * @param {goog.events.EventHandler} eh
+ * @param {Object} data
+ */
+hash5.model.BaseModel.prototype.bind = function(eh, data)
+{
+    for (var i in data)
+    {
+        eh.listen(this, i + 'Changed', data[i]);
+    }
+};
+
+/**
+ * @param {goog.events.EventHandler} eh
+ * @param {Object} data
+ */
+hash5.model.BaseModel.prototype.unbind = function(eh, data)
+{
+    for (var i in data)
+    {
+        eh.unlisten(this, i + 'Changed', data[i]);
+    }
+};
+
+/**
  * @param {Object} data
  */
 hash5.model.BaseModel.prototype.update = function(data)
@@ -22,7 +46,7 @@ hash5.model.BaseModel.prototype.update = function(data)
 
     for (var i in data)
     {
-        if (this[i] != data[i])
+        if (this.hasOwnProperty(i) && this[i] != data[i])
         {
             this[i] = data[i];
             fireChange = true;

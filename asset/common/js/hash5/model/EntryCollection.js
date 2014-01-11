@@ -9,7 +9,7 @@ goog.require('hash5.model.Collection');
  * @param {string=} searchPattern
  *
  * @constructor
- * @extends {hash5.model.Collection<hash5.model.Entry>}
+ * @extends {hash5.model.Collection.<hash5.model.Entry>}
  */
 hash5.model.EntryCollection = function(entries, searchPattern)
 {

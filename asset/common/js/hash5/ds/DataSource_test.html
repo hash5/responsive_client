@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<head>
+    <title>Unit Tests - hash5.ds</title>
+    <script src="../../../../closure-library/closure/goog/base.js"></script>
+    <script src="../../deps.js"></script>
+</head>
+<body>
+    <script>
+        goog.require('hash5.ds.DataSource');
+
+        goog.require('goog.testing.jsunit');
+        goog.require('goog.testing.AsyncTestCase');
+
+        goog.require('hash5.controller.UserController');
+        goog.require('hash5.model.EntryCollection');
+        goog.require('hash5.model.Entry');
+
+    </script>
+    <script>
+        var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
+
+        /** @type {hash5.ds.DataSource} */
+        var ds = hash5.ds.DataSource.getInstance();
+
+        var eventHandler;
+
+        function setUp()
+        {
+            if(eventHandler){
+                eventHandler.dispose();
+            }
+            eventHandler = new goog.events.EventHandler();
+        }
+
+        function testAEnsureLogin()
+        {
+            asyncTestCase.waitForAsync('wait for login');
+
+            var userController = hash5.controller.UserController.getInstance();
+
+            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
+                asyncTestCase.continueTesting();
+            });
+
+            userController.login('testUser', 'testPass');
+        }
+
+        var saveModel = new hash5.model.Entry();
+        saveModel.setText('bla bla #testhash');
+
+        function testBSave()
+        {
+            asyncTestCase.waitForAsync('wait for entry save');
+
+            ds.save(saveModel, function(paramModel){
+                assertEquals(paramModel, saveModel);
+                assert(saveModel.getId() != '');
+
+                asyncTestCase.continueTesting();
+            });
+        }
+
+        function testCFetch()
+        {
+            asyncTestCase.waitForAsync('wait for entry fetched');
+
+            var loadModel = new hash5.model.Entry(saveModel.getId());
+
+            ds.fetch(loadModel, function(paramModel){
+                assertEquals(paramModel, loadModel);
+                assertEquals(loadModel.getId(), saveModel.getId());
+                assert(loadModel.getText() === saveModel.getText());
+
+                asyncTestCase.continueTesting();
+            });
+        }
+
+        function testDSearch()
+        {
+            asyncTestCase.waitForAsync('wait for search');
+
+            var collection = new hash5.model.EntryCollection();
+            eventHandler.listen(collection, goog.net.EventType.COMPLETE, function(){
+                assert(collection.contains(saveModel));
+
+                asyncTestCase.continueTesting();
+            });
+            var collectionReturn = ds.search('#testhash', collection);
+
+            assertEquals(collection, collectionReturn);
+        }
+    </script>
+</body>
+</html>

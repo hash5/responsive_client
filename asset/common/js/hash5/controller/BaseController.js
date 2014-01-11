@@ -28,9 +28,12 @@ hash5.controller.BaseController.prototype.getHandler = function() {
     return this.handler_ || (this.handler_ = new goog.events.EventHandler(this));
 };
 
-hash5.controller.BaseController.prototype.dispose = function() {
+/** @inheritDoc */
+hash5.controller.BaseController.prototype.disposeInternal = function() {
     if (this.handler_) {
         this.handler_.dispose();
         this.handler_ = null;
     }
+
+    goog.base(this, 'disposeInternal');
 };
