@@ -4,16 +4,23 @@
     position: absolute;
     top: 5px;
     left: 200px;
-
-
-}
-.search-input
-{
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
 
     @include breakpoint(mobile){
         display: none;
+        top: 50px;
+        left: 0;
+        max-width: 100%;
     }
+
+    &.visible
+    {
+        display: block;
+    }
+}
+.search-input
+{
 }
 
 .search-btn
@@ -39,7 +46,7 @@
 {
     position: absolute;
     top: 42px;
-    width: 400px;
+    width: 100%;
     background: rgba(0, 0, 0, 0.4);
 
     &.hidden

@@ -2,7 +2,8 @@ goog.provide('hash5.ui.SearchField');
 
 goog.require('goog.ui.Component');
 goog.require('goog.ui.registry');
-goog.require('goog.events.KeyCodes');
+
+goog.require('hash5.forms.Textbox');
 
 
 /**
@@ -17,10 +18,11 @@ hash5.ui.SearchField = function()
     /**
      * search input field
      *
-     * @type {Element}
+     * @type {hash5.forms.Textbox}
      * @private
      */
-    this.searchInput_ = null;
+    this.searchInput_ = new hash5.forms.Textbox();
+    this.searchInput_.setPlaceholder(goog.getMsg('Suchen...'));
 
     /**
      * element where suggest are renderred
@@ -35,10 +37,9 @@ hash5.ui.SearchField = function()
      * @private
      */
     this.searchKey_ = '';
-
-    // TODO delayed ajax request for search
 };
 goog.inherits(hash5.ui.SearchField, goog.ui.Component);
+goog.addSingletonGetter(hash5.ui.SearchField);
 
 
 /** @inheritDoc */
@@ -46,7 +47,7 @@ hash5.ui.SearchField.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
-    this.searchInput_ = this.getElementByClass('search-input');
+    this.searchInput_.render(this.getElementByClass('search-input'));
     this.suggestEl_ = this.getElementByClass('search-suggests');
 };
 
@@ -55,51 +56,78 @@ hash5.ui.SearchField.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this.searchInput_, goog.events.EventType.KEYUP, this.handleKeyPressed_);
+    this.getHandler()
+        .listen(this.searchInput_, goog.events.EventType.CHANGE, this.handleTextInput_)
+        .listen(this.searchInput_, goog.events.EventType.SUBMIT, this.handleInputSubmit_);
 };
 
 /**
- * @param  {goog.events.BrowserEvent} e
+ * @param  {goog.events.Event} e
  */
-hash5.ui.SearchField.prototype.handleKeyPressed_ = function(e)
+hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
 {
+    var newSearchKey = /** @type {string} */ (this.searchInput_.getValue());
     var ds = new hash5.ds.DataSource();
 
-    if(e.keyCode == goog.events.KeyCodes.ENTER)
-    {
-      // enter pressed
-
-    }
-
-    var newSearchKey = this.searchInput_.value;
     if(newSearchKey.length > 3 && newSearchKey != this.searchKey_)
     {
-        ds.search(newSearchKey, this.handleSuggestsLoaded_, this);
+        ds.search(newSearchKey, undefined, this.handleSuggestsLoaded_, this);
     }
     if(newSearchKey.length == 0)
     {
-        goog.dom.classes.add(this.suggestEl_, 'hidden');
+        this.hideSuggestionBox();
     }
 
     this.searchKey_ = newSearchKey;
 };
 
 /**
- * @param  {Array.<hash5.model.Entry>} entries
+ * @param  {goog.events.Event} e
  */
-hash5.ui.SearchField.prototype.handleSuggestsLoaded_ = function(entries)
+hash5.ui.SearchField.prototype.handleInputSubmit_ = function(e)
+{
+    var searchKey = /** @type {string} */ (this.searchInput_.getValue());
+    var ds = new hash5.ds.DataSource();
+
+    if(searchKey.length > 3){
+        ds.search(searchKey, undefined, function(entryCollection){
+            hash5.controller.MainPanelController.getInstance().showEntryCollection(entryCollection, searchKey);
+        }, this);
+        this.hideSuggestionBox();
+    }
+};
+
+/**
+ * @param  {hash5.model.EntryCollection} entryCollection
+ */
+hash5.ui.SearchField.prototype.handleSuggestsLoaded_ = function(entryCollection)
 {
     goog.dom.removeChildren(this.suggestEl_);
 
-    if(entries.length > 0)
+    if(entryCollection.count() > 0)
     {
         goog.dom.classes.remove(this.suggestEl_, 'hidden');
         var domHelper = this.getDomHelper();  // TODO use DomFragement or subcomponent instead!
-        goog.array.forEach(entries, function(entry){
+        entryCollection.forEach(function(entry){
             var entryEl = domHelper.createDom('li', undefined, entry.getText());
-            goog.dom.append(this.suggestEl_, entryEl);
+            goog.dom.append(/** @type {!Node} */ (this.suggestEl_), entryEl);
         }, this);
+
+        this.getHandler().listenOnce(document.body, goog.events.EventType.CLICK, this.hideSuggestionBox);
     }
+};
+
+
+hash5.ui.SearchField.prototype.hideSuggestionBox = function()
+{
+    goog.dom.classes.remove(this.getElement(), 'visible');
+    goog.dom.classes.add(this.suggestEl_, 'hidden');
+    this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.hideSuggestionBox);
+};
+
+hash5.ui.SearchField.prototype.toggle = function()
+{
+    goog.dom.classes.toggle(this.getElement(), 'visible');
 };
 
 /**
@@ -108,6 +136,6 @@ hash5.ui.SearchField.prototype.handleSuggestsLoaded_ = function(entries)
 goog.ui.registry.setDecoratorByClassName(
     'search-field',
     function() {
-      return new hash5.ui.SearchField();
+      return hash5.ui.SearchField.getInstance();
     }
 );

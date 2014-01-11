@@ -41,12 +41,25 @@ hash5.ui.EntryList.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+    this.setMaxHeight();
+
     this.getHandler()
-        .listen(this.entryCollection_, hash5.model.Collection.EventType.INSERT, this.handleEntryAdded_);
+        .listen(this.entryCollection_, hash5.model.Collection.EventType.INSERT, this.handleEntryAdded_)
+        .listen(hash5.App.viewportSizeMonitor, goog.events.EventType.RESIZE, this.setMaxHeight);
+};
+
+hash5.ui.EntryList.prototype.setMaxHeight = function()
+{
+    var el = this.getElement(),
+        viewPort = goog.dom.getViewportSize(),
+        elPosition = goog.style.getPosition(el),
+        maxHeight = viewPort.height - elPosition.y;
+
+    goog.style.setStyle(el, 'maxHeight', maxHeight + 'px');
 };
 
 /**
- * @param  {hash5.model.Collection.ChangeEvent} e
+ * @param  {hash5.model.Collection.ChangeEvent.<hash5.model.Entry>} e
  */
 hash5.ui.EntryList.prototype.handleEntryAdded_ = function(e)
 {

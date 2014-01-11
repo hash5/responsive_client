@@ -1,18 +1,41 @@
 
 $sidebarWidth: 200px;
+$sidebarTabletWidth: 50px;
 
 .page-sidebar
 {
-    position: absolute;
+    position: fixed;
     top: 0;
     width: $sidebarWidth;
     height: 100%;
     background: $colorLightGray;
     padding-top: $headerHeight + 20px;
     @include box-sizing(border-box);
+    // create new view layer
+    @include translate3d(0,0,0);
+    z-index: 1000;
 
-    @include breakpoint(tablet){
+
+    // responsive:
+    @include breakpoint(mobile){
         @include translate3d(-100%, 0, 0);
+    }
+    @include breakpoint(tablet){
+        width: $sidebarTabletWidth;
+        li span
+        {
+            display: none;
+        }
+    }
+
+    &.visible
+    {
+        @include translate3d(0, 0, 0);
+        width: $sidebarWidth;
+        li span
+        {
+            display: inline;
+        }
     }
 }
 
@@ -21,5 +44,10 @@ $sidebarWidth: 200px;
     li
     {
         padding: 5px 10px;
+
+        &:before
+        {
+            margin: 0 5px;;
+        }
     }
 }

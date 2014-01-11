@@ -1,10 +1,15 @@
 
 .main-panel
 {
+    position: relative;
     padding-left: $sidebarWidth;
+    padding-top: $headerHeight;
 
 
     @include breakpoint(tablet){
+        padding-left: $sidebarTabletWidth;
+    }
+    @include breakpoint(mobile){
         padding-left: 0;
     }
 }
