@@ -64,7 +64,7 @@ hash5.ui.QuickCreateEntry.prototype.enterDocument = function()
 hash5.ui.QuickCreateEntry.prototype.handleFocus_ = function(e)
 {
     var entryText = this.textbox_.getValue();
-    if(!entryText)
+    if(!entryText && this.textTemplate_)
     {
         this.textbox_.setValue(this.textTemplate_ + ' ');
     }
@@ -81,9 +81,7 @@ hash5.ui.QuickCreateEntry.prototype.handleSaveEntry_ = function(e)
     {
       var entry = new hash5.model.Entry();
       entry.setText(entryText);
-
-      var ds = hash5.ds.DataSource.getInstance();
-      ds.save(entry);
+      entry.save();
 
       this.textbox_.reset();
     }

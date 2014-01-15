@@ -18,9 +18,16 @@ hash5.model.Entry = function(id)
 
     // make sure that same entries are represented by the same object
     var cached;
-    if(id && (cached = hash5.model.Entry.EntryStore.get(id)))
+    if(goog.isDef(id))
     {
-        return cached;
+        if(cached = hash5.model.Entry.EntryStore.get(id))
+        {
+            return cached;
+        }
+        else
+        {
+            hash5.model.Entry.EntryStore.set(id, this);
+        }
     }
 
     /**
@@ -128,20 +135,80 @@ hash5.model.Entry.prototype.getComplexTags = function()
     return this.complexTags_;
 };
 
+
+// ---------------- persistence functions: ----------------
+
+/**
+ * fetches all properties from the server
+ * changing properties can be catched with bindings
+ *
+ * @param {Function=} callback
+ * @param {*=} handler
+ */
+hash5.model.Entry.prototype.fetch = function(callback, handler)
+{
+    var ds = hash5.ds.DataSource.getInstance();
+    ds.fetch(this, callback, handler);
+};
+
+
+/**
+ * sends current modifications to the server
+ *
+ * @param {Function=} callback
+ * @param {*=} handler
+ */
+hash5.model.Entry.prototype.save = function(callback, handler)
+{
+    var ds = hash5.ds.DataSource.getInstance();
+
+    if(this.getId())
+    {
+        ds.save(this, callback, handler);
+    }
+    else
+    {
+        // if no id is set, save will create a new entry on server
+        ds.save(this, function(){
+            // make sure to save entry in entryStore
+            hash5.model.Entry.EntryStore.set(this.getId(), this);
+
+            if(goog.isFunction(callback))
+            {
+                callback.call(handler, model);
+            }
+        }, this);
+    }
+};
+
+/**
+ * deletes entry
+ *
+ * @param {Function=} callback
+ * @param {*=} handler
+ */
+hash5.model.Entry.prototype.delete = function(callback, handler)
+{
+    var ds = hash5.ds.DataSource.getInstance();
+
+    if(this.id_)
+    {
+        ds.delete(this);
+        hash5.model.Entry.EntryStore.remove(this.id_);
+    }
+};
+
+
 /** @inheritDoc */
 hash5.model.Entry.prototype.update = function(data)
 {
+    // provide keyMapping because Closure Compiler will rename
+    // class properties
     var keyMapping = {};
 
     if(goog.isDef(data['_id']))
     {
         keyMapping.id_ = data['_id'];
-
-        // TODO place anywhere else...
-        if(this.id_ != data['_id'])
-        {
-            hash5.model.Entry.EntryStore.set(data['_id'], this);
-        }
     }
 
     if(goog.isDef(data['text']))
