@@ -1,23 +1,32 @@
 goog.provide('hash5.ui.EntryEditor');
 
 goog.require('goog.ui.Component');
-goog.require('goog.events.KeyCodes');
+
+goog.require('hash5.forms.Textarea');
 
 
 /**
+ * @param {hash5.model.Entry} entry
  *
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.ui.EntryEditor = function()
+hash5.ui.EntryEditor = function(entry)
 {
     goog.base(this);
 
     /**
-     * @type {Element}
+     * @type {hash5.model.Entry}
      * @private
      */
-    this.textEl_ = null;
+    this.entry_ = entry;
+
+    /**
+     * @type {hash5.forms.Textarea}
+     * @private
+     */
+    this.textEditor_ = new hash5.forms.Textarea('');
+    this.addChild(this.textEditor_);
 };
 goog.inherits(hash5.ui.EntryEditor, goog.ui.Component);
 
@@ -26,13 +35,15 @@ hash5.ui.EntryEditor.prototype.createDom = function()
 {
     var dom = this.getDomHelper(),
         actions = dom.createDom('div', 'entry-actions', [
-            dom.createDom('button', 'btn save-btn', 'Speichern')
+            dom.createDom('button', 'btn primary save-btn', goog.getMsg('Speichern')),
+            dom.createDom('button', 'btn cancle-btn', goog.getMsg('Abbrechen'))
         ]),
         info = dom.createDom('div', 'entry-info', [
-            dom.createDom('span', 'entry-date')
+            dom.createDom('span', 'entry-date', goog.date.relative.getDateString(this.entry_.getCreatedDate()))
         ]),
         body = dom.createDom('div', 'entry-editor-body'),
         el = dom.createDom('div', 'entry-editor', [
+            dom.createDom('h2', undefined, goog.getMsg('Eintrag bearbeiten')),
             info,
             body,
             actions
@@ -46,6 +57,8 @@ hash5.ui.EntryEditor.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
+    this.textEditor_.render(this.getElementByClass('entry-editor-body'));
+    this.textEditor_.setValue(this.entry_.getText());
 };
 
 /** @inheritDoc */
@@ -53,10 +66,16 @@ hash5.ui.EntryEditor.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.textEl_ = this.getElementByClass('entry-text');
-
-    var saveBtn = this.getElementByClass('save-entry-btn');
+    var saveBtn = this.getElementByClass('save-btn');
     this.getHandler().listen(saveBtn, goog.events.EventType.CLICK, this.handleSaveBtnClicked_);
+
+    var cancleBtn = this.getElementByClass('cancle-btn');
+    this.getHandler().listen(cancleBtn, goog.events.EventType.CLICK, this.close);
+};
+
+hash5.ui.EntryEditor.prototype.close = function()
+{
+    this.dispose();
 };
 
 /**
@@ -64,16 +83,11 @@ hash5.ui.EntryEditor.prototype.enterDocument = function()
  */
 hash5.ui.EntryEditor.prototype.handleSaveBtnClicked_ = function(e)
 {
-    var entryText = this.textEl_.value;
+    var entryText = this.textEditor_.getValue();
 
     if(entryText.length > 0)
     {
-      var entry = new hash5.model.Entry();
-      entry.setText(entryText);
-
-      var ds = hash5.ds.DataSource.getInstance();
-      ds.save(entry);
-
-      this.textEl_.value = '';
+      this.entry_.setText(entryText);
+      this.entry_.save();
     }
 };

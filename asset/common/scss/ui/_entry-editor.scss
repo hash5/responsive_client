@@ -1,0 +1,32 @@
+
+.entry-editor
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    max-width: 450px;
+    padding: 15px;
+    padding-top: $headerHeight + 15px;
+    @include box-sizing(border-box);
+
+    background: #fff;
+
+    .goog-textarea
+    {
+        min-height: 150px;
+    }
+
+
+    .entry-actions
+    {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 2px solid;
+    }
+    .cancle-btn
+    {
+        float: right;
+    }
+}

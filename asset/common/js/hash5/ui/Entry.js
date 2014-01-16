@@ -60,5 +60,13 @@ hash5.ui.Entry.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+    this.getHandler().listen(this.getElement(), goog.events.EventType.CLICK, this.handleClick_);
+};
 
+/**
+ * @param  {goog.events.BrowserEvent} e
+ */
+hash5.ui.Entry.prototype.handleClick_ = function(e)
+{
+    hash5.api.editEntry(this.getModel());
 };

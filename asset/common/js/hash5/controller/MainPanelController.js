@@ -3,6 +3,7 @@ goog.provide('hash5.controller.MainPanelController');
 goog.require('hash5.controller.BaseController');
 goog.require('hash5.view.ListView');
 goog.require('hash5.ui.SearchField');
+goog.require('hash5.ui.EntryEditor');
 
 /**
  *
@@ -117,4 +118,24 @@ hash5.controller.MainPanelController.prototype.renderView = function(view)
 hash5.controller.MainPanelController.prototype.showEntryCollection = function(collection, title)
 {
     this.listView_.addEntryCollection(collection, title);
+};
+
+
+/**
+ * @param  {hash5.model.Entry} entry
+ * @return {hash5.ui.EntryEditor}
+ */
+hash5.controller.MainPanelController.prototype.createEntryEditor = function(entry)
+{
+    if(this.entryEditor_)
+    {
+        // TODO test if there are unsaved actions
+        // or provide tab-view
+        this.entryEditor_.dispose();
+    }
+
+    this.entryEditor_ = new hash5.ui.EntryEditor(entry);
+    this.entryEditor_.render(this.panelEl_);
+
+    return this.entryEditor_;
 };

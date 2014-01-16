@@ -17,7 +17,8 @@ hash5.api.searchEntries = function(searchStr, collection, callback, handler)
     return hash5.ds.DataSource.getInstance().search(searchStr, collection, callback, handler);
 };
 
-// TODO save, delete, load
+
+// layout -------
 
 /**
  * @param  {hash5.model.EntryCollection} collection
@@ -26,6 +27,16 @@ hash5.api.searchEntries = function(searchStr, collection, callback, handler)
 hash5.api.showEntryCollection = function(collection, title)
 {
     hash5.controller.MainPanelController.getInstance().showEntryCollection(collection, title);
+};
+
+
+/**
+ * @param  {hash5.model.Entry} entry
+ * @return {hash5.ui.EntryEditor}
+ */
+hash5.api.editEntry = function(entry)
+{
+    return hash5.controller.MainPanelController.getInstance().createEntryEditor(entry);
 };
 
 /**

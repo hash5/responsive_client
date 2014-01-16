@@ -66,8 +66,8 @@ textarea.textbox {
     @include box-sizing(border-box);
     background: $colorLighterGray;
     border: 1px solid $colorLighterGray;
-    color: #999;
-    cursor: default;
+    color: #4b4b4b;
+    cursor: pointer;
     height: 28px;
     font-size: 11pt;
     display: inline-block;
@@ -77,28 +77,21 @@ textarea.textbox {
     text-transform: uppercase;
     text-decoration: none;
 
-    &.enabled {
-        color: #4b4b4b;
-        cursor: pointer;
+    &.primary {
+        background-color: $colorDarkGray;
+        border-color: $colorDarkGray;
+        color: #fff;
+    }
 
-        &.primary {
-            background-color: $colorDarkGray;
-            border-color: $colorDarkGray;
-            color: #fff;
-        }
+    &:active,
+    &:hover {
+        background-color: $colorOrange;
+        border-color: $colorOrange;
+        color: #000;
+    }
 
-
-        &.pressed {
-            background-color: #fff;
-            border-color: #ebebeb;
-        }
-
-        &:active,
-        &:hover {
-            background-color: $colorOrange;
-            border-color: $colorOrange;
-            color: #000;
-        }
-
+    &.disabled {
+        color: #999;
+        cursor: default;
     }
 }
