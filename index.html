@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
         <title>hash5</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css' />
 		<link rel="stylesheet" media="all" href="asset/common/css/application.css" type="text/css" />
@@ -19,6 +19,7 @@
         </noscript>
 
         <div class="fx login-form">
+            <div class="hash5-logo">hash<span>5</span></div>
             <h2 class="registration-visible">
                 Registrieren
             </h2>
@@ -43,7 +44,7 @@
         <div id="page" class="hidden">
             <header class="fx page-header">
                 <div class="sidebar-toggle-btn"></div>
-                <div class="logo">hash<span>5</span></div>
+                <div class="hash5-logo">hash<span>5</span></div>
 
                 <div class="fx search-field">
                     <div class="search-box">
@@ -99,7 +100,7 @@
 
         <script>
             hash5.bootstrap({
-                //'user-settings': {}
+                'path_prefix': "/www/"
             });
         </script>
     </body>

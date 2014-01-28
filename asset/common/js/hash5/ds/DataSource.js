@@ -140,7 +140,7 @@ hash5.ds.DataSource.prototype.save = function(model, callback, handler)
  *
  * @param  {hash5.model.BaseModel} model
  */
-hash5.ds.DataSource.prototype.delete = function(model)
+hash5.ds.DataSource.prototype.destroy = function(model)
 {
     var xhr = new goog.net.XhrIo();
     xhr.send('/entries/' + model.getId(), 'DELETE');

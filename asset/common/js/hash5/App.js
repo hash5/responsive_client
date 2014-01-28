@@ -3,9 +3,11 @@ goog.provide('hash5.App');
 goog.require('goog.dom.ViewportSizeMonitor');
 
 goog.require('hash5.api');
+goog.require('hash5.Router');
 
 goog.require('hash5.controller.UserController');
 goog.require('hash5.controller.MainPanelController');
+goog.require('hash5.controller.NavigateController');
 
 // include ui controls for auto-decation here
 goog.require('hash5.ui.UiDecorator');
@@ -13,7 +15,7 @@ goog.require('hash5.ui.PageHeader');
 goog.require('hash5.ui.PageSidebar');
 goog.require('hash5.ui.LoginForm');
 goog.require('hash5.ui.SearchField');
-goog.require('hash5.ui.EntryEditor');
+goog.require('hash5.ui.editor.EntryEditor');
 
 
 /**
@@ -25,6 +27,9 @@ hash5.App = function(config){
 
     hash5.controller.MainPanelController.getInstance().initialize(config);
     hash5.controller.UserController.getInstance().initialize(config);
+    hash5.controller.NavigateController.getInstance().initialize();
+
+    hash5.Router.getInstance().initialize(config);
 };
 
 /**

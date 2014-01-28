@@ -32,7 +32,7 @@ hash5.api.showEntryCollection = function(collection, title)
 
 /**
  * @param  {hash5.model.Entry} entry
- * @return {hash5.ui.EntryEditor}
+ * @return {hash5.ui.editor.EntryEditor}
  */
 hash5.api.editEntry = function(entry)
 {

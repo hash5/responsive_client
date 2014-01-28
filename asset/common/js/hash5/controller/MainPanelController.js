@@ -3,7 +3,7 @@ goog.provide('hash5.controller.MainPanelController');
 goog.require('hash5.controller.BaseController');
 goog.require('hash5.view.ListView');
 goog.require('hash5.ui.SearchField');
-goog.require('hash5.ui.EntryEditor');
+goog.require('hash5.ui.editor.EntryEditor');
 
 /**
  *
@@ -31,6 +31,12 @@ hash5.controller.MainPanelController = function()
      * @private
      */
     this.panelEl_ = null;
+
+    /**
+     * @type {hash5.ui.editor.EntryEditor}
+     * @private
+     */
+    this.entryEditor_ = null;
 };
 goog.inherits(hash5.controller.MainPanelController, hash5.controller.BaseController);
 goog.addSingletonGetter(hash5.controller.MainPanelController);
@@ -66,27 +72,30 @@ hash5.controller.MainPanelController.prototype.handleLogin_ = function(e)
     this.showEntryCollection(actualEntries, 'Tagesplanung');
 
     // create settingsmenu
+    var MSG_SEARCH_TITLE = goog.getMsg('Suchen');
     hash5.api.layout.addActionBarBtn({
         cssClass: 'flaticon-search mobile-only',
-        title: goog.getMsg('Suchen'),
+        title: MSG_SEARCH_TITLE,
         clickCallback: function(){
             hash5.ui.SearchField.getInstance().toggle();
         }
     });
+    var MSG_SETTINGS = goog.getMsg('Einstellungen');
+    var MSG_LOGOUT = goog.getMsg('Logout');
     hash5.api.layout.addActionBarBtn({
         cssClass: 'flaticon-gears',
-        title: goog.getMsg('Einstellungen')
+        title: MSG_SETTINGS
     }, [
         {
             cssClass: 'flaticon-task',
-            title: goog.getMsg('Einstellungen'),
+            title: MSG_SETTINGS,
             clickCallback: function(){
                 alert("not implemented");
             }
         },
         {
             cssClass: 'flaticon-user',
-            title: goog.getMsg('Logout'),
+            title: MSG_LOGOUT,
             clickCallback: function(){
                 var userController = hash5.controller.UserController.getInstance();
 
@@ -123,7 +132,7 @@ hash5.controller.MainPanelController.prototype.showEntryCollection = function(co
 
 /**
  * @param  {hash5.model.Entry} entry
- * @return {hash5.ui.EntryEditor}
+ * @return {hash5.ui.editor.EntryEditor}
  */
 hash5.controller.MainPanelController.prototype.createEntryEditor = function(entry)
 {
@@ -134,7 +143,7 @@ hash5.controller.MainPanelController.prototype.createEntryEditor = function(entr
         this.entryEditor_.dispose();
     }
 
-    this.entryEditor_ = new hash5.ui.EntryEditor(entry);
+    this.entryEditor_ = new hash5.ui.editor.EntryEditor(entry);
     this.entryEditor_.render(this.panelEl_);
 
     return this.entryEditor_;
