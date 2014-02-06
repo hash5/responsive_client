@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+    <title>Unit Tests - hash5.Router</title>
+    <script src="../../../closure-library/closure/goog/base.js"></script>
+    <script src="../deps.js"></script>
+</head>
+<body>
+    <script>
+        goog.require('hash5.Router');
+
+        goog.require('goog.testing.jsunit');
+        goog.require('goog.events.EventHandler');
+    </script>
+    <script>
+
+        /** @type {goog.events.EventHandler} */
+        var eventHandler;
+
+        function setUp()
+        {
+            if(eventHandler){
+                eventHandler.dispose();
+            }
+            eventHandler = new goog.events.EventHandler();
+        }
+
+        function testSimpleRoute()
+        {
+            var router = hash5.Router.getInstance();
+            router.initialize({'path_prefix': '/www/'});
+            var routed = false;
+
+            router.addRoute('search/:searchStr', function(fragment, searchStr){
+                assertEquals(fragment, 'search/testSearch');
+                assertEquals(searchStr, 'testSearch');
+
+                routed = true;
+            }, this);
+
+            router.navigate('search/testSearch');
+
+            assert(routed);
+        }
+    </script>
+</body>
+</html>
