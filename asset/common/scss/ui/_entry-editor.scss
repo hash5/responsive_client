@@ -32,13 +32,19 @@
     }
 
 
-    .suggests
+    .suggest
     {
+      margin-top: 5px;
       padding: 5px;
       display: inline-block;
       background: rgba($colorBlue, 0.8);
       border-radius: 5px;
       cursor: pointer;
+
+      &:hover
+      {
+        color: #fff;
+      }
     }
 }
 

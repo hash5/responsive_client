@@ -36,6 +36,11 @@
     {
         background: $colorYellow;
     }
+
+    h3
+    {
+        word-wrap: break-word;
+    }
 }
 
 .entry-list
@@ -55,8 +60,40 @@
 
 .entry
 {
+    position: relative;
 
+
+    .entry-actions
+    {
+        visibility: hidden;
+        position: absolute;
+        right: 0;
+
+        &>a
+        {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: $colorYellow;
+            cursor: pointer;
+
+            &:hover
+            {
+                opacity: 0.8;
+            }
+        }
+    }
+    &:hover .entry-actions
+    {
+        visibility: visible;
+    }
+
+    .entry-body
+    {
+        word-wrap: break-word;
+    }
 }
+
 .entry-info
 {
     margin-top: 5px;

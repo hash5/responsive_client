@@ -9,6 +9,8 @@ goog.require('hash5.validation.RequiredFieldValidator');
 goog.require('hash5.validation.EqualityValidator');
 goog.require('hash5.forms.DefaultErrorProvider');
 
+goog.require('hash5.templates.ui.LoginForm');
+
 /**
  * Loginform with switch for registration form
  * After successful login hash5.controller.UserController.EventType.LOGIN will be dispatch from UserController
@@ -38,6 +40,13 @@ hash5.ui.LoginForm = function()
      */
     this.form_ = new hash5.forms.Form();
 
+    /** @desc username */
+    var MSG_USERNAME = goog.getMsg('Username');
+    /** @desc password */
+    var MSG_PASSWORD = goog.getMsg('Passwort');
+    this.form_.addFormItem(MSG_USERNAME, 'textbox', {fieldName: 'username'});
+    this.form_.addFormItem(MSG_PASSWORD, 'textbox', {fieldName: 'password', password: true});
+
     /**
      * validations used for login-form
      *
@@ -64,11 +73,18 @@ hash5.ui.LoginForm = function()
 goog.inherits(hash5.ui.LoginForm, goog.ui.Component);
 
 /** @inheritDoc */
+hash5.ui.LoginForm.prototype.createDom = function()
+{
+    var el = soy.renderAsFragment(hash5.templates.ui.LoginForm.wrapper);
+    this.decorateInternal(el);
+};
+
+/** @inheritDoc */
 hash5.ui.LoginForm.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
-    this.form_.decorate(el);
+    this.form_.render(this.getElementByClass('form-wrapper'));
 
     this.loginBtn_ = this.getElementByClass('btn-login');
     this.registerBtn_ = this.getElementByClass('btn-register');

@@ -19,6 +19,16 @@
         @include transition(transform 0.8s, opacity 0.8s);
     }
 
+    .hash5-logo
+    {
+        position: absolute;
+        top: -50px;
+        left: -50px;
+        color: #000;
+
+        span{color: #fff;}
+    }
+
     .btn-register
     {
         float: right;

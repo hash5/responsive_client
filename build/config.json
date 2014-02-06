@@ -1,0 +1,43 @@
+{
+  "id": "hash5",
+  "paths": [
+    "../asset/common/js/",
+    "../asset/closure-library/third_party/",
+    "../asset/third-party/soyutils_usegoog.js"
+  ],
+  "mode": "ADVANCED",
+  "level": "VERBOSE",
+  "externs": [
+    "../asset/third-party/console-externs.js",
+    "../asset/third-party/plovr-externs.js"
+  ],
+  "define": {
+      "goog.DEBUG": false
+  },
+  "output-charset": "UTF-8",
+
+
+
+  "language": "en",
+  "translations": "../asset/common/locales/",
+
+
+  "closure-library": "../asset/closure-library/closure/goog/",
+  "modules": {
+    "app": {
+      "inputs": "../asset/common/js/hash5/App.js",
+      "deps": []
+    },
+    "main-panel": {
+      "inputs": "../asset/common/js/hash5/panel_init.js",
+      "deps": ["app"]
+    }
+  },
+  "module-output-path": "../asset/common/js-min/%s.js",
+  "module-production-uri": "/www/asset/common/js-min/%s.js",
+   "test-drivers": [
+    {
+      "class": "org.openqa.selenium.firefox.FirefoxDriver"
+    }
+  ]
+}

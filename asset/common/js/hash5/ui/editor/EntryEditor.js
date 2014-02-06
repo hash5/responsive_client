@@ -41,8 +41,11 @@ goog.inherits(hash5.ui.editor.EntryEditor, goog.ui.Component);
 /** @inheritDoc */
 hash5.ui.editor.EntryEditor.prototype.createDom = function()
 {
+    /** @desc entry editor save btn title */
     var MSG_SAVE = goog.getMsg('Speichern');
+    /** @desc entry editor cancle btn title */
     var MSG_CANCLE = goog.getMsg('Abbrechen');
+    /** @desc entry editor edit title */
     var MSG_EDIT_HEADING = goog.getMsg('Eintrag bearbeiten');
 
     var dom = this.getDomHelper(),

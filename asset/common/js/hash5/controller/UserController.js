@@ -69,13 +69,43 @@ hash5.controller.UserController.prototype.setUserSetting = function(key, userSet
 };
 
 /**
+ * returns locale code for current user
+ * if no locale is set in ussersettings, browser code is read and stored on server
+ *
+ * @return {string} user locale
+ */
+hash5.controller.UserController.prototype.getUserLocale = function()
+{
+    var locale = this.userSettings_['locale'];
+
+    console.log(this.userSettings_);
+
+    if(!locale)
+    {
+        locale = goog.LOCALE;
+        this.userSettings_['locale'] = locale;
+        this.saveUserSetting();
+    }
+
+    return locale;
+};
+
+/**
  * returns userSettings for specific key
  *
  * @param {string} key
+ * @param {string=} defaultVal
  */
-hash5.controller.UserController.prototype.getUserSettings = function(key)
+hash5.controller.UserController.prototype.getUserSettings = function(key, defaultVal)
 {
-    return this.userSettings_[key];
+    var value = this.userSettings_[key];
+
+    if(goog.isDef(value))
+    {
+        return value;
+    }
+
+    return defaultVal;
 };
 
 hash5.controller.UserController.prototype.loadUserSettings = function()
@@ -94,10 +124,13 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(e
 
     if(xhr.isSuccess())
     {
-        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN); // TODO eventDispatch?
-
         var userSettings = xhr.getResponseJson() || {};
         this.setUserSettings(userSettings);
+
+        // TODO set real user data!
+        this.currentUser_ = new hash5.model.User("");
+
+        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN); // TODO eventDispatch?
     }
     else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
     {
@@ -113,10 +146,18 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(e
 /**
  * saves the userSettings at server
  *
+ * @param {Function=} callback
+ * @param {*=} handler
  */
-hash5.controller.UserController.prototype.saveUserSetting = function()
+hash5.controller.UserController.prototype.saveUserSetting = function(callback, handler)
 {
     var xhr = new goog.net.XhrIo();
+
+    if(callback)
+    {
+        xhr.listen(goog.net.EventType.COMPLETE, callback, false, handler);
+    }
+
     xhr.send('/usersettings', 'POST', 'settings=' + JSON.stringify(this.userSettings_));
 };
 
@@ -128,6 +169,16 @@ hash5.controller.UserController.prototype.saveUserSetting = function()
 hash5.controller.UserController.prototype.getCurrentUser = function()
 {
     return this.currentUser_;
+};
+
+/**
+ * returns true if user is logged in
+ *
+ * @return {boolean}
+ */
+hash5.controller.UserController.prototype.isLoggedIn = function()
+{
+    return this.currentUser_ === null;
 };
 
 /**

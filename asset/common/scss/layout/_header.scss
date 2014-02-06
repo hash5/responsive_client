@@ -12,25 +12,25 @@ header
     // create new view layer
     @include translate3d(0,0,0);
     z-index: 1001;
+}
 
-    .logo
+.hash5-logo
+{
+    position: relative;
+    float: left;
+    padding-left: 20px;
+    font-weight: 300;
+    color: #FFF;
+    font-size: 30px;
+    line-height: 50px;
+
+    span
     {
-        position: relative;
-        float: left;
-        padding-left: 20px;
-        font-weight: 300;
-        color: #FFF;
-        font-size: 30px;
-        line-height: 50px;
-
-        span
-        {
-            position: absolute;
-            bottom: -10px;
-            font-weight: 600;
-            font-size: 15px;
-            color: $colorLighterGray;
-        }
+        position: absolute;
+        bottom: -10px;
+        font-weight: 600;
+        font-size: 15px;
+        color: $colorLighterGray;
     }
 }
 

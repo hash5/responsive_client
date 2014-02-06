@@ -67,6 +67,12 @@ hash5.forms.Textbox = function(content, opt_renderer, opt_domHelper)
      */
     this.placeholder_ = '';
 
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.isPasswordField_ = false;
+
 
     this.setHandleMouseEvents(false);
     this.setAllowTextSelection(true);
@@ -100,6 +106,11 @@ hash5.forms.Textbox.prototype.enterDocument = function()
     if (this.placeholder_)
     {
         el.placeholder = this.placeholder_;
+    }
+
+    if(this.isPasswordField_)
+    {
+        this.getElement().setAttribute('type', 'password');
     }
 
     this.getHandler()
@@ -229,7 +240,11 @@ hash5.forms.Textbox.prototype.setConfig = function(config)
     if (goog.isDef(config.placeholder))
     {
         this.setPlaceholder(config.placeholder);
+    }
 
+    if (goog.isDef(config.password))
+    {
+        this.isPasswordField_ = !!config.password;
     }
 };
 

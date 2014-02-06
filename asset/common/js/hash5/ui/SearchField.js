@@ -22,7 +22,9 @@ hash5.ui.SearchField = function()
      * @private
      */
     this.searchInput_ = new hash5.forms.Textbox();
-    this.searchInput_.setPlaceholder(goog.getMsg('Suchen...'));
+    /** @desc search box placeholder */
+    var MSG_Placeholder = goog.getMsg('Suchen...');
+    this.searchInput_.setPlaceholder(MSG_Placeholder);
 
     /**
      * element where suggest are renderred
@@ -62,6 +64,8 @@ hash5.ui.SearchField.prototype.enterDocument = function()
 };
 
 /**
+ * handle search input changes
+ *
  * @param  {goog.events.Event} e
  */
 hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
@@ -72,6 +76,7 @@ hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
     if(newSearchKey.length > 3 && newSearchKey != this.searchKey_)
     {
         ds.search(newSearchKey, undefined, this.handleSuggestsLoaded_, this);
+        this.cancled_ = false;
     }
     if(newSearchKey.length == 0)
     {
@@ -82,6 +87,8 @@ hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
 };
 
 /**
+ * handles ENTER key pressed
+ *
  * @param  {goog.events.Event} e
  */
 hash5.ui.SearchField.prototype.handleInputSubmit_ = function(e)

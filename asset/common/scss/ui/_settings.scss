@@ -1,0 +1,14 @@
+
+
+.settings
+{
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    @include translate3d(-50%, 0, 0);
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    padding: 20px;
+    z-index: 1000;
+}

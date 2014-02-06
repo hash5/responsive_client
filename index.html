@@ -18,28 +18,7 @@
             </div>
         </noscript>
 
-        <div class="fx login-form">
-            <div class="hash5-logo">hash<span>5</span></div>
-            <h2 class="registration-visible">
-                Registrieren
-            </h2>
-            <div id="form">
-                <div class="form-item">
-                    <div class="form-item-label">Username</div>
-                    <div class="form-item-control"><input type="text" name="username" class="textbox form-control" /></div>
-                </div>
-                <div class="form-item">
-                    <div class="form-item-label">Passwort</div>
-                    <div class="form-item-control"><input type="password" name="password" class="textbox form-control" /></div>
-                </div>
-                <div class="form-item registration-visible">
-                    <div class="form-item-label">Passwort wiederholen</div>
-                    <div class="form-item-control"><input type="password" name="password-repeat" class="textbox form-control" /></div>
-                </div>
-            </div>
-            <button class="btn enabled primary btn-login">Login</button>
-            <button class="btn enabled primary btn-register">Registrieren</button>
-        </div>
+        <div id="page-loader"></div>
 
         <div id="page" class="hidden">
             <header class="fx page-header">
@@ -87,9 +66,10 @@
                     (/local/gi.test(document.location.host) ||
                     /debug/gi.test(document.location.search))){
                     // development mode
-                    writeScriptTag('asset/closure-library/closure/goog/base.js');
-                    writeScriptTag('asset/common/js/deps.js');
-                    writeScriptContent('goog.require("hash5.App");');
+                    //writeScriptTag('asset/closure-library/closure/goog/base.js');
+                    //writeScriptTag('asset/common/js/deps.js');
+                    //writeScriptContent('goog.require("hash5.App");');
+                    writeScriptTag('http://localhost:9810/compile?id=hash5&mode=RAW');
                 }else{
                     // production mode
                     writeScriptTag('asset/common/js-min/app.js');

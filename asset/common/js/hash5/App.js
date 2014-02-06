@@ -2,34 +2,32 @@ goog.provide('hash5.App');
 
 goog.require('goog.dom.ViewportSizeMonitor');
 
-goog.require('hash5.api');
-goog.require('hash5.Router');
 
 goog.require('hash5.controller.UserController');
-goog.require('hash5.controller.MainPanelController');
-goog.require('hash5.controller.NavigateController');
-
-// include ui controls for auto-decation here
-goog.require('hash5.ui.UiDecorator');
-goog.require('hash5.ui.PageHeader');
-goog.require('hash5.ui.PageSidebar');
 goog.require('hash5.ui.LoginForm');
-goog.require('hash5.ui.SearchField');
-goog.require('hash5.ui.editor.EntryEditor');
 
+
+goog.require('goog.module.ModuleLoader');
+goog.require('goog.module.ModuleManager');
 
 /**
  * @param  {Object} config
  * @constructor
  */
 hash5.App = function(config){
-    hash5.ui.UiDecorator.getInstance().decorateElements();
 
-    hash5.controller.MainPanelController.getInstance().initialize(config);
-    hash5.controller.UserController.getInstance().initialize(config);
-    hash5.controller.NavigateController.getInstance().initialize();
+    this.config = config;
 
-    hash5.Router.getInstance().initialize(config);
+    // init ModuleManager
+    var moduleManager = goog.module.ModuleManager.getInstance();
+    var moduleLoader = new goog.module.ModuleLoader();
+    moduleManager.setLoader(moduleLoader);
+    moduleManager.setAllModuleInfo(PLOVR_MODULE_INFO);
+    moduleManager.setModuleUris(PLOVR_MODULE_URIS);
+    moduleLoader.setDebugMode(true);
+    moduleLoader.usingSourceUrlInjection_ = function(){return false;};
+
+    moduleManager.setLoaded('app');
 };
 
 /**
@@ -54,8 +52,23 @@ hash5.bootstrap = function(config){
         };
     }
 
-
     window.app = new hash5.App(config);
+
+
+    // init userController
+    var userController = hash5.controller.UserController.getInstance();
+    goog.events.listenOnce(userController, hash5.controller.UserController.EventType.LOGIN, function(){
+        var moduleManager = goog.module.ModuleManager.getInstance();
+        var lang = userController.getUserLocale();
+        moduleManager.execOnLoad('main-panel', function(){
+            console.log("main panel-loaded");
+        });
+    });
+    goog.events.listenOnce(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, function(){
+        var loginForm = new hash5.ui.LoginForm();
+        loginForm.render(document.body);
+    });
+    userController.initialize(config);
 };
 
 goog.exportSymbol('hash5.bootstrap', hash5.bootstrap);

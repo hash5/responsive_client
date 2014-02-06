@@ -4,6 +4,7 @@ goog.require('hash5.controller.BaseController');
 goog.require('hash5.view.ListView');
 goog.require('hash5.ui.SearchField');
 goog.require('hash5.ui.editor.EntryEditor');
+goog.require('hash5.ui.Settings');
 
 /**
  *
@@ -46,16 +47,6 @@ goog.addSingletonGetter(hash5.controller.MainPanelController);
  */
 hash5.controller.MainPanelController.prototype.initialize = function(config)
 {
-    this.getHandler().listen(hash5.controller.UserController.getInstance(), hash5.controller.UserController.EventType.LOGIN, this.handleLogin_);
-};
-
-/**
- * @param  {goog.events.Event} e
- *
- * @private
- */
-hash5.controller.MainPanelController.prototype.handleLogin_ = function(e)
-{
     var pageEl = document.getElementById('page');
     goog.dom.classes.remove(pageEl, 'hidden');
 
@@ -67,11 +58,16 @@ hash5.controller.MainPanelController.prototype.handleLogin_ = function(e)
 
     // add default listViews
     var newestEntries = hash5.ds.DataSource.getInstance().newestEntries(); // TODO replace with api call
-    var actualEntries = hash5.api.searchEntries('#start=today'); // TODO replace with api call
-    this.showEntryCollection(newestEntries, 'Neueste Einträge');
-    this.showEntryCollection(actualEntries, 'Tagesplanung');
+    var actualEntries = hash5.api.searchEntries('#start=today');
+    /** @desc newest entry list heading */
+    var MSG_NEWEST_HEADING = goog.getMsg('Neueste Einträge');
+    this.showEntryCollection(newestEntries, MSG_NEWEST_HEADING);
+    /** @desc day planing entry list heading */
+    var MSG_DAY_HEADING = goog.getMsg('Tagesplanung');
+    this.showEntryCollection(actualEntries, MSG_DAY_HEADING);
 
     // create settingsmenu
+    /** @desc search title */
     var MSG_SEARCH_TITLE = goog.getMsg('Suchen');
     hash5.api.layout.addActionBarBtn({
         cssClass: 'flaticon-search mobile-only',
@@ -80,7 +76,9 @@ hash5.controller.MainPanelController.prototype.handleLogin_ = function(e)
             hash5.ui.SearchField.getInstance().toggle();
         }
     });
+    /** @desc settings btn title */
     var MSG_SETTINGS = goog.getMsg('Einstellungen');
+    /** @desc logout btn title */
     var MSG_LOGOUT = goog.getMsg('Logout');
     hash5.api.layout.addActionBarBtn({
         cssClass: 'flaticon-gears',
@@ -90,7 +88,8 @@ hash5.controller.MainPanelController.prototype.handleLogin_ = function(e)
             cssClass: 'flaticon-task',
             title: MSG_SETTINGS,
             clickCallback: function(){
-                alert("not implemented");
+                var settingsUi = new hash5.ui.Settings();
+                settingsUi.render(document.body);
             }
         },
         {

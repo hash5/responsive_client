@@ -10,7 +10,7 @@ goog.require('goog.ui.ac.Renderer');
 /**
  * returns new AutoComplete for hashtags attached to the given inputEl
  *
- * @param {Element|goog.events.EventTarget} inputEl
+ * @param {Element} inputEl
  * @return {goog.ui.ac.AutoComplete}
  */
 hash5.ui.editor.AutoComplete.attachAutoComplete = function(inputEl)
@@ -35,25 +35,26 @@ hash5.ui.editor.AutoComplete.Matcher = function()
 };
 
 /**
- * @param  {string} token
- * @param  {number} maxMatches
- * @param  {Function} matchCallback
- * @param  {string} full
- * @return {!Array}
+ * Function used to pass matches to the autocomplete
+ *
+ * @param {string} token Token to match.
+ * @param {number} maxMatches Max number of matches to return.
+ * @param {Function} matchHandler callback to execute after matching.
+ * @param {string=} opt_fullString The full string from the input box.
  */
-hash5.ui.editor.AutoComplete.Matcher.prototype.requestMatchingRows = function(token, maxMatches, matchCallback, full)
+hash5.ui.editor.AutoComplete.Matcher.prototype.requestMatchingRows = function(token, maxMatches, matchHandler, opt_fullString)
 {
     // TODO cached suggestions?
 
     if(token.length > 3)
     {
         var recommender = hash5.ds.Recommondations.getInstance();
-        recommender.autocomplete(full, token, function(suggests){
-            matchCallback.call(undefined, token, suggests);
+        recommender.autocomplete(opt_fullString, token, function(suggests){
+            matchHandler.call(undefined, token, suggests);
         });
     }
     else
     {
-        matchCallback.call(undefined, token, []);
+        matchHandler.call(undefined, token, []);
     }
 };

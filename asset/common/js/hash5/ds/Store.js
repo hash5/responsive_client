@@ -11,7 +11,7 @@ hash5.ds.Store = function()
     /**
      * containing items
      *
-     * @type {*}
+     * @type {Object}
      * @private
      */
     this.entries_ = {};
@@ -47,5 +47,5 @@ hash5.ds.Store.prototype.set = function(key, item)
  */
 hash5.ds.Store.prototype.remove = function(key)
 {
-    goog.object.remove(this.entries_, key);
+    return goog.object.remove(this.entries_, key);
 };

@@ -5,14 +5,14 @@
     -->
     <head>
         <title>hash5 - All JsUnit Tests</title>
-        <script src="asset/closure-library/closure/goog/base.js"></script>
-        <script src="asset/common/js/deps.js"></script>
-        <script src="asset/common/js/alltests.js"></script>
+        <script src="../asset/closure-library/closure/goog/base.js"></script>
+        <script src="../asset/common/js/deps.js"></script>
+        <script src="../asset/common/js/alltests.js"></script>
         <script>
             goog.require('goog.userAgent.product');
             goog.require('goog.testing.MultiTestRunner');
         </script>
-        <link rel="stylesheet" href="asset/closure-library/closure/goog/css/multitestrunner.css" type="text/css">
+        <link rel="stylesheet" href="../asset/closure-library/closure/goog/css/multitestrunner.css" type="text/css">
         <style>
             h1 {
               font: normal x-large arial, helvetica, sans-serif;
@@ -46,8 +46,7 @@
     <body>
 
         <script>
-          if (goog.userAgent.product.CHROME &&
-              window.location.toString().indexOf('file:') == 0) {
+          if (goog.userAgent.product.CHROME && window.location.toString().indexOf('file:') == 0) {
             document.write(
                 '<div class="warning">' +
                 'WARNING: Due to Chrome\'s security restrictions ' +
@@ -86,7 +85,7 @@
           // Create a test runner and render it.
           var testRunner = new goog.testing.MultiTestRunner()
               .setName(document.title)
-              .setBasePath('./asset/common/js/')
+              .setBasePath('../asset/common/js/')
               .setPoolSize(parallelInput.checked ? 8 : 1)
               .setStatsBucketSizes(5, 500)
               .setHidePasses(hidePassesInput.checked)
@@ -104,6 +103,8 @@
 
           goog.events.listen(filterInput, 'keyup', setFilterFunction);
           setFilterFunction();
+
+          window.testRunner = testRunner;
         </script>
     </body>
 </html>

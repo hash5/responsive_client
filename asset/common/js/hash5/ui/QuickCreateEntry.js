@@ -19,7 +19,9 @@ hash5.ui.QuickCreateEntry = function(textTemplate)
      * @private
      */
     this.textbox_ = new hash5.forms.Textbox();
-    this.textbox_.setPlaceholder(goog.getMsg('Eintrag hinzufügen ...'));
+    /** @desc qucick edit placeholder */
+    var MSG_ADD_ENTRY = goog.getMsg('Eintrag hinzufügen ...');
+    this.textbox_.setPlaceholder(MSG_ADD_ENTRY);
 
     /**
      * @type {string}

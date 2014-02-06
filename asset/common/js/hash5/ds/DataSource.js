@@ -5,7 +5,6 @@ goog.require('goog.events.EventHandler');
 goog.require('goog.Uri.QueryData');
 goog.require('goog.net.XhrManager');
 
-goog.require('hash5.model.Entry');
 goog.require('hash5.model.EntryCollection');
 
 // TODO - use xhrManager
