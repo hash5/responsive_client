@@ -44,7 +44,7 @@ hash5.ui.Settings.prototype.enterDocument = function()
     this.getHandler().listen(overlay, goog.ui.Component.EventType.CLOSE, this.close);
 
     var saveBtn = this.getElementByClass('btn-save');
-    var closeBtn = this.getElementByClass('btn-save');
+    var closeBtn = this.getElementByClass('btn-cancle');
     this.getHandler()
         .listen(saveBtn, goog.events.EventType.CLICK, this.handleSaveClick_)
         .listen(closeBtn, goog.events.EventType.CLICK, this.close);
@@ -108,5 +108,6 @@ hash5.ui.Settings.prototype.handleSaveClick_ = function(e)
  */
 hash5.ui.Settings.prototype.close = function()
 {
+    hash5.ui.Overlay.getInstance().setVisible(false);
     this.dispose();
 };

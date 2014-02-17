@@ -18,7 +18,7 @@
 
 
 
-  "language": "en",
+  "language": "de",
   "translations": "../asset/common/locales/",
 
 
@@ -33,7 +33,7 @@
       "deps": ["app"]
     }
   },
-  "module-output-path": "../asset/common/js-min/en/%s.js",
+  "module-output-path": "../asset/common/js-min/de/%s.js",
   "module-production-uri": "/www/asset/common/js-min/LANG/%s.js",
    "test-drivers": [
     {

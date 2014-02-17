@@ -55,7 +55,7 @@ hash5.ui.EntryList.prototype.setMaxHeight = function()
         elPosition = goog.style.getPosition(el),
         maxHeight = viewPort.height - elPosition.y;
 
-    goog.style.setStyle(el, 'maxHeight', maxHeight + 'px');
+    goog.style.setStyle(el, 'height', maxHeight + 'px');
 };
 
 /**

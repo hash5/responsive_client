@@ -46,6 +46,7 @@ hash5.ui.LoginForm = function()
     var MSG_PASSWORD = goog.getMsg('Passwort');
     this.form_.addFormItem(MSG_USERNAME, 'textbox', {fieldName: 'username'});
     this.form_.addFormItem(MSG_PASSWORD, 'textbox', {fieldName: 'password', password: true});
+    this.form_.addFormItem(MSG_PASSWORD, 'textbox', {fieldName: 'password-repeat', password: true}).addCssClass('registration-visible');
 
     /**
      * validations used for login-form

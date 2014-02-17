@@ -33,7 +33,7 @@ hash5.ui.EntryListContainer = function(entryCollection, title)
      * @type {string}
      * @private
      */
-    this.title_ = title || '';
+    this.title_ = title || entryCollection.getSearchPattern();
 };
 goog.inherits(hash5.ui.EntryListContainer, goog.ui.Component);
 
@@ -73,5 +73,6 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
  */
 hash5.ui.EntryListContainer.prototype.handleCloseClick_ = function(e)
 {
+    this.getParent().removeChild(this);
     this.dispose();
 };

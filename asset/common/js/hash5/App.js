@@ -64,6 +64,9 @@ hash5.App.prototype.initModuleManager_ = function()
 
 
 /**
+ * changes the language for js ressources
+ * this has only effect for files, which are not yet loaded!
+ *
  * @param {string} lang
  */
 hash5.App.prototype.setLanguage = function(lang)

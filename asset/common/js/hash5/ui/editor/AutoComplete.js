@@ -49,7 +49,7 @@ hash5.ui.editor.AutoComplete.Matcher.prototype.requestMatchingRows = function(to
     if(token.length > 3)
     {
         var recommender = hash5.ds.Recommondations.getInstance();
-        recommender.autocomplete(opt_fullString, token, function(suggests){
+        recommender.autocomplete(opt_fullString || '', token, function(suggests){
             matchHandler.call(undefined, token, suggests);
         });
     }
