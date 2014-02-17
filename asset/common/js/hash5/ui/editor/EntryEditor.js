@@ -1,11 +1,11 @@
 goog.provide('hash5.ui.editor.EntryEditor');
+goog.provide('hash5.ui.editor.EntryEditor.EventType');
 
 goog.require('goog.ui.Component');
 
 goog.require('hash5.forms.Textarea');
 
-goog.require('hash5.ui.editor.AutoComplete');
-
+// TODO check if entry is already loaded!
 
 /**
  * @param {hash5.model.Entry} entry
@@ -30,11 +30,12 @@ hash5.ui.editor.EntryEditor = function(entry)
     this.textEditor_ = new hash5.forms.Textarea('');
     this.addChild(this.textEditor_);
 
+
     /**
-     * @type {goog.ui.ac.AutoComplete}
+     * @type {Array.<hash5.ui.editor.EditorComponent>}
      * @private
      */
-    this.autoComplete_ = null;
+    this.components_ = [];
 };
 goog.inherits(hash5.ui.editor.EntryEditor, goog.ui.Component);
 
@@ -89,16 +90,9 @@ hash5.ui.editor.EntryEditor.prototype.enterDocument = function()
     var cancleBtn = this.getElementByClass('cancle-btn');
     this.getHandler().listen(cancleBtn, goog.events.EventType.CLICK, this.close);
 
-    var entryTextInput = this.textEditor_.getElement();
-    this.autoComplete_ = hash5.ui.editor.AutoComplete.attachAutoComplete(entryTextInput);
-
-    var recEl = this.getElementByClass('recommondations');
-    this.getHandler()
-        .listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_)
-        .listen(recEl, goog.events.EventType.CLICK, this.handleRecommondationClick_);
-
-
-    this.refreshRecommondations();
+    goog.array.forEach(this.components_, function(comp){
+        comp.init();
+    }, this);
 
     // focus on text input
     this.textEditor_.getElement().focus();
@@ -115,7 +109,7 @@ hash5.ui.editor.EntryEditor.prototype.close = function()
 /** @inheritDoc */
 hash5.ui.editor.EntryEditor.prototype.disposeInternal = function()
 {
-    this.autoComplete_.dispose();
+    // TODO dispose module components
 
     goog.base(this, 'disposeInternal');
 };
@@ -128,41 +122,10 @@ hash5.ui.editor.EntryEditor.prototype.disposeInternal = function()
 hash5.ui.editor.EntryEditor.prototype.handleTextChanged_ = function(e)
 {
     // TODO add time threshold
-    this.refreshRecommondations();
+
+    this.dispatchEvent(hash5.ui.editor.EntryEditor.EventType.TEXT_CHANGE);
 };
 
-/**
- * reloads and renders recommondations for additional hastags
- */
-hash5.ui.editor.EntryEditor.prototype.refreshRecommondations = function()
-{
-    var entryText = this.textEditor_.getValue();
-
-    var rec = hash5.ds.Recommondations.getInstance();
-    rec.recommend(entryText, function(recs){
-        var recEl = this.getElementByClass('recommondations');
-        recEl.innerHTML = recs.reduce(function(prev, suggest){
-            return prev + ' <span class="suggest">' + suggest + '</span>';
-        }, '');
-    }, this);
-};
-
-/**
- * handles click on recommendet hashtag
- *
- * @param  {goog.events.BrowserEvent} e
- */
-hash5.ui.editor.EntryEditor.prototype.handleRecommondationClick_ = function(e)
-{
-    var clickedEl = /** @type {Element} */ (e.target);
-
-    if(goog.dom.classes.has(clickedEl, 'suggest'))
-    {
-        var hashTag = clickedEl.innerHTML;
-        var curText = this.textEditor_.getValue();
-        this.textEditor_.setValue(curText + ' ' + hashTag);
-    }
-};
 
 /**
  * handles save button click
@@ -177,5 +140,54 @@ hash5.ui.editor.EntryEditor.prototype.handleSaveBtnClicked_ = function(e)
     {
       this.entry_.setText(entryText);
       this.entry_.save();
+
+      this.close();
     }
 };
+
+/**
+ * @return {hash5.forms.Textarea}
+ */
+hash5.ui.editor.EntryEditor.prototype.getTextarea = function()
+{
+    return this.textEditor_;
+};
+
+
+/**
+ * @return {string} current entryText
+ */
+hash5.ui.editor.EntryEditor.prototype.getEntryText = function()
+{
+    return this.textEditor_.getValue();
+};
+
+/**
+ * @param {string} entryText
+ */
+hash5.ui.editor.EntryEditor.prototype.setEntryText = function(entryText)
+{
+    this.textEditor_.setValue(entryText);
+};
+
+
+/**
+ * @param {hash5.ui.editor.EditorComponent} comp
+ */
+hash5.ui.editor.EntryEditor.prototype.addComponent = function(comp)
+{
+    this.components_.push(comp);
+
+    if(this.isInDocument())
+    {
+        comp.init();
+    }
+};
+
+
+/**
+ * @enum {string}
+ */
+hash5.ui.editor.EntryEditor.EventType ={
+    TEXT_CHANGE: 'editor_text_change'
+}

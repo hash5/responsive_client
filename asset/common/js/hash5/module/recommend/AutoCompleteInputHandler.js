@@ -1,4 +1,4 @@
-goog.provide('hash5.ui.editor.AutoCompleteInputHandler');
+goog.provide('hash5.module.recommend.AutoCompleteInputHandler');
 
 goog.require('goog.ui.ac.InputHandler');
 
@@ -17,15 +17,15 @@ goog.require('goog.ui.ac.InputHandler');
  * @constructor
  * @extends {goog.ui.ac.InputHandler}
  */
-hash5.ui.editor.AutoCompleteInputHandler = function(opt_separators, opt_literals, opt_multi, opt_throttleTime)
+hash5.module.recommend.AutoCompleteInputHandler = function(opt_separators, opt_literals, opt_multi, opt_throttleTime)
 {
     goog.base(this, opt_separators, opt_literals, opt_multi, opt_throttleTime);
 
 };
-goog.inherits(hash5.ui.editor.AutoCompleteInputHandler, goog.ui.ac.InputHandler);
+goog.inherits(hash5.module.recommend.AutoCompleteInputHandler, goog.ui.ac.InputHandler);
 
 /** @inheritDoc */
-hash5.ui.editor.AutoCompleteInputHandler.prototype.parseToken = function()
+hash5.module.recommend.AutoCompleteInputHandler.prototype.parseToken = function()
 {
     var caret = this.getCursorPosition();
     var text = this.getValue();
@@ -51,7 +51,7 @@ hash5.ui.editor.AutoCompleteInputHandler.prototype.parseToken = function()
 };
 
 /** @inheritDoc */
-hash5.ui.editor.AutoCompleteInputHandler.prototype.setTokenText = function(tokenText, opt_multi)
+hash5.module.recommend.AutoCompleteInputHandler.prototype.setTokenText = function(tokenText, opt_multi)
 {
     var curToken = this.parseToken();
     var caret = this.getCursorPosition();

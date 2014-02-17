@@ -6,6 +6,7 @@ goog.require('hash5.api');
 goog.require('hash5.Router');
 
 goog.require('hash5.controller.MainPanelController');
+goog.require('hash5.controller.EditorController');
 
 
 // include ui controls for auto-decation here
@@ -18,6 +19,8 @@ goog.require('hash5.ui.editor.EntryEditor');
 
 
 goog.require('goog.module.ModuleManager');
+
+goog.require('hash5.module.RecommondationModule');
 
 
 /**
@@ -39,13 +42,12 @@ goog.inherits(hash5.module.CoreModule, hash5.module.BaseModule);
  */
 hash5.module.CoreModule.prototype.initialize = function(context)
 {
-    console.log(context);
-
-    var config = window.app.config;
+    var config = context.config;
 
     hash5.ui.UiDecorator.getInstance().decorateElements();
 
     hash5.controller.MainPanelController.getInstance().initialize(config);
+    hash5.controller.EditorController.getInstance().initialize(config);
 
     // init router
     var router = hash5.Router.getInstance();
@@ -62,6 +64,9 @@ hash5.module.CoreModule.prototype.initialize = function(context)
         var entry = new hash5.model.Entry(entryId);
         entry.destroy();
     }, this, false);
+
+
+    hash5.module.setStaticLoaded(hash5.module.Modules.RECOMMEND, hash5.module.RecommondationModule);
 };
 
 hash5.module.setLoaded(hash5.module.Modules.CORE, hash5.module.CoreModule);

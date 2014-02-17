@@ -3,6 +3,7 @@ goog.provide('hash5.api.layout');
 
 
 goog.require('hash5.ds.DataSource');
+goog.require('hash5.controller.EditorController');
 
  /**
  * @param  {string} searchStr
@@ -36,7 +37,16 @@ hash5.api.showEntryCollection = function(collection, title)
  */
 hash5.api.editEntry = function(entry)
 {
-    return hash5.controller.MainPanelController.getInstance().createEntryEditor(entry);
+    return hash5.controller.EditorController.getInstance().createEntryEditor(entry);
+};
+
+/**
+ * @param  {Function} constructor constructor method to create component,
+ * should be derive from {@see hash5.ui.editor.EditorComponent}.
+ */
+hash5.api.registerEditorComponent = function(constructor)
+{
+    hash5.controller.EditorController.getInstance().registerComponent(constructor);
 };
 
 /**

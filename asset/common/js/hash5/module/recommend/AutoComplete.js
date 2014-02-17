@@ -1,8 +1,8 @@
-goog.provide('hash5.ui.editor.AutoComplete');
+goog.provide('hash5.module.recommend.AutoComplete');
 
 goog.require('hash5.ds.Recommondations');
 
-goog.require('hash5.ui.editor.AutoCompleteInputHandler');
+goog.require('hash5.module.recommend.AutoCompleteInputHandler');
 goog.require('goog.ui.ac.AutoComplete');
 goog.require('goog.ui.ac.InputHandler');
 goog.require('goog.ui.ac.Renderer');
@@ -13,11 +13,11 @@ goog.require('goog.ui.ac.Renderer');
  * @param {Element} inputEl
  * @return {goog.ui.ac.AutoComplete}
  */
-hash5.ui.editor.AutoComplete.attachAutoComplete = function(inputEl)
+hash5.module.recommend.AutoComplete.attachAutoComplete = function(inputEl)
 {
     var renderer = new goog.ui.ac.Renderer();
-    var inputhandler = new hash5.ui.editor.AutoCompleteInputHandler(undefined, undefined, true, 300);
-    var matcher = new hash5.ui.editor.AutoComplete.Matcher();
+    var inputhandler = new hash5.module.recommend.AutoCompleteInputHandler(undefined, undefined, true, 300);
+    var matcher = new hash5.module.recommend.AutoComplete.Matcher();
     var autoComplete = new goog.ui.ac.AutoComplete(matcher, renderer, inputhandler);
     inputhandler.attachAutoComplete(autoComplete);
     inputhandler.attachInputs(inputEl);
@@ -29,7 +29,7 @@ hash5.ui.editor.AutoComplete.attachAutoComplete = function(inputEl)
 /**
  * @constructor
  */
-hash5.ui.editor.AutoComplete.Matcher = function()
+hash5.module.recommend.AutoComplete.Matcher = function()
 {
 
 };
@@ -42,7 +42,7 @@ hash5.ui.editor.AutoComplete.Matcher = function()
  * @param {Function} matchHandler callback to execute after matching.
  * @param {string=} opt_fullString The full string from the input box.
  */
-hash5.ui.editor.AutoComplete.Matcher.prototype.requestMatchingRows = function(token, maxMatches, matchHandler, opt_fullString)
+hash5.module.recommend.AutoComplete.Matcher.prototype.requestMatchingRows = function(token, maxMatches, matchHandler, opt_fullString)
 {
     // TODO cached suggestions?
 

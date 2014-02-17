@@ -18,11 +18,28 @@ hash5.module.setLoaded = function(moduleId, constructor)
 
 
 /**
+ * @see hash5.module.setLoaded
+ * this function is used for inline modules and does not use the
+ * moduleManager
+ *
+ * @param {hash5.module.Modules} moduleId
+ * @param {Function} constructor The constructor function.
+ */
+hash5.module.setStaticLoaded = function(moduleId, constructor)
+{
+    var instance = new constructor;
+    var app = hash5.App.getInstance();
+    instance.initialize(app);
+};
+
+
+/**
  * module id's
  *
  * @enum {string}
  */
 hash5.module.Modules = {
     APP: 'app',
-    CORE: 'core'
+    CORE: 'core',
+    RECOMMEND: 'recommmend'
 };
