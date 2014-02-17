@@ -9,25 +9,79 @@ goog.require('hash5.ui.LoginForm');
 
 goog.require('goog.module.ModuleLoader');
 goog.require('goog.module.ModuleManager');
+goog.require('hash5.module');
+goog.require('hash5.module.LoaderModule');
+
+goog.require('goog.debug.FancyWindow');
+
+
+/**
+ * @constructor
+ */
+hash5.App = function(){
+
+    /**
+     * the app config set in the bootstrap function
+     *
+     * @type {Object}
+     */
+    this.config = {};
+
+
+    /**
+     * @type {string}
+     */
+    this.language_ = 'en';
+
+    this.initModuleManager_();
+};
+goog.addSingletonGetter(hash5.App);
 
 /**
  * @param  {Object} config
- * @constructor
  */
-hash5.App = function(config){
+hash5.App.prototype.setConfig = function(config)
+{
+  this.config = config;
+};
 
-    this.config = config;
-
-    // init ModuleManager
-    var moduleManager = goog.module.ModuleManager.getInstance();
+/**
+ * initialize the module manager
+ * this should be called only once!
+ */
+hash5.App.prototype.initModuleManager_ = function()
+{
     var moduleLoader = new goog.module.ModuleLoader();
+    moduleLoader.setDebugMode(goog.DEBUG);
+    goog.module.ModuleLoader.supportsSourceUrlStackTraces = function(){return false;};
+
+    var moduleManager = goog.module.ModuleManager.getInstance();
     moduleManager.setLoader(moduleLoader);
     moduleManager.setAllModuleInfo(PLOVR_MODULE_INFO);
     moduleManager.setModuleUris(PLOVR_MODULE_URIS);
-    moduleLoader.setDebugMode(true);
-    moduleLoader.usingSourceUrlInjection_ = function(){return false;};
+    moduleManager.setModuleContext(this);
+};
 
-    moduleManager.setLoaded('app');
+
+/**
+ * @param {string} lang
+ */
+hash5.App.prototype.setLanguage = function(lang)
+{
+  this.language_ = lang;
+
+  // TODO currently no lang-change in debug mode is possible!
+  if(goog.DEBUG)
+    return;
+
+  var moduleUris = PLOVR_MODULE_URIS;
+  for(var moduleId in moduleUris)
+  {
+    moduleUris[moduleId] = moduleUris[moduleId].replace('LANG', lang);
+  }
+
+  var moduleManager = goog.module.ModuleManager.getInstance();
+  moduleManager.setModuleUris(moduleUris);
 };
 
 /**
@@ -52,23 +106,18 @@ hash5.bootstrap = function(config){
         };
     }
 
-    window.app = new hash5.App(config);
+    if(goog.DEBUG)
+    {
+        var debugWindow = new goog.debug.FancyWindow('main');
+        debugWindow.setEnabled(true);
+        debugWindow.init();
+    }
+
+    var app = window.app = hash5.App.getInstance();
+    app.setConfig(config);
 
 
-    // init userController
-    var userController = hash5.controller.UserController.getInstance();
-    goog.events.listenOnce(userController, hash5.controller.UserController.EventType.LOGIN, function(){
-        var moduleManager = goog.module.ModuleManager.getInstance();
-        var lang = userController.getUserLocale();
-        moduleManager.execOnLoad('main-panel', function(){
-            console.log("main panel-loaded");
-        });
-    });
-    goog.events.listenOnce(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, function(){
-        var loginForm = new hash5.ui.LoginForm();
-        loginForm.render(document.body);
-    });
-    userController.initialize(config);
+    hash5.module.setLoaded(hash5.module.Modules.APP, hash5.module.LoaderModule);
 };
 
 goog.exportSymbol('hash5.bootstrap', hash5.bootstrap);
