@@ -113,7 +113,8 @@ hash5.Router.prototype.initialize = function(config)
 
     if (history.setUseFragment)
     {
-        history.setUseFragment(false);
+        // TODO enable if server supports url-rewriting
+        //history.setUseFragment(false);
     }
     history.setPathPrefix(config['path_prefix']);
     history.setEnabled(true);
