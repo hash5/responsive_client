@@ -29,18 +29,25 @@ hash5.Route = function(pattern, callback, handler)
     this.callback = callback;
 
     /**
+     * context handler
+     *
      * @type {*}
      */
     this.handler = handler;
+
+    /**
+     * @type {boolean}
+     */
+    this.changeUrl = true;
 };
 
 /**
- * checks if route matches and calls callback if so
+ * calls callback function if route matches
  *
  * @param  {string}  token current naviagtion token to check for
  * @return {boolean} true if route matches
  */
-hash5.Route.prototype.isMatchingRoute = function(token) {
+hash5.Route.prototype.runIfMatches = function(token) {
   var args = this.pattern.exec(token);
 
   if (args) {
@@ -66,22 +73,32 @@ hash5.Router = function()
     * @private
     */
     this.eh_ = new goog.events.EventHandler(this);
-
     this.eh_.listen(goog.dom.getDocument(), goog.events.EventType.CLICK, this.handeClick_);
 
 
     /**
+     * flag used to prevent navigate event when manually replacing url
+     *
      * @type {boolean}
      * @private
      */
     this.isReplacing_ = false;
 
     /**
+     * registered routes
      *
      * @type {Array.<hash5.Route>}
      * @private
      */
     this.routes_ = [];
+
+    /**
+     * current url
+     *
+     * @type {string}
+     * @private
+     */
+    this.url_ = '';
 };
 goog.inherits(hash5.Router, goog.events.EventTarget);
 goog.addSingletonGetter(hash5.Router);
@@ -180,13 +197,20 @@ hash5.Router.prototype.handleHistory_ = function(e)
     if (token != this.url_)
     {
         var route = goog.array.find(this.routes_, function(route) {
-            return route.isMatchingRoute(token);
+            return route.runIfMatches(token);
         }, this);
 
         if(route)
         {
-            this.dispatchEvent(hash5.Router.EventType.NAVIGATE);
-            this.setUrl(token);
+            if(route.changeUrl)
+            {
+                this.dispatchEvent(hash5.Router.EventType.NAVIGATE);
+                this.setUrl(token);
+            }
+            else
+            {
+                this.setUrl(this.url_, true);
+            }
         }
     }
 };
@@ -195,16 +219,17 @@ hash5.Router.prototype.handleHistory_ = function(e)
  * define route as string or regex. /:abc/ will pass "abc" through as an
  * argument. *abc/def will pass through all after the * as an argument
  *
- * @param {string|RegExp} route to watch for.
+ * @param {string|RegExp} regex to watch for.
  * @param {function(string, ...[string])} callback should take in the token and any captured strings.
  * @param {Object=} handler Object in whose context the function is to be
  *     called (the global scope if none).
+ * @param {boolen=} changeUrl iff set to false, url in browser will not be changed
  */
-hash5.Router.prototype.addRoute = function(route, callback, handler) {
+hash5.Router.prototype.addRoute = function(regex, callback, handler, changeUrl) {
 
-  if (goog.isString(route))
+  if (goog.isString(regex))
   {
-    route = new RegExp('^' + goog.string.regExpEscape(route)
+    regex = new RegExp('^' + goog.string.regExpEscape(regex)
             .replace(/\\:\w+/g, '(\\w+)')
             .replace(/\\\*/g, '(.*)')
             .replace(/\\\[/g, '(')
@@ -213,9 +238,14 @@ hash5.Router.prototype.addRoute = function(route, callback, handler) {
             .replace(/\\\}/g, ')?') + '$');
   }
 
-  var route = new hash5.Route(route, callback, handler);
+  var route = new hash5.Route(regex, callback, handler);
 
-  //this.runRouteIfMatches_(route, this.currentFragment_);
+  if(goog.isDef(changeUrl))
+  {
+    route.changeUrl = changeUrl;
+  }
+
+  //route.runIfMatches(this.currentFragment_);
   this.routes_.push(route);
 };
 
@@ -253,14 +283,10 @@ hash5.Router.prototype.replaceToken_ = function(token)
 
 /**
  * @param {string} url
- * @param {boolean} updateBrowser
+ * @param {boolean=} updateBrowser
  */
 hash5.Router.prototype.setUrl = function(url, updateBrowser)
 {
-    /**
-     * @type {string}
-     * @private
-     */
     this.url_ = url;
 
     if (updateBrowser)
