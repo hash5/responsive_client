@@ -268,6 +268,17 @@ hash5.forms.FormItem.prototype.setInvalid = function(isInvalid)
     }
 };
 
+
+/**
+ * adds css class
+ *
+ * @param {string} cssClass
+ */
+hash5.forms.FormItem.prototype.addCssClass = function(cssClass)
+{
+    goog.dom.classes.add(this.getElement(), cssClass);
+};
+
 /**
  * Register this control so it can be created from markup.
  */
