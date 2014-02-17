@@ -108,6 +108,15 @@ hash5.controller.UserController.prototype.getUserSettings = function(key, defaul
     return defaultVal;
 };
 
+/**
+ * returns the search tree
+ * @return {!Array}
+ */
+hash5.controller.UserController.prototype.getSearchTree = function()
+{
+    return this.userSettings_['searchtree'] || [];
+};
+
 hash5.controller.UserController.prototype.loadUserSettings = function()
 {
     var xhr = new goog.net.XhrIo();

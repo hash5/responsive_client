@@ -4,6 +4,8 @@ goog.require('goog.ui.Component');
 
 goog.require('hash5.ui.EntryList');
 goog.require('hash5.ui.QuickCreateEntry');
+goog.require('hash5.templates.ui.EntryListContainer');
+
 
 /**
  * @param {hash5.model.EntryCollection} entryCollection
@@ -40,15 +42,12 @@ goog.inherits(hash5.ui.EntryListContainer, goog.ui.Component);
 /** @inheritDoc */
 hash5.ui.EntryListContainer.prototype.createDom = function()
 {
-    var dom = this.getDomHelper(),
-        el = dom.createDom('div', 'entry-list-container', [
-            dom.createDom('div', 'entry-list-actions', [
-                dom.createDom('div', 'action-close')
-            ]),
-            dom.createDom('h3', undefined, this.title_)
-        ]);
+    var data = {
+        title: this.title_
+    };
 
-    this.decorateInternal(el);
+    var el = goog.soy.renderAsFragment(hash5.templates.ui.EntryListContainer.container, data);
+    this.decorateInternal(/** @type {Element} */ (el));
 };
 
 /** @inheritDoc */
@@ -65,14 +64,47 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this.getElementByClass('action-close'), goog.events.EventType.CLICK, this.handleCloseClick_);
+    this.getHandler()
+        .listen(this.getElementByClass('entry-list-actions-btn'), goog.events.EventType.CLICK, this.toggleActionmenu)
+        .listen(this.getElementByClass('entry-list-actions'), goog.events.EventType.CLICK, this.handleActionClick_);
+
 };
+
+/**
+ * @param {goog.events.BrowserEvent=} e
+ */
+hash5.ui.EntryListContainer.prototype.toggleActionmenu = function(e)
+{
+    var actions = this.getElementByClass('entry-list-actions');
+
+    goog.dom.classes.toggle(actions, 'visible');
+
+    if(goog.dom.classes.has(actions, 'visible'))
+    {
+        this.getHandler().listen(document.body, goog.events.EventType.CLICK, this.toggleActionmenu, true);
+    }
+    else
+    {
+        this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.toggleActionmenu, true);
+    }
+};
+
 
 /**
  * @param  {goog.events.BrowserEvent} e
  */
-hash5.ui.EntryListContainer.prototype.handleCloseClick_ = function(e)
+hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 {
-    this.getParent().removeChild(this);
-    this.dispose();
+    var actionClass = e.target.className;
+
+    switch(actionClass){
+        case 'action-close':
+            this.getParent().removeChild(this);
+            this.dispose();
+            break;
+        case 'action-save':
+            break;
+        case 'action-delete':
+            break;
+    }
 };

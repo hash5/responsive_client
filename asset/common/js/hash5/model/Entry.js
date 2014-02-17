@@ -8,6 +8,7 @@ goog.require('hash5.ds.Store');
 goog.require('hash5.model.EntryParser');
 goog.require('hash5.ds.DataSource');
 
+
 /**
  * @param {string=} id
  *
@@ -221,11 +222,8 @@ hash5.model.Entry.prototype.save = function(callback, handler)
 
 /**
  * deletes entry
- *
- * @param {Function=} callback
- * @param {*=} handler
  */
-hash5.model.Entry.prototype.destroy = function(callback, handler)
+hash5.model.Entry.prototype.destroy = function()
 {
     var ds = hash5.ds.DataSource.getInstance();
 
@@ -233,7 +231,13 @@ hash5.model.Entry.prototype.destroy = function(callback, handler)
     {
         ds.destroy(this);
         hash5.model.Entry.EntryStore.remove(this.id_);
+
+        this.id_ = '';
     }
+
+    this.dispatchEvent(hash5.model.EventType.DESTROY);
+
+    // TODO track delete for undo
 };
 
 
@@ -296,6 +300,7 @@ hash5.model.Entry.prototype.serialize = function()
         'text': this.text_
     };
 };
+
 
 
 /**

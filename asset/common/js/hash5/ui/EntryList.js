@@ -52,8 +52,8 @@ hash5.ui.EntryList.prototype.setMaxHeight = function()
 {
     var el = this.getElement(),
         viewPort = goog.dom.getViewportSize(),
-        elPosition = goog.style.getPosition(el),
-        maxHeight = viewPort.height - elPosition.y;
+        elPositionTop = goog.style.getPageOffsetTop(el),
+        maxHeight = viewPort.height - elPositionTop;
 
     goog.style.setStyle(el, 'height', maxHeight + 'px');
 };

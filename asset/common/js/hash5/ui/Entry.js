@@ -31,14 +31,16 @@ hash5.ui.Entry.prototype.createDom = function()
 {
     var entry = this.getModel();
 
+    var relDate = goog.date.relative.getDateString(entry.getCreatedDate());
     var data = {
         editUrl: '/edit/' + entry.getId(),
+        deleteUrl: '/delete/' + entry.getId(),
         body: entry.getParsedText().toString(),
-        date: entry.getCreatedDate()
+        date: relDate
     };
 
-    var el = soy.renderAsFragment(hash5.templates.ui.Entry.listEntry, data);
-    this.decorateInternal(el);
+    var el = goog.soy.renderAsFragment(hash5.templates.ui.Entry.listEntry, data);
+    this.decorateInternal(/** @type {Element} */ (el));
 };
 
 /** @inheritDoc */
@@ -46,7 +48,9 @@ hash5.ui.Entry.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+    var model = this.getModel();
 
+    this.getHandler().listen(model, hash5.model.EventType.DESTROY, this.dispose);
 };
 
 /**

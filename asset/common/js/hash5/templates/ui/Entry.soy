@@ -2,6 +2,7 @@
 
 /**
  * @param editUrl url to link edit button
+ * @param deleteUrl url to delete
  * @param body entry text body
  * @param date created date
  */
@@ -9,7 +10,7 @@
     <li class="entry">
         <div class="entry-actions">
             <a class="action-edit" href="{$editUrl}"></a>
-            <a class="action-delete"></a>
+            <a class="action-delete" href="{$deleteUrl}"></a>
         </div>
         <div class="entry-body">{$body|noAutoescape}</div>
         <div class="entry-info">

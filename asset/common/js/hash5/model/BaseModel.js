@@ -1,4 +1,5 @@
 goog.provide('hash5.model.BaseModel');
+goog.provide('hash5.model.EventType');
 
 goog.require('goog.events.EventTarget');
 
@@ -66,4 +67,12 @@ hash5.model.BaseModel.prototype.update = function(data)
 hash5.model.BaseModel.prototype.serialize = function()
 {
     return {};
+};
+
+
+/**
+ * @enum {string}
+ */
+hash5.model.EventType = {
+    DESTROY: 'destroy'
 };
