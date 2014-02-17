@@ -19,3 +19,20 @@
   -moz-animation: #{$content};
   animation: #{$content};
 }
+
+
+@mixin resize-sprite($map, $icon, $percent)
+{
+    $spritePath:    sprite-path($map);
+    $spriteWidth:   image-width($spritePath);
+    $spriteHeight:  image-height($spritePath);
+    $width: image-width(sprite-file($map, $icon));
+    $height: image-height(sprite-file($map, $icon));
+
+
+    background: transparent sprite($sprite, $icon) no-repeat;
+    @include background-size(ceil($spriteWidth * ($percent/100)) ceil($spriteHeight * ($percent/100)));
+    width: ceil($width*($percent/100));
+    height: ceil($height*($percent/100));
+    background-position: 0 floor(nth(sprite-position($map, $icon), 2)  * ($percent/100) );
+}

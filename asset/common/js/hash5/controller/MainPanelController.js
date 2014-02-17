@@ -6,6 +6,8 @@ goog.require('hash5.ui.SearchField');
 goog.require('hash5.ui.editor.EntryEditor');
 goog.require('hash5.ui.Settings');
 
+goog.require('hash5.ui.SearchTree');
+
 /**
  *
  * @constructor
@@ -70,7 +72,7 @@ hash5.controller.MainPanelController.prototype.initialize = function(config)
     /** @desc search title */
     var MSG_SEARCH_TITLE = goog.getMsg('Suchen');
     hash5.api.layout.addActionBarBtn({
-        cssClass: 'flaticon-search mobile-only',
+        cssClass: 'icon-search mobile-only',
         title: MSG_SEARCH_TITLE,
         clickCallback: function(){
             hash5.ui.SearchField.getInstance().toggle();
@@ -81,11 +83,11 @@ hash5.controller.MainPanelController.prototype.initialize = function(config)
     /** @desc logout btn title */
     var MSG_LOGOUT = goog.getMsg('Logout');
     hash5.api.layout.addActionBarBtn({
-        cssClass: 'flaticon-gears',
+        cssClass: 'icon-gears',
         title: MSG_SETTINGS
     }, [
         {
-            cssClass: 'flaticon-task',
+            cssClass: 'icon-gears',
             title: MSG_SETTINGS,
             clickCallback: function(){
                 var settingsUi = new hash5.ui.Settings();
@@ -93,7 +95,7 @@ hash5.controller.MainPanelController.prototype.initialize = function(config)
             }
         },
         {
-            cssClass: 'flaticon-user',
+            cssClass: 'icon-user',
             title: MSG_LOGOUT,
             clickCallback: function(){
                 var userController = hash5.controller.UserController.getInstance();
@@ -102,10 +104,15 @@ hash5.controller.MainPanelController.prototype.initialize = function(config)
                     document.location.reload();
                 });
 
-                hash5.controller.UserController.getInstance().logout();
+                userController.logout();
             }
         }
     ]);
+
+
+    // render searchtree
+    var searchTree = new hash5.ui.SearchTree();
+    searchTree.render(document.getElementById('searchtree'));
 };
 
 

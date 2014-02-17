@@ -1,0 +1,20 @@
+
+[class^="icon-"]:before, [class*=" icon-"]:before
+{
+  content: '';
+  display: inline-block;
+  vertical-align: -3px;
+}
+
+.icon-home:before {
+  @include resize-sprite($sprite, home, 50);
+}
+.icon-gears:before {
+  @include resize-sprite($sprite, settings, 50);
+}
+.icon-search:before {
+  @include resize-sprite($sprite, search, 50);
+}
+.icon-user:before {
+  @include resize-sprite($sprite, user, 50);
+}

@@ -6,36 +6,65 @@
     padding-bottom: 0;
     float: left;
     @include box-sizing('border-box');
+    position: relative;
 
     @include breakpoint(mobile){
         float: none;
         width: 100%;
     }
 
-    .entry-list-actions
+    .entry-list-actions-btn
     {
         float: right;
-        padding-top: 5px;
+        margin-top: 5px;
+        visibility: hidden;
+        @include resize-sprite($sprite, arrow, 50);
+        cursor: pointer;
+    }
 
-        & > div
+    &:hover .entry-list-actions-btn
+    {
+        visibility: visible;
+    }
+
+    .entry-list-actions
+    {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        display: none;
+        @include box-shadow(0 1px 0 1px #E4E6EB);
+        z-index: 2;
+
+        &.visible
         {
-            display: inline-block;
-            width: 15px;
-            height: 15px;
+            display: block;
+        }
+
+        li
+        {
+            padding: 8px;
             cursor: pointer;
+            background: #FFF;
 
             &:hover
             {
-                opacity: 0.6;
+                background: $colorYellow;
+            }
+
+            &:before
+            {
+                content: '';
+                display: inline-block;
+                vertical-align: -3px;
+                margin-right: 8px;
             }
 
         }
     }
-
-    .action-close
-    {
-        background: $colorYellow;
-    }
+    .action-close:before{@include resize-sprite($sprite, close, 50);}
+    .action-save:before{@include resize-sprite($sprite, save, 50);}
+    .action-delete:before{@include resize-sprite($sprite, trash, 50);}
 
     h3
     {
@@ -74,8 +103,8 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            background: $colorYellow;
             cursor: pointer;
+            margin-right: 5px;
 
             &:hover
             {
@@ -88,9 +117,26 @@
         visibility: visible;
     }
 
+    @include breakpoint(tablet){
+        .entry-actions
+        {
+            visibility: visible;
+        }
+    }
+
+    .action-edit
+    {
+        @include resize-sprite($sprite, edit, 50);
+    }
+    .action-delete
+    {
+        @include resize-sprite($sprite, trash, 50);
+    }
+
     .entry-body
     {
         word-wrap: break-word;
+        font-size: 90%;
     }
 }
 
@@ -102,4 +148,15 @@
 {
 
     font-size: 70%;
+}
+
+.hash-link
+{
+    color: $colorBlue;
+    text-decoration: none;
+
+    &:hover
+    {
+        text-decoration: underline;
+    }
 }

@@ -2,11 +2,12 @@
 @import "compass/css3";
 @import "compass/reset";
 
-@import "constants";
 @import "mixins";
+@import "sprite";
+@import "icons";
+@import "constants";
 @import "breakpoints";
 
-@import "fonts";
 @import "layout";
 @import "ui";
 
