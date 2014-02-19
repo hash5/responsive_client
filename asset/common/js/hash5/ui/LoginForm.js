@@ -1,18 +1,17 @@
 goog.provide('hash5.ui.LoginForm');
 
 goog.require('goog.ui.Component');
-goog.require('goog.ui.registry');
 
 goog.require('hash5.forms.Form');
 goog.require('hash5.forms.Textbox');
 goog.require('hash5.validation.RequiredFieldValidator');
-goog.require('hash5.validation.EqualityValidator');
 goog.require('hash5.forms.DefaultErrorProvider');
 
+goog.require('hash5.ui.RegisterForm');
 goog.require('hash5.templates.ui.LoginForm');
 
 /**
- * Loginform with switch for registration form
+ * Loginform
  * After successful login hash5.controller.UserController.EventType.LOGIN will be dispatch from UserController
  *
  * @constructor
@@ -23,18 +22,6 @@ hash5.ui.LoginForm = function()
     goog.base(this);
 
     /**
-     * @type {Element}
-     * @private
-     */
-    this.loginBtn_ = null;
-
-    /**
-     * @type {Element}
-     * @private
-     */
-    this.toggleViewBtn_ = null;
-
-    /**
      * @type {hash5.forms.Form}
      * @private
      */
@@ -43,32 +30,17 @@ hash5.ui.LoginForm = function()
     /** @desc username */
     var MSG_USERNAME = goog.getMsg('Username');
     /** @desc password */
-    var MSG_PASSWORD = goog.getMsg('Passwort');
+    var MSG_PASSWORD = goog.getMsg('Password');
     this.form_.addFormItem(MSG_USERNAME, 'textbox', {fieldName: 'username'});
     this.form_.addFormItem(MSG_PASSWORD, 'textbox', {fieldName: 'password', password: true});
-    this.form_.addFormItem(MSG_PASSWORD, 'textbox', {fieldName: 'password-repeat', password: true}).addCssClass('registration-visible');
 
-    /**
-     * validations used for login-form
-     *
-     * @type {hash5.validation.FormValidation}
-     * @private
-     */
-    this.loginFormValidation_ = new hash5.validation.FormValidation([
-        new hash5.validation.RequiredFieldValidator("username", "Bitte gebe deinen Usernamen ein."),
-        new hash5.validation.RequiredFieldValidator("password", "Bitte gebe dein Passwort ein.")
-    ]);
-
-    /**
-     * validations used for register-form
-     *
-     * @type {hash5.validation.FormValidation}
-     * @private
-     */
-    this.registerFormValidation_ = new hash5.validation.FormValidation([
-        new hash5.validation.RequiredFieldValidator("username", "Bitte gebe deinen Usernamen ein."),
-        new hash5.validation.RequiredFieldValidator("password", "Bitte gebe dein Passwort ein."),
-        new hash5.validation.EqualityValidator("password-repeat", "Die Passwörter stimmen nicht überein!", "password")
+    /** @desc required msg forusername */
+    var MSG_USERNAME_REQ = goog.getMsg('Please insert your username.');
+    /** @desc required msg for password */
+    var MSG_PASSWORD_REQ = goog.getMsg('Please insert your password.');
+    this.form_.validation = new hash5.validation.FormValidation([
+        new hash5.validation.RequiredFieldValidator("username", MSG_USERNAME_REQ),
+        new hash5.validation.RequiredFieldValidator("password", MSG_PASSWORD_REQ)
     ]);
 };
 goog.inherits(hash5.ui.LoginForm, goog.ui.Component);
@@ -76,19 +48,10 @@ goog.inherits(hash5.ui.LoginForm, goog.ui.Component);
 /** @inheritDoc */
 hash5.ui.LoginForm.prototype.createDom = function()
 {
-    var el = soy.renderAsFragment(hash5.templates.ui.LoginForm.wrapper);
-    this.decorateInternal(el);
-};
-
-/** @inheritDoc */
-hash5.ui.LoginForm.prototype.decorateInternal = function(el)
-{
-    goog.base(this, 'decorateInternal', el);
+    var el = soy.renderAsFragment(hash5.templates.ui.LoginForm.login);
+    this.decorateInternal(/** @type {Element} */ (el));
 
     this.form_.render(this.getElementByClass('form-wrapper'));
-
-    this.loginBtn_ = this.getElementByClass('btn-login');
-    this.registerBtn_ = this.getElementByClass('btn-register');
 };
 
 /** @inheritDoc */
@@ -97,157 +60,88 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     // set form validations and errorProvider
-    this.form_.validation = this.loginFormValidation_;
     this.form_.errorProvider = new hash5.forms.DefaultErrorProvider();
     this.form_.errorProvider.render(this.getElement());
 
-    // set buttons click handlers
+    // register handlers
+    var loginBtn = this.getElementByClass('btn-login');
+    var registerBtn = this.getElementByClass('register-link');
+    var userController = hash5.controller.UserController.getInstance();
     this.getHandler()
-        .listen(this.loginBtn_, goog.events.EventType.CLICK, this.handleLoginClick_)
-        .listen(this.registerBtn_, goog.events.EventType.CLICK, this.handleRegBtnClick_)
+        .listen(loginBtn, goog.events.EventType.CLICK, this.handleLoginClick_)
+        .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
 
-        .listen(hash5.controller.UserController.getInstance(), hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_);
+        .listen(this.form_, goog.events.EventType.SUBMIT, this.handleLoginClick_)
+        .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidated_)
 
-    // set form submit handler (will be called when pressing ENTER)
-    this.getHandler().listen(this.form_, goog.events.EventType.SUBMIT, function(e){
-      if(goog.dom.classes.has(this.getElement(), 'registration-view')){
-        this.handleRegBtnClick_(e);
-      }else{
-        this.handleLoginClick_(e);
-      }
-    });
+        .listen(hash5.controller.UserController.getInstance(), hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_)
+        .listenOnce(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, this.handleWrongLogIn_);
 };
 
 /**
  * login button clicked
  *
  * @param  {goog.events.BrowserEvent} e
- *
  * @private
  */
 hash5.ui.LoginForm.prototype.handleLoginClick_ = function(e)
 {
-    // listen for validation complete
-    this.getHandler().listenOnce(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, function(e) {
-        if (e.result.isValid()) {
-            var data = this.form_.getData();
-
-            var userController = hash5.controller.UserController.getInstance();
-            this.getHandler()
-                .listenOnce(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, this.handleWrongLogIn_);
-
-            userController.login(data['username'], data['password']);
-        }
-    });
-
     // validate from
     this.form_.validate();
+};
+
+
+/**
+ * @param  {goog.events.Event} e
+ * @private
+ */
+hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
+{
+    if (e.result.isValid()) {
+        var data = this.form_.getData();
+
+        var userController = hash5.controller.UserController.getInstance();
+        userController.login(data['username'], data['password']);
+    }
 };
 
 /**
  * handle valid login
  *
  * @param  {goog.events.Event} e
- *
  * @private
  */
 hash5.ui.LoginForm.prototype.handleLoggedIn_ = function(e)
 {
-    this.setVisible(false);
+    this.dispose();
 };
 
 /**
  * handle invalid login
  *
  * @param  {goog.events.Event} e
- *
  * @private
  */
 hash5.ui.LoginForm.prototype.handleWrongLogIn_ = function(e)
 {
-    this.form_.errorProvider.displayError(this.form_.getControlByName('username').getElement(), 'Benutzername und Passwort stimmen nicht.');
+    /** @desc wrong password msg */
+    var MSG_WRONG_PASSWORD = goog.getMsg('The email or password you entered is incorrect.');
+
+    this.form_.errorProvider
+      .displayError(this.form_.getControlByName('username').getElement(), MSG_PASSWORD_REQ);
 };
 
+
 /**
- * registration button clicked
+ * register button clicked
  *
  * @param  {goog.events.BrowserEvent} e
- *
  * @private
  */
 hash5.ui.LoginForm.prototype.handleRegBtnClick_ = function(e)
 {
-    if(!goog.dom.classes.has(this.getElement(), 'registration-view'))
-    {
-        goog.dom.classes.add(this.getElement(), 'registration-view');
-        this.form_.validation = this.registerFormValidation_;
-        this.form_.errorProvider.setVisible(false);
-    }
-    else
-    {
-      // listen for validation complete
-      this.getHandler().listenOnce(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, function(e) {
-        if (e.result.isValid()) {
-          var data = this.form_.getData();
+    var regForm = new hash5.ui.RegisterForm();
+    regForm.render(document.body);
 
-          var userController = hash5.controller.UserController.getInstance();
-          this.getHandler()
-              .listenOnce(userController, hash5.controller.UserController.EventType.REGISTERED, this.handleRegistered_)
-              .listenOnce(userController, hash5.controller.UserController.EventType.CONFLICT, this.handleRegisterConflict_);
-
-          userController.register(data['username'], data['password']);
-        }
-      });
-
-      // validate form
-      this.form_.validate();
-
-    }
+    this.dispose();
 };
-
-/**
- * handle successful registration
- *
- * @param  {goog.events.BrowserEvent} e
- *
- * @private
- */
-hash5.ui.LoginForm.prototype.handleRegistered_ = function(e)
-{
-    goog.dom.classes.remove(this.getElement(), 'registration-view');
-    this.form_.validation = this.loginFormValidation_;
-};
-
-/**
- * handle registration error
- *
- * @param  {goog.events.BrowserEvent} e
- *
- * @private
- */
-hash5.ui.LoginForm.prototype.handleRegisterConflict_ = function(e)
-{
-    this.form_.errorProvider.displayError(this.form_.getControlByName('username').getElement(), 'Benutzername ist schon vorhanden.');
-};
-
-
-/**
- * sets the visibility of the login form
- *
- * @param {boolean} isVisible
- */
-hash5.ui.LoginForm.prototype.setVisible = function(isVisible)
-{
-    goog.dom.classes.enable(this.getElement(), 'hidden', !isVisible);
-};
-
-
-/**
- * Register this control so it can be created from markup.
- */
-goog.ui.registry.setDecoratorByClassName(
-    'login-form',
-    function() {
-      return new hash5.ui.LoginForm();
-    }
-);

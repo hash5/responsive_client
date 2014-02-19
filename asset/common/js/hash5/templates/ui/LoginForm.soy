@@ -3,14 +3,29 @@
 /**
  *
  */
-{template .wrapper}
+{template .login}
+    <div class="login-form">
+        <div class="hash5-logo">hash<span>5</span></div>
+        <div class="form-wrapper"></div>
+        <button class="btn primary btn-login">Login</button>
+        <a class="register-link" href="#register">
+            {msg desc="register button"}or create new account{/msg}
+        </a>
+    </div>
+{/template}
+
+/**
+ *
+ */
+{template .register}
     <div class="login-form">
         <div class="hash5-logo">hash<span>5</span></div>
         <h2 class="registration-visible">
-            Registrieren
+            {msg desc="register heading"}Register{/msg}
         </h2>
         <div class="form-wrapper"></div>
-        <button class="btn enabled primary btn-login">Login</button>
-        <button class="btn enabled primary btn-register">Registrieren</button>
+        <button class="btn btn-register">
+            {msg desc="register button"}create account{/msg}
+        </button>
     </div>
 {/template}
