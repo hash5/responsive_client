@@ -1,0 +1,62 @@
+{namespace hash5.templates.ui.EntryEditor}
+
+/**
+ * @param date created date
+ */
+{template .wrapper}
+    <div class="entry-editor">
+        <h2>
+            {msg desc="entry editor edit title"}Eintrag bearbeiten{/msg}
+        </h2>
+        <div class="entry-info">
+            <span class="entry-date">{$date}</span>
+        </div>
+
+        <div class="entry-editor-body">
+        </div>
+
+        <div class="recommondations"></div>
+
+        <ul class="helper-tile-btns"></ul>
+
+        <div class="helper-tiles"></div>
+
+        <div class="entry-actions">
+            <button class="btn primary save-btn">
+                {msg desc="entry editor save btn title"}Speichern{/msg}
+            </button>
+            <button class="btn cancle-btn">
+                {msg desc="entry editor cancle btn title"}Abbrechen{/msg}
+            </button>
+        </div>
+    </div>
+{/template}
+
+
+
+/**
+ * @param title title of helperTile
+ * @param icon path to icon
+ */
+{template .tileBtn}
+    <li>
+        <img src="{$icon}" title="{$title}" />
+    </li>
+{/template}
+
+
+
+/**
+ * @param title title of helperTile
+ * @param icon path to icon
+ */
+{template .helperTile}
+    <div class="helper-tile">
+        <h3>
+            <img src="{$icon}" class="icon" />
+            {$title}
+        </h3>
+        <div class="remove-btn"></div>
+        <div class="helper-tile-content"></div>
+    </div>
+{/template}

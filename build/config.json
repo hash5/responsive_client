@@ -2,6 +2,7 @@
   "id": "hash5",
   "paths": [
     "../asset/common/js/",
+    "../asset/modules/calendar/js/",
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
   ],
@@ -16,11 +17,8 @@
   },
   "output-charset": "UTF-8",
 
-
-
   "language": "en",
   "translations": "../asset/common/locales/",
-
 
   "closure-library": "../asset/closure-library/closure/goog/",
   "modules": {
@@ -31,11 +29,15 @@
     "core": {
       "inputs": "../asset/common/js/hash5/module/CoreModule.js",
       "deps": ["app"]
+    },
+    "calendar": {
+      "inputs": "../asset/modules/calendar/js/CalendarModule.js",
+      "deps": ["app"]
     }
   },
   "module-output-path": "../asset/common/js-min/en/%s.js",
-  "module-production-uri": "/www/asset/common/js-min/LANG/%s.js",
-   "test-drivers": [
+  "module-production-uri": "/client/asset/common/js-min/LANG/%s.js",
+  "test-drivers": [
     {
       "class": "org.openqa.selenium.firefox.FirefoxDriver"
     }

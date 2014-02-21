@@ -37,7 +37,30 @@ h1, h2, h3{
   //overflow: hidden;
 }
 
-.hidden
+.hidden{display: none;}
+
+.goog-inline-block {display: inline-block;}
+
+
+a
 {
-  display: none;
+  text-decoration: none;
+  color: $colorYellow;
+
+  &:hover
+  {
+    color: $colorLightGray;
+  }
+}
+
+
+.hash-link
+{
+    color: $colorBlue;
+    text-decoration: none;
+
+    &:hover
+    {
+        text-decoration: underline;
+    }
 }

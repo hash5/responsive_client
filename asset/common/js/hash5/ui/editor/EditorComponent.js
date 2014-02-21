@@ -45,6 +45,7 @@ hash5.ui.editor.EditorComponent = function(model, editor)
      */
     this.handler_ = null;
 };
+goog.inherits(hash5.ui.editor.EditorComponent, goog.Disposable);
 
 
 /**
@@ -53,6 +54,17 @@ hash5.ui.editor.EditorComponent = function(model, editor)
 hash5.ui.editor.EditorComponent.prototype.getHandler = function()
 {
     return this.handler_ || (this.handler_ = new goog.events.EventHandler(this));
+};
+
+/** @inheritDoc */
+hash5.ui.editor.EditorComponent.prototype.disposeInternal = function()
+{
+    if(this.handler_)
+    {
+        this.handler_.dispose();
+    }
+
+    goog.base(this, 'disposeInternal');
 };
 
 
@@ -67,9 +79,33 @@ hash5.ui.editor.EditorComponent.prototype.getEditor = function()
 };
 
 /**
+ * @return {string}
+ */
+hash5.ui.editor.EditorComponent.prototype.getIcon = function()
+{
+    return this.icon_;
+};
+
+
+/**
+ * @return {string}
+ */
+hash5.ui.editor.EditorComponent.prototype.getTitle = function()
+{
+    return this.title_;
+};
+
+
+/**
  * @return {boolean}
  */
 hash5.ui.editor.EditorComponent.prototype.hasHelperTile = function()
 {
     return this.hasHelperTile_;
 };
+
+
+/**
+ * @return {hash5.ui.editor.HelperTile}
+ */
+hash5.ui.editor.EditorComponent.prototype.getNewHelperTile = goog.abstractMethod;

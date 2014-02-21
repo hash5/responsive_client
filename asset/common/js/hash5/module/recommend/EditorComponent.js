@@ -22,6 +22,8 @@ hash5.module.recommend.EditorComponent = function(model, editor)
     this.autoComplete_ = null;
 
     this.recEl_ = null;
+
+    this.hasHelperTile_ = false;
 };
 goog.inherits(hash5.module.recommend.EditorComponent, hash5.ui.editor.EditorComponent);
 
@@ -43,6 +45,9 @@ hash5.module.recommend.EditorComponent.prototype.init = function()
     this.refreshRecommondations();
 };
 
+/**
+ * @param  {goog.events.Event} e
+ */
 hash5.module.recommend.EditorComponent.prototype.handleTextChanged_ = function(e)
 {
     this.refreshRecommondations();

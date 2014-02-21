@@ -41,5 +41,6 @@ hash5.module.setStaticLoaded = function(moduleId, constructor)
 hash5.module.Modules = {
     APP: 'app',
     CORE: 'core',
-    RECOMMEND: 'recommmend'
+    RECOMMEND: 'recommmend',
+    CALENDAR: 'calendar'
 };

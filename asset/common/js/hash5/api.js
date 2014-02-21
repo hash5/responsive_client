@@ -5,7 +5,10 @@ goog.provide('hash5.api.layout');
 goog.require('hash5.ds.DataSource');
 goog.require('hash5.controller.EditorController');
 
- /**
+/**
+ * searches for entries with given searchStr
+ * results will be added to collection.
+ *
  * @param  {string} searchStr
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
  * @param {Function=} callback called when request is finished and results added to collection
@@ -19,9 +22,9 @@ hash5.api.searchEntries = function(searchStr, collection, callback, handler)
 };
 
 
-// layout -------
-
 /**
+ * renders entryCollection to mainpanel
+ *
  * @param  {hash5.model.EntryCollection} collection
  * @param  {string=} title
  */
@@ -32,6 +35,8 @@ hash5.api.showEntryCollection = function(collection, title)
 
 
 /**
+ * opens EntryEditor to edit given entry
+ *
  * @param  {hash5.model.Entry} entry
  * @return {hash5.ui.editor.EntryEditor}
  */
@@ -41,6 +46,8 @@ hash5.api.editEntry = function(entry)
 };
 
 /**
+ * registers EditorComponent. A new instance will be linked to created EntryEditors.
+ *
  * @param  {Function} constructor constructor method to create component,
  * should be derive from {@see hash5.ui.editor.EditorComponent}.
  */
@@ -50,7 +57,7 @@ hash5.api.registerEditorComponent = function(constructor)
 };
 
 /**
- *  adds a new action button to the header bar
+ * adds a new action button to the header bar
  *
  * @param  {hash5.ui.PageHeader.ActionBarButton} button
  * @param  {Array.<hash5.ui.PageHeader.ActionBarButton>=} subButtons

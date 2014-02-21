@@ -13,12 +13,16 @@ hash5.controller.EditorController = function()
     goog.base(this);
 
     /**
+     * registered EditorComponent constructors
+     *
      * @type {Array.<Function>}
      * @private
      */
     this.components_ = [];
 
     /**
+     * element to render new editors
+     *
      * @type {Element}
      * @private
      */
@@ -44,7 +48,10 @@ hash5.controller.EditorController.prototype.initialize = function(config)
 };
 
 /**
- * @param {Function} comp
+ * registers EditorComponent. A new instance will be linked to created EntryEditors.
+ * The constructor should derive from {@see hash5.ui.editor.EditorComponent}.
+ *
+ * @param {Function} comp constructor to create component
  */
 hash5.controller.EditorController.prototype.registerComponent = function(comp)
 {
@@ -53,6 +60,8 @@ hash5.controller.EditorController.prototype.registerComponent = function(comp)
 
 
 /**
+ * creates new entryEditor and renders it to the mainPanel
+ *
  * @param  {hash5.model.Entry} entry
  * @return {hash5.ui.editor.EntryEditor}
  */
@@ -68,6 +77,7 @@ hash5.controller.EditorController.prototype.createEntryEditor = function(entry)
     var editor = new hash5.ui.editor.EntryEditor(entry);
     editor.render(this.panelEl_);
 
+    // add components
     goog.array.forEach(this.components_, function(comp){
         editor.addComponent(new comp(entry, editor));
     }, this);
