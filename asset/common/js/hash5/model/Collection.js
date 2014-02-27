@@ -24,12 +24,6 @@ hash5.model.Collection = function()
      * @private
      */
     this.data_ = [];
-
-    /**
-     * @type {goog.events.EventHandler}
-     * @private
-     */
-    this.handler_ = new goog.events.EventHandler(this);
 };
 goog.inherits(hash5.model.Collection, goog.events.EventTarget);
 
@@ -129,8 +123,7 @@ hash5.model.Collection.prototype.getById = function(id)
  */
 hash5.model.Collection.prototype.insert = function(item)
 {
-     // TODO better check istance of...
-    if(goog.isFunction(item.setParentEventTarget))
+    if(item instanceof goog.events.EventTarget)
     {
         item.setParentEventTarget(this);
     }
@@ -153,8 +146,7 @@ hash5.model.Collection.prototype.insert = function(item)
  */
 hash5.model.Collection.prototype.insertAt = function(item, index)
 {
-     // TODO better check istance of...
-    if(goog.isFunction(item.setParentEventTarget))
+    if(item instanceof goog.events.EventTarget)
     {
         item.setParentEventTarget(this);
     }
@@ -220,14 +212,12 @@ hash5.model.Collection.prototype.remove = function(item)
  */
 hash5.model.Collection.prototype.removeAt = function(index)
 {
-
     var item = this.data_[index],
         removed = goog.array.remove(this.data_, item);
 
     if (removed)
     {
-         // TODO better check istance of...
-        if(goog.isFunction(item.setParentEventTarget))
+        if(item instanceof goog.events.EventTarget)
         {
             item.setParentEventTarget(null);
         }

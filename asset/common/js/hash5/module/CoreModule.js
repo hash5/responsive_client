@@ -7,11 +7,12 @@ goog.require('hash5.Router');
 
 goog.require('hash5.controller.MainPanelController');
 goog.require('hash5.controller.EditorController');
+goog.require('hash5.controller.UndoController');
 
 
 // include ui controls for auto-decation here
 goog.require('hash5.ui.UiDecorator');
-goog.require('hash5.ui.PageHeader');
+goog.require('hash5.layout.Header');
 goog.require('hash5.ui.PageSidebar');
 
 goog.require('hash5.ui.SearchField');
@@ -48,6 +49,7 @@ hash5.module.CoreModule.prototype.initialize = function(context)
 
     hash5.controller.MainPanelController.getInstance().initialize(config);
     hash5.controller.EditorController.getInstance().initialize(config);
+    hash5.controller.UndoController.getInstance().initialize(config);
 
     // init router
     var router = hash5.Router.getInstance();

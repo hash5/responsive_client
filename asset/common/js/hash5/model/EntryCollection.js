@@ -1,6 +1,7 @@
 goog.provide('hash5.model.EntryCollection');
 
 goog.require('goog.net.EventType');
+goog.require('goog.events.EventHandler');
 
 goog.require('hash5.model.Collection');
 
@@ -31,14 +32,39 @@ hash5.model.EntryCollection = function(entries, searchPattern)
      */
     this.isLoadingEntries_ = false;
 
+    /**
+     * @type {goog.events.EventHandler}
+     * @private
+     */
+    this.handler_ = new goog.events.EventHandler(this);
 
-    if(entries){
+    if(entries)
+    {
         goog.array.forEach(entries, function(entry){
             this.insert(entry);
         }, this);
     }
+
+    this.setParentEventTarget(hash5.ds.EntryStore.getInstance());
 };
 goog.inherits(hash5.model.EntryCollection, hash5.model.Collection);
+
+
+/** @inheritDoc */
+hash5.model.EntryCollection.prototype.insert = function(item)
+{
+    goog.base(this, 'insert', item);
+
+    this.handler_.listen(item, hash5.model.EventType.DESTROY, this.handleEntryDestroyed_);
+};
+
+/**
+ * @param  {goog.events.Event} e
+ */
+hash5.model.EntryCollection.prototype.handleEntryDestroyed_ = function(e)
+{
+    this.remove(e.target);
+};
 
 /**
  * returns searchPattern used to create EntryCollection
@@ -76,4 +102,54 @@ hash5.model.EntryCollection.prototype.finishedLoadingEntries = function()
 {
     this.isLoadingEntries_ = false;
     this.dispatchEvent(goog.net.EventType.COMPLETE);
+};
+
+
+/**
+ * refreshes current entries
+ * only possible if searchPattern is set
+ *
+ * @param {Function=} callback called when request is finished
+ * @param {*=} handler
+ * @return {boolean} true if refresh was possible
+ */
+hash5.model.EntryCollection.prototype.refresh = function(callback, handler)
+{
+    if(this.searchPattern_)
+    {
+        this.startLoadingEntries();
+
+        hash5.api.searchEntries(this.searchPattern_, this, function(){
+            this.finishedLoadingEntries();
+
+            callback.call(handler);
+        }, this);
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+};
+
+/**
+ * merges given array with current entries
+ * at the end, the collection will represent modelArr.
+ *
+ */
+hash5.model.EntryCollection.prototype.merge = function(modelArr)
+{
+    // TODO
+    for(var i = 0;  i < modelArr.length; i++){
+        this.insert(modelArr[i]);
+    }
+};
+
+/** @inheritDoc */
+hash5.model.EntryCollection.prototype.disposeInternal = function()
+{
+    this.handler_.dispose();
+
+    goog.base(this, 'disposeInternal');
 };
