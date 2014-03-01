@@ -1,7 +1,10 @@
 goog.provide('hash5.ui.SearchTree');
-goog.provide('hash5.ui.SearchTreeNode');
 
 goog.require('goog.ui.tree.TreeControl');
+goog.require('goog.fx.DragDropGroup');
+
+goog.require('hash5.ui.SearchTreeNode');
+goog.require('hash5.ui.SearchTreeDragHandler');
 
 /**
  * @constructor
@@ -16,13 +19,26 @@ hash5.ui.SearchTree = function()
      * @private
      */
     this.tree_ = new goog.ui.tree.TreeControl('root');
+    this.registerDisposable(this.tree_);
+
+    /**
+     * @type {hash5.ui.SearchTreeDragHandler}
+     * @private
+     */
+    this.dragHandler_ = new hash5.ui.SearchTreeDragHandler();
+    this.registerDisposable(this.dragHandler_);
 };
 goog.inherits(hash5.ui.SearchTree, goog.ui.Component);
 
 /** @inheritDoc */
 hash5.ui.SearchTree.prototype.createDom = function()
 {
-    goog.base(this, 'createDom');
+    var domHelper = this.getDomHelper();
+    var el = domHelper.createDom('div', undefined, [
+        domHelper.createDom('div', 'btn add-folder-btn', '+')
+    ]);
+
+    this.decorateInternal(el);
 };
 
 /** @inheritDoc */
@@ -30,8 +46,13 @@ hash5.ui.SearchTree.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+    var addBtn = this.getElementByClass('add-folder-btn');
+    this.getHandler().listen(addBtn, goog.events.EventType.CLICK, this.addFolder);
+
     var userSearchTree = hash5.controller.UserController.getInstance().getSearchTree();
     this.renderSearchTree(userSearchTree);
+
+    this.getHandler().listen(this.dragHandler_, goog.fx.AbstractDragDrop.EventType.DROP, this.handleChange_);
 };
 
 /**
@@ -42,6 +63,7 @@ hash5.ui.SearchTree.prototype.enterDocument = function()
 hash5.ui.SearchTree.prototype.renderSearchTree = function(searchTree)
 {
     /**
+     * example:
      * [
           {
             "id": "n139254344870083",
@@ -71,10 +93,8 @@ hash5.ui.SearchTree.prototype.renderSearchTree = function(searchTree)
     }
 
     this.tree_.setShowRootNode(false);
-    this.tree_.setShowLines(false);
     this.tree_.render(this.getElement());
 };
-
 
 /**
  *
@@ -84,43 +104,133 @@ hash5.ui.SearchTree.prototype.renderSearchTree = function(searchTree)
  */
 hash5.ui.SearchTree.prototype.addSubNode_ = function(parentNode, data)
 {
-    var node = new hash5.ui.SearchTreeNode(data['title']);
+    var node = new hash5.ui.SearchTreeNode(data['title'], this.dragHandler_);
     node.setModel(data);
     parentNode.add(node);
+
+    this.getHandler().listen(node, goog.events.EventType.CHANGE, this.handleChange_);
 
     if(data['children'])
     {
         for(var i = 0; i < data['children'].length; i++)
         {
-            this.addSubNode_(node,data['children'][i]);
+            this.addSubNode_(node, data['children'][i]);
         }
     }
 };
 
+/**
+ *
+ * @param  {string} search
+ * @param  {string=} title
+ */
+hash5.ui.SearchTree.prototype.addSearch = function(search, title)
+{
+    var data = {
+        'title': title || search,
+        'type': 'request',
+        'query': search
+    };
+
+    this.addSubNode_(this.tree_.getTree(), data);
+
+    this.handleChange_();
+};
 
 /**
- * A single node in the tree.
+ * adds new folder to the searchtree
  *
- * @param {string} html The html content of the node label.
- *
- * @constructor
- * @extends {goog.ui.tree.TreeNode}
+ * @param {string=} title optional title for the new folder
  */
-hash5.ui.SearchTreeNode = function(html)
+hash5.ui.SearchTree.prototype.addFolder = function(title)
 {
-    goog.base(this, html);
+    var strTitle = goog.isString(title) ? title : 'new folder';
 
+    var data = {
+        'title': strTitle,
+        'type': 'folder'
+    };
+
+    this.addSubNode_(this.tree_.getTree(), data);
+
+    this.handleChange_();
 };
-goog.inherits(hash5.ui.SearchTreeNode, goog.ui.tree.TreeNode);
 
-/** @inheritDoc */
-hash5.ui.SearchTreeNode.prototype.onClick_ = function(e)
+
+/**
+ * handles any change in the searchTree
+ * serializes the tree and stores it to the server
+ */
+hash5.ui.SearchTree.prototype.handleChange_ = function()
 {
-    var model = this.getModel();
+    var searchTreeData = this.serialize();
+    var userController = hash5.controller.UserController.getInstance();
 
-    if(model['type'] === 'request')
+    userController.saveSearchTree(searchTreeData);
+};
+
+/**
+ * @return {!Array} serialized tree
+ */
+hash5.ui.SearchTree.prototype.serialize = function()
+{
+    var treeData = [];
+    var tree = this.tree_;
+
+    var children = tree.getChildren();
+    for(var i = 0; i < children.length; i++)
     {
-        var entryColection = hash5.api.searchEntries(model['query']);
-        hash5.api.showEntryCollection(entryColection);
+        var child = /** @type {hash5.ui.SearchTreeNode} */ (children[i]);
+        treeData.push(this.serializeNode_(child));
     }
+
+    return treeData;
 };
+
+/**
+ * @param {hash5.ui.SearchTreeNode} node
+ * @return {!Object} serialized node
+ */
+hash5.ui.SearchTree.prototype.serializeNode_ = function(node)
+{
+    var model = node.getModel();
+
+    var children = node.getChildren();
+    var childrenData = [];
+    for(var i = 0; i < children.length; i++)
+    {
+        var child = /** @type {hash5.ui.SearchTreeNode} */ (children[i]);
+        childrenData.push(this.serializeNode_(child));
+    }
+
+    var nodeData = {
+        'title': model['title'],
+        'type': model['type'],
+        'query': model['query'],
+        'children': childrenData
+    };
+
+    return nodeData;
+};
+
+
+/**
+ * TODO
+ * drag & drop
+ *
+    function cut() {
+      if (tree.getSelectedItem()) {
+        clipboardNode = tree.getSelectedItem();
+        if (clipboardNode.getParent()) {
+          clipboardNode.getParent().remove(clipboardNode);
+        }
+      }
+    }
+
+    function paste() {
+      if (tree.getSelectedItem() && clipboardNode) {
+        tree.getSelectedItem().add(clipboardNode);
+        clipboardNode = null;
+      }
+    }
+ */

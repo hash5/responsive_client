@@ -33,6 +33,12 @@ hash5.controller.MainPanelController = function()
      * @private
      */
     this.panelEl_ = null;
+
+    /**
+     * @type {hash5.ui.SearchTree}
+     * @private
+     */
+    this.searchTree_ = null;
 };
 goog.inherits(hash5.controller.MainPanelController, hash5.controller.BaseController);
 goog.addSingletonGetter(hash5.controller.MainPanelController);
@@ -48,66 +54,20 @@ hash5.controller.MainPanelController.prototype.initialize = function(config)
     this.panelEl_ = goog.dom.getElementByClass('main-panel');
     this.renderView(this.listView_);
 
-    // TODO maybe in different routine?
-    // ------ main layout initialization -------
-
-    // add default listViews
-    var newestEntries = hash5.ds.DataSource.getInstance().newestEntries(); // TODO replace with api call
-    var actualEntries = hash5.api.searchEntries('#start=today');
-    /** @desc newest entry list heading */
-    var MSG_NEWEST_HEADING = goog.getMsg('Neueste Einträge');
-    this.showEntryCollection(newestEntries, MSG_NEWEST_HEADING);
-    /** @desc day planing entry list heading */
-    var MSG_DAY_HEADING = goog.getMsg('Tagesplanung');
-    this.showEntryCollection(actualEntries, MSG_DAY_HEADING);
-
-    // create settingsmenu
-    /** @desc search title */
-    var MSG_SEARCH_TITLE = goog.getMsg('Suchen');
-    hash5.api.layout.addActionBarBtn({
-        cssClass: 'icon-search mobile-only',
-        title: MSG_SEARCH_TITLE,
-        clickCallback: function(){
-            hash5.ui.SearchField.getInstance().toggle();
-        }
-    });
-    /** @desc settings btn title */
-    var MSG_SETTINGS = goog.getMsg('Einstellungen');
-    /** @desc logout btn title */
-    var MSG_LOGOUT = goog.getMsg('Logout');
-    hash5.api.layout.addActionBarBtn({
-        cssClass: 'icon-gears',
-        title: MSG_SETTINGS
-    }, [
-        {
-            cssClass: 'icon-gears',
-            title: MSG_SETTINGS,
-            clickCallback: function(){
-                var settingsUi = new hash5.ui.Settings();
-                settingsUi.render(document.body);
-            }
-        },
-        {
-            cssClass: 'icon-user',
-            title: MSG_LOGOUT,
-            clickCallback: function(){
-                var userController = hash5.controller.UserController.getInstance();
-
-                this.getHandler().listen(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, function(){
-                    document.location.reload();
-                });
-
-                userController.logout();
-            }
-        }
-    ]);
-
-
     // render searchtree
-    var searchTree = new hash5.ui.SearchTree();
-    searchTree.render(document.getElementById('searchtree'));
+    this.searchTree_ = new hash5.ui.SearchTree();
+    this.searchTree_.render(document.getElementById('searchtree'));
 };
 
+
+/**
+ * @param  {string} search
+ * @param  {string=} title
+ */
+hash5.controller.MainPanelController.prototype.addSearchTreeItem = function(search, title)
+{
+    this.searchTree_.addSearch(search, title);
+};
 
 /**
  * @param  {hash5.view.BaseView} view

@@ -18,3 +18,9 @@
 .icon-user:before {
   @include resize-sprite($sprite, user, 50);
 }
+.icon-undo:before {
+  @include resize-sprite($sprite, undo, 50);
+}
+.icon-undo1:before {
+  @include resize-sprite($sprite, undo1, 50);
+}

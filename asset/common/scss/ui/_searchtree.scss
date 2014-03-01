@@ -5,8 +5,47 @@
     border-top: 2px solid;
     padding-top: 10px;
     padding-left: 5px;
+
+    @include breakpoint(tablet){
+        display: none;
+    }
+
+    .edit-btns
+    {
+      display: inline-block;
+      visibility: hidden;
+      margin-left: 5px;
+      position: absolute;
+
+      & > span
+      {
+        display: inline-block;
+        background: red;
+        margin-left: 5px;
+
+        &:hover
+        {
+          opacity: 0.6;
+        }
+      }
+      .rename{@include resize-sprite($sprite, edit, 30);}
+      .delete{@include resize-sprite($sprite, trash, 30);}
+    }
+    .focused .selected .edit-btns
+    {
+      visibility: visible;
+    }
+}
+.visible .searchtree
+{
+    display: block;
 }
 
+.search-item-drag
+{
+  z-index: 99999;
+  background: green;
+}
 
 
 .goog-tree-root:focus {
@@ -14,7 +53,7 @@
 }
 
 .goog-tree-row {
-
+  margin: 10px 0;
 }
 
 .goog-tree-row span {
@@ -23,96 +62,41 @@
 }
 
 .goog-tree-children {
-  background-repeat: repeat-y;
-  background-image: url(//ssl.gstatic.com/closure/tree/I.png) !important;
-  background-position-y: 1px !important;    /* IE only */
-  font: icon;
-}
 
-.goog-tree-children-nolines {
-  font: icon;
 }
 
 .goog-tree-icon {
-  background-image: url(//ssl.gstatic.com/closure/tree/tree.png);
+
 }
 
 .goog-tree-expand-icon {
-  vertical-align: middle;
+  vertical-align: -2px;
   height: 16px;
   width: 16px;
-  cursor: default;
+  cursor: pointer;
+  @include transition(transform 0.8s);
 }
 
-.goog-tree-expand-icon-plus {
+.goog-tree-expand-icon-tplus, .goog-tree-expand-icon-lplus {
   width: 19px;
-  background-position: 0 0;
+  @include resize-sprite($sprite, arrow, 50);
+  @include rotate(-90deg);
 }
 
-.goog-tree-expand-icon-minus {
+.goog-tree-expand-icon-tminus, .goog-tree-expand-icon-lminus {
   width: 19px;
-  background-position: -24px 0;
+  @include resize-sprite($sprite, arrow, 50);
+  @include rotate(0deg);
 }
 
-.goog-tree-expand-icon-tplus {
-  width: 19px;
-  background-position: -48px 0;
-}
+.search-link .goog-tree-item-label {
+    color: $colorBlue;
+    text-decoration: none;
 
-.goog-tree-expand-icon-tminus {
-  width: 19px;
-  background-position: -72px 0;
-}
-
-.goog-tree-expand-icon-lplus {
-  width: 19px;
-  background-position: -96px 0;
-}
-
-.goog-tree-expand-icon-lminus {
-  width: 19px;
-  background-position: -120px 0;
-}
-
-.goog-tree-expand-icon-t {
-  width: 19px;
-  background-position: -144px 0;
-}
-
-.goog-tree-expand-icon-l {
-  width: 19px;
-  background-position: -168px 0;
-}
-
-.goog-tree-expand-icon-blank {
-  width: 19px;
-  background-position: -168px -24px;
-}
-
-.goog-tree-collapsed-folder-icon {
-  vertical-align: middle;
-  height: 16px;
-  width: 16px;
-  background-position: -0px -24px;
-}
-
-.goog-tree-expanded-folder-icon {
-  vertical-align: middle;
-  height: 16px;
-  width: 16px;
-  background-position: -24px -24px;
-}
-
-.goog-tree-file-icon {
-  vertical-align: middle;
-  height: 16px;
-  width: 16px;
-  background-position: -48px -24px;
-}
-
-
-.goog-tree-file-icon + .goog-tree-item-label {
-  font-weight: bold;
+    &:hover
+    {
+        text-decoration: underline;
+    }
 }
 
 .goog-tree-item-label {
@@ -121,6 +105,9 @@
   text-decoration: none;
   color: WindowText;
   cursor: default;
+
+  max-width: 120px;
+  display: inline-block;
 }
 
 .goog-tree-item-label:hover {
@@ -129,8 +116,8 @@
 }
 
 .selected .goog-tree-item-label {
-  background-color: ButtonFace;
-  color: ButtonText;
+  //background-color: ButtonFace;
+  //color: ButtonText;
 }
 
 .focused .selected .goog-tree-item-label {

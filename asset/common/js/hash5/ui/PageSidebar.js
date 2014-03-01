@@ -38,6 +38,16 @@ hash5.ui.PageSidebar.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+
+    // TODO nav link click handlers
+};
+
+/**
+ * @param  {goog.events.BrowserEvent} e
+ */
+hash5.ui.PageSidebar.prototype.handleNavLinkClicked_ = function(e)
+{
+    this.toggle();
 };
 
 hash5.ui.PageSidebar.prototype.toggle = function()
@@ -50,11 +60,11 @@ hash5.ui.PageSidebar.prototype.toggle = function()
     if(this.isVisible_)
     {
         this.getHandler()
-            .listenOnce(this.getElement(), goog.events.EventType.CLICK, this.toggle)
+            //.listenOnce(this.getElement(), goog.events.EventType.CLICK, this.toggle)
             .listenOnce(overlay, goog.ui.Component.EventType.CLOSE, this.toggle);
     }else{
         this.getHandler()
-            .unlisten(this.getElement(), goog.events.EventType.CLICK, this.toggle)
+            //.unlisten(this.getElement(), goog.events.EventType.CLICK, this.toggle)
             .unlisten(overlay, goog.ui.Component.EventType.CLOSE, this.toggle);
     }
 
