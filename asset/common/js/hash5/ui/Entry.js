@@ -50,13 +50,16 @@ hash5.ui.Entry.prototype.enterDocument = function()
 
     var model = this.getModel();
 
-    this.getHandler().listen(model, hash5.model.EventType.DESTROY, this.dispose);
+    this.getHandler()
+        .listen(model, hash5.model.Entry.EventType.TEXT_CHANGED, this.handleTextChanged_);
 };
 
 /**
- * @param  {goog.events.BrowserEvent} e
+ * @param  {goog.events.Event} e
  */
-hash5.ui.Entry.prototype.handleClick_ = function(e)
+hash5.ui.Entry.prototype.handleTextChanged_ = function(e)
 {
-    hash5.api.editEntry(this.getModel());
+    var entryText = this.getModel().getParsedText().toString();
+
+    this.getElementByClass('entry-body').innerHTML = entryText;
 };

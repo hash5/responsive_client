@@ -45,7 +45,12 @@ hash5.model.EntryCollection = function(entries, searchPattern)
         }, this);
     }
 
-    this.setParentEventTarget(hash5.ds.EntryStore.getInstance());
+
+    var entryStore = hash5.ds.EntryStore.getInstance();
+    this.setParentEventTarget(entryStore);
+    this.handler_.listen(entryStore,
+        [hash5.model.Entry.EventType.TEXT_CHANGED, hash5.model.Entry.EventType.CREATED],
+        this.handleEntryStoreChanged_);
 };
 goog.inherits(hash5.model.EntryCollection, hash5.model.Collection);
 
@@ -104,6 +109,13 @@ hash5.model.EntryCollection.prototype.finishedLoadingEntries = function()
     this.dispatchEvent(goog.net.EventType.COMPLETE);
 };
 
+/**
+ * @param  {goog.events.Event} e
+ */
+hash5.model.EntryCollection.prototype.handleEntryStoreChanged_ = function(e)
+{
+    this.refresh();
+};
 
 /**
  * refreshes current entries
@@ -119,10 +131,14 @@ hash5.model.EntryCollection.prototype.refresh = function(callback, handler)
     {
         this.startLoadingEntries();
 
-        hash5.api.searchEntries(this.searchPattern_, this, function(){
+        // TODO more abstract --> getEntries(url, ..)
+        hash5.api.getEntries(this.searchPattern_, this, function(){
             this.finishedLoadingEntries();
 
-            callback.call(handler);
+            if(callback)
+            {
+                callback.call(handler);
+            }
         }, this);
 
         return true;
@@ -130,19 +146,6 @@ hash5.model.EntryCollection.prototype.refresh = function(callback, handler)
     else
     {
         return false;
-    }
-};
-
-/**
- * merges given array with current entries
- * at the end, the collection will represent modelArr.
- *
- */
-hash5.model.EntryCollection.prototype.merge = function(modelArr)
-{
-    // TODO
-    for(var i = 0;  i < modelArr.length; i++){
-        this.insert(modelArr[i]);
     }
 };
 

@@ -1,13 +1,15 @@
 goog.provide('hash5.model.Entry');
-goog.provide('hash5.model.Entry.EntryStore');
+goog.provide('hash5.model.Entry.EventType');
 
 goog.require('goog.date.DateTime');
 
 goog.require('hash5.model.BaseModel');
-goog.require('hash5.ds.Store');
+goog.require('hash5.ds.EntryStore');
 goog.require('hash5.model.EntryParser');
 goog.require('hash5.ds.DataSource');
 
+
+// TODO remove tag logic?
 
 /**
  * @param {string=} id
@@ -23,13 +25,14 @@ hash5.model.Entry = function(id)
     var cached;
     if(goog.isDef(id))
     {
-        if(cached = hash5.model.Entry.EntryStore.get(id))
+        var store = hash5.ds.EntryStore.getInstance();
+        if(cached = store.get(id))
         {
             return cached;
         }
         else
         {
-            hash5.model.Entry.EntryStore.set(id, this);
+            store.set(id, this);
         }
     }
 
@@ -106,6 +109,8 @@ hash5.model.Entry.prototype.getId = function()
 hash5.model.Entry.prototype.setText = function(text)
 {
     this.text_ = text;
+
+    this.dispatchEvent(hash5.model.Entry.EventType.TEXT_CHANGED);
 };
 
 /**
@@ -210,7 +215,10 @@ hash5.model.Entry.prototype.save = function(callback, handler)
         // if no id is set, save will create a new entry on server
         ds.save(this, function(){
             // make sure to save entry in entryStore
-            hash5.model.Entry.EntryStore.set(this.getId(), this);
+            var entryStore = hash5.ds.EntryStore.getInstance();
+            entryStore.set(this.getId(), this);
+
+            this.dispatchEvent(hash5.model.Entry.EventType.CREATED);
 
             if(goog.isFunction(callback))
             {
@@ -230,14 +238,11 @@ hash5.model.Entry.prototype.destroy = function()
     if(this.id_)
     {
         ds.destroy(this);
-        hash5.model.Entry.EntryStore.remove(this.id_);
 
         this.id_ = '';
     }
 
     this.dispatchEvent(hash5.model.EventType.DESTROY);
-
-    // TODO track delete for undo
 };
 
 
@@ -247,6 +252,9 @@ hash5.model.Entry.prototype.update = function(data)
     // provide keyMapping because Closure Compiler will rename
     // class properties
     var keyMapping = {};
+
+    // TODO do not check for isDef, provide only keymaping
+    //
 
     if(goog.isDef(data['_id']))
     {
@@ -302,10 +310,10 @@ hash5.model.Entry.prototype.serialize = function()
 };
 
 
-
 /**
- * store to cache Entry objects
- *
- * @type {hash5.ds.Store.<hash5.model.Entry>}
+ * @enum {string}
  */
-hash5.model.Entry.EntryStore = new hash5.ds.Store();
+hash5.model.Entry.EventType = {
+    CREATED: 'entry_created',
+    TEXT_CHANGED: 'text_changed'
+};

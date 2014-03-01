@@ -66,9 +66,7 @@ hash5.ds.DataSource.prototype.newestEntries = function(collection)
     xhr.listen(goog.net.EventType.COMPLETE, function(e){
         var entries = this.decodeResultJson_(e.target.getResponseJson());
 
-        for(var i = 0;  i < entries.length; i++){
-            collection.insert(entries[i]);
-        }
+        collection.merge(entries);
 
         collection.finishedLoadingEntries();
     }, false, this);
@@ -160,6 +158,9 @@ hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
 };
 
 /**
+ * searches for entries with given searchStr
+ * results will be added to collection.
+ *
  * @param  {string} searchStr
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
  * @param {Function=} callback called when request is finished and results added to collection
@@ -167,11 +168,26 @@ hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
  *
  * @return {hash5.model.EntryCollection} collection where result entries will be added
  */
-hash5.ds.DataSource.prototype.search = function(searchStr, collection, callback, handler)   // TODO remove callback?
+hash5.ds.DataSource.prototype.search = function(searchStr, collection, callback, handler)
+{
+    return this.getEntries('/entries?query=' + encodeURIComponent(searchStr), collection, callback, handler);
+};
+
+/**
+ * fetches entries from given url and stores it in collection
+ *
+ * @param  {string} url relative url to fetch entries
+ * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
+ * @param {Function=} callback called when request is finished and results added to collection
+ * @param {*=} handler
+ *
+ * @return {hash5.model.EntryCollection} collection where result entries will be added
+ */
+hash5.ds.DataSource.prototype.getEntries = function(url, collection, callback, handler)   // TODO remove callback?
 {
     if(!collection)
     {
-        collection = new hash5.model.EntryCollection(undefined, searchStr);
+        collection = new hash5.model.EntryCollection(undefined, url);
     }
 
     collection.startLoadingEntries();
@@ -181,9 +197,7 @@ hash5.ds.DataSource.prototype.search = function(searchStr, collection, callback,
         var data = e.target.getResponseJson();
         var modelArr = this.decodeResultJson_(data);
 
-        for(var i = 0;  i < modelArr.length; i++){
-            collection.insert(modelArr[i]);
-        }
+        collection.merge(modelArr);
 
         if(callback)
         {
@@ -193,7 +207,7 @@ hash5.ds.DataSource.prototype.search = function(searchStr, collection, callback,
         collection.finishedLoadingEntries();
 
     }, false, this);
-    xhr.send('/entries?query=' + encodeURIComponent(searchStr), 'GET');
+    xhr.send(url, 'GET');
 
     return collection;
 };

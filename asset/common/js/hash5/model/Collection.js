@@ -21,7 +21,7 @@ hash5.model.Collection = function()
 
     /**
      * @type {Array.<T>}
-     * @private
+     * @protected
      */
     this.data_ = [];
 };
@@ -31,19 +31,11 @@ goog.inherits(hash5.model.Collection, goog.events.EventTarget);
  * Whether the collection contains the given object.
  *
  * @param {*} obj The object for which to test.
- * @param {boolean=} opt_idCompare
  * @return {boolean} true if obj is present.
  */
-hash5.model.Collection.prototype.contains = function(obj, opt_idCompare)
+hash5.model.Collection.prototype.contains = function(obj)
 {
-    if (opt_idCompare)
-    {
-        return !!this.getById(obj.id);
-    }
-    else
-    {
-        return goog.array.contains(this.data_, obj);
-    }
+    return goog.array.contains(this.data_, obj);
 };
 
 /**
@@ -95,25 +87,6 @@ hash5.model.Collection.prototype.forEachRight = function(f, opt_obj)
 hash5.model.Collection.prototype.getAt = function(index)
 {
     return this.data_[index];
-};
-
-/**
- * Returns model with specified ID.
- *
- * @param {number} id
- * @return {T}
- */
-hash5.model.Collection.prototype.getById = function(id)
-{
-    var found = null;
-    goog.array.forEach(this.data_, function(item) {
-        if (item.id === id)
-        {
-            found = item;
-        }
-    });
-
-    return found;
 };
 
 /**
@@ -244,6 +217,57 @@ hash5.model.Collection.prototype.serialize = function()
        data.push(item.serialize());
    });
    return data;
+};
+
+
+
+/**
+ * merges given array with current entries
+ * at the end, the collection will represent modelArr.
+ *
+ *  works only with unique arrays
+ */
+hash5.model.Collection.prototype.merge = function(modelArr)
+{
+    var i = 0;
+    for(var length = modelArr.length; i < length; i++)
+    {
+        var curModel = modelArr[i];
+        var replaceModel = this.data_[i];
+
+        if(replaceModel === curModel)
+        {
+            continue;
+        }
+
+        // check if replaceModel is also in new array, but at other position
+        var newPos = goog.array.indexOf(modelArr, replaceModel);
+        if(newPos > 0)
+        {
+            this.move(i, newPos);
+        }
+        else
+        {
+            this.removeAt(i);
+        }
+
+        // check if curModel is already in array, but at other position
+        var movedPos = goog.array.indexOf(this.data_, curModel);
+        if(movedPos > 0)
+        {
+            this.move(movedPos, i);
+        }
+        else
+        {
+            this.insertAt(curModel, i);
+        }
+    }
+
+    // remove remaining items
+    for(var length = this.data_.length; i < length; i++)
+    {
+        this.removeAt(this.data_.length -1);
+    }
 };
 
 /**

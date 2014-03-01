@@ -29,7 +29,8 @@ hash5.ui.EntryListContainer = function(entryCollection, title)
      * @type {hash5.ui.QuickCreateEntry}
      * @private
      */
-    this.quickCreateEntry_ = new hash5.ui.QuickCreateEntry(entryCollection.getSearchPattern());
+    this.quickCreateEntry_ = new hash5.ui.QuickCreateEntry();//entryCollection.getSearchPattern());
+    // TODO fix quick add patterns
 
     /**
      * @type {string}
@@ -89,6 +90,26 @@ hash5.ui.EntryListContainer.prototype.toggleActionmenu = function(e)
     }
 };
 
+/**
+ * returns searchpattern to search for listed entries
+ *
+ * @return {string}
+ */
+hash5.ui.EntryListContainer.prototype.getSearchPattern = function()
+{
+    var collection = this.entryList_.getEntryCollection();
+
+    return collection.getSearchPattern();
+};
+
+/**
+ * @return {string}
+ */
+hash5.ui.EntryListContainer.prototype.getTitle = function()
+{
+    return this.title_;
+};
+
 
 /**
  * @param  {goog.events.BrowserEvent} e
@@ -99,12 +120,27 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 
     switch(actionClass){
         case 'action-close':
-            this.getParent().removeChild(this);
-            this.dispose();
+            this.close();
             break;
         case 'action-save':
+            hash5.api.addSearchTreeItem(this.getSearchPattern(), this.title_);
             break;
         case 'action-delete':
+            var collection = this.entryList_.getEntryCollection();
+            collection.forEachRight(function(entry){
+                entry.destroy();
+            });
+            this.close();
             break;
     }
+};
+
+
+/**
+ * removes entryList from main-panel
+ */
+hash5.ui.EntryListContainer.prototype.close = function()
+{
+    this.getParent().removeChild(this);
+    this.dispose();
 };

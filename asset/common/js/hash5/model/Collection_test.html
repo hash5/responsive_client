@@ -80,6 +80,43 @@
             collection.remove(testItem);
             assertFalse(collection.contains(testItem));
         }
+
+        function testMerge()
+        {
+            for(var i = 1; i < 10; i++)
+            {
+                collection.insert(i);
+            }
+
+            var insered = 0,
+                removed = 0,
+                moved = 0;
+
+            eventHandler.listen(collection, hash5.model.Collection.EventType.MOVE, function(e){
+                moved++;
+            });
+
+            eventHandler.listen(collection, hash5.model.Collection.EventType.INSERT, function(e){
+                insered++;
+            });
+
+            eventHandler.listen(collection, hash5.model.Collection.EventType.REMOVE, function(e){
+                removed++;
+            });
+
+            var mergeArr = [1,2,11,12,5,7,6];
+            collection.merge(mergeArr);
+
+            for(var i = 0; i < mergeArr.length; i++)
+            {
+                assertEquals(mergeArr[i], collection.getAt(i));
+            }
+
+            assertEquals(collection.count(), 7);
+            assertEquals(moved, 1);
+            assertEquals(insered, 2);
+            assertEquals(removed, 4);
+        }
     </script>
 </body>
 </html>

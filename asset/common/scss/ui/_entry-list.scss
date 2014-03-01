@@ -22,7 +22,7 @@
         cursor: pointer;
     }
 
-    &:hover .entry-list-actions-btn
+    &:hover .entry-list-actions-btn // TODO .touch
     {
         visibility: visible;
     }
@@ -148,15 +148,4 @@
 {
 
     font-size: 70%;
-}
-
-.hash-link
-{
-    color: $colorBlue;
-    text-decoration: none;
-
-    &:hover
-    {
-        text-decoration: underline;
-    }
 }

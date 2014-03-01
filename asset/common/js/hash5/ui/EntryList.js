@@ -67,6 +67,19 @@ hash5.ui.EntryList.prototype.handleEntryAdded_ = function(e)
 };
 
 /**
+ * @param  {hash5.model.Collection.ChangeEvent.<hash5.model.Entry>} e
+ */
+hash5.ui.EntryList.prototype.handleEntryRemoved_ = function(e)
+{
+    var removed = this.removeChildAt(e.index, true);
+
+    if(removed)
+    {
+        removed.dispose();
+    }
+};
+
+/**
  * @param  {hash5.model.Entry} entry
  * @param  {number} index
  */
