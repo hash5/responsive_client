@@ -42,5 +42,6 @@ hash5.module.Modules = {
     APP: 'app',
     CORE: 'core',
     RECOMMEND: 'recommmend',
-    CALENDAR: 'calendar'
+    CALENDAR: 'calendar',
+    LINKS: 'calendar'
 };

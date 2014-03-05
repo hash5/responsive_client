@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+    <title>Unit Tests - hash5.parsing.Parser</title>
+    <script src="../../../closure-library/closure/goog/base.js"></script>
+    <script src="../../../common/js/deps.js"></script>
+
+    <script src="../../../third-party/twitter-text.js"></script>
+</head>
+<body>
+    <script>
+        goog.require('hash5.parsing.Parser');
+        goog.require('hash5.module.links.LinkParser');
+
+        goog.require('goog.testing.jsunit');
+    </script>
+    <script>
+        /** @type {hash5.parsing.Parser} */
+        var parser;
+
+        function setUp()
+        {
+            parser = new hash5.parsing.Parser();
+        }
+
+        function testLinks()
+        {
+            parser.setRawText('huhu #ein und www.google.de vielleinchat auch #zwei hashtags #oder#nicht #komple:nope #more:"asdf" #simple:komplex');
+
+            var links = parser.getSubparsed(hash5.module.links.LinkParser);
+            console.log(links);
+        }
+    </script>
+</body>
+</html>

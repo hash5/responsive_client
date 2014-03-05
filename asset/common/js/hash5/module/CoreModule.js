@@ -22,6 +22,7 @@ goog.require('hash5.ui.editor.EntryEditor');
 goog.require('goog.module.ModuleManager');
 
 goog.require('hash5.module.RecommondationModule');
+goog.require('hash5.module.LinksModule');
 
 
 /**
@@ -56,7 +57,7 @@ hash5.module.CoreModule.prototype.initialize = function(context)
     router.initialize(config);
     router.addRoute('search/:searchStr', function(fragment, searchStr){
         var entries = hash5.api.searchEntries('#' + searchStr);
-        hash5.api.showEntryCollection(entries);
+        hash5.api.showEntryCollection(entries, '#' + searchStr);
     }, this);
     router.addRoute('edit/:entryId', function(fragment, entryId){
         var entry = new hash5.model.Entry(entryId);
@@ -69,6 +70,7 @@ hash5.module.CoreModule.prototype.initialize = function(context)
 
 
     hash5.module.setStaticLoaded(hash5.module.Modules.RECOMMEND, hash5.module.RecommondationModule);
+    hash5.module.setStaticLoaded(hash5.module.Modules.LINKS, hash5.module.LinksModule);
 };
 
 hash5.module.setLoaded(hash5.module.Modules.CORE, hash5.module.CoreModule);
