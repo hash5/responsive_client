@@ -99,17 +99,17 @@
         function testEGetCurrentUser()
         {
             var currentUser = userController.getCurrentUser();
+            console.log(currentUser);
             assertEquals(currentUser.getUserName(), testUserName);
         }
 
         function testFUserSettingsLoading(){
             asyncTestCase.waitForAsync('wait for userController callback');
 
-            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
+            userController.loadUserSettings(function(isLoggedIn){
                 asyncTestCase.continueTesting();
+                assert(isLoggedIn);
             });
-
-            userController.loadUserSettings();
         }
 
         function testGUserSettingSet(){
@@ -120,19 +120,55 @@
             assertEquals('getUserSetting returned wrong value', settings, loadedSettings);
 
             // try to store on server:
-            asyncTestCase.waitForAsync('wait for userController callback');
+            asyncTestCase.waitForAsync('wait for user settings stored');
 
-            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
-                var loadedSettings = userController.getUserSettings('key');
-                assertEquals('getUserSetting returned wrong value', settings, loadedSettings);
-
+            userController.saveUserSetting(function(){
                 asyncTestCase.continueTesting();
-            });
 
-            userController.loadUserSettings();
+                asyncTestCase.waitForAsync('wait for user settings loaded');
+
+                userController.loadUserSettings(function(){
+                    var loadedSettings = userController.getUserSettings('key');
+                    assertObjectEquals('getUserSetting returned wrong value', settings, loadedSettings);
+
+                    asyncTestCase.continueTesting();
+                });
+            });
         }
 
-        function testHLogout()
+        function testHSearchTree(){
+            var searchTree = [
+              {
+                "id": "n139254344870083",
+                "title": "folder",
+                "type": "folder",
+                "children": [
+                  {
+                    "id": "r139254343255888",
+                    "title": "#hashCompex",
+                    "type": "request",
+                    "query": "query=#hashCompex"
+                  }
+                ]
+              },
+              {
+                "id": "r139254327577248",
+                "title": "asdf",
+                "type": "request",
+                "query": "query=#hash"
+              }
+            ];
+
+            asyncTestCase.waitForAsync('wait for userController callback');
+            userController.saveSearchTree(searchTree, function(){
+                asyncTestCase.continueTesting();
+
+                var loadedSearchTree = userController.getSearchTree();
+                assertObjectEquals(searchTree, loadedSearchTree);
+            });
+        }
+
+        function testXLogout()
         {
             asyncTestCase.waitForAsync('wait for userController callback');
 

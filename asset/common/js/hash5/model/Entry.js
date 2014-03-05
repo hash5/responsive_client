@@ -5,11 +5,9 @@ goog.require('goog.date.DateTime');
 
 goog.require('hash5.model.BaseModel');
 goog.require('hash5.ds.EntryStore');
-goog.require('hash5.model.EntryParser');
 goog.require('hash5.ds.DataSource');
-
-
-// TODO remove tag logic?
+goog.require('hash5.parsing.Parser');
+goog.require('hash5.parsing.EntryTextParser');
 
 /**
  * @param {string=} id
@@ -55,30 +53,22 @@ hash5.model.Entry = function(id)
     this.createDate_ = null;
 
     /**
-     * @type {Array.<string>}
+     * @type {hash5.parsing.Parser}
      * @private
      */
-    this.simpleTags_ = [];
+    this.parser_ = null;
 
     /**
-     * @type {Array.<string>}
+     * @type {hash5.parsing.EntryTextParser}
      * @private
      */
-    this.mentions_ = [];
+    this.textParser_ = null;
 
     /**
-     * @type {Array.<string>}
+     * @type {Object}
      * @private
      */
-    this.keywords_ = [];
-
-    /**
-     * @type {Array.<{string: string}>}
-     * @private
-     */
-    this.complexTags_ = [];
-
-    //this.user_
+    this.serverObj_ = null;
 };
 goog.inherits(hash5.model.Entry, hash5.model.BaseModel);
 
@@ -90,6 +80,7 @@ hash5.model.Entry.factory = function(data)
 {
     var entry = new hash5.model.Entry(data['_id']);
     entry.update(data);
+    entry.serverObj_ = data;
 
     return entry;
 }
@@ -109,6 +100,7 @@ hash5.model.Entry.prototype.getId = function()
 hash5.model.Entry.prototype.setText = function(text)
 {
     this.text_ = text;
+    this.textParser_ = null;
 
     this.dispatchEvent(hash5.model.Entry.EventType.TEXT_CHANGED);
 };
@@ -122,35 +114,11 @@ hash5.model.Entry.prototype.getText = function()
 };
 
 /**
- * @return {Array.<string>}
+ * @return {Object}
  */
-hash5.model.Entry.prototype.getSimpleTags = function()
+hash5.model.Entry.prototype.getServerObj = function()
 {
-    return this.simpleTags_;
-};
-
-/**
- * @return {Array.<{string:string}>}
- */
-hash5.model.Entry.prototype.getComplexTags = function()
-{
-    return this.complexTags_;
-};
-
-/**
- * @return {Array.<string>}
- */
-hash5.model.Entry.prototype.getKeyWords = function()
-{
-    return this.keywords_;
-};
-
-/**
- * @return {Array.<string>}
- */
-hash5.model.Entry.prototype.getMentions = function()
-{
-    return this.mentions_;
+    return this.serverObj_;
 };
 
 /**
@@ -169,13 +137,30 @@ hash5.model.Entry.prototype.getCreatedDate = function()
     return this.createDate_;
 };
 
+/**
+ * @return {hash5.parsing.Parser}
+ */
+hash5.model.Entry.prototype.getParser = function()
+{
+    if(!this.parser_)
+    {
+        this.parser_ = new hash5.parsing.Parser(this.text_, this);
+        this.parser_.setParsingResult(this.serverObj_ || {});
+    }
+
+    // TODO update parsingResult on server fetch...
+
+    return this.parser_;
+};
+
 
 /**
- * @return {hash5.model.EntryParser}
+ * @return {hash5.parsing.EntryTextParser}
  */
-hash5.model.Entry.prototype.getParsedText = function()
+hash5.model.Entry.prototype.getTextParser = function()
 {
-    return new hash5.model.EntryParser(this);
+    return this.textParser_ ||
+        (this.textParser_ = new hash5.parsing.EntryTextParser(this, this.getParser()));
 };
 
 
@@ -254,7 +239,7 @@ hash5.model.Entry.prototype.update = function(data)
     var keyMapping = {};
 
     // TODO do not check for isDef, provide only keymaping
-    //
+    // include this in factory...
 
     if(goog.isDef(data['_id']))
     {
@@ -264,26 +249,6 @@ hash5.model.Entry.prototype.update = function(data)
     if(goog.isDef(data['text']))
     {
         keyMapping.text_ = data['text'];
-    }
-
-    if(goog.isDef(data['simple_tags']))
-    {
-        keyMapping.simpleTags_ = data['simple_tags'];
-    }
-
-    if(goog.isDef(data['complex_tags']))
-    {
-        keyMapping.complexTags_ = data['complex_tags'];
-    }
-
-    if(goog.isDef(data['mentions']))
-    {
-        keyMapping.mentions_ = data['mentions'];
-    }
-
-    if(goog.isDef(data['keywords']))
-    {
-        keyMapping.keywords_ = data['keywords'];
     }
 
     if(goog.isDef(data['created_date']))

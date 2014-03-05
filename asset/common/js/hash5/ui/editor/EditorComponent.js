@@ -6,6 +6,7 @@ goog.provide('hash5.ui.editor.EditorComponent');
  * @param {hash5.ui.editor.EntryEditor} editor
  *
  * @constructor
+ * @extends {goog.Disposable}
  */
 hash5.ui.editor.EditorComponent = function(model, editor)
 {
@@ -44,6 +45,12 @@ hash5.ui.editor.EditorComponent = function(model, editor)
      * @private
      */
     this.handler_ = null;
+
+    /**
+     * @type {Array.<hash5.ui.editor.HelperTile>}
+     * @protected
+     */
+    this.tiles_ = [];
 };
 goog.inherits(hash5.ui.editor.EditorComponent, goog.Disposable);
 
@@ -97,11 +104,51 @@ hash5.ui.editor.EditorComponent.prototype.getTitle = function()
 
 
 /**
+ * returns true if component has helper tiles
+ * this.hasHelperTile_ should be overritten with false from subclasses if they do not provide
+ * helper tiles
+ *
  * @return {boolean}
  */
 hash5.ui.editor.EditorComponent.prototype.hasHelperTile = function()
 {
     return this.hasHelperTile_;
+};
+
+/**
+ * adds and renders helper tile
+ *
+ * @param {hash5.ui.editor.HelperTile} tile
+ */
+hash5.ui.editor.EditorComponent.prototype.addHelperTile = function(tile)
+{
+    this.entryEditor_.addHelperTile(this, tile);
+    this.tiles_.push(tile);
+};
+
+/**
+ * removes and unrenders helper tile
+ *
+ * @param {hash5.ui.editor.HelperTile} tile
+ */
+hash5.ui.editor.EditorComponent.prototype.removeHelperTile = function(tile)
+{
+    this.entryEditor_.removeChild(tile, true);
+    goog.array.remove(this.tiles_, tile);
+};
+
+
+/**
+ * removes and unrenders all helper tiles
+ */
+hash5.ui.editor.EditorComponent.prototype.removeAllHelperTiles = function()
+{
+    goog.array.forEach(this.tiles_, function(tile){
+        this.entryEditor_.removeChild(tile, true);
+        tile.dispose();
+    }, this);
+
+    this.tiles_ = [];
 };
 
 

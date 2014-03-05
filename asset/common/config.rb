@@ -6,3 +6,5 @@ images_dir = "img"
 javascripts_dir = "js"
 
 output_style = :compressed
+
+add_import_path "../modules"

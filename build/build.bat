@@ -1,2 +1,1 @@
-java -jar plovr.jar build config.json
-java -jar plovr.jar build config-de.json
+java -jar plovr.jar build config.json config-de.json

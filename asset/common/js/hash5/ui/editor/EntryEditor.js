@@ -33,6 +33,13 @@ hash5.ui.editor.EntryEditor = function(entry)
 
 
     /**
+     * @type {hash5.parsing.Parser}
+     * @private
+     */
+    this.parser_ = entry.getParser();
+
+
+    /**
      * @type {Array.<hash5.ui.editor.EditorComponent>}
      * @private
      */
@@ -146,10 +153,11 @@ hash5.ui.editor.EntryEditor.prototype.addHelperBtn = function(comp)
 hash5.ui.editor.EntryEditor.prototype.addHelperTile = function(comp, tile)
 {
     tile = tile || comp.getNewHelperTile();
-    this.addChild(tile);
     tile.setComponent(comp);
+    this.addChild(tile);
     tile.render(this.getElementByClass('helper-tiles'));
 };
+
 
 /**
  * closes the editor (will dispose whole object + dom structure)
@@ -176,7 +184,7 @@ hash5.ui.editor.EntryEditor.prototype.disposeInternal = function()
  */
 hash5.ui.editor.EntryEditor.prototype.handleTextChanged_ = function(e)
 {
-    // TODO add time threshold
+    this.parser_.setRawText(this.getEntryText());
     this.dispatchEvent(hash5.ui.editor.EntryEditor.EventType.TEXT_CHANGE);
 };
 
@@ -210,6 +218,13 @@ hash5.ui.editor.EntryEditor.prototype.getTextarea = function()
     return this.textEditor_;
 };
 
+/**
+ * @return {hash5.parsing.Parser}
+ */
+hash5.ui.editor.EntryEditor.prototype.getParser = function()
+{
+    return this.parser_;
+};
 
 /**
  * returns current entry text from the editor

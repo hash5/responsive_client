@@ -1,6 +1,7 @@
 goog.provide('hash5.module.calendar.EditorComponent');
 
 goog.require('hash5.module.calendar.HelperTile');
+goog.require('hash5.module.calendar.CalendarParser');
 
 /**
  * @param {hash5.model.Entry} model
@@ -16,6 +17,12 @@ hash5.module.calendar.EditorComponent = function(model, editor)
 
     this.icon_ = '/client/asset/common/img/sprite/calender.png';
     this.title_ = 'Kalender';
+
+    /**
+     * @type {Array.<hash5.module.calendar.Event>}
+     * @private
+     */
+    this.curParsedCalendars_ = [];
 };
 goog.inherits(hash5.module.calendar.EditorComponent, hash5.ui.editor.EditorComponent);
 
@@ -37,7 +44,7 @@ hash5.module.calendar.EditorComponent.prototype.getNewHelperTile = function()
 };
 
 /**
- * @return {goog.events.Event}
+ * @param {goog.events.Event} e
  */
 hash5.module.calendar.EditorComponent.prototype.handleTextChanged_ = function(e)
 {
@@ -47,24 +54,40 @@ hash5.module.calendar.EditorComponent.prototype.handleTextChanged_ = function(e)
 
 /**
  * checks if there is a calendar mention without helper tile
- * @return {boolean}
  */
 hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
 {
-    // TODO this is just copy&paste from old client! use entryParser instead
     var editor = this.getEditor();
-    var curText = editor.getEntryText();
-    var patt=/([\s\S]*)\#start:\"(\d\d\d\d\/(?:0[1-9]|1[0-2])\/(?:0[1-9]|(?:1|2)[0-9]|3[0-1]) (?:0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]?)\"[\s|\S]*?\#end:\"(\d\d\d\d\/(?:0[1-9]|1[0-2])\/(?:0[1-9]|(?:1|2)[0-9]|3[0-1]) (?:0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]?)\"/;
-    var date = patt.exec(curText);
 
-    // TODO this is just pseudo code...
-    if(date)
+    var parsedCalendars = /** @type {Array.<hash5.module.calendar.Event>} */ (editor.getParser().getSubparsed(hash5.module.calendar.CalendarParser));
+    console.log(parsedCalendars);
+
+    var datesChanged = !goog.array.equals(this.curParsedCalendars_, parsedCalendars, function(ev1, ev2){
+        return ev1.equals(ev2);
+    });
+
+    // only update ui if events changed
+    if(datesChanged)
     {
-        var tile = new hash5.module.calendar.HelperTile(date);
-        editor.addHelperTile(this, tile);
+        this.curParsedCalendars_ = parsedCalendars;
+        this.removeAllHelperTiles();
 
-        return true;
+        for(var i = 0; i < parsedCalendars.length; i++)
+        {
+            var tile = new hash5.module.calendar.HelperTile(parsedCalendars[i]);
+            this.addHelperTile(tile);
+
+            this.getHandler().listen(tile, goog.ui.Component.EventType.CLOSE, this.handleTileRemoved_);
+        }
     }
+};
 
-    return false;
+/**
+ * @param {goog.events.Event} e
+ */
+hash5.module.calendar.EditorComponent.prototype.handleTileRemoved_ = function(e)
+{
+    var tile = /** @type {hash5.module.calendar.HelperTile} */ (e.target);
+
+    // TODO remove date...
 };

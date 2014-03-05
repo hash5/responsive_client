@@ -66,7 +66,6 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     this.getHandler()
-        .listen(this.getElementByClass('entry-list-actions-btn'), goog.events.EventType.CLICK, this.toggleActionmenu)
         .listen(this.getElementByClass('entry-list-actions'), goog.events.EventType.CLICK, this.handleActionClick_);
 
 };
@@ -76,7 +75,7 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
  */
 hash5.ui.EntryListContainer.prototype.toggleActionmenu = function(e)
 {
-    var actions = this.getElementByClass('entry-list-actions');
+    var actions = this.getElementByClass('entry-list-menu');
 
     goog.dom.classes.toggle(actions, 'visible');
 
@@ -116,16 +115,19 @@ hash5.ui.EntryListContainer.prototype.getTitle = function()
  */
 hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 {
-    var actionClass = e.target.className;
+    var actionClass = e.target.getAttribute('data-action');
 
     switch(actionClass){
-        case 'action-close':
+        case 'toggle':
+            this.toggleActionmenu();
+            break;
+        case 'close':
             this.close();
             break;
-        case 'action-save':
+        case 'save':
             hash5.api.addSearchTreeItem(this.getSearchPattern(), this.title_);
             break;
-        case 'action-delete':
+        case 'delete':
             var collection = this.entryList_.getEntryCollection();
             collection.forEachRight(function(entry){
                 entry.destroy();

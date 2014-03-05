@@ -28,7 +28,7 @@ goog.inherits(hash5.ui.Settings, goog.ui.Component);
 hash5.ui.Settings.prototype.createDom = function()
 {
   var el = soy.renderAsFragment(hash5.templates.ui.Settings.wrapper);
-  this.decorateInternal(el);
+  this.decorateInternal(/** @type {Element} */ (el));
 
   this.addChild(this.form_);
   this.form_.render(this.getElementByClass('form-wrapper'));
@@ -59,8 +59,6 @@ hash5.ui.Settings.prototype.enterDocument = function()
  */
 hash5.ui.Settings.prototype.createForm_ = function()
 {
-
-
     /** @desc username */
     var MSG_LANGUAGE = goog.getMsg('Sprache');
     var formItem = this.form_.addFormItem(MSG_LANGUAGE, 'select', {
@@ -72,7 +70,6 @@ hash5.ui.Settings.prototype.createForm_ = function()
     });
     var curLang = hash5.controller.UserController.getInstance().getUserSettings('locale', 'en');
     formItem.getControl().setValue(curLang);
-
 };
 
 

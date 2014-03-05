@@ -1,30 +1,43 @@
-<translationbundle lang="de">
+<translationbundle lang="REPLACE_ME">
+<translation id="6305316349907873408">or create new account</translation>
+<translation id="1391550944313119672">Register</translation>
+<translation id="7908680343922999665">create account</translation>
 <translation id="2314169379653075775">Username</translation>
 <translation id="6345928104745939943">Passwort</translation>
-<translation id="6438517645149819381">Morgen</translation>
-<translation id="7193569929423689975">Heute</translation>
-<translation id="1428723246486669776">Gestern</translation>
-<translation id="5173092562051888378">vor <ph name="NUM"/> Minute</translation>
-<translation id="2980192934149920770">vor <ph name="NUM"/> Minuten</translation>
-<translation id="9019211444535457930">in <ph name="NUM"/> Minute</translation>
-<translation id="4253332605280801137">in <ph name="NUM"/> Minuten</translation>
-<translation id="1308849837048428199">vor <ph name="NUM"/> Stunde</translation>
-<translation id="4669004535587538063">vor <ph name="NUM"/> Stunden</translation>
-<translation id="1499566838560358324">in <ph name="NUM"/> Stunde</translation>
-<translation id="7557327300424117500">in <ph name="NUM"/> Stunden</translation>
-<translation id="7334391477982461059">vor <ph name="NUM"/> Tag</translation>
-<translation id="5134210481550173004">vor <ph name="NUM"/> Tage</translation>
-<translation id="4218920355193789839">in <ph name="NUM"/> Tag</translation>
-<translation id="2569438922978284310">in <ph name="NUM"/> Tagen</translation>
+<translation id="4685473087220399">Please insert your username.</translation>
+<translation id="1368395470481159298">Please insert your password.</translation>
+<translation id="898459006031334223">These passwords don't match.</translation>
+<translation id="6274581522981880352">Someone already has that username.</translation>
+<translation id="6238691462958886612">Username</translation>
+<translation id="99297112724803354">Password</translation>
+<translation id="7637229415255188318">Please insert your username.</translation>
+<translation id="3489555790720798528">Please insert your password.</translation>
+<translation id="7065730056210101680">The email or password you entered is incorrect.</translation>
+<translation id="3661639472373470969">Eintrag bearbeiten</translation>
+<translation id="1884889519100754556">Speichern</translation>
+<translation id="4291386463147114358">Abbrechen</translation>
+<translation id="6438517645149819381">Tomorrow</translation>
+<translation id="7193569929423689975">Today</translation>
+<translation id="1428723246486669776">Yesterday</translation>
+<translation id="5173092562051888378"><ph name="NUM"/> minute ago</translation>
+<translation id="2980192934149920770"><ph name="NUM"/> minutes ago</translation>
+<translation id="9019211444535457930">in <ph name="NUM"/> minute</translation>
+<translation id="4253332605280801137">in <ph name="NUM"/> minutes</translation>
+<translation id="1308849837048428199"><ph name="NUM"/> hour ago</translation>
+<translation id="4669004535587538063"><ph name="NUM"/> hours ago</translation>
+<translation id="1499566838560358324">in <ph name="NUM"/> hour</translation>
+<translation id="7557327300424117500">in <ph name="NUM"/> hours</translation>
+<translation id="7334391477982461059"><ph name="NUM"/> day ago</translation>
+<translation id="5134210481550173004"><ph name="NUM"/> days ago</translation>
+<translation id="4218920355193789839">in <ph name="NUM"/> day</translation>
+<translation id="2569438922978284310">in <ph name="NUM"/> days</translation>
 <translation id="3501335681219376815"><ph name="MONTH_NAME"/> <ph name="YEAR_NUM"/></translation>
 <translation id="2307498693105169755">am</translation>
 <translation id="2880376617002328348">pm</translation>
-<translation id="8548577695647788710">Eintrag hinzufuegen ...</translation>
+<translation id="8548577695647788710">Eintrag hinzufügen ...</translation>
 <translation id="8972161779580856602">Suchen...</translation>
-<translation id="1033907622747910469">Speichern</translation>
-<translation id="8228331088721867751">Abbrechen</translation>
-<translation id="4673835839881564805">Eintrag bearbeiten</translation>
-<translation id="7050805522977735204">Neueste EintrÃ¤ge</translation>
+<translation id="8654285340562513861">Sprache</translation>
+<translation id="7050805522977735204">Neueste Einträge</translation>
 <translation id="4957347750971729033">Tagesplanung</translation>
 <translation id="3743547963894480374">Suchen</translation>
 <translation id="5122902756187076546">Einstellungen</translation>

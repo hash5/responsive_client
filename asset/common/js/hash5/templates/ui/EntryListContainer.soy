@@ -5,12 +5,14 @@
  */
 {template .container}
     <div class="entry-list-container">
-        <div class="entry-list-actions-btn"></div>
-        <ul class="entry-list-actions">
-            <li class="action-close">Schließen</li>
-            <li class="action-save">Speichern</li>
-            <li class="action-delete">Alle löschen</li>
-        </ul>
+        <div class="entry-list-actions">
+            <div class="action action-close" title="Schließen" data-action="close"></div>
+            <div class="action action-toggle" data-action="toggle"></div>
+            <ul class="entry-list-menu">
+                <li class="action-save" data-action="save">Speichern</li>
+                <li class="action-delete" data-action="delete">Alle löschen</li>
+            </ul>
+        </div>
         <h3>{$title}</h3>
     </div>
 {/template}

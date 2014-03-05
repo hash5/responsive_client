@@ -28,19 +28,19 @@ hash5.ui.LoginForm = function()
     this.form_ = new hash5.forms.Form();
 
     /** @desc username */
-    var MSG_USERNAME = goog.getMsg('Username');
+    var MSG_USERNAME1 = goog.getMsg('Username');
     /** @desc password */
-    var MSG_PASSWORD = goog.getMsg('Password');
-    this.form_.addFormItem(MSG_USERNAME, 'textbox', {fieldName: 'username'});
-    this.form_.addFormItem(MSG_PASSWORD, 'textbox', {fieldName: 'password', password: true});
+    var MSG_PASSWORD1 = goog.getMsg('Password');
+    this.form_.addFormItem(MSG_USERNAME1, 'textbox', {fieldName: 'username'});
+    this.form_.addFormItem(MSG_PASSWORD1, 'textbox', {fieldName: 'password', password: true});
 
     /** @desc required msg forusername */
-    var MSG_USERNAME_REQ = goog.getMsg('Please insert your username.');
+    var MSG_USERNAME_REQ1 = goog.getMsg('Please insert your username.');
     /** @desc required msg for password */
-    var MSG_PASSWORD_REQ = goog.getMsg('Please insert your password.');
+    var MSG_PASSWORD_REQ1 = goog.getMsg('Please insert your password.');
     this.form_.validation = new hash5.validation.FormValidation([
-        new hash5.validation.RequiredFieldValidator("username", MSG_USERNAME_REQ),
-        new hash5.validation.RequiredFieldValidator("password", MSG_PASSWORD_REQ)
+        new hash5.validation.RequiredFieldValidator("username", MSG_USERNAME_REQ1),
+        new hash5.validation.RequiredFieldValidator("password", MSG_PASSWORD_REQ1)
     ]);
 };
 goog.inherits(hash5.ui.LoginForm, goog.ui.Component);
@@ -74,7 +74,7 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
         .listen(this.form_, goog.events.EventType.SUBMIT, this.handleLoginClick_)
         .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidated_)
 
-        .listen(hash5.controller.UserController.getInstance(), hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_)
+        .listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_)
         .listenOnce(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, this.handleWrongLogIn_);
 };
 
@@ -97,7 +97,9 @@ hash5.ui.LoginForm.prototype.handleLoginClick_ = function(e)
  */
 hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
 {
-    if (e.result.isValid()) {
+    var result = /** @type {hash5.validation.FormValidationResult} */ (e.result);
+
+    if (result.isValid()) {
         var data = this.form_.getData();
 
         var userController = hash5.controller.UserController.getInstance();
@@ -106,7 +108,7 @@ hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
 };
 
 /**
- * handle valid login
+ * handle valid login and disposes loginForm
  *
  * @param  {goog.events.Event} e
  * @private
@@ -128,7 +130,7 @@ hash5.ui.LoginForm.prototype.handleWrongLogIn_ = function(e)
     var MSG_WRONG_PASSWORD = goog.getMsg('The email or password you entered is incorrect.');
 
     this.form_.errorProvider
-      .displayError(this.form_.getControlByName('username').getElement(), MSG_PASSWORD_REQ);
+      .displayError(this.form_.getControlByName('username').getElement(), MSG_WRONG_PASSWORD);
 };
 
 

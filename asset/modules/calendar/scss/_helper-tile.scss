@@ -1,0 +1,19 @@
+
+.helper-tile.calendar-tile
+{
+    .form-item, .form-item-control, .textbox
+    {
+        display: inline-block;
+    }
+
+    .textbox
+    {
+        width: 95px;
+        margin-right: 5px;
+    }
+
+    .hidden
+    {
+        display: none;
+    }
+}

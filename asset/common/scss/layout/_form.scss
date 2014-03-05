@@ -96,3 +96,25 @@ textarea.textbox {
         cursor: default;
     }
 }
+
+.goog-checkbox
+{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 3px;
+    background: $colorLightGray;
+}
+.goog-checkbox-checked
+{
+    background: $colorYellow;
+
+    &:before
+    {
+        position: absolute;
+        padding-left: 2px;
+        content: 'x';
+    }
+}

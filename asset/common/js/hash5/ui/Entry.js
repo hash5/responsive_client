@@ -35,7 +35,7 @@ hash5.ui.Entry.prototype.createDom = function()
     var data = {
         editUrl: '/edit/' + entry.getId(),
         deleteUrl: '/delete/' + entry.getId(),
-        body: entry.getParsedText().toString(),
+        body: entry.getTextParser().toString(),
         date: relDate
     };
 
@@ -48,10 +48,12 @@ hash5.ui.Entry.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    var model = this.getModel();
+    var entry = this.getModel();
 
     this.getHandler()
-        .listen(model, hash5.model.Entry.EventType.TEXT_CHANGED, this.handleTextChanged_);
+        .listen(entry, hash5.model.Entry.EventType.TEXT_CHANGED, this.handleTextChanged_);
+
+    entry.getTextParser().triggerDisplay(this);
 };
 
 /**
@@ -59,7 +61,7 @@ hash5.ui.Entry.prototype.enterDocument = function()
  */
 hash5.ui.Entry.prototype.handleTextChanged_ = function(e)
 {
-    var entryText = this.getModel().getParsedText().toString();
+    var entryText = this.getModel().getTextParser().toString();
 
     this.getElementByClass('entry-body').innerHTML = entryText;
 };

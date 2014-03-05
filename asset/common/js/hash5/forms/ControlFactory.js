@@ -7,7 +7,6 @@ goog.require('hash5.forms.Textbox');
 /**
  * Control factory
  *
- * @extends {goog.ui.Component}
  * @constructor
  */
 hash5.forms.ControlFactory = function()

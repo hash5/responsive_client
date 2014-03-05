@@ -123,7 +123,7 @@ hash5.forms.Textbox.prototype.enterDocument = function()
 /**
  * Fires change event if value has actually been changed
  *
- * @private
+ * @protected
  */
 hash5.forms.Textbox.prototype.fireChangeEvent_ = function()
 {

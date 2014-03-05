@@ -71,7 +71,7 @@ hash5.forms.Select.prototype.setConfig = function(config)
         this.setCaption(config.caption);
     }
 
-    if (config.options && config.options instanceof Array)
+    if (config.options && goog.isArray(config.options))
     {
         var options = config.options;
         for (var i = 0; i < options.length; i++)

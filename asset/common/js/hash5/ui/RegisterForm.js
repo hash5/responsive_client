@@ -97,7 +97,9 @@ hash5.ui.RegisterForm.prototype.handleRegBtnClick_ = function(e)
  */
 hash5.ui.RegisterForm.prototype.handleValidation_ = function(e)
 {
-    if (e.result.isValid()) {
+    var result = /** @type {hash5.validation.FormValidationResult} */ (e.result);
+
+    if (result.isValid()) {
       var data = this.form_.getData();
 
       var userController = hash5.controller.UserController.getInstance();

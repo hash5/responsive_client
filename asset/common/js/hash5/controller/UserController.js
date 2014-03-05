@@ -31,20 +31,35 @@ goog.inherits(hash5.controller.UserController, hash5.controller.BaseController);
 goog.addSingletonGetter(hash5.controller.UserController);
 
 /**
+ * initizialze UserController. if user-settings are set in config, this are used. Otherwise
+ * settings are loaded from server. hash5.controller.UserController.EventType.LOGIN event is dispatched
+ * if user is allready logged in
+ *
  * @param  {Object} config
+ * @param {Function=} callback called after userSettings are loaded. boolean param will signal if
+ *                             user is logged in or not
+ * @param {*=} handler handler context for callback
  */
-hash5.controller.UserController.prototype.initialize = function(config)
+hash5.controller.UserController.prototype.initialize = function(config, callback, handler)
 {
     if(goog.isDef(config['user-settings']))
     {
         this.setUserSettings(config['user-settings']);
         this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
+
+        callback.call(handler, true);
     }
     else
     {
-        this.loadUserSettings();
-    }
+        this.loadUserSettings(function(isLoggedIn){
+            if(isLoggedIn)
+            {
+                this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
+            }
 
+            callback.call(handler, isLoggedIn);
+        }, this);
+    }
 };
 
 /**
@@ -117,17 +132,41 @@ hash5.controller.UserController.prototype.getSearchTree = function()
     return this.userSettings_['searchtree'] || [];
 };
 
-hash5.controller.UserController.prototype.loadUserSettings = function()
+
+/**
+ * saves searchtree at userSettings and sends them to the server
+ *
+ * @param {Array} tree
+ * @param {Function=} callback
+ * @param {*=} handler
+ */
+hash5.controller.UserController.prototype.saveSearchTree = function(tree, callback, handler)
+{
+    this.userSettings_['searchtree'] = tree;
+
+    this.saveUserSetting(callback, handler);
+};
+
+
+/**
+ * loads usersettings
+ *
+ * @param {Function=} callback
+ * @param {*=} handler
+ */
+hash5.controller.UserController.prototype.loadUserSettings = function(callback, handler)
 {
     var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, this.handleUserSettingsLoaded_, false, this);
+    xhr.listen(goog.net.EventType.COMPLETE, goog.bind(this.handleUserSettingsLoaded_, this, callback, handler));
     xhr.send('/usersettings');
 };
 
 /**
+ * @param {Function} callback
+ * @param {*} handler
  * @param  {goog.events.Event} e
  */
-hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(e)
+hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(callback, handler, e)
 {
     var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
@@ -137,9 +176,10 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(e
         this.setUserSettings(userSettings);
 
         // TODO set real user data!
-        this.currentUser_ = new hash5.model.User("");
-
-        this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN); // TODO eventDispatch?
+        if(!this.currentUser_)
+        {
+            this.currentUser_ = new hash5.model.User("");
+        }
     }
     else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
     {
@@ -150,10 +190,15 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(e
         this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
     }
 
+    if(goog.isFunction(callback))
+    {
+        callback.call(handler, xhr.isSuccess());
+    }
+
 };
 
 /**
- * saves the userSettings at server
+ * saves the userSettings to server
  *
  * @param {Function=} callback
  * @param {*=} handler
@@ -166,7 +211,7 @@ hash5.controller.UserController.prototype.saveUserSetting = function(callback, h
     {
         xhr.listen(goog.net.EventType.COMPLETE, callback, false, handler);
     }
-
+    console.log(this.userSettings_);
     xhr.send('/usersettings', 'POST', 'settings=' + JSON.stringify(this.userSettings_));
 };
 
@@ -206,7 +251,10 @@ hash5.controller.UserController.prototype.login = function(username, password)
         if(xhr.isSuccess())
         {
             this.currentUser_ = new hash5.model.User(username);
-            this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
+
+            this.loadUserSettings(function(){
+                this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
+            }, this);
         }
         else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
         {
@@ -234,7 +282,6 @@ hash5.controller.UserController.prototype.logout = function()
 
 /**
  * @param  {goog.events.Event} e
- *
  * @private
  */
 hash5.controller.UserController.prototype.handleLoggedOut_ = function(e)
@@ -244,6 +291,7 @@ hash5.controller.UserController.prototype.handleLoggedOut_ = function(e)
     if(xhr.isSuccess())
     {
         this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
+        document.location.reload();
     }
     else
     {

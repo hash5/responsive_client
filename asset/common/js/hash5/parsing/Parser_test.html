@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+    <title>Unit Tests - hash5.parsing.Parser</title>
+    <script src="../../../../closure-library/closure/goog/base.js"></script>
+    <script src="../../deps.js"></script>
+
+    <script src="../../../../third-party/twitter-text.js"></script>
+</head>
+<body>
+    <script>
+        goog.require('hash5.parsing.Parser');
+
+        goog.require('goog.testing.jsunit');
+    </script>
+    <script>
+        /** @type {hash5.parsing.Parser} */
+        var parser;
+
+        function setUp()
+        {
+            parser = new hash5.parsing.Parser();
+        }
+
+        function testSimpleTags()
+        {
+            parser.setRawText('huhu #ein und vielleinchat auch #zwei hashtags #oder#nicht #komple:nope #more:"asdf" #simple:komplex');
+
+            parser.parseTags();
+
+            var expectedTags = ["ein", "zwei"];
+            var simpleTags = parser.getSimpleTags();
+            assertSameElements(expectedTags, simpleTags);
+        }
+
+        function testComplexTags()
+        {
+            parser.setRawText('huhu #ein und vielleinchat auch #zwei hashtags #oder#nicht #komple:nope #more:"asdf" #simple:komplex');
+
+            parser.parseTags();
+
+            var expectedTags = [
+                {key: 'komple', value: 'nope'},
+                {key: 'more', value: 'asdf'},
+                {key: 'simple', value: 'komplex'}
+            ];
+            var complexTags = parser.getComplexTags();
+
+            var assertSameObjectArray = function(arr1, arr2){
+                assert(goog.isArrayLike(arr1));
+                assert(goog.isArrayLike(arr2));
+
+                assert(arr1.length === arr2.length);
+
+                for(var i = 0; i <arr1.length; i++)
+                {
+                    var found = false;
+
+                    for(var j = 0; j < arr2.length; j++)
+                    {
+                        if(!goog.testing.asserts.findDifferences(arr1[i], arr2[j]))
+                        {
+                            if(found)
+                            {
+                                assert(false);
+                            }
+                            found = true;
+                        }
+                    }
+
+                    assert(found);
+                }
+            };
+
+            assertSameObjectArray(expectedTags, complexTags);
+        }
+    </script>
+</body>
+</html>

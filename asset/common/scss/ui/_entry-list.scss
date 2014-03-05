@@ -13,21 +13,31 @@
         width: 100%;
     }
 
-    .entry-list-actions-btn
+    .entry-list-actions
     {
         float: right;
         margin-top: 5px;
         visibility: hidden;
-        @include resize-sprite($sprite, arrow, 50);
-        cursor: pointer;
     }
 
-    &:hover .entry-list-actions-btn // TODO .touch
+
+    &:hover .entry-list-actions // TODO .touch
     {
         visibility: visible;
     }
 
-    .entry-list-actions
+    .action
+    {
+        cursor: pointer;
+        display: inline-block;
+
+        &:hover
+        {
+            opacity: 0.8;
+        }
+    }
+
+    .entry-list-menu
     {
         position: absolute;
         top: 30px;
@@ -62,7 +72,8 @@
 
         }
     }
-    .action-close:before{@include resize-sprite($sprite, close, 50);}
+    .action-toggle{@include resize-sprite($sprite, arrow, 50); margin-left: 10px;}
+    .action-close{@include resize-sprite($sprite, close, 50);}
     .action-save:before{@include resize-sprite($sprite, save, 50);}
     .action-delete:before{@include resize-sprite($sprite, trash, 50);}
 

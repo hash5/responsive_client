@@ -111,11 +111,13 @@ hash5.Router.prototype.initialize = function(config)
     var history = goog.history.Html5History.isSupported() ?
         new goog.history.Html5History() : new goog.History();
 
+    // TODO enable if server supports url-rewriting
+    /*
     if (history.setUseFragment)
     {
-        // TODO enable if server supports url-rewriting
-        //history.setUseFragment(false);
+        history.setUseFragment(false);
     }
+    */
     history.setPathPrefix(config['path_prefix']);
     history.setEnabled(true);
 
@@ -155,7 +157,7 @@ hash5.Router.prototype.handeClick_ = function(e)
                 return true;
             }
             return false;
-    });
+      });
 
     if (!link || !link.href)
     {
@@ -190,11 +192,6 @@ hash5.Router.prototype.handleHistory_ = function(e)
 
     var token = e.token;
 
-    if (token == '')
-    {
-        token = 'index';
-    }
-
     if (token != this.url_)
     {
         var route = goog.array.find(this.routes_, function(route) {
@@ -224,7 +221,7 @@ hash5.Router.prototype.handleHistory_ = function(e)
  * @param {function(string, ...[string])} callback should take in the token and any captured strings.
  * @param {Object=} handler Object in whose context the function is to be
  *     called (the global scope if none).
- * @param {boolen=} changeUrl iff set to false, url in browser will not be changed
+ * @param {boolean=} changeUrl iff set to false, url in browser will not be changed
  */
 hash5.Router.prototype.addRoute = function(regex, callback, handler, changeUrl) {
 

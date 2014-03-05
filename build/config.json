@@ -3,6 +3,7 @@
   "paths": [
     "../asset/common/js/",
     "../asset/modules/calendar/js/",
+    "../asset/modules/links/js/",
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
   ],
@@ -10,7 +11,8 @@
   "level": "VERBOSE",
   "externs": [
     "../asset/third-party/console-externs.js",
-    "../asset/third-party/plovr-externs.js"
+    "../asset/third-party/plovr-externs.js",
+    "../asset/third-party/twitter-text-externs.js"
   ],
   "define": {
       "goog.DEBUG": false

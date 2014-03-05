@@ -1,7 +1,7 @@
 goog.provide('hash5.App');
 
 goog.require('goog.dom.ViewportSizeMonitor');
-
+goog.require('goog.labs.userAgent.device');
 
 goog.require('hash5.controller.UserController');
 goog.require('hash5.ui.LoginForm');
@@ -34,6 +34,18 @@ hash5.App = function(){
     this.language_ = 'en';
 
     this.initModuleManager_();
+
+    goog.dom.classes.enable(document.documentElement, 'tablet',
+        goog.labs.userAgent.device.isTablet());
+
+    goog.dom.classes.enable(document.documentElement,
+        'mobile', hash5.App.isMobile);
+
+    goog.dom.classes.enable(document.documentElement, 'desktop',
+        goog.labs.userAgent.device.isDesktop());
+
+    goog.dom.classes.enable(document.documentElement, 'touch',
+        hash5.App.isTouch);
 };
 goog.addSingletonGetter(hash5.App);
 
@@ -94,6 +106,19 @@ hash5.App.prototype.setLanguage = function(lang)
  */
 hash5.App.viewportSizeMonitor = new goog.dom.ViewportSizeMonitor();
 
+
+/**
+ * @type {boolean}
+ */
+hash5.App.isMobile = !!(goog.labs.userAgent.device.isMobile() || navigator.userAgent.match(/IEMobile/i));
+
+/**
+ * @type {boolean}
+ */
+hash5.App.isTouch = hash5.App.isMobile || goog.labs.userAgent.device.isTablet();
+
+
+
 /**
  * @param  {Object} config
  */
@@ -109,12 +134,12 @@ hash5.bootstrap = function(config){
         };
     }
 
-    if(goog.DEBUG)
+    /*if(goog.DEBUG)
     {
         var debugWindow = new goog.debug.FancyWindow('main');
         debugWindow.setEnabled(true);
         debugWindow.init();
-    }
+    }*/
 
     var app = window.app = hash5.App.getInstance();
     app.setConfig(config);

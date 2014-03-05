@@ -11,10 +11,9 @@ goog.require('hash5.validation.FormValidation');
  * Collection of form items. Handles form validation
  *
  * @constructor
- * @param {hash5.forms.ControlFactory=} opt_controlFactory
  * @extends {goog.ui.Component}
  */
-hash5.forms.Form = function(opt_controlFactory)
+hash5.forms.Form = function()
 {
     goog.base(this);
 

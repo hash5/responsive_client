@@ -74,9 +74,17 @@ hash5.forms.Checkbox.prototype.setInvalid = function(isInvalid)
 };
 
 /**
- * Sets checkbox configugration (no configration options currently)
+ * Sets checkbox configugration
+ *
+ * @param {Object} config
  */
-hash5.forms.Checkbox.prototype.setConfig = goog.nullFunction;
+hash5.forms.Checkbox.prototype.setConfig = function(config)
+{
+    if (goog.isDef(config.fieldName))
+    {
+        this.fieldName_ = config.fieldName;
+    }
+};
 
 /**
  * @param {*} value
