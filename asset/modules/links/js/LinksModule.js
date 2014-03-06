@@ -1,7 +1,10 @@
 goog.provide('hash5.module.LinksModule');
 
+goog.require('goog.Uri');
+
 goog.require('hash5.ds.EntryStore');
 goog.require('hash5.module.links.LinkParser');
+goog.require('hash5.module.links.ImagePreview');
 
 /**
  *
@@ -39,7 +42,13 @@ hash5.module.LinksModule.prototype.handleEntryParse_ = function(e)
     {
         var url = links[i].url;
         var displayUrl = url.length > 20 ? url.substr(0, 20) + '...' : url;
-        parsedText = parsedText.replace(url, '<a href="' + url + '" rel="redirect" class="extern-link">' + displayUrl + '</a>');
+
+        if(!url.match(/^(http)/gi))
+        {
+            url = 'http://' + url;
+        }
+
+        parsedText = parsedText.replace(links[i].url, '<a href="' + url + '" target="_blank" class="extern-link">' + displayUrl + '</a>');
     }
 
     textParser.setParsed(parsedText);
@@ -53,7 +62,20 @@ hash5.module.LinksModule.prototype.handleEntryDisplay_ = function(e)
     var textParser = /** @type {hash5.parsing.EntryTextParser} */ (e.target);
     var entryUi = e.ui;
 
-    //console.log(entryUi);
+    var links = entryUi.getElementsByClass('extern-link');
+
+    for(var i = 0; i < links.length; i++)
+    {
+        var link = links[i];
+        var url = link.href;
+
+        if(url.match(/(jpg|png|gif)$/gi))
+        {
+            var prev = new hash5.module.links.ImagePreview(url);
+            entryUi.addChild(prev, true);
+            prev.attachEl(link);
+        }
+    }
 
 };
 
