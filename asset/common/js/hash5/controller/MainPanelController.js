@@ -87,3 +87,11 @@ hash5.controller.MainPanelController.prototype.showEntryCollection = function(co
 {
     this.listView_.addEntryCollection(collection, title);
 };
+
+/**
+ * removes all current entryLists
+ */
+hash5.controller.MainPanelController.prototype.clearListPanel = function()
+{
+    this.listView_.clearListPanel();
+};

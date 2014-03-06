@@ -52,12 +52,12 @@ hash5.ui.EntryList.prototype.enterDocument = function()
         .listen(this.entryCollection_, hash5.model.Collection.EventType.REMOVE, this.handleEntryRemoved_)
         .listen(hash5.App.viewportSizeMonitor, goog.events.EventType.RESIZE, this.setMaxHeight);
 
-    var el = this.getElement();
+    /*var el = this.getElement();
     var dlg = this.dlg_;
     window.setTimeout(function(){
         dlg.addDragList(el, goog.fx.DragListDirection.DOWN);
         dlg.init();
-    }, 1000);
+    }, 1000);*/
     //this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.DOWN);
     //this.dlg_.init();
 };

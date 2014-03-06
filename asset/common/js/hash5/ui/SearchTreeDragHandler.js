@@ -70,13 +70,15 @@ hash5.ui.SearchTreeDragHandler.prototype.init = function()
  */
 hash5.ui.SearchTreeDragHandler.prototype.addItem = function(node)
 {
+    var dragItem = node.getElementByClass('drag-item');
+
     if(node.getType() == hash5.ui.SearchTreeNode.Type.FOLDER)
     {
-        this.ddGroupFolders_.addItem(node.getElement(), node);
+        this.ddGroupFolders_.addItem(dragItem, node);
     }
     else
     {
-        this.ddGroupLinks_.addItem(node.getElement(), node);
+        this.ddGroupLinks_.addItem(dragItem, node);
     }
 };
 
@@ -87,7 +89,7 @@ hash5.ui.SearchTreeDragHandler.prototype.addItem = function(node)
  */
 hash5.ui.SearchTreeDragHandler.prototype.handleDragOver_ = function(e)
 {
-    e.dropTargetItem.element.style.background = 'red';
+    goog.dom.classes.add(e.dropTargetItem.element, 'drag-over');
 };
 
 /**
@@ -97,7 +99,7 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDragOver_ = function(e)
  */
 hash5.ui.SearchTreeDragHandler.prototype.handleDragOut_ = function(e)
 {
-    e.dropTargetItem.element.style.background = '';
+    goog.dom.classes.remove(e.dropTargetItem.element, 'drag-over');
 };
 
 /**
@@ -109,7 +111,7 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDrop_ = function(e)
 {
     var movedItem = /** @type {hash5.ui.SearchTreeNode} */ (e.dragSourceItem.data);
     var dropedItem = /** @type {hash5.ui.SearchTreeNode} */ (e.dropTargetItem.data);
-    e.dropTargetItem.element.style.background = '';
+    goog.dom.classes.remove(e.dropTargetItem.element, 'drag-over');
 
     if(movedItem === dropedItem)
     {
@@ -129,7 +131,7 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDrop_ = function(e)
  */
 hash5.ui.SearchTreeDragHandler.prototype.handleDragStart_ = function(e)
 {
-    goog.style.setOpacity(e.dragSourceItem.element, 0.5);
+    goog.dom.classes.add(e.dragSourceItem.element, 'dragged');
 };
 
 
@@ -140,5 +142,5 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDragStart_ = function(e)
  */
 hash5.ui.SearchTreeDragHandler.prototype.handleDragEnd_ = function(e)
 {
-    goog.style.setOpacity(e.dragSourceItem.element, 1.0);
+    goog.dom.classes.remove(e.dragSourceItem.element, 'dragged');
 };

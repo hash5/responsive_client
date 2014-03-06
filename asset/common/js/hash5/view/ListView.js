@@ -41,6 +41,15 @@ hash5.view.ListView.prototype.addEntryCollection = function(collection, title)
     return listUi;
 };
 
+
+/**
+ * removes all current entryLists
+ */
+hash5.view.ListView.prototype.clearListPanel = function()
+{
+    this.removeChildren(true);
+};
+
 /** @inheritDoc */
 hash5.view.ListView.prototype.removeChild = function(child, opt_unrender)
 {

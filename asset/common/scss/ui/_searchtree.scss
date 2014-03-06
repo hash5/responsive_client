@@ -15,7 +15,7 @@
       display: inline-block;
       visibility: hidden;
       margin-left: 5px;
-      position: absolute;
+      //position: absolute;
 
       & > span
       {
@@ -31,9 +31,20 @@
       .rename{@include resize-sprite($sprite, edit, 30);}
       .delete{@include resize-sprite($sprite, trash, 30);}
     }
-    .focused .selected .edit-btns
+    //.focused .selected .edit-btns
+    .goog-tree-item-label:hover .edit-btns // TODO .touch
     {
       visibility: visible;
+    }
+
+
+    .drag-over
+    {
+      background: rgba($colorYellow, 0.4);
+    }
+    .dragged
+    {
+      opacity: 0.6;
     }
 }
 .visible .searchtree
@@ -44,7 +55,8 @@
 .search-item-drag
 {
   z-index: 99999;
-  background: green;
+  background: $colorYellow;
+  padding: 5px;
 }
 
 

@@ -53,6 +53,14 @@ hash5.api.showEntryCollection = function(collection, title)
 };
 
 /**
+ * removes all current entryLists
+ */
+hash5.api.clearListPanel = function()
+{
+    hash5.controller.MainPanelController.getInstance().clearListPanel();
+};
+
+/**
  * adds item to searchtree
  *
  * @param  {string} search

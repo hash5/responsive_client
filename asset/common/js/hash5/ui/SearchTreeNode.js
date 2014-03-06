@@ -31,7 +31,8 @@ goog.inherits(hash5.ui.SearchTreeNode, goog.ui.tree.TreeNode);
  */
 hash5.ui.SearchTreeNode.prototype.getEditHtml = function(label)
 {
-    return label + '<div class="edit-btns"><span class="rename"></span><span class="delete"></span></div>';
+    return '<span class="drag-item">' + label + '</span>'
+        + '<div class="edit-btns"><span class="rename"></span><span class="delete"></span></div>';
 }
 
 
@@ -78,6 +79,9 @@ hash5.ui.SearchTreeNode.prototype.onClick_ = function(e)
         parent.removeChild(this);
 
         this.dispatchEvent(goog.events.EventType.CHANGE);
+    } else if(goog.dom.classes.has(clickedEl, 'goog-tree-expand-icon'))
+    {
+        return;
     } else
     {
         this.handleAction_();
@@ -100,6 +104,7 @@ hash5.ui.SearchTreeNode.prototype.handleAction_ = function()
 
     if(this.getType() == hash5.ui.SearchTreeNode.Type.FOLDER)
     {
+        hash5.api.clearListPanel();
         this.forEachChild(function(child) {
             child.handleAction_();
         });
