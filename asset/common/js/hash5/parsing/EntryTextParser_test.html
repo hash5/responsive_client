@@ -36,7 +36,7 @@
 
 
             testEntry = new hash5.model.Entry();
-            testEntry.setText("Dies ist mein #beispieltext mit #hash #hashCompex=bla");
+            testEntry.setText("Dies ist mein #beispieltext mit #hash #hashCompex:bla");
             testEntry.save(function(){
                 asyncTestCase.continueTesting();
             });
@@ -44,10 +44,10 @@
 
         function testBParseHashtags()
         {
-            var parser = new hash5.parsing.EntryTextParser(testEntry);
+            var parser = testEntry.getTextParser();
 
             var parseResult = parser.toString();
-            var expected = 'Dies ist mein <a class="hash-link simple" href="/search/%23beispieltext">#beispieltext</a> mit <a class="hash-link simple" href="/search/%23hash">#hash</a> <a class="hash-link simple" href="/search/%23hashCompex">#hashCompex</a>=bla';
+            var expected = 'Dies ist mein <a class="hash-link simple" href="/search/beispieltext">#beispieltext</a> mit <a class="hash-link simple" href="/search/hash">#hash</a> #hashCompex:bla';
 
             assertEquals(parseResult, expected);
         }

@@ -3,7 +3,17 @@
 {
     .form-item, .form-item-control, .textbox
     {
-        display: inline-block;
+        float: left;
+    }
+    .form-item-label
+    {
+        height: 1em;
+    }
+
+    .all-day-row
+    {
+        clear: both;
+        margin-right: 20px;
     }
 
     .textbox

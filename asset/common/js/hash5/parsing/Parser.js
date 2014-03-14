@@ -180,7 +180,7 @@ hash5.parsing.Parser.prototype.getSubparsed = function(parser)
 };
 
 /**
- * functions parses text and sets simple and complex tags
+ * functions parses text for simple and complex tags
  */
 hash5.parsing.Parser.prototype.parseTags = function()
 {
@@ -203,8 +203,14 @@ hash5.parsing.Parser.prototype.parseTags = function()
                 this.simpleTags_.push(tag.hashtag);
             }
         } else {
+            // TODO ???? overriden?
             // The value of duplicate complex tags will be overriden by the last one.
-            this.complexTags_.push({key: tag.hashtag, value: value});
+            var index = tag.indices[1];
+            this.complexTags_.push({
+                key: tag.hashtag,
+                value: value,
+                indices: [index, index + value.length]
+            });
         }
     }
 };

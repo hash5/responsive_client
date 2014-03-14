@@ -28,16 +28,28 @@ hash5.module.calendar.Event = function()
     this.recurrent_ = null;
 
     /**
-     * @type {Array.<goog.date.DateTime>}
+     * @type {Array.<Object>}
      * @private
      */
     this.exclude_ = [];
+    /*
+    * - {index: 123} if there was an index given
+ * - {date: ISODate(2012-12-23)} if there was a date given
+ * - {index: 345, id: "abcd"} if there was an index with id given
+ * - {warning: "Cannot parse"} with an english warning text, if the exclude tag cannot be parsed correctly
+     */
 
     /**
      * @type {goog.date.DateTime}
      * @private
      */
     this.recend_ = null;
+
+    /**
+     * @type {Object.<*. [number, number]>}
+     * @private
+     */
+    this.indices_ = {};
 };
 
 /**
@@ -76,10 +88,16 @@ hash5.module.calendar.Event.prototype.getStartDate = function()
 
 /**
  * @param {goog.date.DateTime} date
+ * @param {[number, number]=} indices indices where date was parsed
  */
-hash5.module.calendar.Event.prototype.setStartDate = function(date)
+hash5.module.calendar.Event.prototype.setStartDate = function(date, indices)
 {
     this.startDate_ = date;
+
+    if(goog.isDef(indices))
+    {
+        this.indices_[date] = indices;
+    }
 };
 
 
@@ -93,10 +111,16 @@ hash5.module.calendar.Event.prototype.getEndDate = function()
 
 /**
  * @param {goog.date.DateTime} date
+ * @param {[number, number]=} indices indices where date was parsed
  */
-hash5.module.calendar.Event.prototype.setEndDate = function(date)
+hash5.module.calendar.Event.prototype.setEndDate = function(date, indices)
 {
     this.endDate_ = date;
+
+    if(goog.isDef(indices))
+    {
+        this.indices_[date] = indices;
+    }
 };
 
 
@@ -110,10 +134,16 @@ hash5.module.calendar.Event.prototype.getRecurrent = function()
 
 /**
  * @param {Object} rec
+ * @param {[number, number]=} indices indices where date was parsed
  */
-hash5.module.calendar.Event.prototype.setRecurrent = function(rec)
+hash5.module.calendar.Event.prototype.setRecurrent = function(rec, indices)
 {
     this.recurrent_ = rec;
+
+    if(goog.isDef(indices))
+    {
+        this.indices_[rec] = indices;
+    }
 };
 
 /**
@@ -126,12 +156,62 @@ hash5.module.calendar.Event.prototype.getRecend = function()
 
 /**
  * @param {goog.date.DateTime} date
+ * @param {[number, number]=} indices indices where date was parsed
  */
-hash5.module.calendar.Event.prototype.setRecend = function(date)
+hash5.module.calendar.Event.prototype.setRecend = function(date, indices)
 {
     this.recend_ = date;
+
+    if(goog.isDef(indices))
+    {
+        this.indices_[date] = indices;
+    }
 };
 
+/**
+ * @return {Array.<goog.date.DateTime>}
+ */
+hash5.module.calendar.Event.prototype.getExcluded = function()
+{
+    return this.exclude_;
+};
+
+/**
+ * @param {Object} exclude
+ */
+hash5.module.calendar.Event.prototype.addExclude = function(exclude)
+{
+    this.exclude_.push(exclude);
+};
+
+/**
+ * @param {Object} exclude
+ */
+hash5.module.calendar.Event.prototype.addExclude = function(exclude)
+{
+    this.exclude_.push(exclude);
+};
+
+
+/**
+ * @param {Array.<Object>} excluded
+ */
+hash5.module.calendar.Event.prototype.setExcluded = function(excluded)
+{
+    this.exclude_ = excluded;
+};
+
+/**
+ * returns parsed indices for given date obj
+ * can be used for startdate, enddate...
+ *
+ * @param {*} obj
+ * @return {[number, number] | null}
+ */
+hash5.module.calendar.Event.prototype.getIndices = function(obj)
+{
+    return this.indices_[obj] || null;
+};
 
 /**
  * @param {hash5.module.calendar.Event} event

@@ -2,8 +2,10 @@ goog.provide('hash5.module.calendar.CalendarParser');
 
 goog.require('hash5.parsing.ISubParser');
 goog.require('hash5.module.calendar.Event');
-goog.require('goog.date.DateTime');
-goog.require('goog.i18n.DateTimeParse');
+goog.require('hash5.module.calendar.DateUtils');
+goog.require('hash5.module.calendar.Duration');
+
+var utils = hash5.module.calendar.DateUtils;
 
 /**
  * @constructor
@@ -37,6 +39,7 @@ hash5.module.calendar.CalendarParser.prototype.parse = function(parser)
     }
     else
     {
+      // parse new text
       var complexTags = parser.getComplexTags();
       cal = this.parseCalendarData(complexTags);
     }
@@ -72,22 +75,22 @@ hash5.module.calendar.CalendarParser.prototype.parseCalendarData = function(comp
     if(tagName === "start") {
       this.addValidEvent(cal, event);
       event = new hash5.module.calendar.Event();
-      event.setStartDate(this.stringToDate(complexTag.value));
+      event.setStartDate(utils.stringToDate(complexTag.value), complexTag.indices);
 
     } else if(tagName === "end") {
-      event.setEndDate(this.stringOrTimeToDate(complexTag.value, event.getStartDate()));
+      event.setEndDate(utils.stringOrTimeToDate(complexTag.value, event.getStartDate()), complexTag.indices);
 
     } else if(tagName === "recend") {
-      event.setRecend(this.stringToDate(complexTag.value));
+      event.setRecend(utils.stringToDate(complexTag.value), complexTag.indices);
 
     } else if(tagName === "recurrent") {
       if(recurrentAlreadyDefined) return;
       recurrentAlreadyDefined = true;
 
       // TODO
-      //var duration = durationUtilities.stringToDuration(complexTag.value);
-      //event.setRecurrent(durationUtilities.durationToJson(duration));
-      //event.setExcluded(this.parseExcludeTags(complexTags));
+      var duration = hash5.module.calendar.Duration.fromString(complexTag.value);
+      event.setRecurrent(duration, complexTag.indices);
+      event.setExcluded(this.parseExcludeTags(complexTags));
     }
 
   }, this);
@@ -122,50 +125,54 @@ hash5.module.calendar.CalendarParser.prototype.addValidEvent = function(array, e
   }
 };
 
-/**
- * @type {goog.i18n.DateTimeParse}
- * @private
- */
-hash5.module.calendar.CalendarParser.prototype.dateParser_ = new goog.i18n.DateTimeParse("dd'.'MM'.'yyyy");
 
 /**
- * Returns a Date if the text can be parsed,
- * or null if the text is not valid or was null.
+ * Parses all `#exc`-tags from the complex tags and returns an Array
+ * of objects with data about the excluded dates.
  *
- * @param {string} text
- * @return {goog.date.DateTime}
+ * @param {Array.<hash5.parsing.ComplexTag>} complexTags
+ * @return {Array.<Object>}
  */
-hash5.module.calendar.CalendarParser.prototype.stringToDate = function(text)
+hash5.module.calendar.CalendarParser.prototype.parseExcludeTags = function(complexTags)
 {
-  var date = new goog.date.DateTime();
-  // TODO check if time was parsed...
-  // TODO parse with more patterns
-  return this.dateParser_.strictParse(text, date) > 0 ? date : null;
+  var allExcTags = goog.array.filter(complexTags, function(tag) {
+    return tag.key === "exc";
+  });
+
+  return goog.array.map(allExcTags, function(tag) {
+    return this.parseExcludeTag(tag.value);
+  }, this);
 };
 
 /**
- * Returns a Date if the text can be parsed,
- * or null if the text is not valid or was null.
+ * Parses one exclude tag and returns an object.
  *
- * This method also supports Time-only-dates (like "HH:MM"),
- * the day will then taken from the startDate argument.
+ * Exclude tags can consists of an index or date, and an optional Id of the excluded tag:
+ * Format as Pseudo-Regexp: /(Index|Date) (, Id)?/
  *
- * @param {string} text
- * @param {goog.date.DateTime} startDate
- * @return {goog.date.DateTime}
+ * If there is no id given, the date is omitted.
+ * It there is an id, this event will be used instead of the original recurrent event.
+ *
+ * Possible results:
+ *
+ * - {index: 123} if there was an index given
+ * - {date: ISODate(2012-12-23)} if there was a date given
+ * - {index: 345, id: "abcd"} if there was an index with id given
+ * - {warning: "Cannot parse"} with an english warning text, if the exclude tag cannot be parsed correctly
+ *
+ * @param {string} tagValue
+ * @return {Object}
  */
-hash5.module.calendar.CalendarParser.prototype.stringOrTimeToDate = function(text, startDate)
+hash5.module.calendar.CalendarParser.prototype.parseExcludeTag = function(tagValue)
 {
-  var dateAndTime = this.stringToDate(text);
+  var regexpWholeValue = /^([^\s,]+)\s*(?:,\s*(\w+))?$/;
+  var match = regexpWholeValue.exec(tagValue);
+  if(!match) return { warning: "Cannot parse " + tagValue};
 
-  if(dateAndTime) {
-    return dateAndTime;
-  } else {
-    return null;
-    // TODO
-    //var timeMoment = this.timeToMoment(text, startDate);
-    //return timeMoment ? timeMoment.toDate() : null;
+  var result = utils.parseDateOrIndex(match[1]);
+  if(match[2]) {
+    result.id = match[2];
   }
 
-  return null;
+  return result;
 };

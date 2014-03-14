@@ -126,6 +126,7 @@ hash5.parsing.EntryTextParser.prototype.replaceSimpleTags = function()
     var simpleTags = this.parser_.getSimpleTags();
     for(var i = 0; i  < simpleTags.length; i++)
     {
+        // TODO does not work with "#link1 #link"
         var tag = '#' + simpleTags[i];
         entryText = entryText.replace(tag, '<a class="hash-link simple" href="/search/'
             + encodeURIComponent(simpleTags[i]) + '">' + tag + '</a>');
@@ -141,6 +142,7 @@ hash5.parsing.EntryTextParser.EventType = {
     PARSE: 'entry_text_parse',
     DISPLAY: 'entry_display'
 };
+
 /**
  * @constructor
  * @param {string} type Event Type.

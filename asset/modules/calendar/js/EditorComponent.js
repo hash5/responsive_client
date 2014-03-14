@@ -16,7 +16,9 @@ hash5.module.calendar.EditorComponent = function(model, editor)
 
 
     this.icon_ = '/client/asset/common/img/sprite/calender.png';
-    this.title_ = 'Kalender';
+    /** @desc name for the calendar plugin */
+    var MSG_CALENDAR_PLUGIN = 'Calendar';
+    this.title_ = MSG_CALENDAR_PLUGIN;
 
     /**
      * @type {Array.<hash5.module.calendar.Event>}
@@ -60,7 +62,6 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
     var editor = this.getEditor();
 
     var parsedCalendars = /** @type {Array.<hash5.module.calendar.Event>} */ (editor.getParser().getSubparsed(hash5.module.calendar.CalendarParser));
-    console.log(parsedCalendars);
 
     var datesChanged = !goog.array.equals(this.curParsedCalendars_, parsedCalendars, function(ev1, ev2){
         return ev1.equals(ev2);

@@ -80,7 +80,6 @@ hash5.model.Entry.factory = function(data)
 {
     var entry = new hash5.model.Entry(data['_id']);
     entry.update(data);
-    entry.serverObj_ = data;
 
     return entry;
 }
@@ -134,7 +133,7 @@ hash5.model.Entry.prototype.setCreatedDate = function(date)
  */
 hash5.model.Entry.prototype.getCreatedDate = function()
 {
-    return this.createDate_;
+    return this.createDate_ || new goog.date.DateTime();
 };
 
 /**
@@ -234,6 +233,9 @@ hash5.model.Entry.prototype.destroy = function()
 /** @inheritDoc */
 hash5.model.Entry.prototype.update = function(data)
 {
+
+    this.serverObj_ = data;
+
     // provide keyMapping because Closure Compiler will rename
     // class properties
     var keyMapping = {};

@@ -131,7 +131,6 @@ hash5.model.EntryCollection.prototype.refresh = function(callback, handler)
     {
         this.startLoadingEntries();
 
-        // TODO more abstract --> getEntries(url, ..)
         hash5.api.getEntries(this.searchPattern_, this, function(){
             this.finishedLoadingEntries();
 

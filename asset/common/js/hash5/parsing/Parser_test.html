@@ -39,9 +39,9 @@
             parser.parseTags();
 
             var expectedTags = [
-                {key: 'komple', value: 'nope'},
-                {key: 'more', value: 'asdf'},
-                {key: 'simple', value: 'komplex'}
+                {key: 'komple', value: 'nope', indices: [66, 70]},
+                {key: 'more', value: 'asdf', indices: [77, 81]},
+                {key: 'simple', value: 'komplex', indices: [92, 99]}
             ];
             var complexTags = parser.getComplexTags();
 

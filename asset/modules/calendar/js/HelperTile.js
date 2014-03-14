@@ -9,6 +9,7 @@ goog.require('hash5.forms.Textbox');
 goog.require('hash5.forms.Checkbox');
 goog.require('hash5.forms.Select');
 goog.require('hash5.module.calendar.DatePickerInput');
+goog.require('hash5.modules.calendar.templates');
 
 /**
  * @param {hash5.module.calendar.Event=} event
@@ -74,7 +75,9 @@ hash5.module.calendar.HelperTile.prototype.setUpControls_ = function()
     this.endTime_ = this.form_.addFormItem("bis", 'textbox', {fieldName: 'end-time'}).getControl();
     this.endDate_ = this.form_.addFormItem('', 'datepicker', {fieldName: 'end'}).getControl();
 
-    this.form_.addFormItem('All day', 'checkbox', {fieldName: 'all-day'});
+    var allDay = this.form_.addFormItem('All day', 'checkbox', {fieldName: 'all-day'});
+    allDay.getControl().setValue(true);
+    allDay.addCssClass('all-day-row');
 
     var repeatOptions = [];
     for(var i = 1; i < 30; i++)
@@ -161,7 +164,7 @@ hash5.module.calendar.HelperTile.prototype.handleDateChanges_ = function(e)
         console.log("todo");
     }
 
-    this.enableHelpers_(allDay, repeat);
+    this.enableHelpers_(!allDay, repeat);
 };
 
 /**
