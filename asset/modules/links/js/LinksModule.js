@@ -63,6 +63,7 @@ hash5.module.LinksModule.prototype.handleEntryDisplay_ = function(e)
     var entryUi = e.ui;
 
     var links = entryUi.getElementsByClass('extern-link');
+    var prev;
 
     for(var i = 0; i < links.length; i++)
     {
@@ -71,8 +72,7 @@ hash5.module.LinksModule.prototype.handleEntryDisplay_ = function(e)
 
         if(url.match(/(jpg|png|gif)$/gi))
         {
-            var prev = new hash5.module.links.ImagePreview(url);
-            entryUi.addChild(prev, true);
+            prev = prev || hash5.module.links.ImagePreview.getInstance();
             prev.attachEl(link);
         }
     }

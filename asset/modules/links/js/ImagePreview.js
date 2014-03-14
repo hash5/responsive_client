@@ -3,19 +3,18 @@ goog.provide('hash5.module.links.ImagePreview');
 goog.require('goog.ui.Component');
 
 /**
- * @param {string} url
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.module.links.ImagePreview = function(url)
+hash5.module.links.ImagePreview = function()
 {
     goog.base(this);
 
     /**
-     * @type {string}
+     * @type {Element}
      * @private
      */
-    this.imageUrl_ = url;
+    this.imgEl_ = null;
 };
 goog.inherits(hash5.module.links.ImagePreview, goog.ui.Component);
 goog.addSingletonGetter(hash5.module.links.ImagePreview);
@@ -24,10 +23,9 @@ goog.addSingletonGetter(hash5.module.links.ImagePreview);
 hash5.module.links.ImagePreview.prototype.createDom = function()
 {
     var domHelper = this.getDomHelper();
+    this.imgEl_ = domHelper.createDom('img');
     var el = domHelper.createDom('div', 'image-preview',
-        domHelper.createDom('img', {
-            'src': this.imageUrl_
-        })
+        this.imgEl_
     );
 
     this.decorateInternal(el);
@@ -44,6 +42,16 @@ hash5.module.links.ImagePreview.prototype.attachEl = function(el)
 };
 
 /**
+ * @param {string} url
+ */
+hash5.module.links.ImagePreview.prototype.setUrl = function(url)
+{
+    this.imgEl_.src = url;
+
+    return true;
+};
+
+/**
  * Handles hover event
  *
  * @param {goog.events.Event} e
@@ -51,10 +59,19 @@ hash5.module.links.ImagePreview.prototype.attachEl = function(el)
  */
 hash5.module.links.ImagePreview.prototype.handleMouseEnter_ = function(e)
 {
-    var hoverEl = /** @type {Element} */ (e.target);
+    if (!this.isInDocument())
+    {
+        this.render(document.body);
+    }
 
-    goog.style.setPosition(this.getElement(), e.clientX + 10, e.clientY + 10);
-    goog.dom.classes.add(this.getElement(), 'visible');
+    var hoverEl = /** @type {Element} */ (e.target);
+    var el = this.getElement();
+
+    if(this.setUrl(hoverEl.href))
+    {
+        goog.style.setPosition(el, e.clientX + 10, e.clientY + 10);
+        goog.dom.classes.add(el, 'visible');
+    }
 };
 
 /**
