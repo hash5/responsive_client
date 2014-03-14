@@ -1,0 +1,78 @@
+//
+// SASS-BASE - a starter kit for any SASS project
+//
+// Author: Dmitry Monin
+
+
+@mixin hui_tooltip($content: attr(data-tooltip), $direction: bottom)
+{
+  position: relative;
+  line-height: 1em;
+
+
+  &:before, &:after
+  {
+    display: none;
+    z-index: 99998;
+  }
+
+  &:hover
+  {
+    &:after// for text bubble
+    {
+      content: $content;
+      display: block;
+      position: absolute;
+      padding: 3px 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      color: #fff;
+      text-shadow: 1px 1px #000;
+      background-color: #222;
+    }
+
+    &:before // for the arrow
+    {
+      content: '';
+      display: block;
+      position: absolute;
+    }
+
+    @if ($direction == 'top')
+    {
+      &:before
+      {
+        @include triangle(bottom, 6px, 6px, #222);
+        top: -6px; margin-top: 0;
+        left: 37%;
+      }
+      &:after
+      {
+        top: -28px;
+        left: 47%; margin-left: -20px;
+      }
+    }
+    @else if ($direction == 'bottom')
+    {
+      &:before
+      {
+        @include triangle(top, 9px, 5px, #222);
+        top: auto; margin-top: 0;
+        bottom: -11px;
+        left: 37%;
+      }
+      &:after
+      {
+        bottom: -33px;
+        left: 47%; margin-left: -20px;
+      }
+    }
+
+  }
+}
+
+
+.tooltip, [data-tooltip]
+{
+  @include hui_tooltip();
+}
