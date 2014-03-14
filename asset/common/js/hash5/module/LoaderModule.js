@@ -32,6 +32,8 @@ hash5.module.LoaderModule.prototype.initialize = function(context)
         {
             var loginForm = new hash5.ui.LoginForm();
             loginForm.render(document.body);
+
+            this.disableLoader();
         }
     }, this);
 };
@@ -44,8 +46,17 @@ hash5.module.LoaderModule.prototype.handleLogin_ = function()
     hash5.App.getInstance().setLanguage(lang);
 
     var moduleManager = goog.module.ModuleManager.getInstance();
-    moduleManager.load(hash5.module.Modules.CORE);
+    moduleManager.execOnLoad(hash5.module.Modules.CORE, goog.bind(function(){
+        this.disableLoader();
+    }, this));
 
     // TODO get from app-file
     moduleManager.load(hash5.module.Modules.CALENDAR);
+};
+
+
+hash5.module.LoaderModule.prototype.disableLoader = function()
+{
+    var loader = goog.dom.getElement('page-loader');
+    goog.dom.classes.add(loader, 'hidden');
 };

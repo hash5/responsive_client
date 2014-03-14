@@ -1,24 +1,7 @@
 
-@mixin keyframes($name) {
-  @-webkit-keyframes #{$name} {
-    @content;
-  }
-  @-moz-keyframes #{$name} {
-    @content;
-  }
-  @-ms-keyframes #{$name} {
-    @content;
-  }
-  @keyframes #{$name} {
-    @content;
-  }
-}
-
-@mixin animation($content){
-  -webkit-animation: #{$content};
-  -moz-animation: #{$content};
-  animation: #{$content};
-}
+@import 'mixins/animations';
+@import 'mixins/triangle';
+@import 'mixins/hui-tooltip';
 
 
 @mixin resize-sprite($map, $icon, $percent)

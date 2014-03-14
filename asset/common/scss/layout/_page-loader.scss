@@ -1,0 +1,27 @@
+
+#page-loader
+{
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background: $colorBlue;
+    text-align: center;
+
+    &:before
+    {
+        position: absolute;
+        top: 50%;
+        color: #fff;
+        content: '#';
+        font-size: 100px;
+        line-height: 100px;
+        font-weight: bold;
+        @include animation(loader-anim 1.5s infinite);
+    }
+}
+
+@include keyframes(loader-anim) {
+    0% {@include rotateY(0);}
+    100% {@include rotateY(360deg);}
+}
