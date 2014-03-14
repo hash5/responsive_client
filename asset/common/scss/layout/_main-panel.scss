@@ -1,24 +1,25 @@
 
 .main-panel
 {
-    position: relative;
-    height: 100%;
-    padding-left: $sidebarWidth;
-    padding-top: $headerHeight;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: $sidebarWidth;
+    top: $headerHeight;
     @include box-sizing(border-box);
 
     @include breakpoint(tablet){
-        padding-left: $sidebarTabletWidth;
+        left: $sidebarTabletWidth;
     }
     @include breakpoint(mobile){
-        padding-left: 0;
+        left: 0;
     }
 }
 
 
 .list-view
 {
-    @include breakpoint(mobile){
-        width: auto !important;
-    }
+    white-space: nowrap;
+    height: 100%;
+    overflow: auto;
 }

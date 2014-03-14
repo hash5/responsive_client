@@ -27,6 +27,10 @@ hash5.ui.EntryList = function(entryCollection)
         this.addEntry_(entry);
     }, this);
 
+    /**
+     * @type {goog.fx.DragListGroup}
+     * @private
+     */
     this.dlg_ = new goog.fx.DragListGroup();
     this.dlg_.setHysteresis(10);
 };
@@ -45,32 +49,36 @@ hash5.ui.EntryList.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.setMaxHeight();
-// TODO move events...
     this.getHandler()
         .listen(this.entryCollection_, hash5.model.Collection.EventType.INSERT, this.handleEntryAdded_)
         .listen(this.entryCollection_, hash5.model.Collection.EventType.REMOVE, this.handleEntryRemoved_)
-        .listen(hash5.App.viewportSizeMonitor, goog.events.EventType.RESIZE, this.setMaxHeight);
+        .listen(this.entryCollection_, hash5.model.Collection.EventType.MOVE, this.handleEntryMoved_)
 
-    /*var el = this.getElement();
-    var dlg = this.dlg_;
-    window.setTimeout(function(){
-        dlg.addDragList(el, goog.fx.DragListDirection.DOWN);
-        dlg.init();
-    }, 1000);*/
-    //this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.DOWN);
-    //this.dlg_.init();
+        .listen(this.dlg_, goog.fx.DragListGroup.EventType.BEFOREDRAGEND, this.handleEntryDragged_);
+
+    this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.DOWN);
+    this.dlg_.init();
 };
 
-hash5.ui.EntryList.prototype.setMaxHeight = function()
+/**
+ * @return  {goog.fx.DragListGroup}
+ */
+hash5.ui.EntryList.prototype.getDragHandler = function()
 {
-    var el = this.getElement(),
-        viewPort = goog.dom.getViewportSize(),
-        elPositionTop = goog.style.getPageOffsetTop(el),
-        maxHeight = viewPort.height - elPositionTop;
-
-    goog.style.setStyle(el, 'height', maxHeight + 'px');
+    return this.dlg_;
 };
+
+/**
+ * @param {goog.fx.DragListGroupEvent} e
+ */
+hash5.ui.EntryList.prototype.handleEntryDragged_ = function(e)
+{
+    // TODO
+    console.log(e);
+
+    return false;
+};
+
 
 /**
  * @param  {hash5.model.Collection.ChangeEvent.<hash5.model.Entry>} e
@@ -91,6 +99,15 @@ hash5.ui.EntryList.prototype.handleEntryRemoved_ = function(e)
     {
         removed.dispose();
     }
+};
+
+/**
+ * @param  {hash5.model.Collection.MoveEvent.<hash5.model.Entry>} e
+ */
+hash5.ui.EntryList.prototype.handleEntryMoved_ = function(e)
+{
+    var child = this.getChildAt(e.oldIndex);
+    this.addChildAt(child, e.newIndex);
 };
 
 /**

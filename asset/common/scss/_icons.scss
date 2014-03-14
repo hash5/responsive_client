@@ -24,3 +24,14 @@
 .icon-undo1:before {
   @include resize-sprite($sprite, undo1, 50);
 }
+
+// light
+.icon-gears-light:before {
+  @include resize-sprite($lightSprite, settings, 50);
+}
+.icon-user-light:before {
+  @include resize-sprite($lightSprite, user, 50);
+}
+.icon-add-light:before {
+  @include resize-sprite($lightSprite, add, 50);
+}

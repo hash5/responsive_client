@@ -42,6 +42,8 @@ hash5.ui.Overlay.prototype.handleClick_ = function(e)
     this.setVisible(false);
 };
 
+// TODO add level (see settings show)
+
 /**
  * Controls overlay visibility
  *

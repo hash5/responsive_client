@@ -63,7 +63,7 @@ hash5.ui.SearchTreeNode.prototype.onClick_ = function(e)
     {
         // rename
 
-        // TODO custom modal, check cancled
+        // TODO custom modal
         var newName = prompt('Neuer Name: ', model['title']);
         if(newName)
         {

@@ -1,18 +1,20 @@
 {namespace hash5.templates.ui.EntryListContainer}
 
 /**
+ * @param id id used for dag&drop
  * @param title title for the list
  */
 {template .container}
-    <div class="entry-list-container">
+    <section class="entry-list-container" data-id="{$id}">
         <div class="entry-list-actions">
-            <div class="action action-close" title="Schließen" data-action="close"></div>
+            <div class="action action-add" data-tooltip="{msg desc="add entry list action"}add{/msg}" data-action="add"></div>
+            <div class="action action-close" data-tooltip="{msg desc="close entry list action"}close{/msg}" data-action="close"></div>
             <div class="action action-toggle" data-action="toggle"></div>
             <ul class="entry-list-menu">
-                <li class="action-save" data-action="save">Speichern</li>
-                <li class="action-delete" data-action="delete">Alle löschen</li>
+                <li class="action-save" data-action="save">{msg desc="save to searchtree entry list action"}Save{/msg}</li>
+                <li class="action-delete" data-action="delete">{msg desc="delete all entry list action"}Delete all{/msg}</li>
             </ul>
         </div>
-        <h3>{$title}</h3>
-    </div>
+        <h3><span class="drag-element"></span>{$title}</h3>
+    </section>
 {/template}

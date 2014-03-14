@@ -257,7 +257,6 @@ hash5.forms.Textbox.prototype.setPlaceholder = function(placeholder)
 {
     this.placeholder_ = placeholder;
 
-    this.placeholder_ = placeholder;
     if (this.getElement())
     {
         this.getElement().placeholder = this.placeholder_;

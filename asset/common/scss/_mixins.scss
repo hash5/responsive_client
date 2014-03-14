@@ -13,7 +13,7 @@
     $height: image-height(sprite-file($map, $icon));
 
 
-    background: transparent sprite($sprite, $icon) no-repeat;
+    background: transparent sprite($map, $icon) no-repeat;
     @include background-size(ceil($spriteWidth * ($percent/100)) ceil($spriteHeight * ($percent/100)));
     width: ceil($width*($percent/100));
     height: ceil($height*($percent/100));

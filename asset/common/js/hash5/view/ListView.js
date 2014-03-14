@@ -4,6 +4,11 @@ goog.require('hash5.view.BaseView');
 goog.require('hash5.ui.EntryListContainer');
 goog.require('hash5.storage.AppData');
 
+goog.require('monin.fx.WindowScroll');
+goog.require('hash5.fx.CssClassAnimation');
+goog.require('goog.fx.easing');
+goog.require('goog.fx.DragListGroup');
+
 /**
  * @constructor
  * @extends {hash5.view.BaseView}
@@ -12,6 +17,14 @@ hash5.view.ListView = function()
 {
     goog.base(this);
 
+
+    /**
+     * @type {goog.fx.DragListGroup}
+     * @private
+     */
+    this.dlg_ = new goog.fx.DragListGroup();
+    this.dlg_.setHysteresis(10);
+    this.dlg_.setFunctionToGetHandleForDragItem(this.getDragItem_);
 
     this.restoreLists();
 };
@@ -25,22 +38,98 @@ hash5.view.ListView.prototype.createDom = function()
     this.decorateInternal(el);
 };
 
+/** @inheritDoc */
+hash5.view.ListView.prototype.enterDocument = function()
+{
+    goog.base(this, 'enterDocument');
+
+    this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.RIGHT);
+    this.dlg_.init();
+    this.getHandler().listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
+};
+
+/**
+ * @param  {goog.events.Event} e
+ */
+hash5.view.ListView.prototype.handleListDragged_ = function(e)
+{
+    var el = e.currDragItem,
+        id = el.getAttribute('data-id'),
+        child = this.getChild(id);
+
+    if(child)
+    {
+        e.preventDefault();
+        //this.addChildAt();
+    }
+};
+
+/**
+ * @param  {Element} el
+ * @return {Element}
+ */
+hash5.view.ListView.prototype.getDragItem_ = function(el)
+{
+    return goog.dom.getElementByClass('drag-element', el);
+};
+
 /**
  * @param  {hash5.model.EntryCollection} collection
  * @param  {string=} title
+ * @param {boolean=} animated when set to false, no scroll animation will be played
  * @return {hash5.ui.EntryListContainer} returns rendered EntryListContainer
  */
-hash5.view.ListView.prototype.addEntryCollection = function(collection, title)
+hash5.view.ListView.prototype.addEntryCollection = function(collection, title, animated)
 {
-    var listUi = new hash5.ui.EntryListContainer(collection, title);
-    this.addChild(listUi, true);
+    var listUi;
 
-    this.storeLists();
-    this.setWidth_();
+    // check if list is already displayed
+    this.forEachChild(function(child){
+        if(child.getSearchPattern() == collection.getSearchPattern())
+        {
+            listUi = child;
+        }
+    }, this);
+
+    // create new list
+    if(!listUi)
+    {
+        listUi = new hash5.ui.EntryListContainer(collection, title);
+        this.addChild(listUi, true);
+
+        if(this.isInDocument())
+        {
+            this.dlg_.listenForDragEvents(listUi.getElement());
+        }
+
+        this.storeLists();
+    }
+
+    // hightlight list
+    if(animated !== false)
+    {
+        this.slideToList(listUi);
+    }
 
     return listUi;
 };
 
+/**
+ * slides MainPanel to show given list
+ *
+ * @param {hash5.ui.EntryListContainer} listUi
+ */
+hash5.view.ListView.prototype.slideToList = function(listUi)
+{
+    var el = listUi.getElement();
+
+    var scrollEl = document.body;
+    var scrollAnim = new monin.fx.WindowScroll(el, [scrollEl.scrollLeft, 0], [el.offsetLeft, 0], 500, goog.fx.easing.inAndOut);
+    scrollAnim.play();
+
+    var focusAnim = new hash5.fx.CssClassAnimation(el, hash5.fx.CssClassAnimation.Animations.FOCUS);
+    focusAnim.play();
+};
 
 /**
  * removes all current entryLists
@@ -56,17 +145,8 @@ hash5.view.ListView.prototype.removeChild = function(child, opt_unrender)
     var removedChild = goog.base(this, 'removeChild', child, opt_unrender);
 
     this.storeLists();
-    this.setWidth_();
 
     return removedChild;
-};
-
-
-hash5.view.ListView.prototype.setWidth_ = function()
-{
-    // TODO get dynamic width
-    var childCount = this.getChildCount();
-    goog.style.setWidth(this.getElement(), childCount * 300);
 };
 
 
@@ -112,19 +192,15 @@ hash5.view.ListView.prototype.restoreLists = function()
         {
             var list = lastLists[i];
             var collection = hash5.api.getEntries(list['searchPattern']);
-            this.addEntryCollection(collection, list['title']);
+            this.addEntryCollection(collection, list['title'], false);
         }
     }
     else
     {
         var newestEntries = hash5.ds.DataSource.getInstance().newestEntries(); // TODO replace with api call
-        var actualEntries = hash5.api.searchEntries('#start=today');
         /** @desc newest entry list heading */
         var MSG_NEWEST_HEADING = goog.getMsg('Neueste Einträge');
-        this.addEntryCollection(newestEntries, MSG_NEWEST_HEADING);
-        /** @desc day planing entry list heading */
-        var MSG_DAY_HEADING = goog.getMsg('Tagesplanung');
-        this.addEntryCollection(actualEntries, MSG_DAY_HEADING);
+        this.addEntryCollection(newestEntries, MSG_NEWEST_HEADING, false);
     }
 };
 

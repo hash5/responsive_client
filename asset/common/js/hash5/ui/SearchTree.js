@@ -33,9 +33,14 @@ goog.inherits(hash5.ui.SearchTree, goog.ui.Component);
 /** @inheritDoc */
 hash5.ui.SearchTree.prototype.createDom = function()
 {
-    var domHelper = this.getDomHelper();
-    var el = domHelper.createDom('div', undefined, [
-        domHelper.createDom('div', 'btn add-folder-btn', '+')
+    /** @desc add folder button */
+    var MSG_ADD_FOLDER = goog.getMsg('Add Folder');
+    var domHelper = this.getDomHelper(),
+        el = domHelper.createDom('div', undefined, [
+        domHelper.createDom('div', {
+            'class': 'btn add-folder-btn tooltip',
+            'data-tooltip': MSG_ADD_FOLDER
+        }, '+')
     ]);
 
     this.decorateInternal(el);
@@ -212,25 +217,3 @@ hash5.ui.SearchTree.prototype.serializeNode_ = function(node)
 
     return nodeData;
 };
-
-
-/**
- * TODO
- * drag & drop
- *
-    function cut() {
-      if (tree.getSelectedItem()) {
-        clipboardNode = tree.getSelectedItem();
-        if (clipboardNode.getParent()) {
-          clipboardNode.getParent().remove(clipboardNode);
-        }
-      }
-    }
-
-    function paste() {
-      if (tree.getSelectedItem() && clipboardNode) {
-        tree.getSelectedItem().add(clipboardNode);
-        clipboardNode = null;
-      }
-    }
- */

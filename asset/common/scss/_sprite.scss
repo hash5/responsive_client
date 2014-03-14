@@ -1,3 +1,6 @@
 
 
 $sprite: sprite-map("sprite/*.png", $spacing : 50px);
+$lightSprite: sprite-map("sprite-light/*.png", $spacing : 50px);
+
+// background: transparent sprite($lightSprite, settings) no-repeat;

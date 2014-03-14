@@ -8,6 +8,7 @@ goog.provide('hash5.fx.CssClassAnimation.Animations');
  *
  * @param {Element} element
  * @param {string} cssClass
+ * @constructor
  */
 hash5.fx.CssClassAnimation = function(element, cssClass)
 {

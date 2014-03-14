@@ -60,7 +60,7 @@ hash5.ui.Settings.prototype.enterDocument = function()
 hash5.ui.Settings.prototype.createForm_ = function()
 {
     /** @desc username */
-    var MSG_LANGUAGE = goog.getMsg('Sprache');
+    var MSG_LANGUAGE = goog.getMsg('Language');
     var formItem = this.form_.addFormItem(MSG_LANGUAGE, 'select', {
         fieldName: 'language',
         options: [

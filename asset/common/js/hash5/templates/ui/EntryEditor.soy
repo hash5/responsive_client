@@ -6,7 +6,7 @@
 {template .wrapper}
     <div class="entry-editor">
         <h2>
-            {msg desc="entry editor edit title"}Eintrag bearbeiten{/msg}
+            {msg desc="entry editor edit title"}Edit entry{/msg}
         </h2>
         <div class="entry-info">
             <span class="entry-date">{$date}</span>
@@ -23,10 +23,10 @@
 
         <div class="entry-actions">
             <button class="btn primary save-btn">
-                {msg desc="entry editor save btn title"}Speichern{/msg}
+                {msg desc="entry editor save btn title"}Save{/msg}
             </button>
             <button class="btn cancle-btn">
-                {msg desc="entry editor cancle btn title"}Abbrechen{/msg}
+                {msg desc="entry editor cancle btn title"}Cancle{/msg}
             </button>
         </div>
     </div>
@@ -56,7 +56,7 @@
             <img src="{$icon}" class="icon" />
             {$title}
         </h3>
-        <div class="remove-btn"></div>
+        <div class="remove-btn" data-tooltip="{msg desc="tooltip to remove helper tile"}remove{/msg}"></div>
         <div class="helper-tile-content"></div>
     </div>
 {/template}

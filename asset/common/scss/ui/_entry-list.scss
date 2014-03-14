@@ -2,15 +2,26 @@
 .entry-list-container
 {
     width: 300px;
+    height: 100%;
     padding: 10px;
     padding-bottom: 0;
-    float: left;
+    display: inline-block;
     @include box-sizing('border-box');
     position: relative;
 
     @include breakpoint(mobile){
         float: none;
         width: 100%;
+    }
+
+    .drag-element
+    {
+        display: inline-block;
+        width: 20px;
+        height: 30px;
+        cursor: move;
+        background: red;
+        display: none; // TODO
     }
 
     .entry-list-actions
@@ -73,7 +84,8 @@
         }
     }
     .action-toggle{@include resize-sprite($sprite, arrow, 50); margin-left: 10px;}
-    .action-close{@include resize-sprite($sprite, close, 50);}
+    .action-add{@include resize-sprite($sprite, add, 50);}
+    .action-close{@include resize-sprite($sprite, close, 50); margin-left: 10px;}
     .action-save:before{@include resize-sprite($sprite, save, 50);}
     .action-delete:before{@include resize-sprite($sprite, trash, 50);}
 
@@ -85,22 +97,24 @@
 
 .entry-list
 {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     overflow-y: auto;
-    padding-top: 5px;
+    padding: 10px;
     @include box-sizing(border-box);
-
-    li
-    {
-        margin-top: 5px;
-        padding: 8px;
-        background: #FFF;
-        @include box-shadow(0 1px 0 1px #E4E6EB);
-    }
 }
 
 .entry
 {
     position: relative;
+    margin-top: 5px;
+    padding: 8px;
+    background: #FFF;
+    @include box-shadow(0 1px 0 1px #E4E6EB);
+    list-style: none;
 
 
     .entry-actions
@@ -108,6 +122,7 @@
         visibility: hidden;
         position: absolute;
         right: 0;
+        bottom: 5px;
 
         &>a
         {
@@ -146,6 +161,7 @@
 
     .entry-body
     {
+        white-space: normal;
         word-wrap: break-word;
         font-size: 90%;
     }

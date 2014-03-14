@@ -54,6 +54,9 @@ hash5.ui.Entry.prototype.enterDocument = function()
         .listen(entry, hash5.model.Entry.EventType.TEXT_CHANGED, this.handleTextChanged_);
 
     entry.getTextParser().triggerDisplay(this);
+
+    var dlg = this.getParent().getDragHandler();
+    //dlg.listenForDragEvents(this.getElement());
 };
 
 /**
@@ -64,4 +67,5 @@ hash5.ui.Entry.prototype.handleTextChanged_ = function(e)
     var entryText = this.getModel().getTextParser().toString();
 
     this.getElementByClass('entry-body').innerHTML = entryText;
+    this.getModel().getTextParser().triggerDisplay(this);
 };

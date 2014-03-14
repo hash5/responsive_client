@@ -6,5 +6,8 @@ var _allTests = [
     "asset/common/js/hash5/model/Collection_test.html",
     "asset/common/js/hash5/parsing/Parser_test.html",
     "asset/common/js/hash5/parsing/EntryTextParser_test.html",
-    "asset/common/js/hash5/Router_test.html"
+    "asset/common/js/hash5/Router_test.html",
+
+    "asset/modules/links/js/LinkParser_test.html",
+    "asset/modules/calendar/js/CalendarParser_test.html"
 ];

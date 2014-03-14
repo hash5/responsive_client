@@ -46,7 +46,7 @@ hash5.module.calendar.Event = function()
     this.recend_ = null;
 
     /**
-     * @type {Object.<*. [number, number]>}
+     * @type {Object.<*, [number, number]>}
      * @private
      */
     this.indices_ = {};
@@ -183,15 +183,6 @@ hash5.module.calendar.Event.prototype.addExclude = function(exclude)
 {
     this.exclude_.push(exclude);
 };
-
-/**
- * @param {Object} exclude
- */
-hash5.module.calendar.Event.prototype.addExclude = function(exclude)
-{
-    this.exclude_.push(exclude);
-};
-
 
 /**
  * @param {Array.<Object>} excluded

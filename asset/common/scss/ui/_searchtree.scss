@@ -120,6 +120,11 @@
 
   max-width: 120px;
   display: inline-block;
+
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .goog-tree-item-label:hover {

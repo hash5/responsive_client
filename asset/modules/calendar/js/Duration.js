@@ -31,7 +31,7 @@ exports.durationToJson = function(duration) {
  * If the duration cannot be parsed null will be returned.
  *
  * @param  {string} text
- * @return {goog.date.Datetime}
+ * @return {goog.date.DateTime}
  */
 hash5.module.calendar.Duration.fromString = function(text)
 {

@@ -120,7 +120,7 @@ hash5.forms.Textarea.prototype.handleFocus_ = function(e)
  */
 hash5.forms.Textarea.prototype.handleKeyDown_ = function(e)
 {
-    this.dispatchEvent(goog.events.EventType.KEYDOWN);
+    this.dispatchEvent(e);
 };
 
 /**
@@ -175,14 +175,24 @@ hash5.forms.Textarea.prototype.setConfig = function(config)
 
     if (goog.isDef(config.placeholder))
     {
-        this.placeholder_ = config.placeholder;
-        if (this.getElement())
-        {
-            this.getElement().placeholder = this.placeholder_;
-        }
+        this.setPlaceholder(config.placeholder);
     }
 };
 
+/**
+ * Sets textbox placeholder
+ *
+ * @param {string} placeholder
+ */
+hash5.forms.Textarea.prototype.setPlaceholder = function(placeholder)
+{
+    this.placeholder_ = placeholder;
+
+    if (this.getElement())
+    {
+        this.getElement().placeholder = this.placeholder_;
+    }
+};
 
 /**
  *

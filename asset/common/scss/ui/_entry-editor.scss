@@ -86,6 +86,10 @@
           }
         }
     }
+    .helper-tile-content
+    {
+      @include clearfix(); // for older browsers --> pie-clearfix()
+    }
 
     .entry-actions
     {

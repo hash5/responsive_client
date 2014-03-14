@@ -98,4 +98,4 @@ goog.ui.registry.setDecoratorByClassName(
     'select',
     function() {
       return new hash5.forms.Select();
-    });
+});

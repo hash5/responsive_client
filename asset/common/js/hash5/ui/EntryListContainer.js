@@ -19,18 +19,18 @@ hash5.ui.EntryListContainer = function(entryCollection, title)
     goog.base(this);
 
     /**
-     * @type {hash5.ui.EntryList}
-     * @private
-     */
-    this.entryList_ = new hash5.ui.EntryList(entryCollection);
-
-
-    /**
      * @type {hash5.ui.QuickCreateEntry}
      * @private
      */
     this.quickCreateEntry_ = new hash5.ui.QuickCreateEntry();//entryCollection.getSearchPattern());
     // TODO fix quick add patterns
+
+
+    /**
+     * @type {hash5.ui.EntryList}
+     * @private
+     */
+    this.entryList_ = new hash5.ui.EntryList(entryCollection);
 
     /**
      * @type {string}
@@ -44,7 +44,8 @@ goog.inherits(hash5.ui.EntryListContainer, goog.ui.Component);
 hash5.ui.EntryListContainer.prototype.createDom = function()
 {
     var data = {
-        title: this.title_
+        title: this.title_,
+        id: this.getId()
     };
 
     var el = goog.soy.renderAsFragment(hash5.templates.ui.EntryListContainer.container, data);
@@ -66,8 +67,16 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     this.getHandler()
-        .listen(this.getElementByClass('entry-list-actions'), goog.events.EventType.CLICK, this.handleActionClick_);
+        .listen(this.getElementByClass('entry-list-actions'), goog.events.EventType.CLICK, this.handleActionClick_)
+        .listen(this.quickCreateEntry_, goog.ui.Textarea.EventType.RESIZE, this.handleCreateEntryResize_);
+};
 
+/**
+ * @param {goog.events.Event} e
+ */
+hash5.ui.EntryListContainer.prototype.handleCreateEntryResize_ = function(e)
+{
+    console.log(e);
 };
 
 /**
@@ -118,6 +127,12 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
     var actionClass = e.target.getAttribute('data-action');
 
     switch(actionClass){
+        case 'add':
+            //this.quickCreateEntry_.setVisible(true);
+            // TODO
+            var newEntry = new hash5.model.Entry();
+            hash5.api.editEntry(newEntry);
+            break;
         case 'toggle':
             this.toggleActionmenu();
             break;
