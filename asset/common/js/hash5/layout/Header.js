@@ -38,6 +38,9 @@ hash5.layout.Header.prototype.enterDocument = function()
         .listen(sideBarToggleBtn, goog.events.EventType.CLICK, this.handleToggleSidebar_);
 
     this.initDefaultButtons();
+
+    var searchField = hash5.ui.SearchField.getInstance();
+    this.addChild(searchField, true);
 };
 /**
  * initializes default buttons

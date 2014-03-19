@@ -27,14 +27,6 @@
                 <div class="sidebar-toggle-btn"></div>
                 <div class="hash5-logo">hash<span>5</span></div>
 
-                <div class="fx search-field">
-                    <div class="search-box">
-                        <div class="search-input"></div>
-                        <button class="search-btn icon-search" aria-label="Suchen"></button>
-                    </div>
-                    <ul class="search-suggests"></ul>
-                </div>
-
                 <div class="header-right-bar"></div>
             </header>
 
@@ -82,7 +74,7 @@
                         var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.search);
                         return (results && results[1]) || 0;
                     }
-                    var lang = getUrlParam('lang') || 'de';
+                    var lang = getUrlParam('lang') || 'en';
                     writeScriptTag('asset/common/js-min/' + lang + '/app.js');
                 }
 

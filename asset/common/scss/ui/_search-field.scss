@@ -4,8 +4,8 @@
     position: absolute;
     top: 5px;
     left: 200px;
-    width: 100%;
-    max-width: 400px;
+    //width: 100%;
+    //max-width: 400px;
 
     @include breakpoint(mobile){
         display: none;
@@ -18,9 +18,22 @@
     {
         display: block;
     }
+
+    .ac-renderer
+    {
+        width: 100%;
+        position: relative;
+    }
 }
-.search-input
+.search-input .textbox
 {
+    width: 400px;
+    /*@include transition(width .3s);
+
+    &:focus
+    {
+        width: 400px;
+    }*/
 }
 
 .search-btn
@@ -42,27 +55,31 @@
     }
 }
 
-.search-suggests
+.search-helper
 {
-    position: absolute;
-    top: 42px;
     width: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    max-width: 400px;
+    background: #fff;
+    @include box-shadow(2px 2px 2px rgba(102, 102, 102, .4));
 
-    &.hidden
+    h4
     {
-        display: none;
+        font-size: 20px;
+        font-weight: 300;
+        padding: 10px;
+        border-bottom: 2px solid;
     }
 
-    li
+    .save-search
     {
-        padding: 8px;
-        background: #FFF;
-        margin: 3px;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
 
-        &:hover
-        {
-            background: $colorOrange;
-        }
+    .preview-holder
+    {
+        position: relative;
     }
 }
+

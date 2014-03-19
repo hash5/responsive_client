@@ -55,7 +55,7 @@ hash5.ui.Entry.prototype.enterDocument = function()
 
     entry.getTextParser().triggerDisplay(this);
 
-    var dlg = this.getParent().getDragHandler();
+    //var dlg = this.getParent().getDragHandler();
     //dlg.listenForDragEvents(this.getElement());
 };
 
