@@ -7,7 +7,6 @@
     @include transform(translate(-50%, 0));
     width: 100%;
     max-width: 400px;
-    //background: $colorLightGray;
     background: $colorBlue;
     padding: 20px;
     @include box-sizing(border-box);
@@ -28,16 +27,27 @@
         color: #000;
 
         span{color: #000;}
+
+        @include breakpoint(mobile){
+            left: 0;
+        }
     }
 
     .register-link
     {
         float: right;
         color: #fff;
+
+        &:hover {text-decoration: underline;}
     }
     .registration-visible
     {
         display: none;
+    }
+
+    .lang-change
+    {
+
     }
 
     &.registration-view
