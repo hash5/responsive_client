@@ -5,8 +5,6 @@ goog.require('goog.events.KeyCodes');
 
 goog.require('hash5.forms.Textarea');
 
-// TODO textarea
-// TODO hide on standart, add btn to show in entrylist
 
 /**
  * @param {string=} textTemplate optional template used to add to the entry
@@ -26,7 +24,6 @@ hash5.ui.QuickCreateEntry = function(textTemplate)
     /** @desc qucick edit placeholder */
     var MSG_ADD_ENTRY = goog.getMsg('Add Entry...');
     this.textarea_.setPlaceholder(MSG_ADD_ENTRY);
-    this.addChild(this.textarea_, true);
 
     /**
      * @type {string}
@@ -40,7 +37,7 @@ goog.inherits(hash5.ui.QuickCreateEntry, goog.ui.Component);
 hash5.ui.QuickCreateEntry.prototype.createDom = function()
 {
     var dom = this.getDomHelper(),
-        el = dom.createDom('div', 'quick-create-entry hidden', [
+        el = dom.createDom('div', 'quick-create-entry', [
             dom.createDom('div', 'actions')
         ]);
 
@@ -55,6 +52,8 @@ hash5.ui.QuickCreateEntry.prototype.enterDocument = function()
     this.getHandler()
         .listen(this.textarea_, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
         .listen(this.textarea_, goog.events.EventType.FOCUS, this.handleFocus_);
+
+    this.addChild(this.textarea_, true);
 };
 
 /**
@@ -74,9 +73,12 @@ hash5.ui.QuickCreateEntry.prototype.handleFocus_ = function(e)
  */
 hash5.ui.QuickCreateEntry.prototype.handleKeyDown_ = function(e)
 {
-    if(e.keyCode == goog.events.KeyCodes.ENTER && !e.shiftKey)
+    if(e.keyCode === goog.events.KeyCodes.ENTER && !e.shiftKey)
     {
       this.saveEntryText();
+      e.preventDefault();
+    }else if(e.keyCode === goog.events.KeyCodes.ESC){
+      this.setVisible(false);
     }
 };
 
@@ -100,5 +102,12 @@ hash5.ui.QuickCreateEntry.prototype.saveEntryText = function()
  */
 hash5.ui.QuickCreateEntry.prototype.setVisible = function(visible)
 {
-    goog.dom.classes.enable(this.getElement(), 'hidden', !visible);
+    if(visible)
+    {
+      this.textarea_.focus();
+    }
+    else
+    {
+      this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
+    }
 };

@@ -35,16 +35,16 @@ hash5.App = function(){
 
     this.initModuleManager_();
 
-    goog.dom.classes.enable(document.documentElement, 'tablet',
+    goog.dom.classes.enable(document.body, 'tablet',
         goog.labs.userAgent.device.isTablet());
 
-    goog.dom.classes.enable(document.documentElement,
+    goog.dom.classes.enable(document.body,
         'mobile', hash5.App.isMobile);
 
-    goog.dom.classes.enable(document.documentElement, 'desktop',
+    goog.dom.classes.enable(document.body, 'desktop',
         goog.labs.userAgent.device.isDesktop());
 
-    goog.dom.classes.enable(document.documentElement, 'touch',
+    goog.dom.classes.enable(document.body, 'touch',
         hash5.App.isTouch);
 };
 goog.addSingletonGetter(hash5.App);
@@ -116,8 +116,6 @@ hash5.App.isMobile = !!(goog.labs.userAgent.device.isMobile() || navigator.userA
  * @type {boolean}
  */
 hash5.App.isTouch = hash5.App.isMobile || goog.labs.userAgent.device.isTablet();
-
-
 
 /**
  * @param  {Object} config

@@ -228,6 +228,11 @@ hash5.forms.Textarea.prototype.update_ = function()
     }
 };
 
+hash5.forms.Textarea.prototype.focus = function()
+{
+    this.getElement().focus();
+};
+
 
 /**
  * Register this control so it can be created from markup.

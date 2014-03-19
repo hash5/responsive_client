@@ -68,15 +68,43 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
 
     this.getHandler()
         .listen(this.getElementByClass('entry-list-actions'), goog.events.EventType.CLICK, this.handleActionClick_)
-        .listen(this.quickCreateEntry_, goog.ui.Textarea.EventType.RESIZE, this.handleCreateEntryResize_);
+        .listen(this.quickCreateEntry_, goog.ui.Textarea.EventType.RESIZE, this.adjustQuickEditHeight_)
+        .listen(this.quickCreateEntry_, goog.ui.Component.EventType.CLOSE, this.closeQuickEdit);
 };
 
 /**
- * @param {goog.events.Event} e
+ * adjust the top offset of the entrylist to create space for the editor
+ *
+ * @param {boolean=} visible
+ * @private
  */
-hash5.ui.EntryListContainer.prototype.handleCreateEntryResize_ = function(e)
+hash5.ui.EntryListContainer.prototype.adjustQuickEditHeight_ = function(visible)
 {
-    console.log(e);
+    var offset = 0;
+
+    if(!goog.isDef(visible) || visible)
+    {
+        offset = this.quickCreateEntry_.getElement().offsetHeight;
+    }
+
+    this.entryList_.setTopOffset(offset);
+};
+
+/**
+ * shows the quick editor
+ */
+hash5.ui.EntryListContainer.prototype.showQuickEdit = function()
+{
+    this.adjustQuickEditHeight_();
+    this.quickCreateEntry_.setVisible(true);
+};
+
+/**
+ * shows the quick editor
+ */
+hash5.ui.EntryListContainer.prototype.closeQuickEdit = function()
+{
+    this.adjustQuickEditHeight_(false);
 };
 
 /**
@@ -128,10 +156,7 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 
     switch(actionClass){
         case 'add':
-            //this.quickCreateEntry_.setVisible(true);
-            // TODO
-            var newEntry = new hash5.model.Entry();
-            hash5.api.editEntry(newEntry);
+            this.showQuickEdit();
             break;
         case 'toggle':
             this.toggleActionmenu();

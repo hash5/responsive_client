@@ -13,13 +13,6 @@
     }
     @include breakpoint(mobile){
         left: 0;
+        overflow: hidden;
     }
-}
-
-
-.list-view
-{
-    white-space: nowrap;
-    height: 100%;
-    overflow: auto;
 }

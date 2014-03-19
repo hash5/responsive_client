@@ -54,6 +54,8 @@ hash5.ui.EntryList.prototype.enterDocument = function()
         .listen(this.entryCollection_, hash5.model.Collection.EventType.REMOVE, this.handleEntryRemoved_)
         .listen(this.entryCollection_, hash5.model.Collection.EventType.MOVE, this.handleEntryMoved_)
 
+        .listen(this.getElement(), goog.events.EventType.SCROLL, this.handleScroll_)
+
         .listen(this.dlg_, goog.fx.DragListGroup.EventType.BEFOREDRAGEND, this.handleEntryDragged_);
 
     this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.DOWN);
@@ -77,6 +79,14 @@ hash5.ui.EntryList.prototype.handleEntryDragged_ = function(e)
     console.log(e);
 
     return false;
+};
+
+/**
+ * @param {goog.events.BrowserEvent} e
+ */
+hash5.ui.EntryList.prototype.handleScroll_ = function(e)
+{
+    this.dispatchEvent(e);
 };
 
 
@@ -146,4 +156,13 @@ hash5.ui.EntryList.prototype.getEntryCollection = function()
 hash5.ui.EntryList.prototype.disposeInternal = function()
 {
     this.dlg_.dispose();
+};
+
+
+/**
+ * @param {number} offset
+ */
+hash5.ui.EntryList.prototype.setTopOffset = function(offset)
+{
+    goog.style.setStyle(this.getElement(), 'top', (offset + 50) + 'px');
 };

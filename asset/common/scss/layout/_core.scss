@@ -7,7 +7,7 @@ body{
   font-weight: 400;
 
   //color: #fff;
-  background: #EAEDF2;
+  background: $bodyBg;
 }
 
 
@@ -33,7 +33,7 @@ h1, h2, h3{
   width: 100%;
   height: 100%;
   margin: auto;
-  background: #EAEDF2;
+  background: $bodyBg;
   //overflow: hidden;
 }
 

@@ -1,8 +1,12 @@
 goog.provide('hash5.view.ListView');
+goog.provide('hash5.view.ListView.EventType');
 
 goog.require('hash5.view.BaseView');
 goog.require('hash5.ui.EntryListContainer');
 goog.require('hash5.storage.AppData');
+goog.require('hash5.templates.ListView');
+goog.require('hash5.ui.ListSwitcher');
+goog.require('hash5.style');
 
 goog.require('monin.fx.WindowScroll');
 goog.require('hash5.fx.CssClassAnimation');
@@ -33,9 +37,8 @@ goog.inherits(hash5.view.ListView, hash5.view.BaseView);
 /** @inheritDoc */
 hash5.view.ListView.prototype.createDom = function()
 {
-    var el = this.getDomHelper().createDom('div', 'view list-view');
-
-    this.decorateInternal(el);
+    var el = goog.soy.renderAsFragment(hash5.templates.ListView.wrapper);
+    this.decorateInternal(/** @type {Element} */ (el));
 };
 
 /** @inheritDoc */
@@ -44,8 +47,14 @@ hash5.view.ListView.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.RIGHT);
-    this.dlg_.init();
+    //this.dlg_.init();
     this.getHandler().listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
+
+    if(hash5.App.isMobile)
+    {
+        var switcher = new hash5.ui.ListSwitcher(this);
+        switcher.render(this.getElement().parentElement);
+    }
 };
 
 /**
@@ -103,6 +112,7 @@ hash5.view.ListView.prototype.addEntryCollection = function(collection, title, a
         }
 
         this.storeLists();
+        this.dispatchEvent(hash5.view.ListView.EventType.LIST_ADDED);
     }
 
     // hightlight list
@@ -132,6 +142,16 @@ hash5.view.ListView.prototype.slideToList = function(listUi)
 };
 
 /**
+ * slides MainPanel to show given list (mobileVersion)
+ *
+ * @param {number} listIndex
+ */
+hash5.view.ListView.prototype.mobileShowList = function(listIndex)
+{
+    hash5.style.translate(this.getElement(), (listIndex * -100) + '%', undefined, undefined, '');
+};
+
+/**
  * removes all current entryLists
  */
 hash5.view.ListView.prototype.clearListPanel = function()
@@ -144,6 +164,7 @@ hash5.view.ListView.prototype.removeChild = function(child, opt_unrender)
 {
     var removedChild = goog.base(this, 'removeChild', child, opt_unrender);
 
+    this.dispatchEvent(hash5.view.ListView.EventType.LIST_REMOVED);
     this.storeLists();
 
     return removedChild;
@@ -204,3 +225,11 @@ hash5.view.ListView.prototype.restoreLists = function()
     }
 };
 
+
+/**
+ * @enum {string}
+ */
+hash5.view.ListView.EventType = {
+    LIST_ADDED: 'list-added',
+    LIST_REMOVED: 'list-removed'
+};
