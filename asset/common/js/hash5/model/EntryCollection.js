@@ -59,7 +59,13 @@ goog.inherits(hash5.model.EntryCollection, hash5.model.Collection);
 hash5.model.EntryCollection.prototype.insert = function(item)
 {
     goog.base(this, 'insert', item);
+    this.handler_.listen(item, hash5.model.EventType.DESTROY, this.handleEntryDestroyed_);
+};
 
+/** @inheritDoc */
+hash5.model.EntryCollection.prototype.insertAt = function(item, index)
+{
+    goog.base(this, 'insertAt', item, index);
     this.handler_.listen(item, hash5.model.EventType.DESTROY, this.handleEntryDestroyed_);
 };
 
@@ -68,7 +74,7 @@ hash5.model.EntryCollection.prototype.insert = function(item)
  */
 hash5.model.EntryCollection.prototype.handleEntryDestroyed_ = function(e)
 {
-    this.remove(e.target);
+    this.remove(/** @type {hash5.model.Entry} */ (e.target));
 };
 
 /**
