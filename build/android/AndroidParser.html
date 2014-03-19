@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>hash5</title>
+
+        <script src="../../asset/third-party/twitter-text.js"></script>
+        <script src="android.js"></script>
+    </head>
+    <body>
+        <script>
+            var parser = new hash5.parsing.Parser();
+
+            parser.setRawText('huhu #ein und vielleinchat auch #zwei hashtags #oder#nicht #komple:nope #more:"asdf" #simple:komplex');
+
+            parser.parseTags();
+
+            var simpleTags = parser.getSimpleTags();
+            console.log(simpleTags);
+
+            var complexTags = parser.getComplexTags();
+            console.log(complexTags);
+
+            // calendarparser:
+            parser.setRawText('#cal #start:"04.01.2014" #end:"2014-02-09 12:12" #recurrent:4d #recend:"2014/04/05"  #start:"12.04.2012" #end:"20.05.2015" ');
+
+            var events = parser.getSubparsed(hash5.module.calendar.CalendarParser);
+            console.log(events);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,1 @@
+java -jar ../plovr.jar build android-config.json
