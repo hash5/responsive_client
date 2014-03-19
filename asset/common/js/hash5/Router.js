@@ -132,7 +132,7 @@ hash5.Router.prototype.initialize = function(config)
     }
 
     this.eh_.listen(history, goog.history.EventType.NAVIGATE,
-        this.handleHistory_, false, this);
+        this.handleHistory_);
 };
 
 /**

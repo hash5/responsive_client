@@ -23,5 +23,6 @@ goog.inherits(hash5.module.BaseModule, goog.module.BaseModule);
 /**
  * Performs any load-time initialization that the module requires.
  * @param {hash5.App} context The module context.
+ * @suppress {checkTypes}
  */
 hash5.module.BaseModule.prototype.initialize = function(context) {};

@@ -93,8 +93,6 @@ hash5.controller.UserController.prototype.getUserLocale = function()
 {
     var locale = this.userSettings_['locale'];
 
-    console.log(this.userSettings_);
-
     if(!locale)
     {
         locale = goog.LOCALE;
@@ -211,7 +209,7 @@ hash5.controller.UserController.prototype.saveUserSetting = function(callback, h
     {
         xhr.listen(goog.net.EventType.COMPLETE, callback, false, handler);
     }
-    console.log(this.userSettings_);
+
     xhr.send('/usersettings', 'POST', 'settings=' + JSON.stringify(this.userSettings_));
 };
 

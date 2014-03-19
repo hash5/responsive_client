@@ -10,7 +10,6 @@
   "mode": "ADVANCED",
   "level": "VERBOSE",
   "externs": [
-    "../asset/third-party/console-externs.js",
     "../asset/third-party/plovr-externs.js",
     "../asset/third-party/twitter-text-externs.js"
   ],
