@@ -6,7 +6,7 @@ goog.require('goog.ui.registry');
 goog.require('hash5.ui.PageSidebar');
 goog.require('hash5.layout.HeaderButtonGroup');
 goog.require('hash5.layout.HeaderButton');
-
+goog.require('hash5.view.Settings');
 
 /**
  * this class represents the page header
@@ -69,7 +69,7 @@ hash5.layout.Header.prototype.initDefaultButtons = function()
     var MSG_SETTINGS = goog.getMsg('Settings');
     var settingsGroup = new hash5.layout.HeaderButtonGroup(MSG_SETTINGS, 'icon-gears-light');
     settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_SETTINGS, 'icon-gears-light', function(){
-        var settingsUi = new hash5.ui.Settings();
+        var settingsUi = new hash5.view.Settings();
         settingsUi.render(document.body);
     }));
     /** @desc logout btn title */

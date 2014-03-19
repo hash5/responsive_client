@@ -1,17 +1,17 @@
-goog.provide('hash5.ui.Settings');
+goog.provide('hash5.view.Settings');
 
 goog.require('goog.ui.Component');
 
 goog.require('hash5.forms.Form');
 goog.require('hash5.forms.Select');
 
-goog.require('hash5.templates.ui.Settings');
+goog.require('hash5.templates.Settings');
 
 /**
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.ui.Settings = function()
+hash5.view.Settings = function()
 {
     goog.base(this);
 
@@ -22,12 +22,12 @@ hash5.ui.Settings = function()
      */
     this.form_ = new hash5.forms.Form();
 };
-goog.inherits(hash5.ui.Settings, goog.ui.Component);
+goog.inherits(hash5.view.Settings, goog.ui.Component);
 
 /** @inheritDoc */
-hash5.ui.Settings.prototype.createDom = function()
+hash5.view.Settings.prototype.createDom = function()
 {
-  var el = soy.renderAsFragment(hash5.templates.ui.Settings.wrapper);
+  var el = soy.renderAsFragment(hash5.templates.Settings.wrapper);
   this.decorateInternal(/** @type {Element} */ (el));
 
   this.addChild(this.form_);
@@ -35,7 +35,7 @@ hash5.ui.Settings.prototype.createDom = function()
 };
 
 /** @inheritDoc */
-hash5.ui.Settings.prototype.enterDocument = function()
+hash5.view.Settings.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
@@ -57,7 +57,7 @@ hash5.ui.Settings.prototype.enterDocument = function()
  *
  * @private
  */
-hash5.ui.Settings.prototype.createForm_ = function()
+hash5.view.Settings.prototype.createForm_ = function()
 {
     /** @desc username */
     var MSG_LANGUAGE = goog.getMsg('Language');
@@ -79,7 +79,7 @@ hash5.ui.Settings.prototype.createForm_ = function()
  * @param  {goog.events.BrowserEvent} e
  * @private
  */
-hash5.ui.Settings.prototype.handleSaveClick_ = function(e)
+hash5.view.Settings.prototype.handleSaveClick_ = function(e)
 {
     var data = this.form_.getData();
 
@@ -103,7 +103,7 @@ hash5.ui.Settings.prototype.handleSaveClick_ = function(e)
 /**
  * closes and disposes the layer
  */
-hash5.ui.Settings.prototype.close = function()
+hash5.view.Settings.prototype.close = function()
 {
     hash5.ui.Overlay.getInstance().setVisible(false);
     this.dispose();
