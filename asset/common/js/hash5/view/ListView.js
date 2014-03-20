@@ -13,6 +13,8 @@ goog.require('hash5.fx.CssClassAnimation');
 goog.require('goog.fx.easing');
 goog.require('goog.fx.DragListGroup');
 
+// TODO maybe extract drag behaviour for reuse
+
 /**
  * @constructor
  * @extends {hash5.view.BaseView}
@@ -46,14 +48,17 @@ hash5.view.ListView.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.RIGHT);
-    //this.dlg_.init();
-    this.getHandler().listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
-
     if(hash5.App.isMobile)
     {
         var switcher = new hash5.ui.ListSwitcher(this);
         switcher.render(this.getElement().parentElement);
+    }
+    else
+    {
+        // init drag & drop
+        this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.RIGHT);
+        this.dlg_.init();
+        this.getHandler().listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
     }
 };
 
@@ -62,15 +67,28 @@ hash5.view.ListView.prototype.enterDocument = function()
  */
 hash5.view.ListView.prototype.handleListDragged_ = function(e)
 {
-    var el = e.currDragItem,
-        id = el.getAttribute('data-id'),
-        child = this.getChild(id);
+    var newIndex = -1, movedChild = null, oldIndex = -1;
 
-    if(child)
-    {
-        e.preventDefault();
-        //this.addChildAt();
-    }
+    // get child component object for draged element
+    this.forEachChild(function(child, i) {
+        if (child.getElement() == e.currDragItem)
+        {
+            oldIndex = i;
+            movedChild = child;
+            newIndex = goog.array.indexOf(goog.dom.getChildren(this.getContentElement()),
+                                            e.currDragItem);
+        }
+    }, this);
+
+    this.removeChild(movedChild);
+    goog.dom.removeNode(movedChild.getElement());
+
+    this.addChildAt(movedChild, newIndex);
+    goog.dom.insertChildAt(this.getContentElement(), movedChild.getElement(), newIndex);
+
+    this.storeLists();
+
+    //this.dispatchEvent(hash5.ui.PlaceItemGroup.EventType.REORDER);
 };
 
 /**

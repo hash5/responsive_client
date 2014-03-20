@@ -146,4 +146,6 @@ hash5.ui.LoginForm.prototype.handleRegBtnClick_ = function(e)
     regForm.render(document.body);
 
     this.dispose();
+
+    e.preventDefault();
 };

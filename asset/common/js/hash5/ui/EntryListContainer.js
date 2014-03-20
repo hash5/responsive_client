@@ -44,8 +44,7 @@ goog.inherits(hash5.ui.EntryListContainer, goog.ui.Component);
 hash5.ui.EntryListContainer.prototype.createDom = function()
 {
     var data = {
-        title: this.title_,
-        id: this.getId()
+        title: this.title_
     };
 
     var el = goog.soy.renderAsFragment(hash5.templates.ui.EntryListContainer.container, data);
@@ -82,6 +81,8 @@ hash5.ui.EntryListContainer.prototype.adjustQuickEditHeight_ = function(visible)
 {
     var offset = 0;
 
+    this.quickCreateEntry_.setVisible(!!visible);
+
     if(!goog.isDef(visible) || visible)
     {
         offset = this.quickCreateEntry_.getElement().offsetHeight;
@@ -95,8 +96,7 @@ hash5.ui.EntryListContainer.prototype.adjustQuickEditHeight_ = function(visible)
  */
 hash5.ui.EntryListContainer.prototype.showQuickEdit = function()
 {
-    this.adjustQuickEditHeight_();
-    this.quickCreateEntry_.setVisible(true);
+    this.adjustQuickEditHeight_(true);
 };
 
 /**

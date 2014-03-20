@@ -121,6 +121,8 @@ hash5.ui.RegisterForm.prototype.handleClose_ = function(e)
     var loginForm = new hash5.ui.LoginForm();
     loginForm.render(document.body);
     this.dispose();
+
+    e.preventDefault();
 };
 
 /**

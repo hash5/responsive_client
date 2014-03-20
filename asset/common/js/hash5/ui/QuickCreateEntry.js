@@ -37,11 +37,13 @@ goog.inherits(hash5.ui.QuickCreateEntry, goog.ui.Component);
 hash5.ui.QuickCreateEntry.prototype.createDom = function()
 {
     var dom = this.getDomHelper(),
-        el = dom.createDom('div', 'quick-create-entry', [
+        el = dom.createDom('div', 'quick-create-entry hidden', [
             dom.createDom('div', 'actions')
         ]);
 
     this.decorateInternal(el);
+
+    this.addChild(this.textarea_, true);
 };
 
 /** @inheritDoc */
@@ -52,8 +54,6 @@ hash5.ui.QuickCreateEntry.prototype.enterDocument = function()
     this.getHandler()
         .listen(this.textarea_, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
         .listen(this.textarea_, goog.events.EventType.FOCUS, this.handleFocus_);
-
-    this.addChild(this.textarea_, true);
 };
 
 /**
@@ -78,7 +78,7 @@ hash5.ui.QuickCreateEntry.prototype.handleKeyDown_ = function(e)
       this.saveEntryText();
       e.preventDefault();
     }else if(e.keyCode === goog.events.KeyCodes.ESC){
-      this.setVisible(false);
+      this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
     }
 };
 
@@ -106,8 +106,6 @@ hash5.ui.QuickCreateEntry.prototype.setVisible = function(visible)
     {
       this.textarea_.focus();
     }
-    else
-    {
-      this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
-    }
+
+    goog.dom.classes.enable(this.getElement(), 'hidden', !visible);
 };
