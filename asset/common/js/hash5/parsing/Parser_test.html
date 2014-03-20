@@ -32,6 +32,19 @@
             assertSameElements(expectedTags, simpleTags);
         }
 
+        function testComplexTagsIndices()
+        {
+            var tags = [];
+
+            parser.setRawText('#c:asdf');
+            tags = parser.getComplexTags();
+            assertArrayEquals(tags[0].indices, [3, 7]);
+
+            parser.setRawText('#c:"asdf"');
+            tags = parser.getComplexTags();
+            assertArrayEquals(tags[0].indices, [3, 9]);
+        }
+
         function testComplexTags()
         {
             parser.setRawText('huhu #ein und vielleinchat auch #zwei hashtags #oder#nicht #komple:nope #more:"asdf" #simple:komplex');
@@ -39,11 +52,12 @@
             parser.parseTags();
 
             var expectedTags = [
-                {key: 'komple', value: 'nope', indices: [66, 70]},
-                {key: 'more', value: 'asdf', indices: [77, 81]},
-                {key: 'simple', value: 'komplex', indices: [92, 99]}
+                {key: 'komple', value: 'nope', indices: [67, 71]},
+                {key: 'more', value: 'asdf', indices: [78, 84]},
+                {key: 'simple', value: 'komplex', indices: [93, 100]}
             ];
             var complexTags = parser.getComplexTags();
+            console.log(complexTags);
 
             var assertSameObjectArray = function(arr1, arr2){
                 assert(goog.isArrayLike(arr1));

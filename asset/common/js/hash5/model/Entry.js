@@ -137,9 +137,11 @@ hash5.model.Entry.prototype.getCreatedDate = function()
 };
 
 /**
+ * returns new or cached entry parser
+ *
  * @return {hash5.parsing.Parser}
  */
-hash5.model.Entry.prototype.getParser = function()
+hash5.model.Entry.prototype.getParser = function(newParser)
 {
     if(!this.parser_)
     {
@@ -154,6 +156,8 @@ hash5.model.Entry.prototype.getParser = function()
 
 
 /**
+ * returns new or cached parser to display an entry body
+ *
  * @return {hash5.parsing.EntryTextParser}
  */
 hash5.model.Entry.prototype.getTextParser = function()

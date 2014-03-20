@@ -36,7 +36,8 @@ hash5.ui.editor.EntryEditor = function(entry)
      * @type {hash5.parsing.Parser}
      * @private
      */
-    this.parser_ = entry.getParser();
+    this.parser_ = entry.getParser(true);
+    this.parser_.setRawText(entry.getText());
 
 
     /**

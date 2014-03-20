@@ -4,9 +4,10 @@ goog.provide('hash5.style');
  * Translates element position
  *
  * @param {Element} el
- * @param {number=} opt_x
- * @param {number=} opt_y
- * @param {number=} opt_z
+ * @param {number|string=} opt_x
+ * @param {number|string=} opt_y
+ * @param {number|string=} opt_z
+ * @param {string=} opt_unit
  */
 hash5.style.translate = function(el, opt_x, opt_y, opt_z, opt_unit)
 {

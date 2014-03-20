@@ -87,7 +87,6 @@ hash5.module.calendar.CalendarParser.prototype.parseCalendarData = function(comp
       if(recurrentAlreadyDefined) return;
       recurrentAlreadyDefined = true;
 
-      // TODO
       var duration = hash5.module.calendar.Duration.fromString(complexTag.value);
       event.setRecurrent(duration, complexTag.indices);
       event.setExcluded(this.parseExcludeTags(complexTags));

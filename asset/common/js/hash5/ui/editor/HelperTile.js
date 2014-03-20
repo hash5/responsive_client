@@ -75,4 +75,14 @@ hash5.ui.editor.HelperTile.prototype.handleRemoveBtn_ = function(e)
 hash5.ui.editor.HelperTile.prototype.setComponent = function(comp)
 {
     this.comp_ = comp;
+
+    comp.registerHelperTile(this);
+};
+
+/**
+ * @return {hash5.ui.editor.EditorComponent}
+ */
+hash5.ui.editor.HelperTile.prototype.getComponent = function()
+{
+    return this.comp_;
 };

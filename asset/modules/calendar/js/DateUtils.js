@@ -16,8 +16,18 @@ hash5.module.calendar.DateUtils.dateParsers_ = [
    new goog.i18n.DateTimeParse("dd'.'MM'.'yyyy HH:mm"),
    new goog.i18n.DateTimeParse("dd'.'MM'.'yyyy"),
    new goog.i18n.DateTimeParse("yyy-MM-dd HH:mm"),
-   new goog.i18n.DateTimeParse("yyy-MM-dd")
+   new goog.i18n.DateTimeParse("yyy-MM-dd"),
+   new goog.i18n.DateTimeParse("yyy/MM/dd HH:mm"),
+   new goog.i18n.DateTimeParse("yyy/MM/dd")
 ];
+
+/**
+ * shared time parser instance
+ *
+ * @type {goog.i18n.DateTimeParse}
+ * @private
+ */
+hash5.module.calendar.DateUtils.timeParser_ = new goog.i18n.DateTimeParse("HH:mm");
 
 /**
  * Returns a Date if the text can be parsed,
@@ -33,6 +43,8 @@ hash5.module.calendar.DateUtils.stringToDate = function(text)
 
   var date = new goog.date.DateTime();
   var parsers = hash5.module.calendar.DateUtils.dateParsers_;
+
+  // TODO parse date and time seperatly to check if time was parsed
 
   for(var i = 0; i < parsers.length; i++)
   {
@@ -58,16 +70,16 @@ hash5.module.calendar.DateUtils.stringOrTimeToDate = function(text, startDate)
 {
   var dateAndTime = hash5.module.calendar.DateUtils.stringToDate(text);
 
-  if(dateAndTime) {
-    return dateAndTime;
-  } else {
-    return null;
-    // TODO
-    //var timeMoment = this.timeToMoment(text, startDate);
-    //return timeMoment ? timeMoment.toDate() : null;
+  if(!dateAndTime) {
+    var newDate = startDate.clone();
+
+    if(hash5.module.calendar.DateUtils.timeParser_.parse(text, newDate) > 0)
+    {
+      dateAndTime = newDate;
+    }
   }
 
-  return null;
+  return dateAndTime;
 };
 
 
@@ -108,4 +120,60 @@ hash5.module.calendar.DateUtils.parseDateOrIndex = function(text)
     }
 
     return result;
+};
+
+
+/**
+ * returns string for date
+ * if time is set, time is also returned
+ *
+ * @param {hash5.module.calendar.DateTime} date
+ * @return {string}
+ */
+hash5.module.calendar.DateUtils.dateTimeToString = function(date)
+{
+    var result = hash5.module.calendar.DateUtils.dateToString(date);
+
+    if(date.hasTime())
+    {
+        result += ' ' + hash5.module.calendar.DateUtils.timeToString(date);
+    }
+
+    return result;
+};
+
+/**
+ * shared date formatter
+ * @type {goog.i18n.DateTimeFormat}
+ * @private
+ */
+hash5.module.calendar.DateUtils.dateFormatter_ = new goog.i18n.DateTimeFormat('d.M.y');
+
+/**
+ * shared time formatter
+ * @type {goog.i18n.DateTimeFormat}
+ * @private
+ */
+hash5.module.calendar.DateUtils.timeFormatter_ = new goog.i18n.DateTimeFormat('H:m');
+
+/**
+ * returns string for time
+ *
+ * @param {hash5.module.calendar.DateTime} date
+ * @return {string}
+ */
+hash5.module.calendar.DateUtils.timeToString = function(date)
+{
+    return hash5.module.calendar.DateUtils.timeFormatter_.format(date);
+};
+
+/**
+ * returns string for date
+ *
+ * @param {hash5.module.calendar.DateTime} date
+ * @return {string}
+ */
+hash5.module.calendar.DateUtils.dateToString = function(date)
+{
+    return hash5.module.calendar.DateUtils.dateFormatter_.format(date);
 };

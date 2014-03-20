@@ -123,6 +123,16 @@ hash5.ui.editor.EditorComponent.prototype.hasHelperTile = function()
 hash5.ui.editor.EditorComponent.prototype.addHelperTile = function(tile)
 {
     this.entryEditor_.addHelperTile(this, tile);
+};
+
+/**
+ * registers new helper tile in component structure
+ * (will be called by helper tile)
+ *
+ * @param {hash5.ui.editor.HelperTile} tile
+ */
+hash5.ui.editor.EditorComponent.prototype.registerHelperTile = function(tile)
+{
     this.tiles_.push(tile);
 };
 

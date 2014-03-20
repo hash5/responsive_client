@@ -1,6 +1,7 @@
 goog.provide('hash5.module.calendar.Event');
 
 goog.require('goog.date.DateTime');
+goog.require('hash5.module.calendar.Duration');
 
 /**
  *
@@ -22,7 +23,7 @@ hash5.module.calendar.Event = function()
     this.endDate_ = null;
 
     /**
-     * @type {Object}
+     * @type {hash5.module.calendar.Duration}
      * @private
      */
     this.recurrent_ = null;
@@ -32,6 +33,7 @@ hash5.module.calendar.Event = function()
      * @private
      */
     this.exclude_ = [];
+    // TODO
     /*
     * - {index: 123} if there was an index given
  * - {date: ISODate(2012-12-23)} if there was a date given
@@ -46,7 +48,7 @@ hash5.module.calendar.Event = function()
     this.recend_ = null;
 
     /**
-     * @type {Object.<*, [number, number]>}
+     * @type {Object.<string, [number, number]>}
      * @private
      */
     this.indices_ = {};
@@ -63,7 +65,7 @@ hash5.module.calendar.Event.factory = function(data)
     var entryDate = new hash5.module.calendar.Event();
     entryDate.startDate_ = data['start'] ? goog.date.fromIsoString(data['start']) : null;
     entryDate.endDate_ = data['end'] ? goog.date.fromIsoString(data['end']) : null;
-    entryDate.recurrent_ = data['recurrent'] || null;
+    entryDate.recurrent_ = data['recurrent'] ? hash5.module.calendar.Duration.fromJson(data['recurrent'])  : null;
     entryDate.recend_ = data['recend'] ? goog.date.fromIsoString(data['recend']) : null;
 
     if(goog.isArray(data['exclude']))
@@ -96,7 +98,7 @@ hash5.module.calendar.Event.prototype.setStartDate = function(date, indices)
 
     if(goog.isDef(indices))
     {
-        this.indices_[date] = indices;
+        this.indices_['start'] = indices;
     }
 };
 
@@ -119,13 +121,13 @@ hash5.module.calendar.Event.prototype.setEndDate = function(date, indices)
 
     if(goog.isDef(indices))
     {
-        this.indices_[date] = indices;
+        this.indices_['end'] = indices;
     }
 };
 
 
 /**
- * @return {Object}
+ * @return {hash5.module.calendar.Duration}
  */
 hash5.module.calendar.Event.prototype.getRecurrent = function()
 {
@@ -133,7 +135,7 @@ hash5.module.calendar.Event.prototype.getRecurrent = function()
 };
 
 /**
- * @param {Object} rec
+ * @param {hash5.module.calendar.Duration} rec
  * @param {[number, number]=} indices indices where date was parsed
  */
 hash5.module.calendar.Event.prototype.setRecurrent = function(rec, indices)
@@ -142,7 +144,7 @@ hash5.module.calendar.Event.prototype.setRecurrent = function(rec, indices)
 
     if(goog.isDef(indices))
     {
-        this.indices_[rec] = indices;
+        this.indices_['recurrent'] = indices;
     }
 };
 
@@ -164,7 +166,7 @@ hash5.module.calendar.Event.prototype.setRecend = function(date, indices)
 
     if(goog.isDef(indices))
     {
-        this.indices_[date] = indices;
+        this.indices_['recend'] = indices;
     }
 };
 
@@ -193,15 +195,15 @@ hash5.module.calendar.Event.prototype.setExcluded = function(excluded)
 };
 
 /**
- * returns parsed indices for given date obj
+ * returns parsed indices for given date key
  * can be used for startdate, enddate...
  *
- * @param {*} obj
+ * @param {string} key
  * @return {[number, number] | null}
  */
-hash5.module.calendar.Event.prototype.getIndices = function(obj)
+hash5.module.calendar.Event.prototype.getIndices = function(key)
 {
-    return this.indices_[obj] || null;
+    return this.indices_[key] || null;
 };
 
 /**

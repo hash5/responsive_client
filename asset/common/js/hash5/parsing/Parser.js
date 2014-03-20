@@ -167,7 +167,8 @@ hash5.parsing.Parser.prototype.getMentions = function()
  */
 hash5.parsing.Parser.prototype.getSubparsed = function(parser)
 {
-    var parsingResult = this.cachedSubParsers_[parser]; // TODO work with id's
+    // TODO work with id's js does only allow strings for keys
+    var parsingResult = this.cachedSubParsers_[parser];
 
     if(!goog.isDef(parsingResult))
     {
@@ -198,6 +199,7 @@ hash5.parsing.Parser.prototype.parseTags = function()
         var value = this.valueOfComplexTag_(valueWithRestOfText);
 
         if(value === null) {
+            // TODO ignored!?
             // Duplicate simple tags will be ignored
             if(this.simpleTags_.indexOf(tag.hashtag) == -1) {
                 this.simpleTags_.push(tag.hashtag);
@@ -205,10 +207,10 @@ hash5.parsing.Parser.prototype.parseTags = function()
         } else {
             // TODO ???? overriden?
             // The value of duplicate complex tags will be overriden by the last one.
-            var index = tag.indices[1];
+            var index = tag.indices[1] + 1;
             this.complexTags_.push({
                 key: tag.hashtag,
-                value: value,
+                value: value.val,
                 indices: [index, index + value.length]
             });
         }
@@ -218,7 +220,7 @@ hash5.parsing.Parser.prototype.parseTags = function()
 /**
  * Returns the value of a complex tag, or null if the tag was a simple tag with no value
  * @param {string} text Text after the tag-key (should start with a ":" when it is a complex tag)
- * @return {string|null}
+ * @return {{val: string, length: number}|null}
  */
 hash5.parsing.Parser.prototype.valueOfComplexTag_ = function(text)
 {
@@ -234,7 +236,12 @@ hash5.parsing.Parser.prototype.valueOfComplexTag_ = function(text)
         {
             result = '';
         }
+
+        return {
+            val: result,
+            length: match[0].length - 1
+        };
     }
 
-    return result;
+    return null;
 };

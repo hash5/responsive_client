@@ -25,6 +25,12 @@ hash5.module.calendar.EditorComponent = function(model, editor)
      * @private
      */
     this.curParsedCalendars_ = [];
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.curTextChanging_ = false;
 };
 goog.inherits(hash5.module.calendar.EditorComponent, hash5.ui.editor.EditorComponent);
 
@@ -50,7 +56,10 @@ hash5.module.calendar.EditorComponent.prototype.getNewHelperTile = function()
  */
 hash5.module.calendar.EditorComponent.prototype.handleTextChanged_ = function(e)
 {
-    this.checkForNewDates();
+    if(!this.curTextChanging_)
+    {
+        this.checkForNewDates();
+    }
 };
 
 
@@ -81,6 +90,8 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
             this.getHandler().listen(tile, goog.ui.Component.EventType.CLOSE, this.handleTileRemoved_);
         }
     }
+
+    console.log(parsedCalendars);
 };
 
 /**
@@ -91,4 +102,70 @@ hash5.module.calendar.EditorComponent.prototype.handleTileRemoved_ = function(e)
     var tile = /** @type {hash5.module.calendar.HelperTile} */ (e.target);
 
     // TODO remove date...
+};
+
+
+/**
+ * @param {hash5.module.calendar.Event} event
+ * @return {boolean} returns true if text has changed
+ */
+hash5.module.calendar.EditorComponent.prototype.updateTextForEvent = function(event)
+{
+    var entryText = this.getEditor().getEntryText();
+    // TODO use global instance and check if time is set!
+    var dateFormatter = new goog.i18n.DateTimeFormat('d.M.y H:m');
+
+    // because changing the text the indices got by the parser have to be adjusted
+    var changedLength = 0;
+
+    /**
+     * replaces positions from startPos to endPos with new replace string
+     *
+     * @param {string} str
+     * @param {string} replace
+     * @param {number} startPos
+     * @param {number} endPos
+     * @return {string} new string
+     */
+    var posReplace = function(str, replace, startPos, endPos)
+    {
+        var res = str.substring(0, startPos + changedLength) + replace + str.substring(endPos + changedLength);
+
+        changedLength += replace.length - (endPos - startPos);
+
+        return res;
+    };
+
+
+    var insertString = function(newString, key)
+    {
+        var parsedIndices = event.getIndices(key);
+        var indices = parsedIndices || [entryText.length, entryText.length];
+
+        if(!parsedIndices && newString.length > 0)
+        {
+            newString = ' #' + key + ':' + newString;
+        }
+
+        entryText = posReplace(entryText, newString, indices[0], indices[1]);
+    };
+
+    // TODO check if brackets are needed! check if time is set
+
+    var insertDate = function(date, key)
+    {
+        insertString('"' + dateFormatter.format(date)  + '"', key);
+    };
+
+    insertDate(event.getStartDate(), 'start');
+    insertDate(event.getEndDate(), 'end');
+    insertString(event.getRecurrent() ? event.getRecurrent().toString() : '', 'recurrent');
+
+    if(entryText != this.getEditor().getEntryText())
+    {
+        this.getEditor().setEntryText(entryText);
+        return true;
+    }
+
+    return false;
 };
