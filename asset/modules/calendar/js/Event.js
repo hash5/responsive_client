@@ -1,6 +1,6 @@
 goog.provide('hash5.module.calendar.Event');
 
-goog.require('goog.date.DateTime');
+goog.require('hash5.module.calendar.DateTime');
 goog.require('hash5.module.calendar.Duration');
 
 /**
@@ -11,13 +11,13 @@ hash5.module.calendar.Event = function()
 {
 
     /**
-     * @type {goog.date.DateTime}
+     * @type {hash5.module.calendar.DateTime}
      * @private
      */
     this.startDate_ = null;
 
     /**
-     * @type {goog.date.DateTime}
+     * @type {hash5.module.calendar.DateTime}
      * @private
      */
     this.endDate_ = null;
@@ -42,7 +42,7 @@ hash5.module.calendar.Event = function()
      */
 
     /**
-     * @type {goog.date.DateTime}
+     * @type {hash5.module.calendar.DateTime}
      * @private
      */
     this.recend_ = null;
@@ -62,17 +62,19 @@ hash5.module.calendar.Event = function()
  */
 hash5.module.calendar.Event.factory = function(data)
 {
+    var dateParser = hash5.module.calendar.DateTime.fromIsoString;
+
     var entryDate = new hash5.module.calendar.Event();
-    entryDate.startDate_ = data['start'] ? goog.date.fromIsoString(data['start']) : null;
-    entryDate.endDate_ = data['end'] ? goog.date.fromIsoString(data['end']) : null;
+    entryDate.startDate_ = data['start'] ? dateParser(data['start']) : null;
+    entryDate.endDate_ = data['end'] ? dateParser(data['end']) : null;
     entryDate.recurrent_ = data['recurrent'] ? hash5.module.calendar.Duration.fromJson(data['recurrent'])  : null;
-    entryDate.recend_ = data['recend'] ? goog.date.fromIsoString(data['recend']) : null;
+    entryDate.recend_ = data['recend'] ? dateParser(data['recend']) : null;
 
     if(goog.isArray(data['exclude']))
     {
         for(var i = 0; i < data['exclude'].length; i++)
         {
-            entryDate.exclude_.push(goog.date.fromIsoString(data['exclude'][i]));
+            entryDate.exclude_.push(dateParser(data['exclude'][i]));
         }
     }
 
@@ -81,7 +83,7 @@ hash5.module.calendar.Event.factory = function(data)
 
 
 /**
- * @return {goog.date.DateTime}
+ * @return {hash5.module.calendar.DateTime}
  */
 hash5.module.calendar.Event.prototype.getStartDate = function()
 {
@@ -89,7 +91,7 @@ hash5.module.calendar.Event.prototype.getStartDate = function()
 };
 
 /**
- * @param {goog.date.DateTime} date
+ * @param {hash5.module.calendar.DateTime} date
  * @param {[number, number]=} indices indices where date was parsed
  */
 hash5.module.calendar.Event.prototype.setStartDate = function(date, indices)
@@ -104,7 +106,7 @@ hash5.module.calendar.Event.prototype.setStartDate = function(date, indices)
 
 
 /**
- * @return {goog.date.DateTime}
+ * @return {hash5.module.calendar.DateTime}
  */
 hash5.module.calendar.Event.prototype.getEndDate = function()
 {
@@ -112,7 +114,7 @@ hash5.module.calendar.Event.prototype.getEndDate = function()
 };
 
 /**
- * @param {goog.date.DateTime} date
+ * @param {hash5.module.calendar.DateTime} date
  * @param {[number, number]=} indices indices where date was parsed
  */
 hash5.module.calendar.Event.prototype.setEndDate = function(date, indices)
@@ -149,7 +151,7 @@ hash5.module.calendar.Event.prototype.setRecurrent = function(rec, indices)
 };
 
 /**
- * @return {goog.date.DateTime}
+ * @return {hash5.module.calendar.DateTime}
  */
 hash5.module.calendar.Event.prototype.getRecend = function()
 {
@@ -157,7 +159,7 @@ hash5.module.calendar.Event.prototype.getRecend = function()
 };
 
 /**
- * @param {goog.date.DateTime} date
+ * @param {hash5.module.calendar.DateTime} date
  * @param {[number, number]=} indices indices where date was parsed
  */
 hash5.module.calendar.Event.prototype.setRecend = function(date, indices)
@@ -171,7 +173,7 @@ hash5.module.calendar.Event.prototype.setRecend = function(date, indices)
 };
 
 /**
- * @return {Array.<goog.date.DateTime>}
+ * @return {Array.<hash5.module.calendar.DateTime>}
  */
 hash5.module.calendar.Event.prototype.getExcluded = function()
 {
@@ -220,8 +222,8 @@ hash5.module.calendar.Event.prototype.equals = function(event)
 };
 
 /**
- * @param {goog.date.DateTime} date1
- * @param {goog.date.DateTime} date2
+ * @param {hash5.module.calendar.DateTime} date1
+ * @param {hash5.module.calendar.DateTime} date2
  * @return {boolean}
  */
 hash5.module.calendar.Event.prototype.equalDates_ = function(date1, date2)
@@ -233,8 +235,8 @@ hash5.module.calendar.Event.prototype.equalDates_ = function(date1, date2)
 };
 
 /**
- * @param {Array.<goog.date.DateTime>} dates1
- * @param {Array.<goog.date.DateTime>} dates2
+ * @param {Array.<hash5.module.calendar.DateTime>} dates1
+ * @param {Array.<hash5.module.calendar.DateTime>} dates2
  * @return {boolean}
  */
 hash5.module.calendar.Event.prototype.equalDateArrs_ = function(dates1, dates2)

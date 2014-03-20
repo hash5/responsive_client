@@ -1,6 +1,5 @@
 goog.provide('hash5.module.calendar.HelperTile');
 
-goog.require('goog.date.DateTime');
 goog.require('goog.date.Interval');
 
 goog.require('hash5.ui.editor.HelperTile');
@@ -29,9 +28,9 @@ hash5.module.calendar.HelperTile = function(event)
     if(!event)
     {
         this.event_ = event = new hash5.module.calendar.Event();
-        event.setStartDate(new goog.date.DateTime());
+        event.setStartDate(new hash5.module.calendar.DateTime());
 
-        var endDate = new goog.date.DateTime();
+        var endDate = new hash5.module.calendar.DateTime();
         endDate.add(new goog.date.Interval(goog.date.Interval.HOURS, 1));
         event.setEndDate(endDate);
     }
@@ -109,7 +108,7 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function(event)
     this.setDate_(this.endDate_, event.getEndDate());
     this.setTime_(this.endTime_, event.getEndDate());
 
-    var hasTime = false; //this.startTime_.hasTime() || this.endTime_.hasTime(); // TODO
+    var hasTime = event.getStartDate().hasTime() || event.getEndDate().hasTime();
     this.allDay_.setValue(!hasTime);
 
     if(event.getRecurrent())
@@ -125,7 +124,7 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function(event)
 
 /**
  * @param {hash5.forms.IControl} control
- * @param {goog.date.DateTime} date
+ * @param {hash5.module.calendar.DateTime} date
  * @private
  */
 hash5.module.calendar.HelperTile.prototype.setDate_ = function(control, date)
@@ -136,8 +135,7 @@ hash5.module.calendar.HelperTile.prototype.setDate_ = function(control, date)
 
 /**
  * @param {hash5.forms.IControl} control
- * @param {goog.date.DateTime} date
- * @return {boolean}
+ * @param {hash5.module.calendar.DateTime} date
  * @private
  */
 hash5.module.calendar.HelperTile.prototype.setTime_ = function(control, date)
@@ -162,9 +160,9 @@ hash5.module.calendar.HelperTile.prototype.handleDateChanges_ = function(e)
     if(allDay)
     {
         startDate = utils.stringToDate(this.startDate_.getValue());
+        startDate.setHasTime(false);
         endDate = utils.stringToDate(this.endDate_.getValue());
-
-        // TODO maybe remove times...
+        endDate.setHasTime(false);
     }
     else
     {

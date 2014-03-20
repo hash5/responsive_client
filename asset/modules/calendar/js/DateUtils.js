@@ -1,7 +1,7 @@
 goog.provide('hash5.module.calendar.DateUtils');
 
 
-goog.require('goog.date.DateTime');
+goog.require('hash5.module.calendar.DateTime');
 goog.require('goog.i18n.DateTimeParse');
 
 
@@ -13,11 +13,8 @@ goog.require('goog.i18n.DateTimeParse');
  * @private
  */
 hash5.module.calendar.DateUtils.dateParsers_ = [
-   new goog.i18n.DateTimeParse("dd'.'MM'.'yyyy HH:mm"),
    new goog.i18n.DateTimeParse("dd'.'MM'.'yyyy"),
-   new goog.i18n.DateTimeParse("yyy-MM-dd HH:mm"),
    new goog.i18n.DateTimeParse("yyy-MM-dd"),
-   new goog.i18n.DateTimeParse("yyy/MM/dd HH:mm"),
    new goog.i18n.DateTimeParse("yyy/MM/dd")
 ];
 
@@ -34,25 +31,59 @@ hash5.module.calendar.DateUtils.timeParser_ = new goog.i18n.DateTimeParse("HH:mm
  * or null if the text is not valid or was null.
  *
  * @param {string} text
- * @return {goog.date.DateTime}
+ * @return {hash5.module.calendar.DateTime}
  */
 hash5.module.calendar.DateUtils.stringToDate = function(text)
 {
   if(!text)
     return null;
 
-  var date = new goog.date.DateTime();
-  var parsers = hash5.module.calendar.DateUtils.dateParsers_;
+  var date = new hash5.module.calendar.DateTime();
+  var parsed = hash5.module.calendar.DateUtils.parseDate(text, date);
+  if(parsed > 0){
+    hash5.module.calendar.DateUtils.parseTime(text.substring(parsed), date);
+  }
 
-  // TODO parse date and time seperatly to check if time was parsed
+  return parsed > 0 ? date : null;
+};
+
+
+/**
+ * @param {string} text
+ * @param {hash5.module.calendar.DateTime} date
+ * @return {number}
+ */
+hash5.module.calendar.DateUtils.parseDate = function(text, date)
+{
+  var parsers = hash5.module.calendar.DateUtils.dateParsers_;
+  var parsedChars = 0;
 
   for(var i = 0; i < parsers.length; i++)
   {
-    if(parsers[i].strictParse(text, date) > 0)
-      return date;
+    parsedChars = parsers[i].strictParse(text, date);
+    if(parsedChars > 0)
+      return parsedChars;
   }
 
-  return null;
+  return parsedChars;
+};
+
+/**
+ * @param {string} text
+ * @param {hash5.module.calendar.DateTime} date
+ * @return {boolean}
+ */
+hash5.module.calendar.DateUtils.parseTime = function(text, date)
+{
+  var parser = hash5.module.calendar.DateUtils.timeParser_;
+
+  if(parser.strictParse(text, date) > 0)
+  {
+    date.setHasTime(true);
+    return true;
+  }
+
+  return false;
 };
 
 /**
@@ -63,17 +94,20 @@ hash5.module.calendar.DateUtils.stringToDate = function(text)
  * the day will then taken from the startDate argument.
  *
  * @param {string} text
- * @param {goog.date.DateTime} startDate
- * @return {goog.date.DateTime}
+ * @param {hash5.module.calendar.DateTime} startDate
+ * @return {hash5.module.calendar.DateTime}
  */
 hash5.module.calendar.DateUtils.stringOrTimeToDate = function(text, startDate)
 {
   var dateAndTime = hash5.module.calendar.DateUtils.stringToDate(text);
 
+  if(!startDate)
+    return dateAndTime;
+
   if(!dateAndTime) {
     var newDate = startDate.clone();
 
-    if(hash5.module.calendar.DateUtils.timeParser_.parse(text, newDate) > 0)
+    if(hash5.module.calendar.DateUtils.parseTime(text, newDate) > 0)
     {
       dateAndTime = newDate;
     }

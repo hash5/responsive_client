@@ -112,8 +112,6 @@ hash5.module.calendar.EditorComponent.prototype.handleTileRemoved_ = function(e)
 hash5.module.calendar.EditorComponent.prototype.updateTextForEvent = function(event)
 {
     var entryText = this.getEditor().getEntryText();
-    // TODO use global instance and check if time is set!
-    var dateFormatter = new goog.i18n.DateTimeFormat('d.M.y H:m');
 
     // because changing the text the indices got by the parser have to be adjusted
     var changedLength = 0;
@@ -154,11 +152,20 @@ hash5.module.calendar.EditorComponent.prototype.updateTextForEvent = function(ev
 
     var insertDate = function(date, key)
     {
-        insertString('"' + dateFormatter.format(date)  + '"', key);
+        insertString('"' + date.toString()  + '"', key);
     };
 
     insertDate(event.getStartDate(), 'start');
-    insertDate(event.getEndDate(), 'end');
+
+    if(goog.date.isSameDay(event.getStartDate(), event.getEndDate()))
+    {
+        insertString(event.getEndDate().getTimeString(), 'end');
+    }
+    else
+    {
+        insertDate(event.getEndDate(), 'end');
+    }
+
     insertString(event.getRecurrent() ? event.getRecurrent().toString() : '', 'recurrent');
 
     if(entryText != this.getEditor().getEntryText())
