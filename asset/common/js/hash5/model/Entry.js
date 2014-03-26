@@ -20,10 +20,10 @@ hash5.model.Entry = function(id)
     goog.base(this);
 
     // make sure that same entries are represented by the same object
-    var cached;
     if(goog.isDef(id))
     {
         var store = hash5.ds.EntryStore.getInstance();
+        var cached;
         if(cached = store.get(id))
         {
             return cached;
@@ -141,7 +141,7 @@ hash5.model.Entry.prototype.getCreatedDate = function()
  *
  * @return {hash5.parsing.Parser}
  */
-hash5.model.Entry.prototype.getParser = function(newParser)
+hash5.model.Entry.prototype.getParser = function()
 {
     if(!this.parser_)
     {
@@ -237,39 +237,40 @@ hash5.model.Entry.prototype.destroy = function()
 /** @inheritDoc */
 hash5.model.Entry.prototype.update = function(data)
 {
+    var fireChange = false;
 
     this.serverObj_ = data;
 
-    // provide keyMapping because Closure Compiler will rename
-    // class properties
-    var keyMapping = {};
-
-    // TODO do not check for isDef, provide only keymaping
-    // include this in factory...
-
     if(goog.isDef(data['_id']))
     {
-        keyMapping.id_ = data['_id'];
+        this.id_ = data['_id'];
+        fireChange = true;
     }
 
     if(goog.isDef(data['text']))
     {
-        keyMapping.text_ = data['text'];
+        this.text_ = data['text'];
+        fireChange = true;
     }
 
     if(goog.isDef(data['created_date']))
     {
         if(goog.isString(data['created_date']))
         {
-            keyMapping.createDate_ = goog.date.fromIsoString(data['created_date']);
+            this.createDate_ = goog.date.fromIsoString(data['created_date']);
         }
         else
         {
-            keyMapping.createDate_ = data['created_date'];
+            this.createDate_ = data['created_date'];
         }
+
+        fireChange = true;
     }
 
-    goog.base(this, 'update', keyMapping);
+    if (fireChange)
+    {
+        this.dispatchEvent(goog.events.EventType.CHANGE);
+    }
 };
 
 /** @inheritDoc */
