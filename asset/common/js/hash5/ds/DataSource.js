@@ -87,7 +87,7 @@ hash5.ds.DataSource.prototype.fetch = function(model, callback, handler)
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, function(e){
         var response = e.target.getResponseJson();
-        model.update(response[0]);
+        model.update(response);
 
         if(goog.isFunction(callback))
         {
@@ -215,6 +215,7 @@ hash5.ds.DataSource.prototype.getEntries = function(url, collection, callback, h
 /**
  * @param  {*} json
  * @return {Array.<hash5.model.Entry>}
+ * @private
  */
 hash5.ds.DataSource.prototype.decodeResultJson_ = function(json)
 {
