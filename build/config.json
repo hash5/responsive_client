@@ -18,8 +18,10 @@
   },
   "output-charset": "UTF-8",
 
-  "language": "en",
-  "translations": "../asset/common/locales/",
+  "languages": {
+    "de": "../asset/common/locales/de.xtb",
+    "en": "../asset/common/locales/en.xtb"
+  },
 
   "closure-library": "../asset/closure-library/closure/goog/",
   "modules": {
@@ -36,7 +38,7 @@
       "deps": ["app"]
     }
   },
-  "module-output-path": "../asset/common/js-min/en/%s.js",
+  "module-output-path": "../asset/common/js-min/{LANG}/%s.js",
   "module-production-uri": "/client/asset/common/js-min/LANG/%s.js",
   "test-drivers": [
     {

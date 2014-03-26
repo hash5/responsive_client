@@ -18,8 +18,9 @@
   },
   "output-charset": "UTF-8",
 
-  "language": "de",
-  "translations": "../asset/common/locales/",
+  "languages": {
+    "de": "../asset/common/locales/de.xtb"
+  },
 
   "closure-library": "../asset/closure-library/closure/goog/",
   "modules": {
@@ -37,10 +38,5 @@
     }
   },
   "module-output-path": "../asset/common/js-min/de/%s.js",
-  "module-production-uri": "/client/asset/common/js-min/LANG/%s.js",
-  "test-drivers": [
-    {
-      "class": "org.openqa.selenium.firefox.FirefoxDriver"
-    }
-  ]
+  "module-production-uri": "/client/asset/common/js-min/LANG/%s.js"
 }
