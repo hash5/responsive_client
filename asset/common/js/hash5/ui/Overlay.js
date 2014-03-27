@@ -42,20 +42,33 @@ hash5.ui.Overlay.prototype.handleClick_ = function(e)
     this.setVisible(false);
 };
 
-// TODO add level (see settings show)
-
 /**
  * Controls overlay visibility
  *
  * @param {boolean} isVisible
+ * @param {hash5.ui.Overlay.Level=} level
  */
-hash5.ui.Overlay.prototype.setVisible = function(isVisible)
+hash5.ui.Overlay.prototype.setVisible = function(isVisible, level)
 {
     if (!this.isInDocument())
     {
         this.render(document.body);
     }
 
+    var foregroundClass = hash5.ui.Overlay.Level.FOREGROUND,
+        isForeground = (level === foregroundClass);
+
+    goog.dom.classes.enable(this.getElement(), foregroundClass, isForeground);
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
     goog.dom.classes.enable(document.body, 'body-overlay', isVisible);
+};
+
+/**
+ * different z-index leves
+ *
+ * @enum {string}
+ */
+hash5.ui.Overlay.Level = {
+    BASE: 'base-level', // sidebar and header are still visilbe
+    FOREGROUND: 'foreground-level' // everything is hidden
 };

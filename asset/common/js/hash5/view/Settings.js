@@ -40,7 +40,7 @@ hash5.view.Settings.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     var overlay = hash5.ui.Overlay.getInstance();
-    overlay.setVisible(true);
+    overlay.setVisible(true, hash5.ui.Overlay.Level.FOREGROUND);
     this.getHandler().listen(overlay, goog.ui.Component.EventType.CLOSE, this.close);
 
     var saveBtn = this.getElementByClass('btn-save');

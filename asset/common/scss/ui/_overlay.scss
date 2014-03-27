@@ -1,4 +1,7 @@
 
+$overlayBaseLevel: 999;
+$overlayForegroundLevel: 1999;
+
 .overlay
 {
     position: fixed;
@@ -9,7 +12,12 @@
     width: 0;
     height: 0;
     @include transition(opacity 0.5s, width 0.1s 0.5s, height 0.1s 0.5s);
-    z-index: 999;
+    z-index: $overlayBaseLevel;
+
+    &.foreground-level
+    {
+        z-index: $overlayForegroundLevel;
+    }
 
     &.visible
     {
