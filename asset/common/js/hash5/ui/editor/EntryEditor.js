@@ -228,6 +228,14 @@ hash5.ui.editor.EntryEditor.prototype.getParser = function()
 };
 
 /**
+ * @return {hash5.model.Entry}
+ */
+hash5.ui.editor.EntryEditor.prototype.getEntry = function()
+{
+    return this.entry_;
+};
+
+/**
  * returns current entry text from the editor
  *
  * @return {string} current entryText

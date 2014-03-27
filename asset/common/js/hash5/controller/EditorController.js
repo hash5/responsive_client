@@ -62,16 +62,31 @@ hash5.controller.EditorController.prototype.registerComponent = function(comp)
 /**
  * creates new entryEditor and renders it to the mainPanel
  *
- * @param  {hash5.model.Entry} entry
+ * @param  {hash5.model.Entry} entry entry to edit. if entry is null, a new one will be created
  * @return {hash5.ui.editor.EntryEditor}
  */
 hash5.controller.EditorController.prototype.createEntryEditor = function(entry)
 {
     if(this.entryEditor_)
     {
+        var curEditorText = this.entryEditor_.getEntryText();
+
         // TODO test if there are unsaved actions
         // or provide tab-view
         this.entryEditor_.dispose();
+        this.entryEditor_ = null;
+
+        if(!entry && !curEditorText)
+        {
+            // if currently no entrytext is insered and a new entry
+            // should be added, the editor will be closed
+            return null;
+        }
+    }
+
+    if(!entry)
+    {
+        entry = new hash5.model.Entry();
     }
 
     var editor = new hash5.ui.editor.EntryEditor(entry);

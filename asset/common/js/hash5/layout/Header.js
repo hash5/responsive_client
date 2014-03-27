@@ -62,8 +62,7 @@ hash5.layout.Header.prototype.initDefaultButtons = function()
     var MSG_ADD_TITLE = goog.getMsg('Add');
     var addGroup = new hash5.layout.HeaderButtonGroup(MSG_ADD_TITLE, 'icon-add-light');
     this.getHandler().listen(addGroup, goog.ui.Component.EventType.ACTION, function(){
-        var newEntry = new hash5.model.Entry();
-        hash5.api.editEntry(newEntry);
+        hash5.api.editEntry(null);
     });
     this.addButtonGroup(addGroup);
 
