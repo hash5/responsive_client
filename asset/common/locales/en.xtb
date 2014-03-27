@@ -1,63 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE translationbundle>
 <translationbundle lang="en">
-    <translation id="6305316349907873408">or create new account</translation>
-    <translation id="4502316909581122450">Deutsch</translation>
-    <translation id="1391550944313119672">Register</translation>
-    <translation id="7908680343922999665">create account</translation>
-    <translation id="3893510434409222676">Cancle</translation>
-    <translation id="2314169379653075775">Username</translation>
-    <translation id="6345928104745939943">Password</translation>
-    <translation id="4685473087220399">Please insert your username.</translation>
-    <translation id="1368395470481159298">Please insert your password.</translation>
-    <translation id="898459006031334223">These passwords don't match.</translation>
-    <translation id="6274581522981880352">Someone already has that username.</translation>
-    <translation id="6238691462958886612">Username</translation>
-    <translation id="99297112724803354">Password</translation>
-    <translation id="7637229415255188318">Please insert your username.</translation>
-    <translation id="3489555790720798528">Please insert your password.</translation>
-    <translation id="7065730056210101680">The email or password you entered is incorrect.</translation>
-    <translation id="2431715439884280692">Edit entry</translation>
-    <translation id="3442789566007593788">Save</translation>
-    <translation id="3893510434409222676">Cancle</translation>
-    <translation id="7769213294232996040">remove</translation>
-    <translation id="3501335681219376815"><ph name="MONTH_NAME"/> <ph name="YEAR_NUM"/></translation>
-    <translation id="2307498693105169755">am</translation>
-    <translation id="2880376617002328348">pm</translation>
-    <translation id="4679775960930096774">Today</translation>
-    <translation id="4726694856880487873">None</translation>
-    <translation id="1519182772006511896">Calendar</translation>
-    <translation id="6438517645149819381">Tomorrow</translation>
-    <translation id="7193569929423689975">Today</translation>
-    <translation id="1428723246486669776">Yesterday</translation>
-    <translation id="5173092562051888378"><ph name="NUM"/> minute ago</translation>
-    <translation id="2980192934149920770"><ph name="NUM"/> minutes ago</translation>
-    <translation id="9019211444535457930">in <ph name="NUM"/> minute</translation>
-    <translation id="4253332605280801137">in <ph name="NUM"/> minutes</translation>
-    <translation id="1308849837048428199"><ph name="NUM"/> hour ago</translation>
-    <translation id="4669004535587538063"><ph name="NUM"/> hours ago</translation>
-    <translation id="1499566838560358324">in <ph name="NUM"/> hour</translation>
-    <translation id="7557327300424117500">in <ph name="NUM"/> hours</translation>
-    <translation id="7334391477982461059"><ph name="NUM"/> day ago</translation>
-    <translation id="5134210481550173004"><ph name="NUM"/> days ago</translation>
-    <translation id="4218920355193789839">in <ph name="NUM"/> day</translation>
-    <translation id="2569438922978284310">in <ph name="NUM"/> days</translation>
-    <translation id="3280114010040539445">Add Entry...</translation>
-    <translation id="5082443523267660875">add</translation>
-    <translation id="3136895206435153179">close</translation>
-    <translation id="3442789566007593788">Save</translation>
-    <translation id="2761479018305588455">Delete all</translation>
-    <translation id="7050805522977735204">Neueste Einträge</translation>
-    <translation id="1518507997983760884">Search</translation>
-    <translation id="4263731381648995203">Preview</translation>
-    <translation id="1274515680348884391">Add Column</translation>
-    <translation id="7504077882004397384">Search...</translation>
-    <translation id="6676432996758958311">Add Folder</translation>
-    <translation id="8221000947284579223">Undo</translation>
-    <translation id="2672495035524679389">Settings</translation>
-    <translation id="3442789566007593788">Save</translation>
-    <translation id="3893510434409222676">Cancle</translation>
-    <translation id="4980926479065457881">Language</translation>
-    <translation id="5135890621251101547">Search</translation>
-    <translation id="8549398441171878794">Add</translation>
-    <translation id="6112508516103432568">Settings</translation>
-    <translation id="6679302351579820420">Logout</translation>
+	<translation id="3603953136035743377" key="MSG_15MA9WC7D24EG" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register button">or create new account</translation>
+	<translation id="8914174396777800493" key="MSG_1TSN7FIFRIT61" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="lang change code">de</translation>
+	<translation id="5731102291567675345" key="MSG_1WBUXJJJK6ALW" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="lang change button">Deutsch</translation>
+	<translation id="8691650432970362875" key="MSG_1QHVFDJ6JO0JD" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register heading">Register</translation>
+	<translation id="8601435840013717474" key="MSG_CP60GO4NLSG2" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register button">create account</translation>
+	<translation id="29061588115776576" key="MSG_14D9FYATIY8H8" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal cancle btn">Cancle</translation>
+	<translation id="1047959220914296384" key="MSG_USERNAME" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="username">Username</translation>
+	<translation id="5796336013099753435" key="MSG_PASSWORD" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password">Password</translation>
+	<translation id="8255869980679741143" key="MSG_USERNAME_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg forusername">Please insert your username.</translation>
+	<translation id="4869280965051537343" key="MSG_PASSWORD_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg for password">Please insert your password.</translation>
+	<translation id="1699889279504198943" key="MSG_PASSWORD_DISMATCH" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="error msg for not equal passwords">These passwords don't match.</translation>
+	<translation id="7564739925386103068" key="MSG_USER_CONFLICT" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="user name conflict error msg">Someone already has that username.</translation>
+	<translation id="7443418876915152054" key="MSG_USERNAME1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="username">Username</translation>
+	<translation id="3009194278238042444" key="MSG_PASSWORD1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="password">Password</translation>
+	<translation id="3171001077743357119" key="MSG_USERNAME_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg forusername">Please insert your username.</translation>
+	<translation id="4839133846505152977" key="MSG_PASSWORD_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg for password">Please insert your password.</translation>
+	<translation id="4701102176954940477" key="MSG_WRONG_PASSWORD" source="../asset/common/js/hash5/ui/LoginForm.js" desc="wrong password msg">The email or password you entered is incorrect.</translation>
+	<translation id="6468784957347062648" key="MSG_RK1SKDVE1FVZ" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="entry editor edit title">Edit entry</translation>
+	<translation id="3492245044200129208" key="MSG_YPZDSKDEKL3G" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal save btn">Save</translation>
+	<translation id="8461299294027390970" key="MSG_11Q8NMH0NV74G" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="tooltip to remove helper tile">remove</translation>
+	<translation id="7656530172193016977" key="MSG_TIME_AM" source="/closure/goog/date/date.js" desc="Suffix for morning times.">am</translation>
+	<translation id="2650497251098773617" key="MSG_TIME_PM" source="/closure/goog/date/date.js" desc="Suffix for afternoon times.">pm</translation>
+	<translation id="7936095480982438927" key="MSG_DATEPICKER_TODAY_BUTTON_LABEL" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that selects the current date.">Today</translation>
+	<translation id="363095865625764662" key="MSG_DATEPICKER_NONE" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that clears the selection.">None</translation>
+	<translation id="3205135428336611164" key="MSG_CALENDAR_PLUGIN" source="../asset/modules/calendar/js/EditorComponent.js" desc="name for the calendar plugin">Calendar</translation>
+	<translation id="3302075815358945759" key="MSG_TOMORROW" source="/closure/goog/date/relative.js" desc="Tomorrow.">Tomorrow</translation>
+	<translation id="2230012501304111723" key="MSG_TODAY" source="/closure/goog/date/relative.js" desc="Today.">Today</translation>
+	<translation id="3408896348886713221" key="MSG_YESTERDAY" source="/closure/goog/date/relative.js" desc="Yesterday.">Yesterday</translation>
+	<translation id="7235757694215641900" key="MSG_MINUTES_AGO_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating how many minutes ago something happened (singular)."><ph name="num" /> minute ago</translation>
+	<translation id="5008787269055580846" key="MSG_MINUTES_AGO_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating how many minutes ago something happened (plural)."><ph name="num" /> minutes ago</translation>
+	<translation id="4562827717857646633" key="MSG_IN_MINUTES_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many minutes something happens (singular).">in <ph name="num" /> minute</translation>
+	<translation id="2760913735028515168" key="MSG_IN_MINUTES_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many minutes something happens (plural).">in <ph name="num" /> minutes</translation>
+	<translation id="8331711563502834543" key="MSG_HOURS_AGO_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating how many hours ago something happened (singular)."><ph name="num" /> hour ago</translation>
+	<translation id="3944926258091667467" key="MSG_HOURS_AGO_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating how many hours ago something happened (plural)."><ph name="num" /> hours ago</translation>
+	<translation id="8042696718484093584" key="MSG_IN_HOURS_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many hours something happens (singular).">in <ph name="num" /> hour</translation>
+	<translation id="7521189749775588575" key="MSG_IN_HOURS_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many hours something happens (plural).">in <ph name="num" /> hours</translation>
+	<translation id="7454675513160944487" key="MSG_DAYS_AGO_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating how many days ago something happened (singular)."><ph name="num" /> day ago</translation>
+	<translation id="6872298578359114528" key="MSG_DAYS_AGO_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating how many days ago something happened (plural)."><ph name="num" /> days ago</translation>
+	<translation id="1081926157258772881" key="MSG_IN_DAYS_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many days something happens (singular).">in <ph name="num" /> day</translation>
+	<translation id="6511054188199036888" key="MSG_IN_DAYS_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many days something happens (plural).">in <ph name="num" /> days</translation>
+	<translation id="5505833551326918382" key="MSG_ADD_ENTRY" source="../asset/common/js/hash5/ui/QuickCreateEntry.js" desc="qucick edit placeholder">Add Entry...</translation>
+	<translation id="7141543709934632345" key="MSG_KBYCE8UAEIDB" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="add entry list action">add</translation>
+	<translation id="8464512011312511379" key="MSG_J13TJW7OAMS0" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="close entry list action">close</translation>
+	<translation id="7761452865245188589" key="MSG_V99P3NME5ZXQ" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="delete all entry list action">Delete all</translation>
+	<translation id="8035258730776425762" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Neueste EintrÃ¤ge</translation>
+	<translation id="4463237795828482645" key="MSG_18GIEN36PX54E" source="../asset/common/js/hash5/templates/SearchField.soy" desc="search btn label">Search</translation>
+	<translation id="8110680991594254670" key="MSG_10KPA4FGYE26Z" source="../asset/common/js/hash5/templates/SearchField.soy" desc="preview heading">Preview</translation>
+	<translation id="1872691692674123183" key="MSG_16K60HO5P8S2C" source="../asset/common/js/hash5/templates/SearchField.soy" desc="add column button">Add Column</translation>
+	<translation id="8724543422330761023" key="MSG_Placeholder" source="../asset/common/js/hash5/ui/SearchField.js" desc="search box placeholder">Search...</translation>
+	<translation id="8502001353614489348" key="MSG_ADD_FOLDER" source="../asset/common/js/hash5/ui/SearchTree.js" desc="add folder button">Add Folder</translation>
+	<translation id="3317439382039901875" key="MSG_UNDO" source="../asset/common/js/hash5/controller/UndoController.js" desc="header btn for undo menu">Undo</translation>
+	<translation id="4599720509812622647" key="MSG_133GJ5W9W1JGH" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal heading">Settings</translation>
+	<translation id="8177477612884511513" key="MSG_LANGUAGE" source="../asset/common/js/hash5/view/Settings.js" desc="username">Language</translation>
+	<translation id="6608789283188933674" key="MSG_SEARCH_TITLE" source="../asset/common/js/hash5/layout/Header.js" desc="search title">Search</translation>
+	<translation id="7418881267038288571" key="MSG_ADD_TITLE" source="../asset/common/js/hash5/layout/Header.js" desc="add title">Add</translation>
+	<translation id="1594427186360964062" key="MSG_SETTINGS" source="../asset/common/js/hash5/layout/Header.js" desc="settings btn title">Settings</translation>
+	<translation id="192207046017539897" key="MSG_LOGOUT" source="../asset/common/js/hash5/layout/Header.js" desc="logout btn title">Logout</translation>
 </translationbundle>
