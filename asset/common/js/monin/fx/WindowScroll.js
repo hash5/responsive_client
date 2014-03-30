@@ -27,15 +27,21 @@ goog.require('monin.fx.dom.PredefinedEffect');
  * @param {Array.<number>} end 2D array for end scroll left and top.
  * @param {number} time Length of animation in milliseconds.
  * @param {Function=} opt_acc Acceleration function, returns 0-1 for inputs 0-1.
+ * @param {Element=} opt_scrollEl optional Element used to scroll.
  * @extends {monin.fx.dom.PredefinedEffect}
  * @constructor
  */
-monin.fx.WindowScroll = function(element, start, end, time, opt_acc) {
+monin.fx.WindowScroll = function(element, start, end, time, opt_acc, opt_scrollEl) {
     if (start.length != 2 || end.length != 2)
     {
         throw Error('Start and end points must be 2D');
     }
     monin.fx.dom.PredefinedEffect.apply(this, arguments);
+
+    /**
+     * @type {Element}
+     */
+    this.scrollEl_ = opt_scrollEl;
 };
 goog.inherits(monin.fx.WindowScroll, monin.fx.dom.PredefinedEffect);
 
@@ -46,5 +52,13 @@ goog.inherits(monin.fx.WindowScroll, monin.fx.dom.PredefinedEffect);
  * @override
  */
 monin.fx.WindowScroll.prototype.updateStyle = function() {
-    window.scrollTo(this.coords[0], this.coords[1]);
+    if(this.scrollEl_)
+    {
+        this.scrollEl_.scrollLeft = this.coords[0];
+        this.scrollEl_.scrollRight = this.coords[1];
+    }
+    else
+    {
+        window.scrollTo(this.coords[0], this.coords[1]);
+    }
 };

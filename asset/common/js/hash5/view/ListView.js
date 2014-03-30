@@ -151,8 +151,8 @@ hash5.view.ListView.prototype.slideToList = function(listUi)
 {
     var el = listUi.getElement();
 
-    var scrollEl = document.body;
-    var scrollAnim = new monin.fx.WindowScroll(el, [scrollEl.scrollLeft, 0], [el.offsetLeft, 0], 500, goog.fx.easing.inAndOut);
+    var scrollEl = this.getElement();
+    var scrollAnim = new monin.fx.WindowScroll(el, [scrollEl.scrollLeft, 0], [el.offsetLeft, 0], 500, goog.fx.easing.inAndOut, scrollEl);
     scrollAnim.play();
 
     var focusAnim = new hash5.fx.CssClassAnimation(el, hash5.fx.CssClassAnimation.Animations.FOCUS);

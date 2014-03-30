@@ -1,11 +1,11 @@
 
 .focus-anim
 {
-    @include animation(box-focus-anim 2s 0.5s ease);
+    @include animation(box-focus-anim 2s 0.5s ease 2);
 }
 
 @include keyframes(box-focus-anim) {
   0% {@include box-shadow(inset 0 0 0 $colorYellow);}
-  50% {@include box-shadow(inset 0 0 5px $colorYellow);}
+  50% {@include box-shadow(inset 0 0 4px 2px $colorYellow);}
   100% {@include box-shadow(inset 0 0 0 $colorYellow);}
 }
