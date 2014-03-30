@@ -236,9 +236,9 @@ hash5.view.ListView.prototype.restoreLists = function()
     }
     else
     {
-        var newestEntries = hash5.ds.DataSource.getInstance().newestEntries(); // TODO replace with api call
+        var newestEntries = hash5.api.getNewestEntries();
         /** @desc newest entry list heading */
-        var MSG_NEWEST_HEADING = goog.getMsg('Neueste Einträge');
+        var MSG_NEWEST_HEADING = goog.getMsg('Newest Entries');
         this.addEntryCollection(newestEntries, MSG_NEWEST_HEADING, false);
     }
 };

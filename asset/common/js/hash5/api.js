@@ -5,9 +5,23 @@ goog.provide('hash5.api.layout');
 goog.require('hash5.ds.DataSource');
 goog.require('hash5.controller.EditorController');
 
+/**
+ * fetches newest entries and stores thmen in collection
+ *
+ * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
+ * @param {Function=} callback called when request is finished and results added to collection
+ * @param {*=} handler
+ *
+ * @return {hash5.model.EntryCollection} collection where result entries will be added
+ */
+hash5.api.getNewestEntries = function(collection, callback, handler)
+{
+    var ds = hash5.ds.DataSource.getInstance();
+    return ds.getNewestEntries(collection, callback, handler);
+};
 
 /**
- * fetches entries from given url and stores it in collection
+ * fetches entries from given url and stores them in collection
  *
  * @param  {string} url relative url to fetch entries
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created

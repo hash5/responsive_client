@@ -5,6 +5,7 @@ goog.require('goog.fx.DragDropGroup');
 
 goog.require('hash5.ui.SearchTreeNode');
 goog.require('hash5.ui.SearchTreeDragHandler');
+goog.require('hash5.templates.SearchTree');
 
 /**
  * @constructor
@@ -33,17 +34,8 @@ goog.inherits(hash5.ui.SearchTree, goog.ui.Component);
 /** @inheritDoc */
 hash5.ui.SearchTree.prototype.createDom = function()
 {
-    /** @desc add folder button */
-    var MSG_ADD_FOLDER = goog.getMsg('Add Folder');
-    var domHelper = this.getDomHelper(),
-        el = domHelper.createDom('div', undefined, [
-        domHelper.createDom('div', {
-            'class': 'btn add-folder-btn tooltip',
-            'data-tooltip': MSG_ADD_FOLDER
-        }, '+')
-    ]);
-
-    this.decorateInternal(el);
+    var el = goog.soy.renderAsFragment(hash5.templates.SearchTree.wrapper);
+    this.decorateInternal(/** @type {Element} */ (el));
 };
 
 /** @inheritDoc */
@@ -52,12 +44,26 @@ hash5.ui.SearchTree.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     var addBtn = this.getElementByClass('add-folder-btn');
-    this.getHandler().listen(addBtn, goog.events.EventType.CLICK, this.addFolder);
+    var addNewestEntriesBtn = this.getElementByClass('newest-entries-btn');
+    this.getHandler()
+        .listen(addBtn, goog.events.EventType.CLICK, this.addFolder)
+        .listen(addNewestEntriesBtn, goog.events.EventType.CLICK, this.addNewestEntries_);
 
     var userSearchTree = hash5.controller.UserController.getInstance().getSearchTree();
     this.renderSearchTree(userSearchTree);
 
     this.getHandler().listen(this.dragHandler_, goog.fx.AbstractDragDrop.EventType.DROP, this.handleChange_);
+};
+
+/**
+ * @param {goog.events.BrowserEvent} e
+ */
+hash5.ui.SearchTree.prototype.addNewestEntries_ = function(e)
+{
+    var newestEntries = hash5.api.getNewestEntries();
+    /** @desc newest entry list heading */
+    var MSG_NEWESTENTRIES_HEADING = goog.getMsg('Newest Entries');
+    hash5.api.showEntryCollection(newestEntries, MSG_NEWESTENTRIES_HEADING);
 };
 
 /**

@@ -87,6 +87,21 @@ hash5.model.EntryCollection.prototype.getSearchPattern = function()
     return this.searchPattern_;
 };
 
+/**
+ * returns string used to create new entries satisfying the collection
+ * searchPattern
+ *
+ * @return {string}
+ */
+hash5.model.EntryCollection.prototype.getSearchPatternText = function()
+{
+    // TODO bad fix...
+    var textPattern = this.searchPattern_.replace('/entries', '');
+    textPattern = textPattern.replace('?query=', '');
+
+    return decodeURIComponent(textPattern);
+};
+
 
 /**
  * returns whether currently new entries are requested

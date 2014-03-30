@@ -48,34 +48,6 @@ hash5.ds.DataSource.prototype.send = function(url, method, content, callback)
 };
 
 /**
- *
- *
- * @param {hash5.model.EntryCollection=} collection optional collection. if no collection will be assign, a new one will be created
- * @return {hash5.model.EntryCollection} collection where result entries should be added
- */
-hash5.ds.DataSource.prototype.newestEntries = function(collection)
-{
-    if(!collection)
-    {
-        collection = new hash5.model.EntryCollection();
-    }
-
-    collection.startLoadingEntries();
-
-    var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, function(e){
-        var entries = this.decodeResultJson_(e.target.getResponseJson());
-
-        collection.merge(entries);
-
-        collection.finishedLoadingEntries();
-    }, false, this);
-    xhr.send('/entries');
-
-    return collection;
-};
-
-/**
  * fetches all properties from server
  *
  * @param  {hash5.model.BaseModel} model
@@ -210,6 +182,20 @@ hash5.ds.DataSource.prototype.getEntries = function(url, collection, callback, h
     xhr.send(url, 'GET');
 
     return collection;
+};
+
+/**
+ * fetches newest entries and stores thmen in collection
+ *
+ * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
+ * @param {Function=} callback called when request is finished and results added to collection
+ * @param {*=} handler
+ *
+ * @return {hash5.model.EntryCollection} collection where result entries will be added
+ */
+hash5.ds.DataSource.prototype.getNewestEntries = function(collection, callback, handler)
+{
+    return this.getEntries('/entries', collection, callback, handler);
 };
 
 /**
