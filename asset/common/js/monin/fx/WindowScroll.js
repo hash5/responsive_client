@@ -41,7 +41,7 @@ monin.fx.WindowScroll = function(element, start, end, time, opt_acc, opt_scrollE
     /**
      * @type {Element}
      */
-    this.scrollEl_ = opt_scrollEl;
+    this.scrollEl_ = opt_scrollEl || null;
 };
 goog.inherits(monin.fx.WindowScroll, monin.fx.dom.PredefinedEffect);
 

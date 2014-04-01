@@ -9,7 +9,7 @@ goog.require('goog.date.DateTime');
  */
 hash5.module.calendar.DateTime = function(date)
 {
-    goog.base(this, date);
+    goog.base(this, date || 0);
 
     /**
      * @type {boolean}
@@ -72,6 +72,6 @@ hash5.module.calendar.DateTime.prototype.clone = function()
  * @return {hash5.module.calendar.DateTime} Parsed date or null if parse fails.
  */
 hash5.module.calendar.DateTime.fromIsoString = function(formatted) {
-  var ret = new hash5.module.calendar.DateTime(2000);
+  var ret = new hash5.module.calendar.DateTime();
   return goog.date.setIso8601DateTime(ret, formatted) ? ret : null;
 };

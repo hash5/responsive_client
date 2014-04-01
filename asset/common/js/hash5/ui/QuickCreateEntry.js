@@ -53,13 +53,13 @@ hash5.ui.QuickCreateEntry.prototype.enterDocument = function()
 
     this.getHandler()
         .listen(this.textarea_, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
-        .listen(this.textarea_, goog.events.EventType.FOCUS, this.handleFocus_);
+        .listen(this.textarea_, goog.events.EventType.FOCUS, this.checkForTemplate_);
 };
 
 /**
- * @param  {goog.events.BrowserEvent} e
+ * @private
  */
-hash5.ui.QuickCreateEntry.prototype.handleFocus_ = function(e)
+hash5.ui.QuickCreateEntry.prototype.checkForTemplate_ = function()
 {
     var entryText = this.textarea_.getValue();
     if(!entryText && this.textTemplate_)
@@ -70,6 +70,7 @@ hash5.ui.QuickCreateEntry.prototype.handleFocus_ = function(e)
 
 /**
  * @param  {goog.events.BrowserEvent} e
+ * @private
  */
 hash5.ui.QuickCreateEntry.prototype.handleKeyDown_ = function(e)
 {
@@ -93,6 +94,7 @@ hash5.ui.QuickCreateEntry.prototype.saveEntryText = function()
       entry.save();
 
       this.textarea_.reset();
+      this.checkForTemplate_();
     }
 };
 

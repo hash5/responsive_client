@@ -22,8 +22,7 @@ hash5.ui.EntryListContainer = function(entryCollection, title)
      * @type {hash5.ui.QuickCreateEntry}
      * @private
      */
-    this.quickCreateEntry_ = new hash5.ui.QuickCreateEntry();//entryCollection.getSearchPattern());
-    // TODO fix quick add patterns
+    this.quickCreateEntry_ = new hash5.ui.QuickCreateEntry(entryCollection.getSearchPatternText());
 
 
     /**
@@ -148,13 +147,15 @@ hash5.ui.EntryListContainer.prototype.getTitle = function()
 
 
 /**
+ * handles action btn click
+ *
  * @param  {goog.events.BrowserEvent} e
  */
 hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 {
-    var actionClass = e.target.getAttribute('data-action');
+    var action = e.target.getAttribute('data-action');
 
-    switch(actionClass){
+    switch(action){
         case 'add':
             this.showQuickEdit();
             break;
@@ -174,7 +175,26 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
             });
             this.close();
             break;
+        case 'sort-text':
+            this.toggleSort_(hash5.ds.options.SortField.TEXT);
+            break;
+        case 'sort-date':
+            this.toggleSort_(hash5.ds.options.SortField.CREATED_DATE);
+            break;
     }
+};
+
+/**
+ * applies given sort and toggles action btns
+ * @param  {hash5.ds.options.SortField.CREATED_DATE} sortField
+ */
+hash5.ui.EntryListContainer.prototype.toggleSort_ = function(sortField)
+{
+    var collection = this.entryList_.getEntryCollection();
+    collection.sortBy(sortField);
+
+    goog.dom.classes.toggle(this.getElementByClass('action-sort-text'), 'hidden');
+    goog.dom.classes.toggle(this.getElementByClass('action-sort-date'), 'hidden');
 };
 
 
