@@ -231,6 +231,18 @@ hash5.model.Collection.prototype.serialize = function()
  */
 hash5.model.Collection.prototype.merge = function(modelArr)
 {
+    // TODO disabled merge alog because of wrong ui move problems...
+    for(var i = this.data_.length; i > 0; i--)
+    {
+        this.removeAt(i - 1);
+    }
+
+    for(var length = modelArr.length; i < length; i++)
+    {
+        this.insert(modelArr[i]);
+    }
+
+/*
     var i = 0;
     for(var length = modelArr.length; i < length; i++)
     {
@@ -270,6 +282,7 @@ hash5.model.Collection.prototype.merge = function(modelArr)
     {
         this.removeAt(this.data_.length -1);
     }
+    */
 };
 
 /**

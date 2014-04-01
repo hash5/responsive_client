@@ -109,7 +109,6 @@ hash5.ui.EntryList.prototype.handleScroll_ = function(e)
     this.dispatchEvent(e);
 };
 
-
 /**
  * @param  {hash5.model.Collection.ChangeEvent.<hash5.model.Entry>} e
  */
@@ -136,6 +135,14 @@ hash5.ui.EntryList.prototype.handleEntryRemoved_ = function(e)
  */
 hash5.ui.EntryList.prototype.handleEntryMoved_ = function(e)
 {
+    /*
+    if(e.oldIndex < e.newIndex)
+    {
+        var tmp = e.oldIndex;
+        e.oldIndex = e.newIndex;
+        e.newIndex = e.oldIndex;
+    }*/
+
     var child = this.getChildAt(e.oldIndex);
     this.addChildAt(child, e.newIndex);
 };

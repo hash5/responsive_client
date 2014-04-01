@@ -111,6 +111,8 @@
     .action-close{@include resize-sprite($sprite, close, 50); margin-left: 10px;}
     .action-save:before{@include resize-sprite($sprite, save, 50);}
     .action-delete:before{@include resize-sprite($sprite, trash, 50);}
+    .action-sort-text:before,
+    .action-sort-date:before{@include resize-sprite($sprite, sort, 50);}
 
     h3
     {

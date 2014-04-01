@@ -24,7 +24,8 @@ hash5.ds.DefaultOptions = {
  * @enum {string}
  */
 hash5.ds.options.SortField = {
-    TEXT: 'text'
+    TEXT: 'text',
+    CREATED_DATE: 'created_date'
 };
 
 

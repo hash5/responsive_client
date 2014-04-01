@@ -166,6 +166,18 @@ hash5.model.EntryCollection.prototype.handleEntryStoreChanged_ = function(e)
 };
 
 /**
+ * sets sortField and refreshes collection
+ *
+ * @param  {hash5.ds.options.SortField} sortField
+ */
+hash5.model.EntryCollection.prototype.sortBy = function(sortField)
+{
+    this.options_.sort = sortField;
+
+    this.refresh();
+};
+
+/**
  * refreshes current entries
  * only possible if searchPattern is set
  *
