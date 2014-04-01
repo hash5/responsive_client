@@ -6,6 +6,7 @@ goog.require('goog.Uri.QueryData');
 goog.require('goog.net.XhrManager');
 
 goog.require('hash5.model.EntryCollection');
+goog.require('hash5.ds.Options');
 
 // TODO - use xhrManager
 
@@ -142,7 +143,8 @@ hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
  */
 hash5.ds.DataSource.prototype.search = function(searchStr, collection, callback, handler)
 {
-    return this.getEntries('/entries?query=' + encodeURIComponent(searchStr), collection, callback, handler);
+    // TODO add options
+    return this.getEntries('/entries?query=' + encodeURIComponent(searchStr), collection, undefined, callback, handler);
 };
 
 /**
@@ -150,16 +152,22 @@ hash5.ds.DataSource.prototype.search = function(searchStr, collection, callback,
  *
  * @param  {string} url relative url to fetch entries
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
+ * @param {hash5.ds.Options=} options will be merged with hash5.ds.DataSource.DefaultOptions and specifies pagination
  * @param {Function=} callback called when request is finished and results added to collection
  * @param {*=} handler
+ * @param {boolean=} append if set true all retrieving entries will be added to collection. Otherwise
+ * the new entries will be merged
  *
  * @return {hash5.model.EntryCollection} collection where result entries will be added
  */
-hash5.ds.DataSource.prototype.getEntries = function(url, collection, callback, handler)   // TODO remove callback?
+hash5.ds.DataSource.prototype.getEntries = function(url, collection, options, callback, handler, append)
 {
+    options = this.extendOptions_(options);
+
     if(!collection)
     {
         collection = new hash5.model.EntryCollection(undefined, url);
+        collection.setOptions(options);
     }
 
     collection.startLoadingEntries();
@@ -169,7 +177,14 @@ hash5.ds.DataSource.prototype.getEntries = function(url, collection, callback, h
         var data = e.target.getResponseJson();
         var modelArr = this.decodeResultJson_(data);
 
-        collection.merge(modelArr);
+        if(!!append)
+        {
+            collection.insertLoadedEntries(modelArr);
+        }
+        else
+        {
+            collection.merge(modelArr);
+        }
 
         if(callback)
         {
@@ -179,6 +194,8 @@ hash5.ds.DataSource.prototype.getEntries = function(url, collection, callback, h
         collection.finishedLoadingEntries();
 
     }, false, this);
+
+    url = this.getUrlWithOptions_(url, options);
     xhr.send(url, 'GET');
 
     return collection;
@@ -195,7 +212,8 @@ hash5.ds.DataSource.prototype.getEntries = function(url, collection, callback, h
  */
 hash5.ds.DataSource.prototype.getNewestEntries = function(collection, callback, handler)
 {
-    return this.getEntries('/entries', collection, callback, handler);
+    // TODO add options
+    return this.getEntries('/entries', collection, undefined, callback, handler);
 };
 
 /**
@@ -213,4 +231,57 @@ hash5.ds.DataSource.prototype.decodeResultJson_ = function(json)
     }
 
     return modelArr;
+};
+
+/**
+ * extends given options with DefaultOptions
+ *
+ * @param  {hash5.ds.Options=} opt_options
+ * @return {hash5.ds.Options}
+ * @private
+ */
+hash5.ds.DataSource.prototype.extendOptions_ = function(opt_options)
+{
+    var options = /** @type {hash5.ds.Options} */ (goog.object.clone(hash5.ds.DefaultOptions));
+    goog.object.extend(options, opt_options || {});
+
+    return options;
+};
+
+/**
+ * inserts given options into url
+ *
+ * @param  {string} url
+ * @param  {hash5.ds.Options} options
+ * @return {string}
+ * @private
+ */
+hash5.ds.DataSource.prototype.getUrlWithOptions_ = function(url, options)
+{
+    if(url.indexOf('?') < 0)
+    {
+        url += '?';
+    }
+
+    if(goog.isDef(options.sort))
+    {
+        url += '&sort=' + options.sort;
+    }
+
+    if(goog.isDef(options.order))
+    {
+        url += '&order=' + options.order;
+    }
+
+    if(goog.isDef(options.skip))
+    {
+        url += '&skip=' + options.skip;
+    }
+
+    if(goog.isDef(options.limit))
+    {
+        url += '&limit=' + options.limit;
+    }
+
+    return url;
 };

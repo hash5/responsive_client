@@ -6,8 +6,9 @@ goog.require('goog.fx.DragListGroup');
 goog.require('hash5.ui.Entry');
 goog.require('hash5.model.Collection.EventType');
 
-
 /**
+ * UI to display entries of a EntryCollection
+ * All changes to the Collection will be observed and rendered
  *
  * @param {hash5.model.EntryCollection} entryCollection
  * @constructor
@@ -53,6 +54,7 @@ hash5.ui.EntryList.prototype.enterDocument = function()
         .listen(this.entryCollection_, hash5.model.Collection.EventType.INSERT, this.handleEntryAdded_)
         .listen(this.entryCollection_, hash5.model.Collection.EventType.REMOVE, this.handleEntryRemoved_)
         .listen(this.entryCollection_, hash5.model.Collection.EventType.MOVE, this.handleEntryMoved_)
+        .listen(this.entryCollection_, [goog.net.EventType.READY_STATE_CHANGE, goog.net.EventType.COMPLETE], this.handleCollectionLoading_)
 
         .listen(this.getElement(), goog.events.EventType.SCROLL, this.handleScroll_)
 
@@ -60,6 +62,8 @@ hash5.ui.EntryList.prototype.enterDocument = function()
 
     this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.DOWN);
     this.dlg_.init();
+
+    this.handleCollectionLoading_();
 };
 
 /**
@@ -82,10 +86,26 @@ hash5.ui.EntryList.prototype.handleEntryDragged_ = function(e)
 };
 
 /**
+ * handles scroll event
+ * checks if bottom is reached and tries to load more entries
+ * event is redispatched
+ *
  * @param {goog.events.BrowserEvent} e
  */
 hash5.ui.EntryList.prototype.handleScroll_ = function(e)
 {
+    var el = this.getElement(),
+        curScroll = el.scrollTop,
+        viewportHeight = el.offsetHeight,
+        height = el.scrollHeight;
+
+    //if(curScroll + viewportHeight >= height - viewportHeight / 2)
+    var pixelsToButtom = height - viewportHeight- curScroll;
+    if(pixelsToButtom < 50)
+    {
+        this.entryCollection_.tryLoadMoreEntries();
+    }
+
     this.dispatchEvent(e);
 };
 
@@ -165,4 +185,13 @@ hash5.ui.EntryList.prototype.disposeInternal = function()
 hash5.ui.EntryList.prototype.setTopOffset = function(offset)
 {
     goog.style.setStyle(this.getElement(), 'top', (offset + 50) + 'px');
+};
+
+/**
+ * handles collection loading state changes
+ */
+hash5.ui.EntryList.prototype.handleCollectionLoading_ = function()
+{
+    var isLoading = this.entryCollection_.isLoadingEntries();
+    goog.dom.classes.enable(this.getElement(), 'is-loading', isLoading);
 };

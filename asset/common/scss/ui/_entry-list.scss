@@ -141,6 +141,18 @@
     @include box-sizing(border-box);
     //background: $bodyBg;
     @include transition(top .5s);
+
+    &.is-loading:after
+    {
+        display: block;
+        content: '#';
+        text-align: center;
+        font-size: 25px;
+        padding-top: 20px;
+        color: $colorBlue;
+        font-weight: 700;
+        @include animation(loader-anim 1.5s infinite);
+    }
 }
 
 .entry

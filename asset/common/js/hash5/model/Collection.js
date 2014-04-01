@@ -208,7 +208,7 @@ hash5.model.Collection.prototype.removeAt = function(index)
 /**
  * Serializes collection
  *
- * @return Array.<T>
+ * @return {Array.<T>}
  */
 hash5.model.Collection.prototype.serialize = function()
 {
@@ -225,7 +225,9 @@ hash5.model.Collection.prototype.serialize = function()
  * merges given array with current entries
  * at the end, the collection will represent modelArr.
  *
- *  works only with unique arrays
+ * works only with unique arrays
+ *
+ * @param {Array.<T>} modelArr
  */
 hash5.model.Collection.prototype.merge = function(modelArr)
 {

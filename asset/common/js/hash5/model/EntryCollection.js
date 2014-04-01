@@ -38,6 +38,22 @@ hash5.model.EntryCollection = function(entries, searchPattern)
      */
     this.handler_ = new goog.events.EventHandler(this);
 
+    /**
+     * specifies current sort & pagination options
+     *
+     * @type {hash5.ds.Options}
+     * @private
+     */
+    this.options_ = hash5.ds.DefaultOptions;
+
+    /**
+     * indicates whether all pages has been loaded
+     * once a request to a page returns 0 rows, flag is set to true
+     *
+     * @type {boolean}
+     */
+    this.loadedAll_ = false;
+
     if(entries)
     {
         goog.array.forEach(entries, function(entry){
@@ -53,6 +69,16 @@ hash5.model.EntryCollection = function(entries, searchPattern)
         this.handleEntryStoreChanged_);
 };
 goog.inherits(hash5.model.EntryCollection, hash5.model.Collection);
+
+
+/**
+ * set current pagination manually
+ * @param {hash5.ds.Options} options
+ */
+hash5.model.EntryCollection.prototype.setOptions = function(options)
+{
+    this.options_ = options;
+};
 
 
 /** @inheritDoc */
@@ -119,6 +145,7 @@ hash5.model.EntryCollection.prototype.isLoadingEntries = function()
 hash5.model.EntryCollection.prototype.startLoadingEntries = function()
 {
     this.isLoadingEntries_ = true;
+    this.dispatchEvent(goog.net.EventType.READY_STATE_CHANGE);
 };
 
 /**
@@ -144,28 +171,75 @@ hash5.model.EntryCollection.prototype.handleEntryStoreChanged_ = function(e)
  *
  * @param {Function=} callback called when request is finished
  * @param {*=} handler
+ * @param {boolean=} append if set true all retrieving entries will be added to collection. Otherwise
+ * the new entries will be merged
  * @return {boolean} true if refresh was possible
  */
-hash5.model.EntryCollection.prototype.refresh = function(callback, handler)
+hash5.model.EntryCollection.prototype.refresh = function(callback, handler, append)
 {
     if(this.searchPattern_)
     {
         this.startLoadingEntries();
 
-        hash5.api.getEntries(this.searchPattern_, this, function(){
+        var options = /** @type{hash5.ds.Options} */ (goog.object.clone(this.options_));
+        if(!append)
+        {
+            // reset skip if the whole entryList need to be refreshed
+            options.limit = (options.skip || 0) + options.limit;
+            options.skip = 0;
+        }
+
+        hash5.api.getEntries(this.searchPattern_, this, options, function(){
             this.finishedLoadingEntries();
 
             if(callback)
             {
                 callback.call(handler);
             }
-        }, this);
+        }, this, append);
 
         return true;
     }
     else
     {
         return false;
+    }
+};
+
+/**
+ * tries to load next page (pagination)
+ * does nothing if this.loadedAll_ is true
+ */
+hash5.model.EntryCollection.prototype.tryLoadMoreEntries = function()
+{
+    if(!this.loadedAll_ && !this.isLoadingEntries())
+    {
+        var curSkip = (this.options_.skip || 0),
+            limit = (this.options_.limit || hash5.ds.DefaultOptions.limit);
+
+        this.options_.skip = curSkip + limit;
+
+        this.refresh(undefined, undefined, true);
+    }
+};
+
+/**
+ * inserts loaded entries.
+ * if modelArr.lenght is smaller than pageSize no more entries will be loaded!
+ *
+ * @param  {Array.<hash5.model.Entry>} modelArr
+ */
+hash5.model.EntryCollection.prototype.insertLoadedEntries = function(modelArr)
+{
+    goog.array.forEach(modelArr, function(entry){
+        this.insert(entry);
+    }, this);
+
+    // no more entries to load on next page
+    var pageSize = this.options_.limit || 1;
+    if(modelArr.length < pageSize)
+    {
+        this.loadedAll_ = true;
     }
 };
 

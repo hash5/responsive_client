@@ -25,15 +25,18 @@ hash5.api.getNewestEntries = function(collection, callback, handler)
  *
  * @param  {string} url relative url to fetch entries
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
+ * @param {hash5.ds.Options=} options will be merged with hash5.ds.DataSource.DefaultOptions and specifies pagination
  * @param {Function=} callback called when request is finished and results added to collection
  * @param {*=} handler
+ * @param {boolean=} append if set true all retrieving entries will be added to collection. Otherwise
+ * the new entries will be merged
  *
  * @return {hash5.model.EntryCollection} collection where result entries will be added
  */
-hash5.api.getEntries = function(url, collection, callback, handler)
+hash5.api.getEntries = function(url, collection, options, callback, handler, append)
 {
     var ds = hash5.ds.DataSource.getInstance();
-    return ds.getEntries(url, collection, callback, handler);
+    return ds.getEntries(url, collection, options, callback, handler, append);
 };
 
 
