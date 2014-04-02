@@ -98,7 +98,8 @@ hash5.ui.SearchTreeNode.prototype.handleAction_ = function()
         var model = this.getModel();
 
         // search click
-        var entryColection = hash5.api.searchEntries(model['query']);
+        var reEscapedUrl = model['query'].replace('#', '%23'); // server replaces escaped char
+        var entryColection = hash5.api.getEntries(reEscapedUrl);
         hash5.api.showEntryCollection(entryColection, model['title']);
     }
 

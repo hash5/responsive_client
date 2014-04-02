@@ -101,6 +101,9 @@ hash5.view.ListView.prototype.getDragItem_ = function(el)
 };
 
 /**
+ * renderes the given entry collection in the mainPanel
+ * if there is already a list with same searchpattern, the list will not be added!
+ *
  * @param  {hash5.model.EntryCollection} collection
  * @param  {string=} title
  * @param {boolean=} animated when set to false, no scroll animation will be played
