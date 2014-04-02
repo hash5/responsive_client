@@ -3,6 +3,7 @@
   "paths": [
     "../asset/common/js/",
     "../asset/modules/calendar/js/",
+    "../asset/modules/geo5/js/",
     "../asset/modules/links/js/",
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
@@ -34,6 +35,10 @@
     },
     "calendar": {
       "inputs": "../asset/modules/calendar/js/CalendarModule.js",
+      "deps": ["app"]
+    },
+    "geo5": {
+      "inputs": "../asset/modules/geo5/js/Geo5Module.js",
       "deps": ["app"]
     }
   },
