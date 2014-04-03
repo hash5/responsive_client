@@ -20,21 +20,19 @@ cd $SERVER_PATH/server/public
 rm client
 ln -s ../../../ client
 cd "${SERVER_PATH}/server"
-npm update
+npm update > /dev/null
+sed -i "s/\/activate'/\activate', '\/client'/" app.js
 node app.js --port 9080 --redis false &
 cd $base
-
-# give node some time to start
-sleep 5
 
 #start tests
 wget -nc -O $base/tests/selenium-server.jar http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar
 seleniumstart="xvfb-run java -jar $base/tests/selenium-server.jar"
 ${seleniumstart} &
-sleep 10
+sleep 20
 java -jar $base/tests/ClosureTester.jar -testsfile "asset/common/js/alltests.js" -testserver "http://localhost:9080/client/" -outputfile jsunit-result.xml
 
 #stop the node app and clean up
 killall node
 
-#wget -O- "http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer" > /dev/null
+wget -O- "http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer" > /dev/null
