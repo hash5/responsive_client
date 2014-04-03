@@ -5,8 +5,10 @@ export PATH
 #jshint
 # jshint ./asset/common/js --jslint-reporter > ./jshint.xml
 
+base=`pwd`
+
 # pull hash5 server, set symlink and start server
-SERVER_PATH="hash5"
+SERVER_PATH="${base}/hash5"
 if [ -d "$SERVER_PATH" ]; then
 	cd $SERVER_PATH
 	git pull
@@ -17,9 +19,10 @@ fi
 cd $SERVER_PATH/server/public
 rm client
 ln -s ../../../ client
-cd ../../../
-ls
-node $SERVER-PATH/server/app.js --port 9080 --redis false &
+cd "${SERVER_PATH}/server"
+npm update
+node app.js --port 9080 --redis false &
+cd $base
 
 # give node some time to start
 sleep 5
