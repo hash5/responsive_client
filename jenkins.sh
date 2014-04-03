@@ -21,7 +21,7 @@ rm client
 ln -s ../../../ client
 cd "${SERVER_PATH}/server"
 npm update > /dev/null
-sed -i "s/\/activate'/\activate', '\/client'/" app.js
+sed -i "s/\/activate'/\/activate', '\/client'/" app.js
 node app.js --port 9080 --redis false &
 cd $base
 
