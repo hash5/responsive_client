@@ -58,7 +58,7 @@ hash5.ds.Recommondations.prototype.autocomplete = function(text, tag, callback, 
          */
         if(data['tags'])
         {
-         for(var i = 0; i < data['tags'].length; i++)
+            for(var i = 0; i < data['tags'].length; i++)
             {
                 var suggest = data['tags'][i];
                 result.push('#' + suggest['name']);
@@ -110,7 +110,7 @@ hash5.ds.Recommondations.prototype.recommend = function(text, callback, handler)
 
         if(data['recs'])
         {
-         for(var i = 0; i < data['recs'].length; i++)
+            for(var i = 0; i < data['recs'].length; i++)
             {
                 var suggest = data['recs'][i];
                 result.push('#' + suggest['name']);

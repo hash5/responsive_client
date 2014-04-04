@@ -12,6 +12,7 @@ goog.require('hash5.templates.Searchfield');
 
 
 /**
+ * searchfield with suggestions and preview for the header bar
  *
  * @constructor
  * @extends {goog.ui.Component}
