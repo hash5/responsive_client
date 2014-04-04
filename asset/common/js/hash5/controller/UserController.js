@@ -5,6 +5,7 @@ goog.require('goog.net.XhrIo');
 
 goog.require('hash5.controller.BaseController');
 goog.require('hash5.model.User');
+goog.require('hash5.ui.OverlayLoginForm');
 
 /**
  *
@@ -60,6 +61,9 @@ hash5.controller.UserController.prototype.initialize = function(config, callback
             callback.call(handler, isLoggedIn);
         }, this);
     }
+
+    var connManager = hash5.ds.ConnectionManager.getInstance();
+    goog.events.listen(connManager, hash5.ds.ConnectionManager.EventType.UNAUTHORIZED, this.handleUnauthorized_, false, this);
 };
 
 /**
@@ -242,6 +246,16 @@ hash5.controller.UserController.prototype.isLoggedIn = function()
  */
 hash5.controller.UserController.prototype.login = function(username, password)
 {
+    // TODO enable this check (maybe at extra msg)
+    // ensure that only the same user can renew the session
+    /*
+    if(this.currentUser_ && this.currentUser_.getUserName() != username)
+    {
+        this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
+        return;
+    }
+    */
+
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, function(e){
         var xhr = /** @type {goog.net.XhrIo} */ (e.target);
@@ -288,13 +302,25 @@ hash5.controller.UserController.prototype.handleLoggedOut_ = function(e)
 
     if(xhr.isSuccess())
     {
-        this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
+        this.dispatchEvent(hash5.controller.UserController.EventType.LOGOUT);
         document.location.reload();
     }
     else
     {
         this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
     }
+};
+
+/**
+ * handles UNAUTHORIZED error from ConnectionManager
+ *
+ * @param  {goog.events.Event} e
+ * @private
+ */
+hash5.controller.UserController.prototype.handleUnauthorized_ = function(e)
+{
+    var quickLogin = new hash5.ui.OverlayLoginForm();
+    quickLogin.render(document.body);
 };
 
 /**

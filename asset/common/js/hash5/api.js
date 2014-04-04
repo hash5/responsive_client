@@ -53,8 +53,10 @@ hash5.api.getEntries = function(url, collection, options, callback, handler, app
  */
 hash5.api.searchEntries = function(searchStr, collection, callback, handler)
 {
+    // TODO add options
+    var options = undefined;
     var ds = hash5.ds.DataSource.getInstance();
-    return ds.search(searchStr, collection, callback, handler);
+    return ds.search(searchStr, collection, options, callback, handler);
 };
 
 

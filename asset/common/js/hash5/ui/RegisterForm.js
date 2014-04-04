@@ -94,7 +94,7 @@ hash5.ui.RegisterForm.prototype.handleRegBtnClick_ = function(e)
 };
 
 /**
- * @param  {goog.events.Event} e
+ * @param  {hash5.validation.FormValidationEvent} e
  * @private
  */
 hash5.ui.RegisterForm.prototype.handleValidation_ = function(e)

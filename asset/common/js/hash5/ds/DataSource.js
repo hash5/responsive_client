@@ -2,13 +2,12 @@ goog.provide('hash5.ds.DataSource');
 
 goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventHandler');
-goog.require('goog.Uri.QueryData');
-goog.require('goog.net.XhrManager');
 
+goog.require('hash5.ds.ConnectionManager');
 goog.require('hash5.model.EntryCollection');
 goog.require('hash5.ds.Options');
 
-// TODO - use xhrManager
+// TODO switch to static functions?
 
 /**
  * @constructor
@@ -18,35 +17,10 @@ hash5.ds.DataSource = function()
 {
     goog.base(this);
 
-    /**
-     * @type {goog.events.EventHandler}
-     * @private
-     */
-    this.handler_ = null;
-
-    /**
-     * @type {goog.net.XhrManager}
-     * @private
-     */
-    this.xhr_ = new goog.net.XhrManager();
-
-    this.index_ = 0;
 };
 goog.inherits(hash5.ds.DataSource, goog.events.EventTarget);
 goog.addSingletonGetter(hash5.ds.DataSource);
 
-/**
- * @return {goog.events.EventHandler}
- */
-hash5.ds.DataSource.prototype.getHandler = function() {
-    return this.handler_ || (this.handler_ = new goog.events.EventHandler(this));
-};
-
-
-hash5.ds.DataSource.prototype.send = function(url, method, content, callback)
-{
-    this.xhr_.send(this.index_++ + '', '/entries', 'GET', content, undefined, undefined, callback);
-};
 
 /**
  * fetches all properties from server
@@ -57,18 +31,17 @@ hash5.ds.DataSource.prototype.send = function(url, method, content, callback)
  */
 hash5.ds.DataSource.prototype.fetch = function(model, callback, handler)
 {
-    var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, function(e){
-        var response = e.target.getResponseJson();
+    var data = model.serialize();
+
+    hash5.ds.ConnectionManager.request('/entries/' + model.getId(), 'GET', data, function(e){
+        var response = e.getResponseJson();
         model.update(response);
 
         if(goog.isFunction(callback))
         {
             callback.call(handler, model);
         }
-    }, false, this);
-
-    xhr.send('/entries/' + model.getId(), 'GET', goog.Uri.QueryData.createFromMap(model.serialize()).toString());
+    }, this);
 };
 
 /**
@@ -81,26 +54,25 @@ hash5.ds.DataSource.prototype.fetch = function(model, callback, handler)
  */
 hash5.ds.DataSource.prototype.save = function(model, callback, handler)
 {
-    var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, function(e){
-        var response = e.target.getResponseJson();
+    var completeHandler = function(e){
+        var response = e.getResponseJson();
         model.update(response);
 
         if(goog.isFunction(callback))
         {
             callback.call(handler, model);
         }
-    }, false, this);
+    };
 
-    var data = goog.Uri.QueryData.createFromMap(model.serialize()).toString();
+    var data = model.serialize();
 
     if(model.getId())
     {
-        xhr.send('/entries/' + model.getId(), 'PUT', data);
+        hash5.ds.ConnectionManager.request('/entries/' + model.getId(), 'PUT', data, completeHandler, this);
     }
     else
     {
-        xhr.send('/entries', 'POST', data);
+        hash5.ds.ConnectionManager.request('/entries', 'POST', data, completeHandler, this);
     }
 };
 
@@ -112,8 +84,7 @@ hash5.ds.DataSource.prototype.save = function(model, callback, handler)
  */
 hash5.ds.DataSource.prototype.destroy = function(model)
 {
-    var xhr = new goog.net.XhrIo();
-    xhr.send('/entries/' + model.getId(), 'DELETE');
+    hash5.ds.ConnectionManager.request('/entries/' + model.getId(), 'DELETE');
 };
 
 /**
@@ -123,6 +94,7 @@ hash5.ds.DataSource.prototype.destroy = function(model)
  */
 hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
 {
+    // TODO unobserved request..
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, function(e){
         callback.call(handler, e.getResponseJson());
@@ -136,15 +108,15 @@ hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
  *
  * @param  {string} searchStr
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
+ * @param {hash5.ds.Options=} options will be merged with hash5.ds.DataSource.DefaultOptions and specifies pagination
  * @param {Function=} callback called when request is finished and results added to collection
  * @param {*=} handler
  *
  * @return {hash5.model.EntryCollection} collection where result entries will be added
  */
-hash5.ds.DataSource.prototype.search = function(searchStr, collection, callback, handler)
+hash5.ds.DataSource.prototype.search = function(searchStr, collection, options, callback, handler)
 {
-    // TODO add options
-    return this.getEntries('/entries?query=' + encodeURIComponent(searchStr), collection, undefined, callback, handler);
+    return this.getEntries('/entries?query=' + encodeURIComponent(searchStr), collection, options, callback, handler);
 };
 
 /**
@@ -172,9 +144,9 @@ hash5.ds.DataSource.prototype.getEntries = function(url, collection, options, ca
 
     collection.startLoadingEntries();
 
-    var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, function(e){
-        var data = e.target.getResponseJson();
+    url = this.getUrlWithOptions_(url, options);
+    hash5.ds.ConnectionManager.request(url, 'GET', undefined, function(e){
+        var data = e.getResponseJson();
         var modelArr = this.decodeResultJson_(data);
 
         if(!!append)
@@ -192,11 +164,7 @@ hash5.ds.DataSource.prototype.getEntries = function(url, collection, options, ca
         }
 
         collection.finishedLoadingEntries();
-
-    }, false, this);
-
-    url = this.getUrlWithOptions_(url, options);
-    xhr.send(url, 'GET');
+    }, this);
 
     return collection;
 };
