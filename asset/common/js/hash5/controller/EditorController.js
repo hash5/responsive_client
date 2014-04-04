@@ -67,7 +67,7 @@ hash5.controller.EditorController.prototype.registerComponent = function(comp)
  */
 hash5.controller.EditorController.prototype.createEntryEditor = function(entry)
 {
-    if(this.entryEditor_)
+    if(this.entryEditor_ && !this.entryEditor_.isDisposed())
     {
         var curEditorText = this.entryEditor_.getEntryText();
 
