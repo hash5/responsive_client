@@ -195,21 +195,18 @@ hash5.parsing.Parser.prototype.parseTags = function()
     // if there are complex tags ourself:
     for(var i = 0; i < tags.length; i++) {
         var tag = tags[i];
-        var valueWithRestOfText = this.text_.slice(tag.indices[1]);
+        var valueWithRestOfText = this.text_.slice(tag['indices'][1]);
         var value = this.valueOfComplexTag_(valueWithRestOfText);
 
         if(value === null) {
-            // TODO ignored!?
             // Duplicate simple tags will be ignored
-            if(this.simpleTags_.indexOf(tag.hashtag) == -1) {
-                this.simpleTags_.push(tag.hashtag);
+            if(this.simpleTags_.indexOf(tag['hashtag']) == -1) {
+                this.simpleTags_.push(tag['hashtag']);
             }
         } else {
-            // TODO ???? overriden?
-            // The value of duplicate complex tags will be overriden by the last one.
-            var index = tag.indices[1] + 1;
+            var index = tag['indices'][1] + 1;
             this.complexTags_.push({
-                key: tag.hashtag,
+                key: tag['hashtag'],
                 value: value.val,
                 indices: [index, index + value.length]
             });

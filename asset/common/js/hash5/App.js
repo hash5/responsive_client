@@ -16,6 +16,12 @@ goog.require('goog.debug.FancyWindow');
 
 
 /**
+ * @define {string} version number
+ * can be set in config.json.
+ */
+hash5.VERS_NUMBER = "12";
+
+/**
  * @constructor
  */
 hash5.App = function(){
@@ -35,6 +41,7 @@ hash5.App = function(){
 
     this.initModuleManager_();
 
+    // set up device specific css classes
     goog.dom.classes.enable(document.body, 'tablet',
         goog.labs.userAgent.device.isTablet());
 
@@ -46,6 +53,12 @@ hash5.App = function(){
 
     goog.dom.classes.enable(document.body, 'touch',
         hash5.App.isTouch);
+
+    // print version-number if set
+    if(hash5.VERS_NUMBER)
+    {
+        document.write('<div class="vers-number">' + hash5.VERS_NUMBER + '</div>');
+    }
 };
 goog.addSingletonGetter(hash5.App);
 

@@ -186,7 +186,7 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 
 /**
  * applies given sort and toggles action btns
- * @param  {hash5.ds.options.SortField.CREATED_DATE} sortField
+ * @param  {hash5.ds.options.SortField} sortField
  */
 hash5.ui.EntryListContainer.prototype.toggleSort_ = function(sortField)
 {

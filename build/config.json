@@ -15,7 +15,8 @@
     "../asset/third-party/twitter-text-externs.js"
   ],
   "define": {
-      "goog.DEBUG": false
+      "goog.DEBUG": false,
+      "hash5.VERS_NUMBER": "1.1"
   },
   "output-charset": "UTF-8",
 

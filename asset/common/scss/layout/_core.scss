@@ -43,6 +43,16 @@ h1, h2, h3{
 
 .goog-inline-block {display: inline-block;}
 
+.vers-number
+{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: $colorOrange;
+  padding: 5px;
+  z-index: 2000;
+}
+
 
 a
 {
