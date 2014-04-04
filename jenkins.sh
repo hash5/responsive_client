@@ -7,12 +7,18 @@ export PATH
 
 base=`pwd`
 
+
+# start closure compiler
+# TODO
+
+
 # pull hash5 server, set symlink and start server
 SERVER_PATH="${base}/hash5"
 if [ -d "$SERVER_PATH" ]; then
     cd $SERVER_PATH
-    git pull
-    cd ..
+    git fetch --all
+    git reset --hard origin/master
+    cd $base
 else
     git clone git@dbis-git.uibk.ac.at:hash5/hash5.git $SERVER_PATH
 fi
@@ -21,7 +27,6 @@ rm client
 ln -s ../../../ client
 cd "${SERVER_PATH}/server"
 npm update > /dev/null
-sed -i "s/\/activate'/\/activate', '\/client'/" app.js
 node app.js --port 9080 --redis false &
 cd $base
 
