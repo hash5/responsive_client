@@ -9,56 +9,6 @@ goog.require('goog.dom');
 goog.require('goog.dom.classes');
 goog.require('goog.history.Html5History');
 
-
-/**
- * @param {RegExp} pattern regex pattern to match route
- * @param {function(string, ...[string])} callback should take in the token and any captured strings.
- * @param {*=} handler opt callback context handler
- * @constructor
- */
-hash5.Route = function(pattern, callback, handler)
-{
-    /**
-     * @type {RegExp}
-     */
-    this.pattern = pattern;
-
-    /**
-     * @type {Function}
-     */
-    this.callback = callback;
-
-    /**
-     * context handler
-     *
-     * @type {*}
-     */
-    this.handler = handler;
-
-    /**
-     * @type {boolean}
-     */
-    this.changeUrl = true;
-};
-
-/**
- * calls callback function if route matches
- *
- * @param  {string}  token current naviagtion token to check for
- * @return {boolean} true if route matches
- */
-hash5.Route.prototype.runIfMatches = function(token) {
-  var args = this.pattern.exec(token);
-
-  if (args) {
-    this.callback.apply(this.handler, args);
-
-    return true;
-  }
-
-  return false;
-};
-
 /**
  *
  * @constructor
@@ -73,8 +23,13 @@ hash5.Router = function()
     * @private
     */
     this.eh_ = new goog.events.EventHandler(this);
-    this.eh_.listen(goog.dom.getDocument(), goog.events.EventType.CLICK, this.handeClick_);
+    this.eh_.listen(goog.dom.getDocument(), goog.events.EventType.CLICK, this.handleClick_);
 
+    /**
+     * @type {goog.History|goog.history.Html5History}
+     * @private
+     */
+    this.history_ = null;
 
     /**
      * flag used to prevent navigate event when manually replacing url
@@ -108,30 +63,29 @@ goog.addSingletonGetter(hash5.Router);
 */
 hash5.Router.prototype.initialize = function(config)
 {
-    var history = goog.history.Html5History.isSupported() ?
+    this.history_ = goog.history.Html5History.isSupported() ?
         new goog.history.Html5History() : new goog.History();
 
     // TODO enable if server supports url-rewriting
     /*
-    if (history.setUseFragment)
+    if (this.history_.setUseFragment)
     {
-        history.setUseFragment(false);
+        this.history_.setUseFragment(false);
     }
-    */
-    history.setPathPrefix(config['path_prefix']);
-    history.setEnabled(true);
-
-    this.history_ = history;
-
-    // Hash history
-    if (!history.setUseFragment)
+    else
     {
-        var token = history.getToken();
+        var token = this.history_.getToken();
         this.navigate('');
         this.navigate(token);
     }
+    */
+    if(this.history_.setPathPrefix)
+    {
+      this.history_.setPathPrefix(config['path_prefix']);
+    }
+    this.history_.setEnabled(true);
 
-    this.eh_.listen(history, goog.history.EventType.NAVIGATE,
+    this.eh_.listen(this.history_, goog.history.EventType.NAVIGATE,
         this.handleHistory_);
 };
 
@@ -141,7 +95,7 @@ hash5.Router.prototype.initialize = function(config)
 * @param {!goog.events.BrowserEvent} e The event.
 * @private
 */
-hash5.Router.prototype.handeClick_ = function(e)
+hash5.Router.prototype.handleClick_ = function(e)
 {
     if (e.button != 0)
     {
@@ -192,8 +146,9 @@ hash5.Router.prototype.handleHistory_ = function(e)
 
     var token = e.token;
 
-    if (token != this.url_)
-    {
+    // alow to navigate to the same url twice
+    //if (token != this.url_)
+    //{
         var route = goog.array.find(this.routes_, function(route) {
             return route.runIfMatches(token);
         }, this);
@@ -210,7 +165,7 @@ hash5.Router.prototype.handleHistory_ = function(e)
                 this.setUrl(this.url_, true);
             }
         }
-    }
+    //}
 };
 
 /**
@@ -243,7 +198,6 @@ hash5.Router.prototype.addRoute = function(regex, callback, handler, changeUrl) 
     route.changeUrl = changeUrl;
   }
 
-  //route.runIfMatches(this.currentFragment_);
   this.routes_.push(route);
 };
 
@@ -260,11 +214,18 @@ hash5.Router.prototype.navigate = function(path)
         path = path.substr(1);
     }
 
+    if(path == this.history_.getToken())
+    {
+      this.replaceToken_('');
+    }
     this.history_.setToken(path);
 };
 
 /**
+ * replaces shown url without handling navigate event
+ *
  * @param {string} token
+ * @private
  */
 hash5.Router.prototype.replaceToken_ = function(token)
 {
@@ -274,12 +235,16 @@ hash5.Router.prototype.replaceToken_ = function(token)
     }
 
     this.isReplacing_ = true;
-    this.history_.replaceToken(token);
+    this.history_.setToken(token);
     this.isReplacing_ = false;
 };
 
 
 /**
+ * sets the current url-state.
+ * if updateBrowser is set to true, browser url will be
+ * replaced.
+ *
  * @param {string} url
  * @param {boolean=} updateBrowser
  */
@@ -298,4 +263,54 @@ hash5.Router.prototype.setUrl = function(url, updateBrowser)
  */
 hash5.Router.EventType = {
     NAVIGATE : 'navigate'
+};
+
+
+/**
+ * @param {RegExp} pattern regex pattern to match route
+ * @param {function(string, ...[string])} callback should take in the token and any captured strings.
+ * @param {*=} handler opt callback context handler
+ * @constructor
+ */
+hash5.Route = function(pattern, callback, handler)
+{
+    /**
+     * @type {RegExp}
+     */
+    this.pattern = pattern;
+
+    /**
+     * @type {Function}
+     */
+    this.callback = callback;
+
+    /**
+     * context handler
+     *
+     * @type {*}
+     */
+    this.handler = handler;
+
+    /**
+     * @type {boolean}
+     */
+    this.changeUrl = true;
+};
+
+/**
+ * calls callback function if route matches
+ *
+ * @param  {string}  token current naviagtion token to check for
+ * @return {boolean} true if route matches
+ */
+hash5.Route.prototype.runIfMatches = function(token) {
+  var args = this.pattern.exec(token);
+
+  if (args) {
+    this.callback.apply(this.handler, args);
+
+    return true;
+  }
+
+  return false;
 };
