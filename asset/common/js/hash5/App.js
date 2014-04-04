@@ -19,7 +19,7 @@ goog.require('goog.debug.FancyWindow');
  * @define {string} version number
  * can be set in config.json.
  */
-hash5.VERS_NUMBER = "12";
+hash5.VERS_NUMBER = '';
 
 /**
  * @constructor
