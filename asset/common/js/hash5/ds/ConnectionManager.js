@@ -129,9 +129,8 @@ hash5.ds.ConnectionManager.prototype.handleCompleted_ = function(e)
 
 /**
  * handles Server reavailable and retries cached requests.
- * @param  {goog.events.Event} e
  */
-hash5.ds.ConnectionManager.prototype.handleServerAvailable_ = function(e)
+hash5.ds.ConnectionManager.prototype.handleServerAvailable_ = function()
 {
     if(!this.online_)
     {
