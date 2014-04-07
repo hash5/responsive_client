@@ -23,6 +23,14 @@ hash5.ds.Request = function()
      * @private
      */
     this.xhrRequest_ = null;
+
+    /**
+     * if set to true, request will be cached on connection
+     * failure
+     * @type {boolean}
+     * @private
+     */
+    this.retry_ = true;
 };
 goog.inherits(hash5.ds.Request, goog.events.EventTarget);
 
@@ -97,4 +105,25 @@ hash5.ds.Request.prototype.getXhrIo = function()
 hash5.ds.Request.prototype.getXhrManagerRequest = function()
 {
     return this.xhrRequest_;
+};
+
+/**
+ * set retry behaviour on connection error
+ *
+ * @param {boolean} shouldRetry
+ */
+hash5.ds.Request.prototype.setRetry = function(shouldRetry)
+{
+    this.retry_ = shouldRetry;
+};
+
+
+/**
+ * returns whether the request should be cached on connection error
+ *
+ * @return {boolean}
+ */
+hash5.ds.Request.prototype.shouldRetry = function()
+{
+    return this.retry_;
 };

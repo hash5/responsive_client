@@ -94,7 +94,7 @@ hash5.ds.ConnectionManager.prototype.handleError_ = function(e)
     }
 
     // save request to retry it later
-    if(retryRequest)
+    if(retryRequest && request.shouldRetry())
     {
         this.cachedRequests_.push(request);
         this.requests_.remove(e.id);
@@ -188,12 +188,15 @@ hash5.ds.ConnectionManager.prototype.send_ = function(id, url, method, content, 
  * @param {Function=} callback Callback function for when request is
  *     successfuly sendet
  * @param {*=} handler scope to call callback in
+ * @param {boolean=} withRetry iff set to false, on error the request will not be
+ * cached and retried
  * @return {hash5.ds.Request} The queued request object.
  */
-hash5.ds.ConnectionManager.prototype.request = function(url, method, content, callback, handler)
+hash5.ds.ConnectionManager.prototype.request = function(url, method, content, callback, handler, withRetry)
 {
     var id = this.index_++ + '';
     var request = new hash5.ds.Request();
+    request.setRetry(goog.isDef(withRetry) && withRetry);
 
     var xhrRequest = this.send_(id, url, method || 'GET', content);
     request.setXhrRequest(xhrRequest);
@@ -240,6 +243,26 @@ hash5.ds.ConnectionManager.request  = function(url, method, content, callback, h
     var connectionManager = hash5.ds.ConnectionManager.getInstance();
     return connectionManager.request(url, method, content, callback, handler);
 };
+
+
+/**
+ * Registers the given request to be sent. If there is no connection to server
+ * the request will not be cached and retried!
+ *
+ * @param {string} url Uri to make the request too.
+ * @param {string=} method Send method, default: GET.
+ * @param {*=} content Post data.
+ * @param {Function=} callback Callback function for when request is
+ *     successfuly sendet
+ * @param {*=} handler scope to call callback in
+ * @return {hash5.ds.Request} The queued request object.
+ */
+hash5.ds.ConnectionManager.simpleRequest  = function(url, method, content, callback, handler)
+{
+    var connectionManager = hash5.ds.ConnectionManager.getInstance();
+    return connectionManager.request(url, method, content, callback, handler, false);
+};
+
 
 /**
  * Events to observe current connection.
