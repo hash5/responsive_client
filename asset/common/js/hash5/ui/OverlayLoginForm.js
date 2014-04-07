@@ -3,6 +3,8 @@ goog.provide('hash5.ui.OverlayLoginForm');
 goog.require('hash5.ui.LoginForm');
 goog.require('hash5.ui.Overlay');
 
+// TODO get username and fill field. disable editing
+
 /**
  * OverlayLoginForm
  * Same as LoginForm but also shows Overlay when entering document
