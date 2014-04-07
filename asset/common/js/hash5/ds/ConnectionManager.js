@@ -9,7 +9,7 @@ goog.require('hash5.ds.Request');
 
 /**
  * ConnectionManager to observe requests to server.
- * Errors are cached and handled.
+ * Errors on requests are cached and handled.
  *
  * @constructor
  * @extends {goog.events.EventTarget}
@@ -48,6 +48,15 @@ hash5.ds.ConnectionManager = function()
      */
     this.cachedRequests_ = [];
 
+    /**
+     * false if currently there is no connection to server
+     *
+     * @type {boolean}
+     * @private
+     */
+    this.online_ = true;
+    // TODO maybe use onlinehandler from closure library?
+
     var userController = hash5.controller.UserController.getInstance();
     goog.events.listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleServerAvailable_, false, this);
 };
@@ -62,25 +71,43 @@ hash5.ds.ConnectionManager.prototype.handleError_ = function(e)
 {
     var xhr = e.xhrIo;
     var request = this.requests_.get(e.id);
+    var retryRequest = false;
 
     //console.log(xhr.getStatus());
 
     switch(xhr.getStatus())
     {
-        case 0:
-            console.log("server unavailable");
-            break;
         case goog.net.HttpStatus.UNAUTHORIZED:
             this.dispatchEvent(hash5.ds.ConnectionManager.EventType.UNAUTHORIZED);
+            retryRequest = true;
+            break;
+
+        case 0:
+            console.log("server unavailable");
+            this.online_ = false;
+            this.dispatchEvent(hash5.ds.ConnectionManager.EventType.OFFLINE);
+            retryRequest = true;
             break;
 
         default:
             request.setCompletedWithError(e);
     }
 
-    // TODO do not cache request errors (404, ..)
-    this.cachedRequests_.push(request);
-    this.requests_.remove(e.id);
+    // save request to retry it later
+    if(retryRequest)
+    {
+        this.cachedRequests_.push(request);
+        this.requests_.remove(e.id);
+    }
+};
+
+/**
+ * returns current online state (true for online)
+ * @return {boolean}
+ */
+hash5.ds.ConnectionManager.prototype.isOnline = function()
+{
+    return this.online_;
 };
 
 /**
@@ -92,14 +119,26 @@ hash5.ds.ConnectionManager.prototype.handleCompleted_ = function(e)
     var request = this.requests_.get(e.id);
     request.setCompleted(e);
     this.requests_.remove(e.id);
+
+    // if request could be handled, also the cached should be possible
+    if(!this.online_)
+    {
+        this.handleServerAvailable_();
+    }
 };
 
 /**
- * handles Server reavailable
+ * handles Server reavailable and retries cached requests.
  * @param  {goog.events.Event} e
  */
 hash5.ds.ConnectionManager.prototype.handleServerAvailable_ = function(e)
 {
+    if(!this.online_)
+    {
+        this.online_ = true;
+        this.dispatchEvent(hash5.ds.ConnectionManager.EventType.ONLINE);
+    }
+
     goog.array.forEach(this.cachedRequests_, function(request){
         this.retryRequest_(request);
     }, this);

@@ -34,6 +34,8 @@ hash5.ui.Overlay.prototype.createDom = function()
 /** @inheritDoc */
 hash5.ui.Overlay.prototype.enterDocument = function()
 {
+    goog.base(this, 'enterDocument');
+
     this.getHandler().listen(this.getElement(), goog.events.EventType.CLICK, this.handleClick_);
 };
 

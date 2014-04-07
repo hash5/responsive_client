@@ -7,6 +7,7 @@ goog.require('hash5.ui.PageSidebar');
 goog.require('hash5.layout.HeaderButtonGroup');
 goog.require('hash5.layout.HeaderButton');
 goog.require('hash5.view.Settings');
+goog.require('hash5.ui.ConnectionStatus');
 
 /**
  * this class represents the page header
@@ -36,6 +37,9 @@ hash5.layout.Header.prototype.enterDocument = function()
     var sideBarToggleBtn = this.getElementByClass('sidebar-toggle-btn');
     this.getHandler()
         .listen(sideBarToggleBtn, goog.events.EventType.CLICK, this.handleToggleSidebar_);
+
+    var connStatus = new hash5.ui.ConnectionStatus();
+    this.addChild(connStatus, true);
 
     this.initDefaultButtons();
 
