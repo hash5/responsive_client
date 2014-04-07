@@ -12,7 +12,8 @@
   "level": "VERBOSE",
   "externs": [
     "../asset/third-party/plovr-externs.js",
-    "../asset/third-party/twitter-text-externs.js"
+    "../asset/third-party/twitter-text-externs.js",
+    "../asset/third-party/google_maps_api_v3_15-externs.js"
   ],
   "define": {
       "goog.DEBUG": false,
