@@ -87,7 +87,7 @@ hash5.api.clearListPanel = function()
  */
 hash5.api.addSearchTreeItem = function(search, title)
 {
-    hash5.controller.MainPanelController.getInstance().addSearchTreeItem(search, title);
+    hash5.ui.PageSidebar.getInstance().addSearchTreeItem(search, title);
 };
 
 /**

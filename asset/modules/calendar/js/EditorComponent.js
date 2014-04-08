@@ -25,12 +25,6 @@ hash5.module.calendar.EditorComponent = function(model, editor)
      * @private
      */
     this.curParsedCalendars_ = [];
-
-    /**
-     * @type {boolean}
-     * @private
-     */
-    this.curTextChanging_ = false;
 };
 goog.inherits(hash5.module.calendar.EditorComponent, hash5.ui.editor.EditorComponent);
 
@@ -56,10 +50,7 @@ hash5.module.calendar.EditorComponent.prototype.getNewHelperTile = function()
  */
 hash5.module.calendar.EditorComponent.prototype.handleTextChanged_ = function(e)
 {
-    if(!this.curTextChanging_)
-    {
-        this.checkForNewDates();
-    }
+    this.checkForNewDates();
 };
 
 
@@ -89,6 +80,10 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
 
             this.getHandler().listen(tile, goog.ui.Component.EventType.CLOSE, this.handleTileRemoved_);
         }
+    }
+    else
+    {
+        // update indices
     }
 
     console.log(parsedCalendars);
@@ -148,11 +143,17 @@ hash5.module.calendar.EditorComponent.prototype.updateTextForEvent = function(ev
         entryText = posReplace(entryText, newString, indices[0], indices[1]);
     };
 
-    // TODO check if brackets are needed! check if time is set
+    // TODO check if brackets are needed!
 
     var insertDate = function(date, key)
     {
-        insertString('"' + date.toString()  + '"', key);
+        var dateStr = date.toString();
+        if(dateStr.indexOf(" ") > -1)
+        {
+            dateStr = '"' + dateStr  + '"';
+        }
+
+        insertString(dateStr, key);
     };
 
     insertDate(event.getStartDate(), 'start');

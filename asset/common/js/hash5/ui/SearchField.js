@@ -84,7 +84,7 @@ hash5.ui.SearchField.prototype.enterDocument = function()
 
     // autocomplete:
     var renderer = new goog.ui.ac.Renderer(this.getElementByClass('suggests-wrapper'));
-    var inputhandler = new goog.ui.ac.InputHandler(undefined, undefined, true, 300);
+    var inputhandler = new goog.ui.ac.InputHandler(" ", " ", true, 300);
     var autoComplete = new goog.ui.ac.AutoComplete(this, renderer, inputhandler);
     this.getHandler().listen(autoComplete, goog.ui.ac.AutoComplete.EventType.UPDATE, this.handleSuggestSelected_);
     inputhandler.attachAutoComplete(autoComplete);

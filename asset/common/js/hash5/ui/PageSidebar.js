@@ -4,9 +4,11 @@ goog.require('goog.ui.Component');
 goog.require('goog.ui.registry');
 
 goog.require('hash5.ui.Overlay');
+goog.require('hash5.ui.SearchTree');
 
 
 /**
+ * represents the page sidebar on the left side
  *
  * @constructor
  * @extends {goog.ui.Component}
@@ -20,36 +22,29 @@ hash5.ui.PageSidebar = function()
      * @private
      */
     this.isVisible_ = false;
+
+    /**
+     * @type {hash5.ui.SearchTree}
+     * @private
+     */
+    this.searchTree_ = null;
 };
 goog.inherits(hash5.ui.PageSidebar, goog.ui.Component);
 goog.addSingletonGetter(hash5.ui.PageSidebar);
-
-
-/** @inheritDoc */
-hash5.ui.PageSidebar.prototype.decorateInternal = function(el)
-{
-    goog.base(this, 'decorateInternal', el);
-
-
-};
 
 /** @inheritDoc */
 hash5.ui.PageSidebar.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-
-    // TODO nav link click handlers
+    // render searchtree
+    this.searchTree_ = new hash5.ui.SearchTree();
+    this.searchTree_.render(document.getElementById('searchtree'));
 };
 
 /**
- * @param  {goog.events.BrowserEvent} e
+ * toggles the sidebar visibility
  */
-hash5.ui.PageSidebar.prototype.handleNavLinkClicked_ = function(e)
-{
-    this.toggle();
-};
-
 hash5.ui.PageSidebar.prototype.toggle = function()
 {
     this.isVisible_ = !this.isVisible_;
@@ -69,6 +64,17 @@ hash5.ui.PageSidebar.prototype.toggle = function()
     }
 
     goog.dom.classes.enable(this.getElement(), 'visible', this.isVisible_);
+};
+
+/**
+ * adds new item to the searchtree
+ *
+ * @param  {string} search searchPattern
+ * @param  {string=} title title for the column
+ */
+hash5.ui.PageSidebar.prototype.addSearchTreeItem = function(search, title)
+{
+    this.searchTree_.addSearch(search, title);
 };
 
 

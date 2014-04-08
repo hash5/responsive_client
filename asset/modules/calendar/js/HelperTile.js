@@ -28,9 +28,12 @@ hash5.module.calendar.HelperTile = function(event)
     if(!event)
     {
         this.event_ = event = new hash5.module.calendar.Event();
-        event.setStartDate(new hash5.module.calendar.DateTime());
+        var startDate = new hash5.module.calendar.DateTime(new Date());
+        startDate.setHasTime(false);
+        event.setStartDate(startDate);
 
-        var endDate = new hash5.module.calendar.DateTime();
+        var endDate = new hash5.module.calendar.DateTime(new Date());
+        endDate.setHasTime(false);
         endDate.add(new goog.date.Interval(goog.date.Interval.HOURS, 1));
         event.setEndDate(endDate);
     }

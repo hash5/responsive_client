@@ -71,7 +71,7 @@ hash5.ui.Overlay.prototype.setVisible = function(isVisible, level, hideOnClick)
     var foregroundClass = hash5.ui.Overlay.Level.FOREGROUND,
         isForeground = (level === foregroundClass);
 
-    this.hideOnClick_ = goog.isDef(hideOnClick) && hideOnClick;
+    this.hideOnClick_ = !goog.isDef(hideOnClick) || hideOnClick;
 
     goog.dom.classes.enable(this.getElement(), foregroundClass, isForeground);
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);

@@ -70,7 +70,7 @@ hash5.ui.SearchTreeNode.prototype.onClick_ = function(e)
             model['title'] = newName;
             this.dispatchEvent(goog.events.EventType.CHANGE);
 
-            this.setHtml(this.getEditHtml(newName));
+            this.getElementByClass('drag-item').innerHTML = newName;
         }
     }else if(goog.dom.classes.has(clickedEl, 'delete'))
     {
