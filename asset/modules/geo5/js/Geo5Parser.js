@@ -19,16 +19,13 @@ hash5.module.geo5.Geo5Parser = function()
 
 /**
  * @param {hash5.parsing.Parser} parser
- * @return {Array.<hash5.module.calendar.Event>}
+ * @return {<hash5.module.geo5.LatLng}
  */
 hash5.module.geo5.Geo5Parser.prototype.parse = function(parser)
 {
-	var geo5 = [];
+	var complexGeo = parser.getComplexTags();
+	return this.parseGeoTags(complexGeo);
 
-	var parsed = parser.getServerParsed();
-	if(goog.isArray(parsed['geo5'])){
-
-	}
 };
 
 /**
@@ -36,10 +33,10 @@ hash5.module.geo5.Geo5Parser.prototype.parse = function(parser)
  * @return {Array.<hash5.module.geo5.LatLng>}
  */
 
+
 hash5.module.geo5.Geo5Parser.prototype.parseGeoTags = function(complexTags){
 var geoData = [];
-  _.forEach(complexTags,
-      function(complexTag){
+  goog.array.forEach(complexTags, function(complexTag){
         if(!complexTag.key)
             return;
         var tagName = complexTag.key.toLowerCase(complexTag);
@@ -59,6 +56,6 @@ var geoData = [];
           }
         }
 
-      });
+      }, this);
   return geoData;
 };
