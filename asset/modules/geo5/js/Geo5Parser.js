@@ -8,7 +8,7 @@ goog.require('hash5.api');
  * @constructor
  * @implements {hash5.parsing.ISubParser}
  */
-hash5.module.geo5.GeoParser = function()
+hash5.module.geo5.Geo5Parser = function()
 {
   /**
    * @type {string}
@@ -21,7 +21,7 @@ hash5.module.geo5.GeoParser = function()
  * @param {hash5.parsing.Parser} parser
  * @return {<hash5.module.geo5.LatLng}
  */
-hash5.module.geo5.GeoParser.prototype.parse = function(parser)
+hash5.module.geo5.Geo5Parser.prototype.parse = function(parser)
 {
 	var complexGeo = parser.getComplexTags();
 	return this.parseGeoTags(complexGeo);
@@ -33,8 +33,9 @@ hash5.module.geo5.GeoParser.prototype.parse = function(parser)
  * @return {Array.<hash5.module.geo5.LatLng>}
  */
 
+
 hash5.module.geo5.GeoParser.prototype.parseGeoTags = function(complexTags){
-var geoData = [];
+  var geoData = [];
   goog.array.forEach(complexTags, function(complexTag){
         if(!complexTag.key)
             return;
@@ -45,10 +46,10 @@ var geoData = [];
             log.debug("lag lng found");
               var coords = complexTag.value.split(":");
               geoData = {
-                "lon" : parseFloat(coords[1]), 
+                "lon" : parseFloat(coords[1]),
                 "lat" : parseFloat(coords[0])
               };
-             
+
           }else{
             log.debug("contains no coords tag"+ tagName);
             return;
