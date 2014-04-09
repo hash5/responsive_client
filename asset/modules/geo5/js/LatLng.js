@@ -24,7 +24,7 @@ hash5.module.geo5.LatLng = function(lat, lng, indices)
      * @private
      */
 
-     this.LatLng_ = null;
+     this.LatLng_ = new google.maps.LatLng(lat, lng);
 
     /**
      * @type {[number, number]}
@@ -44,6 +44,7 @@ hash5.module.geo5.LatLng.prototype.getLatitude = function(){
  *  @param {number}
  */
 hash5.module.geo5.LatLng.prototype.setLatitude = function(lat){
+    this.LatLng_ = new google.maps.LatLng(lat, this.longitude_);
     this.latitude_ = lat;
 };
 
@@ -58,6 +59,7 @@ hash5.module.geo5.LatLng.prototype.getLongitude = function(){
  *  @param {number}
  */
 hash5.module.geo5.LatLng.prototype.setLongitude = function(longitude){
+    this.LatLng_ = new google.maps.LatLng(this.latitude_, longitude);
     this.longitude_  = longitude;
 };
 
@@ -87,4 +89,20 @@ hash5.module.geo5.LatLng.prototype.equals = function(pos){
 hash5.module.geo5.LatLng.prototype.getIndices = function(key)
 {
     return this.indices_[key] || null;
+};
+
+/**
+ *  @return {google.maps.LatLng}
+ */
+hash5.module.geo5.LatLng.prototype.getLatLng = function(){
+    return this.LatLng_;
+};
+
+/**
+ *  @param {google.maps.LatLng}
+ */
+hash5.module.geo5.LatLng.prototype.setLatLng = function(latlng){
+    this.latitude_ = latlng.lat();
+    this.longitude_ = latlng.lng();
+    this.LatLng_  = latlng;
 };

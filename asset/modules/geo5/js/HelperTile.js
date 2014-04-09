@@ -17,20 +17,13 @@ hash5.module.geo5.HelperTile = function(pos)
      * @type {google.maps}
      * @private
      */
-
      this.map;
 
      /**
       * @type {hash5.module.geo5.LatLng}
       * @private
       */
-      //this.currentPos = pos || new hash5.module.geo5.LatLng();
       this.currentPos = pos || null;
-
-      /**
-       * @type {google.maps.LatLng}
-       * @private
-       */
 
       /**
        * @type {google.maps.marker}
@@ -61,31 +54,23 @@ hash5.module.geo5.HelperTile.prototype.setUpControls_ = function()
 
 hash5.module.geo5.HelperTile.prototype.drawExampleMap = function()
 {
-    var position; 
-    // = new google.maps.LatLng(48.943258,8.409088);
-   // this.getCurrentPosition();
-// IF position is set, point center
-// else set current pos
+
     if(this.currentPos == null){
+      this.currentPos = new hash5.module.geo5.LatLng(0,0,0);
       this.getCurrentPosition();
     }
-    else{
-      this.currentLatLng =  new google.maps.LatLng(this.currentPos.getLatitude(), this.currentPos.getLongitude());
-    }
 
-    //var position = 
     var mapOptions = {
         zoom: 15,
-        center: position,
+        center: this.currentPos.getLatLng(),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var renderElement = this.getContentElement();
     renderElement.style.height = '200px';
     this.map = new google.maps.Map(renderElement, mapOptions);
-   // this.getCurrentPosition();
 
     this.marker_ = new google.maps.Marker({
-        position: position,
+        position: this.currentPos.getLatLng(),
         map: this.map,
         draggable: true, 
         title: 'Hofgarten Ettlingen'
@@ -95,13 +80,23 @@ hash5.module.geo5.HelperTile.prototype.drawExampleMap = function()
 
 };
 
+/**
+ * callback to update the maps view
+ */
 hash5.module.geo5.HelperTile.prototype.posChanged_ = function(){
   console.log(this.marker_.getPosition());
   //use getter and setter functions
-  this.currentPos = new hash5.module.geo5.LatLng(this.marker_.getPosition().lat(), this.marker_.getPosition().lng(), 1);
-  //console.log(this.currentPos.getLatitude() + ':' this.currentPos.getLongitude());
-  this.currentPos.setLatitude(goog.bind(this.marker_.getPosition().lat(), this));
-  this.currentPos.setLongitude(goog.bind(this.marker_.getPosition().lng()));
+  if(this.currentPos == null)
+    this.currentPos = new hash5.module.geo5.LatLng(this.marker_.getPosition().lat(), this.marker_.getPosition().lng(), 1);
+  
+  //update hash5latln
+  this.currentPos.setLatitude(this.marker_.getPosition().lat());
+  this.currentPos.setLongitude(this.marker_.getPosition().lng());
+
+  //update position of the marker and the map
+  this.currentPos.setLatLng(new google.maps.LatLng(this.marker_.getPosition().lat(), this.marker_.getPosition().lng()));
+  //this.map.panTo(this.currentLatLng);
+
   this.getComponent().updateTextForPosition(this.currentPos);
 };
 
@@ -120,7 +115,9 @@ hash5.module.geo5.HelperTile.prototype.getCurrentPosition = function(){
  */
  hash5.module.geo5.HelperTile.prototype.updateCurrentPosition = function(pos){
     console.log('lat '+ pos.coords.latitude + ' long ' + pos.coords.longitude);
-    this.currentLatLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-    this.map.panTo(this.currentLatLng);
-    this.marker_.setPosition(this.currentLatLng);
+    if(this.currentPos == null)
+      this.currentPos = new hash5.module.geo5.LatLng(0,0,0);
+    this.currentPos.setLatLng(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+    this.map.panTo(this.currentPos.getLatLng());
+    this.marker_.setPosition(this.currentPos.getLatLng());
  };
