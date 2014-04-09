@@ -3,6 +3,8 @@ goog.provide('hash5.module.geo5.Geo5Parser');
 goog.require('hash5.parsing.ISubParser');
 
 goog.require('hash5.api');
+goog.require('hash5.module.geo5.LatLng');
+
 
 /**
  * @constructor
@@ -25,7 +27,7 @@ hash5.module.geo5.Geo5Parser.prototype.parse = function(parser)
 {
 	var complexGeo = parser.getComplexTags();
 	return this.parseGeoTags(complexGeo);
-
+geo5geo5
 };
 
 /**
@@ -34,7 +36,7 @@ hash5.module.geo5.Geo5Parser.prototype.parse = function(parser)
  */
 
 
-hash5.module.geo5.GeoParser.prototype.parseGeoTags = function(complexTags){
+hash5.module.geo5.Geo5Parser.prototype.parseGeoTags = function(complexTags){
   var geoData = [];
   goog.array.forEach(complexTags, function(complexTag){
         if(!complexTag.key)
@@ -43,15 +45,11 @@ hash5.module.geo5.GeoParser.prototype.parseGeoTags = function(complexTags){
 
         if(tagName === "coords"){
           if(/^(\-?\d+(\.\d+)?):\s*(\-?\d+(\.\d+)?)$/.test(complexTag.value) === true){
-            log.debug("lag lng found");
               var coords = complexTag.value.split(":");
-              geoData = {
-                "lon" : parseFloat(coords[1]),
-                "lat" : parseFloat(coords[0])
-              };
-
-          }else{
-            log.debug("contains no coords tag"+ tagName);
+              var pos = new hash5.module.geo5.LatLng(parseFloat(coords[0]), parseFloat(coords[1]), complexTag.indices);
+              geoData.push(pos);
+          }else {
+            console.log("contains no coords tag"+ tagName);
             return;
           }
         }
