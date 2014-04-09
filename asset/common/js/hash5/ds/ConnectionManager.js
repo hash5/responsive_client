@@ -83,7 +83,7 @@ hash5.ds.ConnectionManager.prototype.handleError_ = function(e)
             break;
 
         case 0:
-            console.log("server unavailable");
+            // server unavailable
             this.online_ = false;
             this.dispatchEvent(hash5.ds.ConnectionManager.EventType.OFFLINE);
             retryRequest = true;
@@ -195,7 +195,7 @@ hash5.ds.ConnectionManager.prototype.request = function(url, method, content, ca
 {
     var id = this.index_++ + '';
     var request = new hash5.ds.Request();
-    request.setRetry(goog.isDef(withRetry) && withRetry);
+    request.setRetry(goog.isDef(withRetry) ? withRetry : true);
 
     var xhrRequest = this.send_(id, url, method || 'GET', content);
     request.setXhrRequest(xhrRequest);

@@ -19,6 +19,13 @@ hash5.ds.Request = function()
     this.successCallback_ = undefined;
 
     /**
+     * handler to call callback in
+     * @type {*}
+     * @private
+     */
+    this.successCallbackHandler_ = null;
+
+    /**
      * @type {goog.net.XhrManager.Request}
      * @private
      */
@@ -48,7 +55,8 @@ hash5.ds.Request.prototype.setXhrRequest = function(xhrRequest)
  */
 hash5.ds.Request.prototype.setSuccessCallback = function(callback, handler)
 {
-    this.successCallback_ = goog.bind(callback, handler);
+    this.successCallback_ = callback;
+    this.successCallbackHandler_ = handler;
 };
 
 
@@ -61,7 +69,12 @@ hash5.ds.Request.prototype.setCompleted = function(e)
 {
     if(this.successCallback_)
     {
-        this.successCallback_(e.xhrIo);
+        var handler = this.successCallbackHandler_;
+        // only execute callback if handler is not disposed
+        if(!(handler && handler instanceof goog.Disposable && handler.isDisposed()))
+        {
+            this.successCallback_.call(this.successCallbackHandler_, e.xhrIo);
+        }
     }
 
     this.dispatchEvent(goog.net.EventType.SUCCESS);

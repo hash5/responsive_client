@@ -264,6 +264,8 @@ hash5.controller.UserController.prototype.login = function(username, password)
         {
             this.currentUser_ = new hash5.model.User(username);
 
+            // TODO problems after session-refreshing because then UserSettings may
+            // be different!
             this.loadUserSettings(function(){
                 this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
             }, this);
