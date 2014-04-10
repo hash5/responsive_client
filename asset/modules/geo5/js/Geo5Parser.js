@@ -37,11 +37,8 @@ geo5geo5
 
 
 hash5.module.geo5.Geo5Parser.prototype.parseGeoTags = function(complexTags){
-<<<<<<< HEAD
-var geoData = [];
-=======
   var geoData = [];
->>>>>>> basic geo5 client - does create the hashtag yet
+
   goog.array.forEach(complexTags, function(complexTag){
         if(!complexTag.key)
             return;
