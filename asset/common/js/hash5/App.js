@@ -19,7 +19,7 @@ goog.require('goog.debug.FancyWindow');
  * @define {string} version number
  * can be set in config.json.
  */
-hash5.VERS_NUMBER = "12";
+hash5.VERS_NUMBER = '';
 
 /**
  * @constructor
@@ -69,6 +69,27 @@ hash5.App.prototype.setConfig = function(config)
 {
   this.config = config;
 };
+
+/**
+ * returns App config object
+ *
+ * @return  {Object}
+ */
+hash5.App.prototype.getConfig = function()
+{
+  return this.config;
+};
+
+/**
+ * prefix to access hash5 REST api
+ *
+ * @return  {string}
+ */
+hash5.App.prototype.getApiPrefix = function()
+{
+  return this.config['api_path_prefix'] || '';
+};
+
 
 /**
  * initialize the module manager

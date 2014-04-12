@@ -9,15 +9,15 @@
 	<translation id="29061588115776576" key="MSG_14D9FYATIY8H8" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal cancle btn">Abbrechen</translation>
 	<translation id="1047959220914296384" key="MSG_USERNAME" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="username">Username</translation>
 	<translation id="5796336013099753435" key="MSG_PASSWORD" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password">Passwort</translation>
-	<translation id="8255869980679741143" key="MSG_USERNAME_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg forusername">Bitte gebe deinen Username an</translation>
+	<translation id="8255869980679741143" key="MSG_USERNAME_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg forusername">Bitte gebe deinen Username an.</translation>
 	<translation id="4869280965051537343" key="MSG_PASSWORD_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg for password">Bitte gebe dein Paswort an.</translation>
 	<translation id="1699889279504198943" key="MSG_PASSWORD_DISMATCH" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="error msg for not equal passwords">Username oder Passwort sind inkorrekt.</translation>
-	<translation id="7564739925386103068" key="MSG_USER_CONFLICT" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="user name conflict error msg">Someone already has that username.</translation>
+	<translation id="7564739925386103068" key="MSG_USER_CONFLICT" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="user name conflict error msg">Dieser Benutzername ist schon vergeben.</translation>
 	<translation id="7443418876915152054" key="MSG_USERNAME1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="username">Username</translation>
-	<translation id="3009194278238042444" key="MSG_PASSWORD1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="password">Password</translation>
-	<translation id="3171001077743357119" key="MSG_USERNAME_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg forusername">Please insert your username.</translation>
-	<translation id="4839133846505152977" key="MSG_PASSWORD_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg for password">Please insert your password.</translation>
-	<translation id="4701102176954940477" key="MSG_WRONG_PASSWORD" source="../asset/common/js/hash5/ui/LoginForm.js" desc="wrong password msg">The email or password you entered is incorrect.</translation>
+	<translation id="3009194278238042444" key="MSG_PASSWORD1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="password">Passwort</translation>
+	<translation id="3171001077743357119" key="MSG_USERNAME_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg forusername">>Bitte gebe deinen Username an</translation>
+	<translation id="4839133846505152977" key="MSG_PASSWORD_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg for password">>Bitte gebe dein Passwort an</translation>
+	<translation id="4701102176954940477" key="MSG_WRONG_PASSWORD" source="../asset/common/js/hash5/ui/LoginForm.js" desc="wrong password msg">Username oder Passwort sind inkorrekt.</translation>
 	<translation id="6468784957347062648" key="MSG_RK1SKDVE1FVZ" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="entry editor edit title">Eintrag bearbeiten</translation>
 	<translation id="3492245044200129208" key="MSG_YPZDSKDEKL3G" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal save btn">Speichern</translation>
 	<translation id="8461299294027390970" key="MSG_11Q8NMH0NV74G" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="tooltip to remove helper tile">Löschen</translation>
@@ -43,7 +43,7 @@
 	<translation id="6511054188199036888" key="MSG_IN_DAYS_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many days something happens (plural).">in <ph name="num" /> Tagen</translation>
 	<translation id="5505833551326918382" key="MSG_ADD_ENTRY" source="../asset/common/js/hash5/ui/QuickCreateEntry.js" desc="qucick edit placeholder">Eintrag hinzufügen...</translation>
 	<translation id="7141543709934632345" key="MSG_KBYCE8UAEIDB" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="add entry list action">Hinzufügen</translation>
-	<translation id="8464512011312511379" key="MSG_J13TJW7OAMS0" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="close entry list action">Schließen</translation>
+	<translation id="8464512011312511379" key="MSG_J13TJW7OAMS0" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="close entry list action">Schlie?en</translation>
 	<translation id="7761452865245188589" key="MSG_V99P3NME5ZXQ" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="delete all entry list action">Alle löschen</translation>
 	<translation id="8035258730776425762" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Neueste Einträge</translation>
 	<translation id="4463237795828482645" key="MSG_18GIEN36PX54E" source="../asset/common/js/hash5/templates/SearchField.soy" desc="search btn label">Suchen</translation>
@@ -58,4 +58,11 @@
 	<translation id="7418881267038288571" key="MSG_ADD_TITLE" source="../asset/common/js/hash5/layout/Header.js" desc="add title">Hinzufügen</translation>
 	<translation id="1594427186360964062" key="MSG_SETTINGS" source="../asset/common/js/hash5/layout/Header.js" desc="settings btn title">Einstellungen</translation>
 	<translation id="192207046017539897" key="MSG_LOGOUT" source="../asset/common/js/hash5/layout/Header.js" desc="logout btn title">Logout</translation>
+	<translation id="3550314706871989205" key="MSG_SX6F1K1NGKY3" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="sort entries by text">Nach Text sortieren</translation>
+	<translation id="203490498955050458" key="MSG_1M9XXTN9IEQYR" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="sort entries by created_date">Nach Datum sortieren.</translation>
+	<translation id="7337991190476357156" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Neuesten Einträge</translation>
+	<translation id="5310161572591863071" key="MSG_KTDG029AHC58" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="add folder button">Ordner hinzufügen</translation>
+	<translation id="7428775094586820208" key="MSG_1T5DOJAWQR6LQ" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="newest entries add button">Neuesten Einträge</translation>
+	<translation id="7071774685227588554" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Neuesten Einträge</translation>
+	<translation id="2053705403637248134" key="MSG_OFFLINE_INFO" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Verbindung zum Server verloren. Anfragen werden jetzt gecached.</translation>
 </translationbundle>

@@ -11,6 +11,13 @@ goog.require('goog.ui.Component');
 hash5.ui.Overlay = function()
 {
     goog.base(this);
+
+    /**
+     * if set to true, overlay will not be closed on click
+     * @type {boolean}
+     * @private
+     */
+    this.hideOnClick_ = true;
 };
 goog.inherits(hash5.ui.Overlay, goog.ui.Component);
 goog.addSingletonGetter(hash5.ui.Overlay);
@@ -27,6 +34,8 @@ hash5.ui.Overlay.prototype.createDom = function()
 /** @inheritDoc */
 hash5.ui.Overlay.prototype.enterDocument = function()
 {
+    goog.base(this, 'enterDocument');
+
     this.getHandler().listen(this.getElement(), goog.events.EventType.CLICK, this.handleClick_);
 };
 
@@ -38,8 +47,11 @@ hash5.ui.Overlay.prototype.enterDocument = function()
  */
 hash5.ui.Overlay.prototype.handleClick_ = function(e)
 {
-    this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
-    this.setVisible(false);
+    if(this.hideOnClick_)
+    {
+        this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
+        this.setVisible(false);
+    }
 };
 
 /**
@@ -47,8 +59,9 @@ hash5.ui.Overlay.prototype.handleClick_ = function(e)
  *
  * @param {boolean} isVisible
  * @param {hash5.ui.Overlay.Level=} level
+ * @param {boolean=} hideOnClick if set to false, overlay click will not close the overlay
  */
-hash5.ui.Overlay.prototype.setVisible = function(isVisible, level)
+hash5.ui.Overlay.prototype.setVisible = function(isVisible, level, hideOnClick)
 {
     if (!this.isInDocument())
     {
@@ -57,6 +70,8 @@ hash5.ui.Overlay.prototype.setVisible = function(isVisible, level)
 
     var foregroundClass = hash5.ui.Overlay.Level.FOREGROUND,
         isForeground = (level === foregroundClass);
+
+    this.hideOnClick_ = !goog.isDef(hideOnClick) || hideOnClick;
 
     goog.dom.classes.enable(this.getElement(), foregroundClass, isForeground);
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);

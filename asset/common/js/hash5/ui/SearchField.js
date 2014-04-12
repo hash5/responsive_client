@@ -12,7 +12,6 @@ goog.require('hash5.templates.Searchfield');
 
 
 /**
- * searchfield with suggestions and preview for the header bar
  *
  * @constructor
  * @extends {goog.ui.Component}
@@ -43,6 +42,12 @@ hash5.ui.SearchField = function()
      * @private
      */
     this.suggestLocked_ = false;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.isVisible_ = false;
 };
 goog.inherits(hash5.ui.SearchField, goog.ui.Component);
 goog.addSingletonGetter(hash5.ui.SearchField);
@@ -70,17 +75,31 @@ hash5.ui.SearchField.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     this.getHandler()
-        .listen(this.searchInput_, goog.events.EventType.SUBMIT, this.saveSearch)
+        .listen(this.searchInput_, goog.events.EventType.SUBMIT, this.handleSubmit_)
+        .listen(this.searchInput_, goog.events.EventType.FOCUS, this.handleFocus_)
+        .listen(this.searchInput_, goog.events.EventType.CHANGE, this.handleTextInput_)
         .listen(this.getElementByClass('save-search'), goog.events.EventType.CLICK, this.saveSearch)
-        .listen(this.searchInput_, goog.events.EventType.CHANGE, this.handleTextInput_);
+        .listen(this.getElementByClass('search-btn'), goog.events.EventType.CLICK, this.saveSearch);
 
     // autocomplete:
     var renderer = new goog.ui.ac.Renderer(this.getElementByClass('suggests-wrapper'));
-    var inputhandler = new goog.ui.ac.InputHandler(undefined, undefined, true, 300);
+    var inputhandler = new goog.ui.ac.InputHandler(" ", " ", true, 300);
     var autoComplete = new goog.ui.ac.AutoComplete(this, renderer, inputhandler);
     this.getHandler().listen(autoComplete, goog.ui.ac.AutoComplete.EventType.UPDATE, this.handleSuggestSelected_);
     inputhandler.attachAutoComplete(autoComplete);
     inputhandler.attachInputs(this.searchInput_.getElement());
+};
+
+/**
+ * handles focus of searchInput field. If input contains any keys,
+ * suggests box will be shown again.
+ */
+hash5.ui.SearchField.prototype.handleFocus_ = function()
+{
+    if(!this.isVisible_ && this.searchInput_.getValue())
+    {
+        this.setHelperVisible(true);
+    }
 };
 
 
@@ -115,7 +134,27 @@ hash5.ui.SearchField.prototype.requestMatchingRows = function(token, maxMatches,
  */
 hash5.ui.SearchField.prototype.handleSuggestSelected_ = function(e)
 {
-  this.suggestLocked_ = true;
+    this.suggestLocked_ = true;
+};
+
+/**
+ * handles submit of searchfield
+ *
+ * @param  {goog.events.Event} e
+ */
+hash5.ui.SearchField.prototype.handleSubmit_ = function(e)
+{
+    // timeout is needed to check if submit came from accepting suggest
+    window.setTimeout(goog.bind(function(){
+        if(this.suggestLocked_)
+        {
+            this.suggestLocked_ = false;
+        }
+        else
+        {
+            this.saveSearch();
+        }
+    }, this), 50);
 };
 
 /**
@@ -161,30 +200,49 @@ hash5.ui.SearchField.prototype.handleSuggestsLoaded_ = function(entryCollection)
     this.removeChildren(true);
 
     entryCollection.forEach(function(entry){
-        this.addChild(new hash5.ui.Entry(entry), true);
+        var entryUi = new hash5.ui.Entry(entry);
+        this.addChild(entryUi, true);
     }, this);
 };
 
-
 /**
- * @param {boolean=} visible
+ * sets the visibility of the helper-container
+ *
+ * @param {boolean} isVisible
  */
-hash5.ui.SearchField.prototype.setHelperVisible = function(visible)
+hash5.ui.SearchField.prototype.setHelperVisible = function(isVisible)
 {
-    var isVisible = goog.isBoolean(visible) && visible;
     goog.dom.classes.enable(this.getElementByClass('search-helper'), 'hidden', !isVisible);
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
 
     if(isVisible)
     {
-      this.getHandler().listen(document.body, goog.events.EventType.CLICK, this.setHelperVisible);
+      this.getHandler().listen(document.body, goog.events.EventType.CLICK, this.handleDocClick_);
     }else
     {
-      this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.setHelperVisible);
+      this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.handleDocClick_);
     }
 
+    this.isVisible_ = isVisible;
 };
 
+/**
+ * handles each click on the document. If clicked target is outside
+ * the this component, the helper element will be hidden.
+ *
+ * @param {goog.events.BrowserEvent} e
+ */
+hash5.ui.SearchField.prototype.handleDocClick_ = function(e)
+{
+    if(!goog.dom.contains(this.getElement(), e.target))
+    {
+        this.setHelperVisible(false);
+    }
+};
+
+/**
+ * toggles visibility. used to hide/show component on mobile.
+ */
 hash5.ui.SearchField.prototype.toggle = function()
 {
     goog.dom.classes.toggle(this.getElement(), 'visible');

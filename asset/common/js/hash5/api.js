@@ -53,8 +53,10 @@ hash5.api.getEntries = function(url, collection, options, callback, handler, app
  */
 hash5.api.searchEntries = function(searchStr, collection, callback, handler)
 {
+    // TODO add options
+    var options = undefined;
     var ds = hash5.ds.DataSource.getInstance();
-    return ds.search(searchStr, collection, callback, handler);
+    return ds.search(searchStr, collection, options, callback, handler);
 };
 
 
@@ -85,7 +87,7 @@ hash5.api.clearListPanel = function()
  */
 hash5.api.addSearchTreeItem = function(search, title)
 {
-    hash5.controller.MainPanelController.getInstance().addSearchTreeItem(search, title);
+    hash5.ui.PageSidebar.getInstance().addSearchTreeItem(search, title);
 };
 
 /**

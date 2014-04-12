@@ -3,31 +3,17 @@ goog.provide('hash5.ds.Recommondations');
 goog.require('goog.net.XhrManager');
 goog.require('goog.Uri.QueryData');
 
-// TODO - use xhrManager
+// TODO - change to static functions?
 
 /**
  * @constructor
- * @extends {goog.events.EventTarget}
  */
 hash5.ds.Recommondations = function()
 {
-    goog.base(this);
-
-    /**
-     * @type {goog.events.EventHandler}
-     * @private
-     */
-    this.handler_ = null;
+    //goog.base(this);
 };
-goog.inherits(hash5.ds.Recommondations, goog.events.EventTarget);
+//goog.inherits(hash5.ds.Recommondations, goog.events.EventTarget);
 goog.addSingletonGetter(hash5.ds.Recommondations);
-
-/**
- * @return {goog.events.EventHandler}
- */
-hash5.ds.Recommondations.prototype.getHandler = function() {
-    return this.handler_ || (this.handler_ = new goog.events.EventHandler(this));
-};
 
 
 
@@ -43,9 +29,12 @@ hash5.ds.Recommondations.prototype.autocomplete = function(text, tag, callback, 
 {
     goog.asserts.assert(tag.length > 2, 'Tag to complete need to be at least 3 characters long.');
 
-    var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, function(e){
-        var data = e.target.getResponseJson();
+    var postData = {
+        'text': text,
+        'tag': tag
+    };
+    hash5.ds.ConnectionManager.simpleRequest('/autocomplete', 'POST', postData, function(e){
+        var data = e.getResponseJson();
         var result = [];
 
         /*
@@ -76,12 +65,7 @@ hash5.ds.Recommondations.prototype.autocomplete = function(text, tag, callback, 
 
         callback.call(handler, result);
 
-    }, false, this);
-    var postData = goog.Uri.QueryData.createFromMap({
-        'text': text,
-        'tag': tag
-    }).toString();
-    xhr.send('/autocomplete', 'POST', postData);
+    }, this);
 };
 
 
@@ -94,9 +78,11 @@ hash5.ds.Recommondations.prototype.autocomplete = function(text, tag, callback, 
  */
 hash5.ds.Recommondations.prototype.recommend = function(text, callback, handler)   // TODO remove callback?
 {
-    var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, function(e){
-        var data = e.target.getResponseJson();
+    var postData = {
+        'text': text
+    };
+    hash5.ds.ConnectionManager.simpleRequest('/recommend', 'POST', postData, function(e){
+        var data = e.getResponseJson();
         var result = [];
 
         /*
@@ -128,9 +114,5 @@ hash5.ds.Recommondations.prototype.recommend = function(text, callback, handler)
 
         callback.call(handler, result);
 
-    }, false, this);
-    var postData = goog.Uri.QueryData.createFromMap({
-        'text': text
-    }).toString();
-    xhr.send('/recommend', 'POST', postData);
+    }, this);
 };

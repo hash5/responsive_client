@@ -33,9 +33,13 @@
         }
     }
 
-    .register-link
+    .register-wrapper
     {
         float: right;
+        text-align: right;
+    }
+    .register-link
+    {
         color: #fff;
 
         &:hover {text-decoration: underline;}

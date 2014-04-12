@@ -33,7 +33,7 @@ hash5.module.calendar.DateTime.prototype.hasTime = function()
  */
 hash5.module.calendar.DateTime.prototype.setHasTime = function(hasTime)
 {
-    this.hasTime_ = true;
+    this.hasTime_ = hasTime;
 };
 
 /**

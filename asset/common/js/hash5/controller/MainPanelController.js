@@ -4,7 +4,6 @@ goog.require('hash5.controller.BaseController');
 goog.require('hash5.view.ListView');
 goog.require('hash5.ui.SearchField');
 
-goog.require('hash5.ui.SearchTree');
 
 /**
  *
@@ -32,12 +31,6 @@ hash5.controller.MainPanelController = function()
      * @private
      */
     this.panelEl_ = null;
-
-    /**
-     * @type {hash5.ui.SearchTree}
-     * @private
-     */
-    this.searchTree_ = null;
 };
 goog.inherits(hash5.controller.MainPanelController, hash5.controller.BaseController);
 goog.addSingletonGetter(hash5.controller.MainPanelController);
@@ -52,20 +45,6 @@ hash5.controller.MainPanelController.prototype.initialize = function(config)
 
     this.panelEl_ = goog.dom.getElementByClass('main-panel');
     this.renderView(this.listView_);
-
-    // render searchtree
-    this.searchTree_ = new hash5.ui.SearchTree();
-    this.searchTree_.render(document.getElementById('searchtree'));
-};
-
-
-/**
- * @param  {string} search
- * @param  {string=} title
- */
-hash5.controller.MainPanelController.prototype.addSearchTreeItem = function(search, title)
-{
-    this.searchTree_.addSearch(search, title);
 };
 
 /**

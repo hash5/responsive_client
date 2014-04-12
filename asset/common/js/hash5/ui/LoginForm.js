@@ -12,7 +12,8 @@ goog.require('hash5.templates.ui.LoginForm');
 
 /**
  * Loginform
- * After successful login hash5.controller.UserController.EventType.LOGIN will be dispatch from UserController
+ * After successful login hash5.controller.UserController.EventType.LOGIN
+ * will be dispatch from UserController
  *
  * @constructor
  * @extends {goog.ui.Component}
@@ -76,6 +77,8 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
 
         .listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_)
         .listenOnce(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, this.handleWrongLogIn_);
+
+    this.form_.getControlByName('username').focus();
 };
 
 /**
@@ -92,7 +95,7 @@ hash5.ui.LoginForm.prototype.handleLoginClick_ = function(e)
 
 
 /**
- * @param  {goog.events.Event} e
+ * @param  {hash5.validation.FormValidationEvent} e
  * @private
  */
 hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
@@ -111,7 +114,7 @@ hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
  * handle valid login and disposes loginForm
  *
  * @param  {goog.events.Event} e
- * @private
+ * @protected
  */
 hash5.ui.LoginForm.prototype.handleLoggedIn_ = function(e)
 {

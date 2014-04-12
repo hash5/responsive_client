@@ -32,10 +32,11 @@ cd $base
 
 #start tests
 wget -nc -O $base/tests/selenium-server.jar http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar
-seleniumstart="xvfb-run java -jar $base/tests/selenium-server.jar"
-${seleniumstart} &
+export DISPLAY=":2"
+java -jar $base/tests/selenium-server.jar &
 sleep 30
-java -jar $base/tests/ClosureTester.jar -testsfile "asset/common/js/alltests.js" -testserver "http://localhost:9080/client/" -outputfile jsunit-result.xml
+java -jar $base/tests/ClosureTester.jar -testsfile "asset/common/js/alltests.js" -testserver "http://localhost:9080/client/" -outputfile jsunit-result.xml 2>&1
+
 
 #stop the node app and clean up
 killall node

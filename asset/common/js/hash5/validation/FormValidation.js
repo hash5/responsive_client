@@ -1,5 +1,6 @@
 goog.provide('hash5.validation.FormValidation');
 goog.provide('hash5.validation.FormValidationError');
+goog.provide('hash5.validation.FormValidationEvent');
 
 goog.require('goog.events.EventHandler');
 goog.require('goog.events.EventTarget');
@@ -111,3 +112,23 @@ hash5.validation.FormValidation.EventType = {
  * }}
  */
 hash5.validation.FormValidationError;
+
+
+/**
+ * @param {string} type Event Type.
+ * @param {hash5.validation.FormValidation} opt_target Reference to the object that is the target of
+ *     this event. It has to implement the {@code EventTarget} interface
+ *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
+ * @constructor
+ * @extends {goog.events.Event}
+ */
+hash5.validation.FormValidationEvent = function(type, opt_target)
+{
+    goog.base(this, type, opt_target);
+
+    /**
+     * @type {hash5.validation.FormValidationResult}
+     */
+    this.result = null;
+};
+goog.inherits(hash5.validation.FormValidationEvent, goog.events.Event);

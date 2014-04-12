@@ -5,6 +5,9 @@ goog.require('goog.ui.Component');
 goog.require('hash5.templates.ListView');
 
 /**
+ * UI-Control to switch between Lists on mobile
+ * devices.
+ *
  * @param {hash5.view.ListView} listView
  *
  * @constructor
@@ -58,10 +61,11 @@ hash5.ui.ListSwitcher.prototype.enterDocument = function()
         .listen(this.listView_, hash5.view.ListView.EventType.LIST_ADDED, this.handleListChanged_)
         .listen(this.listView_, hash5.view.ListView.EventType.LIST_REMOVED, this.handleListChanged_);
 
-    this.toggleBtns_();
+    this.updateUi_();
 };
 
 /**
+ * sets the visibility of the control
  * @param {boolean} visible
  */
 hash5.ui.ListSwitcher.prototype.setVisible = function(visible)
@@ -71,6 +75,7 @@ hash5.ui.ListSwitcher.prototype.setVisible = function(visible)
 
 
 /**
+ * handles scroll of list
  * @param  {goog.events.Event} e
  */
 hash5.ui.ListSwitcher.prototype.handleScroll_ = function(e)
@@ -84,21 +89,23 @@ hash5.ui.ListSwitcher.prototype.handleScroll_ = function(e)
 
 
 /**
- * @param  {goog.events.Event} e
+ * handles list added or removed
  */
-hash5.ui.ListSwitcher.prototype.handleListChanged_ = function(e)
+hash5.ui.ListSwitcher.prototype.handleListChanged_ = function()
 {
     var maxIndex = this.listView_.getChildCount() - 1;
 
     if(maxIndex < this.curIndex_)
     {
-        this.curIndex_ = maxIndex;
+        this.curIndex_ = maxIndex >= 0 ? maxIndex : 0;
+        this.listView_.mobileShowList(this.curIndex_);
     }
 
-    this.toggleBtns_();
+    this.updateUi_();
 };
 
 /**
+ * handles click on navigate btns
  * @param  {goog.events.Event} e
  */
 hash5.ui.ListSwitcher.prototype.handleClick_ = function(e)
@@ -120,16 +127,25 @@ hash5.ui.ListSwitcher.prototype.handleClick_ = function(e)
 
     this.listView_.mobileShowList(this.curIndex_);
 
-    this.toggleBtns_();
+    this.updateUi_();
 };
 
 /**
+ * checks which buttons should be visible and updates stats
  * @private
  */
-hash5.ui.ListSwitcher.prototype.toggleBtns_ = function()
+hash5.ui.ListSwitcher.prototype.updateUi_ = function()
 {
-    goog.dom.classes.enable(this.getElementByClass('left-btn'), 'hidden', this.curIndex_ <= 0);
-
     var maxIndex = this.listView_.getChildCount() - 1;
-    goog.dom.classes.enable(this.getElementByClass('right-btn'), 'hidden', this.curIndex_ >= maxIndex);
+
+    // update stats
+    var stats = (this.curIndex_ + 1) + '/' + (maxIndex + 1);
+    this.getElementByClass('stats').innerHTML = stats;
+
+
+    var leftBtnHidden = this.curIndex_ <= 0;
+    goog.dom.classes.enable(this.getElementByClass('left-btn'), 'hidden', leftBtnHidden);
+
+    var rightBtnHidden = this.curIndex_ >= maxIndex;
+    goog.dom.classes.enable(this.getElementByClass('right-btn'), 'hidden', rightBtnHidden);
 };
