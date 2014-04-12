@@ -209,6 +209,16 @@ hash5.module.calendar.Event.prototype.getIndices = function(key)
 };
 
 /**
+ * update indices
+ *
+ * @param {hash5.module.calendar.Event} newIndices
+ */
+hash5.module.calendar.Event.prototype.updateIndices = function(newIndices)
+{
+    return this.indices_ = newIndices.indices_;
+};
+
+/**
  * @param {hash5.module.calendar.Event} event
  * @return {boolean}
  */

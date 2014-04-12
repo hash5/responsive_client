@@ -83,10 +83,11 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
     }
     else
     {
-        // update indices
+        for(var i = 0; i < this.curParsedCalendars_.length; i++)
+        {
+            this.curParsedCalendars_[i].updateIndices(parsedCalendars[i]);
+        }
     }
-
-    console.log(parsedCalendars);
 };
 
 /**
@@ -168,6 +169,7 @@ hash5.module.calendar.EditorComponent.prototype.updateTextForEvent = function(ev
     }
 
     insertString(event.getRecurrent() ? event.getRecurrent().toString() : '', 'recurrent');
+    // TODO remove recurrent tag if removed...
 
     if(entryText != this.getEditor().getEntryText())
     {
