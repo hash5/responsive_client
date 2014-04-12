@@ -71,6 +71,27 @@ hash5.App.prototype.setConfig = function(config)
 };
 
 /**
+ * returns App config object
+ *
+ * @return  {Object}
+ */
+hash5.App.prototype.getConfig = function()
+{
+  return this.config;
+};
+
+/**
+ * prefix to access hash5 REST api
+ *
+ * @return  {string}
+ */
+hash5.App.prototype.getApiPrefix = function()
+{
+  return this.config['api_path_prefix'] || '';
+};
+
+
+/**
  * initialize the module manager
  * this should be called only once!
  */

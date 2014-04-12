@@ -7,6 +7,8 @@ goog.require('hash5.controller.BaseController');
 goog.require('hash5.model.User');
 goog.require('hash5.ui.OverlayLoginForm');
 
+// TODO use connectionmanager...
+
 /**
  *
  * @constructor
@@ -160,7 +162,8 @@ hash5.controller.UserController.prototype.loadUserSettings = function(callback, 
 {
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, goog.bind(this.handleUserSettingsLoaded_, this, callback, handler));
-    xhr.send('/usersettings');
+    var apiPrefix = hash5.App.getInstance().getApiPrefix();
+    xhr.send(apiPrefix + '/usersettings');
 };
 
 /**
@@ -214,7 +217,7 @@ hash5.controller.UserController.prototype.saveUserSetting = function(callback, h
         xhr.listen(goog.net.EventType.COMPLETE, callback, false, handler);
     }
 
-    xhr.send('/usersettings', 'POST', 'settings=' + JSON.stringify(this.userSettings_));
+    xhr.send(apiPrefix + '/usersettings', 'POST', 'settings=' + JSON.stringify(this.userSettings_));
 };
 
 /**
@@ -280,7 +283,7 @@ hash5.controller.UserController.prototype.login = function(username, password)
         }
 
     }, false, this);
-    xhr.send('/login', 'post', 'user=' + username + '&pass=' + password);
+    xhr.send(apiPrefix + '/login', 'post', 'user=' + username + '&pass=' + password);
 };
 
 /**
@@ -291,7 +294,8 @@ hash5.controller.UserController.prototype.logout = function()
 {
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, this.handleLoggedOut_, false, this);
-    xhr.send('/logout');
+    var apiPrefix = hash5.App.getInstance().getApiPrefix();
+    xhr.send(apiPrefix + '/logout');
 };
 
 /**
@@ -336,7 +340,8 @@ hash5.controller.UserController.prototype.register = function(username, password
 {
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, this.handleRegistered_, false, this);
-    xhr.send('/register?user=' + username + '&pass=' + password, 'get');
+    var apiPrefix = hash5.App.getInstance().getApiPrefix();
+    xhr.send(apiPrefix + '/register?user=' + username + '&pass=' + password, 'get');
 };
 
 /**
