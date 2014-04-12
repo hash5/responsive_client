@@ -216,7 +216,7 @@ hash5.controller.UserController.prototype.saveUserSetting = function(callback, h
     {
         xhr.listen(goog.net.EventType.COMPLETE, callback, false, handler);
     }
-
+    var apiPrefix = hash5.App.getInstance().getApiPrefix();
     xhr.send(apiPrefix + '/usersettings', 'POST', 'settings=' + JSON.stringify(this.userSettings_));
 };
 
@@ -283,6 +283,7 @@ hash5.controller.UserController.prototype.login = function(username, password)
         }
 
     }, false, this);
+    var apiPrefix = hash5.App.getInstance().getApiPrefix();
     xhr.send(apiPrefix + '/login', 'post', 'user=' + username + '&pass=' + password);
 };
 
