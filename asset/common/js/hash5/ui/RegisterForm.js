@@ -105,7 +105,7 @@ hash5.ui.RegisterForm.prototype.handleValidation_ = function(e)
       var data = this.form_.getData();
 
       var userController = hash5.controller.UserController.getInstance();
-      userController.register(data['username'], data['password']);
+      userController.register(data['username'].trim(), data['password'].trim());
     }
 };
 

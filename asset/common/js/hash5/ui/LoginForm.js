@@ -106,7 +106,7 @@ hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
         var data = this.form_.getData();
 
         var userController = hash5.controller.UserController.getInstance();
-        userController.login(data['username'], data['password']);
+        userController.login(data['username'].trim(), data['password'].trim());
     }
 };
 
