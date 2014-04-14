@@ -70,11 +70,11 @@ hash5.ui.RegisterForm.prototype.enterDocument = function()
     // register handlers
     var registerBtn = this.getElementByClass('btn-register');
     var userController = hash5.controller.UserController.getInstance();
-    var cancleBtn = this.getElementByClass('cancle-register');
+    var cancelBtn = this.getElementByClass('cancel-register');
     this.getHandler()
         .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
         .listen(this.form_, goog.events.EventType.SUBMIT, this.handleRegBtnClick_)
-        .listen(cancleBtn, goog.events.EventType.CLICK, this.handleClose_)
+        .listen(cancelBtn, goog.events.EventType.CLICK, this.handleClose_)
 
         .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidation_)
         .listen(userController, hash5.controller.UserController.EventType.REGISTERED, this.handleClose_)
@@ -110,7 +110,7 @@ hash5.ui.RegisterForm.prototype.handleValidation_ = function(e)
 };
 
 /**
- * handle successful registration or cancle
+ * handle successful registration or cancel
  * closes dialog and shows loginform
  *
  * @param  {goog.events.BrowserEvent} e

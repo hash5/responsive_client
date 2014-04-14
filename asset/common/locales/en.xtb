@@ -6,7 +6,7 @@
 	<translation id="5731102291567675345" key="MSG_1WBUXJJJK6ALW" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="lang change button">Deutsch</translation>
 	<translation id="8691650432970362875" key="MSG_1QHVFDJ6JO0JD" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register heading">Register</translation>
 	<translation id="8601435840013717474" key="MSG_CP60GO4NLSG2" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register button">create account</translation>
-	<translation id="29061588115776576" key="MSG_14D9FYATIY8H8" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal cancle btn">Cancle</translation>
+	<translation id="29061588115776576" key="MSG_14D9FYATIY8H8" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal cancel btn">Cancel</translation>
 	<translation id="1047959220914296384" key="MSG_USERNAME" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="username">Username</translation>
 	<translation id="5796336013099753435" key="MSG_PASSWORD" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password">Password</translation>
 	<translation id="8255869980679741143" key="MSG_USERNAME_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg forusername">Please insert your username.</translation>

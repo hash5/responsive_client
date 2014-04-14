@@ -44,7 +44,7 @@ hash5.view.Settings.prototype.enterDocument = function()
     this.getHandler().listen(overlay, goog.ui.Component.EventType.CLOSE, this.close);
 
     var saveBtn = this.getElementByClass('btn-save');
-    var closeBtn = this.getElementByClass('btn-cancle');
+    var closeBtn = this.getElementByClass('btn-cancel');
     this.getHandler()
         .listen(saveBtn, goog.events.EventType.CLICK, this.handleSaveClick_)
         .listen(closeBtn, goog.events.EventType.CLICK, this.close);

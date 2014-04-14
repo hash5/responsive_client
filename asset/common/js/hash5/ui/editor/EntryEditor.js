@@ -79,8 +79,8 @@ hash5.ui.editor.EntryEditor.prototype.enterDocument = function()
     var saveBtn = this.getElementByClass('save-btn');
     eh.listen(saveBtn, goog.events.EventType.CLICK, this.handleSaveBtnClicked_);
 
-    var cancleBtn = this.getElementByClass('cancle-btn');
-    eh.listen(cancleBtn, goog.events.EventType.CLICK, this.close);
+    var cancelBtn = this.getElementByClass('cancel-btn');
+    eh.listen(cancelBtn, goog.events.EventType.CLICK, this.close);
 
     eh.listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_);
 

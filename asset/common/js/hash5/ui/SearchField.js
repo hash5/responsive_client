@@ -169,7 +169,7 @@ hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
     if(searchKey.length > 3)
     {
         hash5.api.searchEntries(searchKey, undefined, this.handleSuggestsLoaded_, this);
-        this.cancled_ = false;
+        this.canceld_ = false;
     }
 
     this.setHelperVisible(searchKey.length > 0);
