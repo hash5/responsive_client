@@ -45,7 +45,7 @@
     }
   },
   "module-output-path": "../asset/common/js-min/{LANG}/%s.js",
-  "module-production-uri": "/client/asset/common/js-min/LANG/%s.js",
+  "module-production-uri": "/asset/common/js-min/LANG/%s.js",
   "test-drivers": [
     {
       "class": "org.openqa.selenium.firefox.FirefoxDriver"
