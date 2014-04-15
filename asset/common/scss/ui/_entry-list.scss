@@ -116,7 +116,11 @@
 
     h3
     {
-        word-wrap: break-word;
+        font-size: 20px;
+        max-width: 200px;
+        height: 1.3em;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 }
 
