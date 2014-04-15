@@ -241,7 +241,7 @@ hash5.view.ListView.prototype.restoreLists = function()
     {
         var newestEntries = hash5.api.getNewestEntries();
         /** @desc newest entry list heading */
-        var MSG_NEWEST_HEADING = goog.getMsg('Newest Entries');
+        var MSG_NEWEST_HEADING = goog.getMsg('Latest Entries');
         this.addEntryCollection(newestEntries, MSG_NEWEST_HEADING, false);
     }
 };

@@ -45,7 +45,7 @@
 	<translation id="7141543709934632345" key="MSG_KBYCE8UAEIDB" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="add entry list action">add</translation>
 	<translation id="8464512011312511379" key="MSG_J13TJW7OAMS0" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="close entry list action">close</translation>
 	<translation id="7761452865245188589" key="MSG_V99P3NME5ZXQ" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="delete all entry list action">Delete all</translation>
-	<translation id="8035258730776425762" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Newest Entries</translation>
+	<translation id="8035258730776425762" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
 	<translation id="4463237795828482645" key="MSG_18GIEN36PX54E" source="../asset/common/js/hash5/templates/SearchField.soy" desc="search btn label">Search</translation>
 	<translation id="8110680991594254670" key="MSG_10KPA4FGYE26Z" source="../asset/common/js/hash5/templates/SearchField.soy" desc="preview heading">Preview</translation>
 	<translation id="1872691692674123183" key="MSG_16K60HO5P8S2C" source="../asset/common/js/hash5/templates/SearchField.soy" desc="add column button">Add Column</translation>
@@ -60,9 +60,9 @@
 	<translation id="192207046017539897" key="MSG_LOGOUT" source="../asset/common/js/hash5/layout/Header.js" desc="logout btn title">Logout</translation>
 	<translation id="3550314706871989205" key="MSG_SX6F1K1NGKY3" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="sort entries by text">Sort by text</translation>
 	<translation id="203490498955050458" key="MSG_1M9XXTN9IEQYR" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="sort entries by created_date">Sort by date</translation>
-	<translation id="7337991190476357156" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Newest Entries</translation>
+	<translation id="7337991190476357156" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
 	<translation id="5310161572591863071" key="MSG_KTDG029AHC58" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="add folder button">Add Folder</translation>
-	<translation id="7428775094586820208" key="MSG_1T5DOJAWQR6LQ" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="newest entries add button">Newest entries</translation>
-	<translation id="7071774685227588554" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Newest Entries</translation>
+	<translation id="7428775094586820208" key="MSG_1T5DOJAWQR6LQ" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="newest entries add button">Latest entries</translation>
+	<translation id="7071774685227588554" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Latest Entries</translation>
 	<translation id="2053705403637248134" key="MSG_OFFLINE_INFO" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Lost connection to server. Requests are now cached.</translation>
 </translationbundle>

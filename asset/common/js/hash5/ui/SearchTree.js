@@ -62,7 +62,7 @@ hash5.ui.SearchTree.prototype.addNewestEntries_ = function(e)
 {
     var newestEntries = hash5.api.getNewestEntries();
     /** @desc newest entry list heading */
-    var MSG_NEWESTENTRIES_HEADING = goog.getMsg('Newest Entries');
+    var MSG_NEWESTENTRIES_HEADING = goog.getMsg('Latest Entries');
     hash5.api.showEntryCollection(newestEntries, MSG_NEWESTENTRIES_HEADING);
 };
 
