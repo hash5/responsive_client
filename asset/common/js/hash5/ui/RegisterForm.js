@@ -77,8 +77,9 @@ hash5.ui.RegisterForm.prototype.enterDocument = function()
         .listen(cancelBtn, goog.events.EventType.CLICK, this.handleClose_)
 
         .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidation_)
-        .listen(userController, hash5.controller.UserController.EventType.REGISTERED, this.handleClose_)
-        .listen(userController, hash5.controller.UserController.EventType.CONFLICT, this.handleRegisterConflict_);
+        .listen(userController, hash5.controller.UserController.EventType.REGISTERED, this.handleRegistered_)
+        .listen(userController, hash5.controller.UserController.EventType.CONFLICT, this.handleRegisterConflict_)
+        .listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_);
 };
 
 /**
@@ -110,7 +111,27 @@ hash5.ui.RegisterForm.prototype.handleValidation_ = function(e)
 };
 
 /**
- * handle successful registration or cancel
+ * @param  {goog.events.Event} e
+ * @private
+ */
+hash5.ui.RegisterForm.prototype.handleRegistered_ = function(e)
+{
+    var data = this.form_.getData();
+    var userController = hash5.controller.UserController.getInstance();
+    userController.login(data['username'].trim(), data['password'].trim());
+};
+
+/**
+ * @param  {goog.events.Event} e
+ * @private
+ */
+hash5.ui.RegisterForm.prototype.handleLoggedIn_ = function(e)
+{
+    this.dispose();
+};
+
+/**
+ * handle cancel
  * closes dialog and shows loginform
  *
  * @param  {goog.events.BrowserEvent} e

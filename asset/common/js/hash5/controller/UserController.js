@@ -332,7 +332,7 @@ hash5.controller.UserController.prototype.handleUnauthorized_ = function(e)
 
 /**
  * register user
- * hash5.controller.UserController.EventType will be dispatch as result
+ * events of type hash5.controller.UserController.EventType will be dispatch as result
  *
  * @param  {string} username
  * @param  {string} password
