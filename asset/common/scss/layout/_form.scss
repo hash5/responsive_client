@@ -68,29 +68,39 @@ textarea.textbox {
 
 .btn {
     @include box-sizing(border-box);
-    background: $colorLighterGray;
-    border: 1px solid $colorLighterGray;
-    color: #4b4b4b;
-    cursor: pointer;
-    font-size: 15px;
-    font-family: 'Open Sans';
     display: inline-block;
+    @include box-shadow(0 1px 0 rgba(0, 0, 0, 0.05));
+    @include border-radius(2px);
+    padding: 0 12px;
     margin: 0 3px 0 0;
-    padding: 5px 12px;
-    text-transform: uppercase;
+    cursor: pointer;
+    text-align: center;
     text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px;
+    border: none;
+    @include transition(all .2s);
+
+    background-color: $colorLighterGray;
+    color: #4b4b4b;
 
     &.primary {
-        background-color: $colorDarkGray;
-        border-color: $colorDarkGray;
+        background-color: $colorGreen1;
         color: #fff;
+
+        &:active, &:hover {
+            background-color: rgba($colorGreen1, 0.8);
+        }
+
     }
 
     &:active,
     &:hover {
-        background-color: $colorOrange;
-        border-color: $colorOrange;
-        color: #000;
+        @include box-shadow(inset 0 -2px 0 rgba(0, 0, 0, 0.27));
     }
 
     &.disabled {

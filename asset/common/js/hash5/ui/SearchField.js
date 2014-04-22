@@ -55,7 +55,7 @@ goog.addSingletonGetter(hash5.ui.SearchField);
 /** @inheritDoc */
 hash5.ui.SearchField.prototype.createDom = function()
 {
-    var el = soy.renderAsFragment(hash5.templates.Searchfield.wrapper);
+    var el = goog.soy.renderAsFragment(hash5.templates.Searchfield.wrapper);
     this.decorateInternal(/** @type {Element} */ (el));
 
     this.searchInput_.render(this.getElementByClass('search-input'));
