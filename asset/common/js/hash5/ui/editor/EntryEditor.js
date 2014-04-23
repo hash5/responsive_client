@@ -51,7 +51,7 @@ goog.inherits(hash5.ui.editor.EntryEditor, goog.ui.Component);
 /** @inheritDoc */
 hash5.ui.editor.EntryEditor.prototype.createDom = function()
 {
-    var relDate = goog.date.relative.getDateString(this.entry_.getCreatedDate());
+    var relDate = goog.date.relative.getPastDateString(this.entry_.getCreatedDate());
     var data = {
         date: relDate
     };
@@ -261,4 +261,4 @@ hash5.ui.editor.EntryEditor.prototype.setEntryText = function(entryText)
  */
 hash5.ui.editor.EntryEditor.EventType ={
     TEXT_CHANGE: 'editor_text_change'
-}
+};

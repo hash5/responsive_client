@@ -31,7 +31,7 @@ hash5.ui.Entry.prototype.createDom = function()
 {
     var entry = this.getModel();
 
-    var relDate = goog.date.relative.getDateString(entry.getCreatedDate());
+    var relDate = goog.date.relative.getPastDateString(entry.getCreatedDate());
     var data = {
         editUrl: '/edit/' + entry.getId(),
         deleteUrl: '/delete/' + entry.getId(),
