@@ -37,6 +37,7 @@ hash5.module.calendar.HelperTile = function(event)
         endDate.add(new goog.date.Interval(goog.date.Interval.HOURS, 1));
         event.setEndDate(endDate);
     }
+    event.setParentEventTarget(this);
 
     /**
      * @type {hash5.forms.Form}
@@ -53,18 +54,19 @@ hash5.module.calendar.HelperTile.prototype.enterDocument = function()
 
     goog.dom.classes.add(this.getElement(), 'calendar-tile');
 
-    this.setUpControls_();
+    this.generateFormItems_();
     this.decorateFromEvent(this.event_);
     this.addChild(this.form_, true);
 
     this.getHandler()
-        .listen(this.form_, goog.events.EventType.CHANGE, this.handleDateChanges_);
+        .listen(this.form_, goog.events.EventType.CHANGE, this.handleFormChanges_);
 };
 
 /**
+ * generates form-items
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.setUpControls_ = function()
+hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
 {
     this.startDate_ = this.form_.addFormItem('', 'datepicker', {fieldName: 'start'}).getControl();
     this.startTime_ = this.form_.addFormItem('', 'textbox', {fieldName: 'start-time'}).getControl();
@@ -100,6 +102,8 @@ hash5.module.calendar.HelperTile.prototype.setUpControls_ = function()
 };
 
 /**
+ * sets input-values from event
+ *
  * @param {hash5.module.calendar.Event} event
  */
 hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function(event)
@@ -111,7 +115,7 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function(event)
     this.setDate_(this.endDate_, event.getEndDate());
     this.setTime_(this.endTime_, event.getEndDate());
 
-    var hasTime = event.getStartDate().hasTime() || event.getEndDate().hasTime();
+    var hasTime = event.hasTime();
     this.allDay_.setValue(!hasTime);
 
     if(event.getRecurrent())
@@ -122,10 +126,13 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function(event)
         this.rec_.setValue(true);
     }
 
-    this.enableHelpers_(hasTime, !!event.getRecurrent());
+    this.enableRecHelpers_(!!event.getRecurrent());
+    this.enableTimesHelpers_(hasTime);
 };
 
 /**
+ * sets formatted date for input
+ *
  * @param {hash5.forms.IControl} control
  * @param {hash5.module.calendar.DateTime} date
  * @private
@@ -137,6 +144,8 @@ hash5.module.calendar.HelperTile.prototype.setDate_ = function(control, date)
 };
 
 /**
+ * sets formatted time for input
+ *
  * @param {hash5.forms.IControl} control
  * @param {hash5.module.calendar.DateTime} date
  * @private
@@ -148,64 +157,95 @@ hash5.module.calendar.HelperTile.prototype.setTime_ = function(control, date)
 };
 
 /**
- * handles changes of dates
+ * handles changes of form
  *
  * @param  {goog.events.Event} e
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.handleDateChanges_ = function(e)
+hash5.module.calendar.HelperTile.prototype.handleFormChanges_ = function(e)
 {
+    var control = /** @type {hash5.forms.IControl} */ (e.target),
+        fieldName = control.getFieldName(),
+        event = this.event_;
+
     var utils = hash5.module.calendar.DateUtils;
-    var startDate, endDate, recurrent;
 
-    // all-day
-    var allDay = this.allDay_.getValue() === '1';
-    if(allDay)
-    {
-        startDate = utils.stringToDate(this.startDate_.getValue());
-        startDate.setHasTime(false);
-        endDate = utils.stringToDate(this.endDate_.getValue());
-        endDate.setHasTime(false);
-    }
-    else
-    {
-        startDate = utils.stringToDate(this.startDate_.getValue() + ' ' + this.startTime_.getValue()),
-        endDate = utils.stringToDate(this.endDate_.getValue() + ' ' + this.endTime_.getValue());
-    }
-    this.event_.setStartDate(startDate);
-    this.event_.setEndDate(endDate);
+    var allDay = this.allDay_.getValue() === '1',
+        time = '';
 
-    // recurrent
-    var hasRecurrent = this.rec_.getValue() === '1';
-    if(hasRecurrent)
-    {
-        var unit = this.recUnit_.getValue(),
-            number = this.recVal_.getValue();
-        recurrent = new hash5.module.calendar.Duration(number, unit);
-    }
-    this.event_.setRecurrent(recurrent || null);
+    switch(fieldName){
+        case 'start':
+        case 'start-time':
+            if(!allDay){
+                time = ' ' + this.startTime_.getValue()
+            }
+            var startDate = utils.stringToDate(this.startDate_.getValue() + time);
+            this.event_.setStartDate(startDate);
+            break;
+        case 'end':
+        case 'end-time':
+            if(!allDay){
+                time = ' ' + this.endTime_.getValue()
+            }
+            var endDate = utils.stringToDate(this.endDate_.getValue() + time);
+            this.event_.setEndDate(endDate);
+            break;
 
-    // TODO work maybe with events?
-    if(!this.getComponent().updateTextForEvent(this.event_))
-    {
-        // only update helpers if entry text has not changed
-        // on change whole tile will be rerendered...
-        this.enableHelpers_(!allDay, hasRecurrent);
+        case 'all-day':
+            this.enableTimesHelpers_(!allDay);
+            event.setHasTime(!allDay);
+            break;
+        case 'recurrent-cb':
+            var hasRecurrent = this.rec_.getValue() === '1';
+            this.enableRecHelpers_(hasRecurrent);
+
+            if(!hasRecurrent)
+            {
+                this.event_.setRecurrent(null);
+                break;
+            }
+
+            // break; be carefull - breakthrough!!
+        case 'recurrent':
+        case 'recurrent-type':
+            var unit = this.recUnit_.getValue(),
+                number = this.recVal_.getValue(),
+                recurrent = new hash5.module.calendar.Duration(number, unit);
+            this.event_.setRecurrent(recurrent);
+            break;
     }
 };
 
 /**
- * handles changes of dates
+ * enables helpers for reccurent inputs
  *
- * @param  {boolean} times
- * @param  {boolean} recurrent
+ * @param  {boolean} visible
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.enableHelpers_ = function(times, recurrent)
+hash5.module.calendar.HelperTile.prototype.enableRecHelpers_ = function(visible)
 {
-    goog.dom.classes.enable(this.form_.getFormItemByName('start-time').getElement(), 'hidden', !times);
-    goog.dom.classes.enable(this.form_.getFormItemByName('end-time').getElement(), 'hidden', !times);
+    goog.dom.classes.enable(this.form_.getControlByName('recurrent').getElement(), 'hidden', !visible);
+    goog.dom.classes.enable(this.form_.getControlByName('recurrent-type').getElement(), 'hidden', !visible);
+};
 
-    goog.dom.classes.enable(this.form_.getControlByName('recurrent').getElement(), 'hidden', !recurrent);
-    goog.dom.classes.enable(this.form_.getControlByName('recurrent-type').getElement(), 'hidden', !recurrent);
+/**
+ * enables helpers for time inputs
+ *
+ * @param  {boolean} visible
+ * @private
+ */
+hash5.module.calendar.HelperTile.prototype.enableTimesHelpers_ = function(visible)
+{
+    goog.dom.classes.enable(this.form_.getFormItemByName('start-time').getElement(), 'hidden', !visible);
+    goog.dom.classes.enable(this.form_.getFormItemByName('end-time').getElement(), 'hidden', !visible);
+};
+
+
+
+/**
+ * @return {hash5.module.calendar.Event}
+ */
+hash5.module.calendar.HelperTile.prototype.getEvent = function()
+{
+    return this.event_;
 };

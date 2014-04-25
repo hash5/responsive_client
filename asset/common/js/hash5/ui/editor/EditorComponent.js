@@ -1,7 +1,10 @@
 goog.provide('hash5.ui.editor.EditorComponent');
 
+goog.require('hash5.ui.editor.EventType');
 
 /**
+ * Abstract Component to extend EntryEditor
+ *
  * @param {hash5.model.Entry} model
  * @param {hash5.ui.editor.EntryEditor} editor
  *
@@ -51,6 +54,14 @@ hash5.ui.editor.EditorComponent = function(model, editor)
      * @protected
      */
     this.tiles_ = [];
+
+    /**
+     * cached entry text to provide updates of multiple
+     * tags during one circle
+     * @type {string|undefined}
+     * @private
+     */
+    this.cachedEntryText_ = undefined;
 };
 goog.inherits(hash5.ui.editor.EditorComponent, goog.Disposable);
 
@@ -134,6 +145,10 @@ hash5.ui.editor.EditorComponent.prototype.addHelperTile = function(tile)
 hash5.ui.editor.EditorComponent.prototype.registerHelperTile = function(tile)
 {
     this.tiles_.push(tile);
+
+    this.getHandler()
+        .listen(tile, hash5.ui.editor.EventType.CHANGED_TAG, this.handleChangedTag_)
+        .listen(tile, hash5.ui.editor.EventType.CHANGED_TAG_UPDATE, this.handleChangedTagUpdate_);
 };
 
 /**
@@ -166,3 +181,107 @@ hash5.ui.editor.EditorComponent.prototype.removeAllHelperTiles = function()
  * @return {hash5.ui.editor.HelperTile}
  */
 hash5.ui.editor.EditorComponent.prototype.getNewHelperTile = goog.abstractMethod;
+
+
+
+/**
+ * handles changed tag event (mostly dispatched by helper tile)
+ *
+ * @param  {hash5.ui.editor.ChangedTagEvent} e
+ */
+hash5.ui.editor.EditorComponent.prototype.handleChangedTag_ = function(e)
+{
+    var entryText = '',
+        offset = 0; // offset of indices when e.queued (because no reparsing happen)
+
+    if(goog.DEBUG)
+    {
+        goog.asserts.assert(this.cachedEntryText_ ? e.queued : true,
+            'CHANGED_TAG_UPDATE was not called for previous changes');
+    }
+
+    if(e.queued)
+    {
+        var orgText = this.getEditor().getEntryText();
+        this.cachedEntryText_ = this.cachedEntryText_ || orgText;
+        entryText = this.cachedEntryText_;
+
+        offset = entryText.length - orgText.length;
+    }
+    else
+    {
+        entryText = this.getEditor().getEntryText();
+    }
+
+    /**
+     * replaces positions from startPos to endPos with new replace string
+     *
+     * @param {string} str
+     * @param {string} replace
+     * @param {number} startPos
+     * @param {number} endPos
+     * @return {string} new string
+     */
+    var posReplace = function(str, replace, startPos, endPos)
+    {
+        startPos = Math.max(startPos + offset, 0);
+        endPos = endPos + offset;
+        return str.substring(0, startPos) + replace + str.substring(endPos);
+    };
+
+    if(e.removeTag)
+    {
+        var startIndex = e.indices[0] - e.tagName.length - 2;
+        entryText = posReplace(entryText, '', startIndex, e.indices[1]);
+    }
+    else
+    {
+        var newString = goog.isString(e.value) ? e.value : e.value.toString();
+        var parsedIndices = e.indices,
+            indices = parsedIndices || [entryText.length, entryText.length];
+
+        // insert quotes if needed
+        if(newString.indexOf(" ") > -1)
+        {
+            newString = '"' + newString  + '"';
+        }
+
+        // insert key on new tags
+        if(!parsedIndices && newString.length > 0)
+        {
+            newString = ' #' + e.tagName + ':' + newString;
+        }
+
+        entryText = posReplace(entryText, newString, indices[0], indices[1]);
+    }
+
+    if(e.queued)
+    {
+        // no update before CHANGED_TAG_UPDATE is dispatched
+        this.cachedEntryText_ = entryText;
+    }
+    else
+    {
+        // update text in entryEditor if changed
+        if(entryText != this.getEditor().getEntryText())
+        {
+            this.getEditor().setEntryText(entryText);
+        }
+    }
+};
+
+/**
+ * handles changed tag update - sets cached entry text to editor
+ * @param  {goog.events.Event} e
+ */
+hash5.ui.editor.EditorComponent.prototype.handleChangedTagUpdate_ = function(e)
+{
+    var orgText = this.getEditor().getEntryText();
+
+    if(this.cachedEntryText_ != orgText)
+    {
+        this.getEditor().setEntryText(this.cachedEntryText_ || orgText);
+    }
+
+    this.cachedEntryText_ = undefined;
+};

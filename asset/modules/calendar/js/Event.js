@@ -2,13 +2,16 @@ goog.provide('hash5.module.calendar.Event');
 
 goog.require('hash5.module.calendar.DateTime');
 goog.require('hash5.module.calendar.Duration');
+goog.require('hash5.ui.editor.EventType');
 
 /**
  *
  * @constructor
+ * @extends {goog.events.EventTarget}
  */
 hash5.module.calendar.Event = function()
 {
+    goog.base(this);
 
     /**
      * @type {hash5.module.calendar.DateTime}
@@ -53,6 +56,7 @@ hash5.module.calendar.Event = function()
      */
     this.indices_ = {};
 };
+goog.inherits(hash5.module.calendar.Event, goog.events.EventTarget);
 
 /**
  * used to create event obj from server json
@@ -93,14 +97,24 @@ hash5.module.calendar.Event.prototype.getStartDate = function()
 /**
  * @param {hash5.module.calendar.DateTime} date
  * @param {[number, number]=} indices indices where date was parsed
+ * @param {boolean=} queued if set to true, queued tag change will be dispatched
  */
-hash5.module.calendar.Event.prototype.setStartDate = function(date, indices)
+hash5.module.calendar.Event.prototype.setStartDate = function(date, indices, queued)
 {
     this.startDate_ = date;
 
     if(goog.isDef(indices))
     {
         this.indices_['start'] = indices;
+    }else
+    {
+        this.dispatchEvent({
+            type: hash5.ui.editor.EventType.CHANGED_TAG,
+            tagName: 'start',
+            value: date.toString(),
+            indices: this.indices_['start'],
+            queued: !!queued
+        });
     }
 };
 
@@ -116,8 +130,9 @@ hash5.module.calendar.Event.prototype.getEndDate = function()
 /**
  * @param {hash5.module.calendar.DateTime} date
  * @param {[number, number]=} indices indices where date was parsed
+ * @param {boolean=} queued if set to true, queued tag change will be dispatched
  */
-hash5.module.calendar.Event.prototype.setEndDate = function(date, indices)
+hash5.module.calendar.Event.prototype.setEndDate = function(date, indices, queued)
 {
     this.endDate_ = date;
 
@@ -125,6 +140,53 @@ hash5.module.calendar.Event.prototype.setEndDate = function(date, indices)
     {
         this.indices_['end'] = indices;
     }
+    else
+    {
+        var value = '';
+
+        // only write time if start&end is at the same day and time is set
+        if(this.endDate_.hasTime() && goog.date.isSameDay(this.startDate_, this.endDate_))
+        {
+            value = date.getTimeString();
+        }
+        else
+        {
+            value = date.toString();
+        }
+
+        this.dispatchEvent({
+            type: hash5.ui.editor.EventType.CHANGED_TAG,
+            tagName: 'end',
+            value: value,
+            indices: this.indices_['end'],
+            queued: !!queued
+        });
+    }
+};
+
+/**
+ * sets hasTime for start and end date
+ * @param {boolean} hasTime
+ */
+hash5.module.calendar.Event.prototype.setHasTime = function(hasTime)
+{
+    this.startDate_.setHasTime(hasTime);
+    this.endDate_.setHasTime(hasTime);
+
+    // trigger update events
+    this.setStartDate(this.startDate_, undefined, true);
+    this.setEndDate(this.endDate_, undefined, true);
+
+    this.dispatchEvent(hash5.ui.editor.EventType.CHANGED_TAG_UPDATE);
+};
+
+/**
+ * returns true if start or enddate has a time set
+ * @return {boolean}
+ */
+hash5.module.calendar.Event.prototype.hasTime = function()
+{
+    return this.startDate_.hasTime() || this.endDate_.hasTime()
 };
 
 
@@ -148,6 +210,16 @@ hash5.module.calendar.Event.prototype.setRecurrent = function(rec, indices)
     {
         this.indices_['recurrent'] = indices;
     }
+    else
+    {
+        this.dispatchEvent({
+            type: hash5.ui.editor.EventType.CHANGED_TAG,
+            tagName: 'recurrent',
+            value: rec ? rec.toString() : '',
+            indices: this.indices_['recurrent'],
+            removeTag: !rec
+        });
+    }
 };
 
 /**
@@ -169,6 +241,16 @@ hash5.module.calendar.Event.prototype.setRecend = function(date, indices)
     if(goog.isDef(indices))
     {
         this.indices_['recend'] = indices;
+    }
+    else
+    {
+        this.dispatchEvent({
+            type: hash5.ui.editor.EventType.CHANGED_TAG,
+            tagName: 'recend',
+            value: date,
+            indices: this.indices_['recend'],
+            removeTag: !!date
+        });
     }
 };
 
@@ -216,6 +298,24 @@ hash5.module.calendar.Event.prototype.getIndices = function(key)
 hash5.module.calendar.Event.prototype.updateIndices = function(newIndices)
 {
     return this.indices_ = newIndices.indices_;
+};
+
+/**
+ * calls remove event for all current parsed tags
+ */
+hash5.module.calendar.Event.prototype.removeAllTags = function()
+{
+    for (var key in this.indices_) {
+        this.dispatchEvent({
+            type: hash5.ui.editor.EventType.CHANGED_TAG,
+            tagName: key,
+            indices: this.indices_[key],
+            removeTag: true,
+            queued: true
+        });
+    }
+
+    this.dispatchEvent(hash5.ui.editor.EventType.CHANGED_TAG_UPDATE);
 };
 
 /**

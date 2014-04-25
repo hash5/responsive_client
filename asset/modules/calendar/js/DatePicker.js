@@ -11,6 +11,8 @@ goog.require('goog.i18n.DateTimeFormat');
 goog.require('goog.i18n.DateTimeSymbols');
 goog.require('goog.ui.Component');
 
+// currently not used!
+
 /**
  * Date Picker component. Allows to select single date or date range.
  *
