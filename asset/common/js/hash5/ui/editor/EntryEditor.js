@@ -5,6 +5,7 @@ goog.require('goog.ui.Component');
 
 goog.require('hash5.forms.Textarea');
 goog.require('hash5.templates.ui.EntryEditor');
+goog.require('hash5.ui.editor.AutoSaver');
 
 // TODO check if entry is already loaded!
 
@@ -74,15 +75,11 @@ hash5.ui.editor.EntryEditor.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    var eh = this.getHandler();
+    this.getHandler().listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_);
 
-    var saveBtn = this.getElementByClass('save-btn');
-    eh.listen(saveBtn, goog.events.EventType.CLICK, this.handleSaveBtnClicked_);
-
-    var cancelBtn = this.getElementByClass('cancel-btn');
-    eh.listen(cancelBtn, goog.events.EventType.CLICK, this.close);
-
-    eh.listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_);
+    var autoSaver = new hash5.ui.editor.AutoSaver(this);
+    this.addChild(autoSaver);
+    autoSaver.render(this.getElementByClass('entry-actions'));
 
     goog.array.forEach(this.components_, function(comp){
         this.initComponent_(comp);
@@ -187,25 +184,6 @@ hash5.ui.editor.EntryEditor.prototype.handleTextChanged_ = function(e)
 {
     this.parser_.setRawText(this.getEntryText());
     this.dispatchEvent(hash5.ui.editor.EntryEditor.EventType.TEXT_CHANGE);
-};
-
-
-/**
- * handles save button click
- *
- * @param  {goog.events.BrowserEvent} e
- */
-hash5.ui.editor.EntryEditor.prototype.handleSaveBtnClicked_ = function(e)
-{
-    var entryText = this.textEditor_.getValue();
-
-    if(entryText.length > 0)
-    {
-      this.entry_.setText(entryText);
-      this.entry_.save();
-
-      this.close();
-    }
 };
 
 /**

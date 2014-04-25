@@ -9,7 +9,10 @@
             {msg desc="entry editor edit title"}Edit entry{/msg}
         </h2>
         <div class="entry-info">
-            <span class="entry-date">{$date}</span>
+            <span class="entry-date">
+                {msg desc="created on"}created on {/msg}
+                {$date}
+            </span>
         </div>
 
         <div class="entry-editor-body">
@@ -21,18 +24,28 @@
 
         <div class="helper-tiles"></div>
 
-        <div class="entry-actions">
-            <button class="btn primary save-btn">
-                {msg desc="entry editor save btn title"}Save{/msg}
-            </button>
-            <button class="btn cancel-btn">
-                {msg desc="entry editor cancel btn title"}Cancel{/msg}
-            </button>
-        </div>
+        <div class="entry-actions"></div>
     </div>
 {/template}
 
 
+/**
+ */
+{template .saveBtns}
+    <div class="save-btns">
+        <div class="saved-info">
+            <span class="saving-msg">{msg desc="cur saving status"}saving...{/msg}</span>
+            <span class="saved-msg">{msg desc="all changes saved status"}All changes saved.{/msg}</span>
+        </div>
+
+        <button class="btn primary save-btn">
+            {msg desc="entry editor save btn title"}Done{/msg}
+        </button>
+        <button class="btn cancel-btn">
+            {msg desc="entry editor cancel btn title"}Revert{/msg}
+        </button>
+    </div>
+{/template}
 
 /**
  * @param title title of helperTile
