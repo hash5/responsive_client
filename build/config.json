@@ -2,9 +2,12 @@
   "id": "hash5",
   "paths": [
     "../asset/common/js/",
+    "../asset/common/templates/",
+
     "../asset/modules/calendar/js/",
     "../asset/modules/geo5/js/",
     "../asset/modules/links/js/",
+
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
   ],
@@ -45,10 +48,5 @@
     }
   },
   "module-output-path": "../asset/common/js-min/{LANG}/%s.js",
-  "module-production-uri": "/asset/common/js-min/LANG/%s.js",
-  "test-drivers": [
-    {
-      "class": "org.openqa.selenium.firefox.FirefoxDriver"
-    }
-  ]
+  "module-production-uri": "/asset/common/js-min/LANG/%s.js"
 }

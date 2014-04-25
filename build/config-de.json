@@ -2,9 +2,12 @@
   "id": "hash5",
   "paths": [
     "../asset/common/js/",
+    "../asset/common/templates/",
+
     "../asset/modules/calendar/js/",
     "../asset/modules/geo5/js/",
     "../asset/modules/links/js/",
+
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
   ],
@@ -20,7 +23,7 @@
   "output-charset": "UTF-8",
 
   "languages": {
-    "en": "../asset/common/locales/en.xtb"
+    "de": "../asset/common/locales/de.xtb"
   },
 
   "closure-library": "../asset/closure-library/closure/goog/",
