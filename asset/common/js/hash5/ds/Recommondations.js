@@ -56,7 +56,7 @@ hash5.ds.Recommondations.prototype.autocomplete = function(text, tag, callback, 
                 {
                     for(var j = 0; j < suggest['values'].length; j++)
                     {
-                        result.push('#' + suggest['name'] + '=' + suggest['values'][j]);
+                        result.push('#' + suggest['name'] + ':' + suggest['values'][j]['name']);
                     }
                 }
             }
