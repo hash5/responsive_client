@@ -23,21 +23,16 @@ hash5.module.calendar.HelperTile = function(event)
      * @type {hash5.module.calendar.Event}
      * @private
      */
-    this.event_ = event || null;
+    this.event_ = event || new hash5.module.calendar.Event();
+    this.event_.setParentEventTarget(this);
 
-    if(!event)
-    {
-        this.event_ = event = new hash5.module.calendar.Event();
-        var startDate = new hash5.module.calendar.DateTime(new Date());
-        startDate.setHasTime(false);
-        event.setStartDate(startDate);
-
-        var endDate = new hash5.module.calendar.DateTime(new Date());
-        endDate.setHasTime(false);
-        endDate.add(new goog.date.Interval(goog.date.Interval.HOURS, 1));
-        event.setEndDate(endDate);
-    }
-    event.setParentEventTarget(this);
+    /**
+     * true indicates that this helperTile
+     * should create a new event
+     * @type {boolean}
+     * @private
+     */
+    this.newEvent_ = !event;
 
     /**
      * @type {hash5.forms.Form}
@@ -53,9 +48,9 @@ hash5.module.calendar.HelperTile.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     goog.dom.classes.add(this.getElement(), 'calendar-tile');
-
     this.generateFormItems_();
-    this.decorateFromEvent(this.event_);
+
+    this.decorateFromEvent();
     this.addChild(this.form_, true);
 
     this.getHandler()
@@ -103,12 +98,36 @@ hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
 
 /**
  * sets input-values from event
- *
- * @param {hash5.module.calendar.Event} event
  */
-hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function(event)
+hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
 {
-    this.event_ = event;
+    var event = this.event_;
+
+    if(this.newEvent_)
+    {
+        // generate new event with current times
+
+        var event = this.event_;
+        var startDate = new hash5.module.calendar.DateTime(new Date());
+        // round to next half hour
+        if(startDate.getMinutes() > 30){
+            startDate.setHours(startDate.getHours() + 1);
+            startDate.setMinutes(0);
+        } else {
+            startDate.setMinutes(30);
+        }
+        startDate.setHasTime(true);
+        event.setStartDate(startDate, undefined, true);
+
+        var endDate = new hash5.module.calendar.DateTime(startDate);
+        endDate.setHasTime(true);
+        endDate.add(new goog.date.Interval(goog.date.Interval.HOURS, 1));
+        event.setEndDate(endDate, undefined, true);
+
+        event.dispatchUpdateEvent();
+
+        this.newEvent_ = false;
+    }
 
     this.setDate_(this.startDate_, event.getStartDate());
     this.setTime_(this.startTime_, event.getStartDate());

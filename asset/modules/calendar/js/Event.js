@@ -177,7 +177,7 @@ hash5.module.calendar.Event.prototype.setHasTime = function(hasTime)
     this.setStartDate(this.startDate_, undefined, true);
     this.setEndDate(this.endDate_, undefined, true);
 
-    this.dispatchEvent(hash5.ui.editor.EventType.CHANGED_TAG_UPDATE);
+    this.dispatchUpdateEvent();
 };
 
 /**
@@ -315,6 +315,11 @@ hash5.module.calendar.Event.prototype.removeAllTags = function()
         });
     }
 
+    this.dispatchUpdateEvent();
+};
+
+hash5.module.calendar.Event.prototype.dispatchUpdateEvent = function()
+{
     this.dispatchEvent(hash5.ui.editor.EventType.CHANGED_TAG_UPDATE);
 };
 
