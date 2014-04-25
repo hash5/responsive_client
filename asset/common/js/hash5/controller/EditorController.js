@@ -71,8 +71,6 @@ hash5.controller.EditorController.prototype.createEntryEditor = function(entry)
     {
         var curEditorText = this.entryEditor_.getEntryText();
 
-        // TODO test if there are unsaved actions
-        // or provide tab-view
         this.entryEditor_.dispose();
         this.entryEditor_ = null;
 

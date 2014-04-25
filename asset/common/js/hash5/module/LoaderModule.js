@@ -54,6 +54,7 @@ hash5.module.LoaderModule.prototype.handleLogin_ = function()
 
     // TODO get from app-file
     moduleManager.load(hash5.module.Modules.CALENDAR);
+    moduleManager.load(hash5.module.Modules.FILES);
     moduleManager.load(hash5.module.Modules.GEO5);
 };
 
