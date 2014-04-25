@@ -30,6 +30,12 @@ hash5.ui.QuickCreateEntry = function(textTemplate)
      * @private
      */
     this.textTemplate_ = textTemplate || '';
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.isVisible_ = false;
 };
 goog.inherits(hash5.ui.QuickCreateEntry, goog.ui.Component);
 
@@ -53,7 +59,8 @@ hash5.ui.QuickCreateEntry.prototype.enterDocument = function()
 
     this.getHandler()
         .listen(this.textarea_, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
-        .listen(this.textarea_, goog.events.EventType.FOCUS, this.checkForTemplate_);
+        .listen(this.textarea_, goog.events.EventType.FOCUS, this.checkForTemplate_)
+        .listen(this.textarea_, goog.events.EventType.BLUR, this.handleBlur_);
 };
 
 /**
@@ -98,6 +105,20 @@ hash5.ui.QuickCreateEntry.prototype.saveEntryText = function()
     }
 };
 
+/**
+ * @param  {goog.events.Event} e
+ */
+hash5.ui.QuickCreateEntry.prototype.handleBlur_ = function(e)
+{
+    var entryText = this.textarea_.getValue();
+    if(entryText.trim() == this.textTemplate_.trim()
+      || entryText.trim().length == 0)
+    {
+      this.textarea_.reset();
+      this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
+    }
+
+};
 
 /**
  * @param  {boolean} visible
@@ -110,4 +131,15 @@ hash5.ui.QuickCreateEntry.prototype.setVisible = function(visible)
     }
 
     goog.dom.classes.enable(this.getElement(), 'hidden', !visible);
+
+    this.isVisible_ = visible;
+};
+
+
+/**
+ * @return {boolean}
+ */
+hash5.ui.QuickCreateEntry.prototype.isVisible = function()
+{
+  return this.isVisible_;
 };

@@ -93,9 +93,10 @@ hash5.ui.EntryListContainer.prototype.adjustQuickEditHeight_ = function(visible)
 /**
  * shows the quick editor
  */
-hash5.ui.EntryListContainer.prototype.showQuickEdit = function()
+hash5.ui.EntryListContainer.prototype.toggleQuickEdit = function()
 {
-    this.adjustQuickEditHeight_(true);
+    var isVisible = this.quickCreateEntry_.isVisible();
+    this.adjustQuickEditHeight_(!isVisible);
 };
 
 /**
@@ -157,7 +158,7 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 
     switch(action){
         case 'add':
-            this.showQuickEdit();
+            this.toggleQuickEdit();
             break;
         case 'toggle':
             this.toggleActionmenu();
