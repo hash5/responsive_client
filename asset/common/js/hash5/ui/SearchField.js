@@ -78,6 +78,7 @@ hash5.ui.SearchField.prototype.enterDocument = function()
         .listen(this.searchInput_, goog.events.EventType.SUBMIT, this.handleSubmit_)
         .listen(this.searchInput_, goog.events.EventType.FOCUS, this.handleFocus_)
         .listen(this.searchInput_, goog.events.EventType.CHANGE, this.handleTextInput_)
+        .listen(this.previewsEl_, goog.events.EventType.CLICK, this.handlePrevClick_)
         .listen(this.getElementByClass('save-search'), goog.events.EventType.CLICK, this.saveSearch)
         .listen(this.getElementByClass('search-btn'), goog.events.EventType.CLICK, this.saveSearch);
 
@@ -224,6 +225,15 @@ hash5.ui.SearchField.prototype.setHelperVisible = function(isVisible)
     }
 
     this.isVisible_ = isVisible;
+};
+
+/**
+ *
+ * @param {goog.events.BrowserEvent} e
+ */
+hash5.ui.SearchField.prototype.handlePrevClick_ = function(e)
+{
+  this.setHelperVisible(false);
 };
 
 /**

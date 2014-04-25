@@ -1,0 +1,69 @@
+.entry
+{
+    position: relative;
+    margin-top: 5px;
+    padding: 8px;
+    background: #FFF;
+    @include box-shadow(0 1px 0 1px #E4E6EB);
+    list-style: none;
+
+
+    .entry-actions
+    {
+        visibility: hidden;
+        position: absolute;
+        right: 0;
+        bottom: 5px;
+
+        &>a
+        {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 5px;
+
+            &:hover
+            {
+                opacity: 0.8;
+            }
+        }
+    }
+    &:hover .entry-actions
+    {
+        visibility: visible;
+    }
+
+    @include breakpoint(tablet){
+        .entry-actions
+        {
+            visibility: visible;
+        }
+    }
+
+    .action-edit
+    {
+        @include resize-sprite($sprite, edit, 50);
+    }
+    .action-delete
+    {
+        @include resize-sprite($sprite, trash, 50);
+    }
+
+    .entry-body
+    {
+        white-space: normal;
+        word-wrap: break-word;
+        font-size: 90%;
+        line-height: 1.2em;
+    }
+}
+
+.entry-info
+{
+    margin-top: 5px;
+}
+.entry-date
+{
+    font-size: 70%;
+}
