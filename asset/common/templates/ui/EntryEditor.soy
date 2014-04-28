@@ -48,6 +48,19 @@
 {/template}
 
 /**
+ */
+{template .history}
+    <div class="history-btns">
+        <button class="btn undo-btn tooltip hidden" data-tooltip="{msg desc="tooltip undo"}undo changes{/msg}">
+            <-
+        </button>
+        <button class="btn redo-btn tooltip hidden" data-tooltip="{msg desc="tooltip redo"}redo changes{/msg}">
+            ->
+        </button>
+    </div>
+{/template}
+
+/**
  * @param title title of helperTile
  * @param icon path to icon
  */

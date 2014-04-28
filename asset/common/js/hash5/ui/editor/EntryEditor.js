@@ -6,6 +6,8 @@ goog.require('goog.ui.Component');
 goog.require('hash5.forms.Textarea');
 goog.require('hash5.templates.ui.EntryEditor');
 goog.require('hash5.ui.editor.AutoSaver');
+goog.require('hash5.ui.editor.History');
+
 
 // TODO check if entry is already loaded!
 
@@ -80,6 +82,10 @@ hash5.ui.editor.EntryEditor.prototype.enterDocument = function()
     var autoSaver = new hash5.ui.editor.AutoSaver(this);
     this.addChild(autoSaver);
     autoSaver.render(this.getElementByClass('entry-actions'));
+
+    var history = new hash5.ui.editor.History(this);
+    this.addChild(history);
+    history.render(this.getElementByClass('entry-info'));
 
     goog.array.forEach(this.components_, function(comp){
         this.initComponent_(comp);
