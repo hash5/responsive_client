@@ -94,14 +94,49 @@ hash5.module.files.UploadHelperTile.prototype.setStatus = function(statusText)
  */
 hash5.module.files.UploadHelperTile.prototype.uploadFiles_ = function(e)
 {
-  if (this.isUploading_)
-  {
+  console.log("da");
+  if (this.isUploading_) {
       return;
   }
+
+  goog.dom.classes.remove(this.getElementByClass('progress'), 'hidden');
+  goog.dom.classes.add(this.getElementByClass('upload-form'), 'hidden');
 
   this.isUploading_ = true;
   this.updateProgress(0);
   this.uploader_.send('/files', e.files);
+
+  this.showPreview_(e.files);
+};
+
+/**
+ * provide preview image for uploading images
+ * @param  {Array.<monin.ui.FileUploader.File>} files
+ * @private
+ */
+hash5.module.files.UploadHelperTile.prototype.showPreview_ = function(files)
+{
+  var thumbHolder = this.getElementByClass('thumbs');
+
+  for (var i = 0, f; f = files[i]; i++) {
+    var orgFile = f.original;
+
+    // only process image files
+    if (!orgFile.type.match('image.*')) {
+      continue;
+    }
+
+    var reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) {
+        var span = document.createElement('span');
+        span.innerHTML = ['<img class="thumb" src="', e.target.result,
+              '" title="', escape(theFile.name), '"/>'].join('');
+        thumbHolder.appendChild(span);
+      };
+    })(orgFile);
+    reader.readAsDataURL(orgFile);
+  }
 };
 
 /**
@@ -112,7 +147,7 @@ hash5.module.files.UploadHelperTile.prototype.handleUploaded_ = function(e)
     var responseData = e.data,
       file = responseData[0];
 
-    var x = [
+    /*var exampleResponse = [
       {
         "_id": "535e0bbecc0d81700984def0",
         "filename": "asdf.pdf",
@@ -126,11 +161,11 @@ hash5.module.files.UploadHelperTile.prototype.handleUploaded_ = function(e)
         "uploadName": "file0",
         "url": "http://dev.hash5.com:8080/files/535e0bbecc0d81700984def0"
       }
-    ];
-    console.log(file);
+    ]; */
 
     this.updateProgress(1);
-    this.setStatus('Bild wurde hinzugefügt!');
+    //var MSG_UPLOAD_SUCCESS = goog.getMsg('Image was uploaded succesfully!');
+    //this.setStatus(MSG_UPLOAD_SUCCESS);
 
     this.isUploading_ = false;
     this.hasUploaded_ = true;

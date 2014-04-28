@@ -1,9 +1,11 @@
 
 .file-tile {
 
-    .filereader.draganddrop #dragdroptip {
-        display: block;
+    .thumb {
+        max-width: 100%;
+        max-height: 200px;
     }
+
     .progress {
         border: 1px solid #dedede;
         height: 40px;
@@ -13,7 +15,7 @@
     }
 
     .progress-bar {
-        background: #f2b608;
+        background: $colorYellow;
         color: #000;
         height: 40px;
         line-height: 40px;

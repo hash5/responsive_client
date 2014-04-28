@@ -4,11 +4,15 @@
  */
 {template .uploadHelperTile}
     <div class="file-tile">
-        {msg desc="upload info text"}Upload new file:{/msg}<br /><br />
-        <button class="btn primary enabled upload-btn">
-            {msg desc="upload button text"}Select File{/msg}
-        </button>
-        <div class="progress">
+        <div class="upload-form">
+            <span class="small">{msg desc="upload info text"}Upload new file:{/msg}</span><br /><br />
+            <button class="btn primary enabled upload-btn">
+                {msg desc="upload button text"}Select File{/msg}
+            </button>
+            <span class="small">{msg desc="drag drop hint"}or Drag&Drop{/msg}</span>
+        </div>
+        <div class="thumbs"></div>
+        <div class="progress hidden">
             <div class="progress-bar"></div>
             <div class="progress-bar-status"></div>
         </div>
