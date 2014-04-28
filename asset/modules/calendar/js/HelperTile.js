@@ -107,7 +107,6 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
     {
         // generate new event with current times
 
-        var event = this.event_;
         var startDate = new hash5.module.calendar.DateTime(new Date());
         // round to next half hour
         if(startDate.getMinutes() > 30){
@@ -119,7 +118,7 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
         startDate.setHasTime(true);
         event.setStartDate(startDate, undefined, true);
 
-        var endDate = new hash5.module.calendar.DateTime(startDate);
+        var endDate = startDate.clone();
         endDate.setHasTime(true);
         endDate.add(new goog.date.Interval(goog.date.Interval.HOURS, 1));
         event.setEndDate(endDate, undefined, true);
