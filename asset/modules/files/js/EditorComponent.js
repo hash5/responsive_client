@@ -1,6 +1,7 @@
 goog.provide('hash5.module.files.EditorComponent');
 
-goog.require('hash5.module.files.HelperTile');
+goog.require('hash5.module.files.PreviewHelperTile');
+goog.require('hash5.module.files.UploadHelperTile');
 goog.require('hash5.module.files.FileParser');
 
 /**
@@ -42,9 +43,7 @@ hash5.module.files.EditorComponent.prototype.init = function()
 /** @inheritDoc */
 hash5.module.files.EditorComponent.prototype.getNewHelperTile = function()
 {
-    var tile = new hash5.module.files.HelperTile();
-    //this.curParsedfiles_.push(tile.getEvent());
-    return tile;
+    return new hash5.module.files.UploadHelperTile();
 };
 
 /**
@@ -64,9 +63,8 @@ hash5.module.files.EditorComponent.prototype.checkForFiles = function()
     var editor = this.getEditor();
 
     var parsedfiles = /** @type {Array.<hash5.module.files.File>} */ (editor.getParser().getSubparsed(hash5.module.files.FileParser));
-
     var filesChanged = !goog.array.equals(this.curParsedfiles_, parsedfiles, function(file1, file2){
-        return file1 === file2; //file1.equals(file2); TODO
+        return file1.equals(file2);
     });
 
     // only update ui if files changed
@@ -79,28 +77,8 @@ hash5.module.files.EditorComponent.prototype.checkForFiles = function()
         for(var i = 0; i < parsedfiles.length; i++)
         {
             var file = parsedfiles[i];
-
-            var tile = new hash5.module.files.HelperTile(file);
+            var tile = new hash5.module.files.PreviewHelperTile(file);
             this.addHelperTile(tile);
-
-            this.getHandler().listen(tile, goog.ui.Component.EventType.CLOSE, this.handleTileRemoved_);
         }
     }
-    else
-    {
-        for(var i = 0; i < this.curParsedfiles_.length; i++)
-        {
-            this.curParsedfiles_[i].updateIndices(parsedfiles[i]);
-        }
-    }
-};
-
-/**
- * @param {goog.events.Event} e
- */
-hash5.module.files.EditorComponent.prototype.handleTileRemoved_ = function(e)
-{
-    var tile = /** @type {hash5.module.files.HelperTile} */ (e.target);
-    console.warn("unimplemented");
-    //tile.getEvent().removeAllTags();
 };

@@ -177,8 +177,8 @@ monin.ui.FileUploaderHtml4.prototype.handleSwfEvent = function(e)
  */
 monin.ui.FileUploaderHtml4.prototype.handleUploadProgress_ = function(e)
 {
-    var bytesLoaded = /** @type {number} */ e['bytesLoaded'];
-    var bytesTotal = /** @type {number} */ e['bytesTotal'];
+    var bytesLoaded = /** @type {number} */ (e['bytesLoaded']);
+    var bytesTotal = /** @type {number} */ (e['bytesTotal']);
 
     var progress = bytesTotal > 0 ? bytesLoaded / bytesTotal : 0;
     this.dispatchEvent({

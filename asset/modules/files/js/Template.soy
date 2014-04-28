@@ -1,0 +1,25 @@
+{namespace hash5.module.files.Template}
+
+/**
+ */
+{template .uploadHelperTile}
+    <div class="file-tile">
+        {msg desc="upload info text"}Upload new file:{/msg}<br /><br />
+        <button class="btn primary enabled upload-btn">
+            {msg desc="upload button text"}Select File{/msg}
+        </button>
+        <div class="progress">
+            <div class="progress-bar"></div>
+            <div class="progress-bar-status"></div>
+        </div>
+    </div>
+{/template}
+
+/**
+ * @param url url for file
+ */
+{template .previewHelperTile}
+    <div class="file-tile">
+        <a href="{$url}" target="_blank">Download</a>
+    </div>
+{/template}

@@ -65,4 +65,16 @@
 	<translation id="7428775094586820208" key="MSG_1T5DOJAWQR6LQ" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="newest entries add button">Latest entries</translation>
 	<translation id="7071774685227588554" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Latest Entries</translation>
 	<translation id="2053705403637248134" key="MSG_OFFLINE_INFO" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Lost connection to server. Requests are now cached.</translation>
+	<translation id="4641324179320064476" key="MSG_1UB3ITWI32AZC" source="../asset/common/templates/Settings.soy" desc="settings modal cancel btn">Cancel</translation>
+	<translation id="2709033634867915435" key="MSG_KJYSDNSFQCHP" source="../asset/common/templates/ui/EntryEditor.soy" desc="created on">created on </translation>
+	<translation id="8769203528018276891" key="MSG_1AJPIT4V1F3JO" source="../asset/common/templates/ui/EntryEditor.soy" desc="cur saving status">saving...</translation>
+	<translation id="2640009467474430345" key="MSG_1CTD3JKTL8SVF" source="../asset/common/templates/ui/EntryEditor.soy" desc="all changes saved status">All changes saved.</translation>
+	<translation id="7940324588904926553" key="MSG_RV6FB09ID7Q2" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor save btn title">Done</translation>
+	<translation id="3873420143759315220" key="MSG_8ZO6ZJUIQMNY" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor cancel btn title">Revert</translation>
+	<translation id="8483736124856053104" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
+	<translation id="8396156743684686846" key="MSG_JXLNJKLY1YBE" source="../asset/common/templates/SearchTree.soy" desc="newest entries add button">Latest entries</translation>
+	<translation id="8217519619607284502" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Latest Entries</translation>
+	<translation id="7783382412166058149" key="MSG_16H731MI10SP0" source="../asset/modules/files/js/Template.soy" desc="upload info text">Upload new file:</translation>
+	<translation id="520674266778320185" key="MSG_1HDA62IT12IFV" source="../asset/modules/files/js/Template.soy" desc="upload button text">Select File</translation>
+	<translation id="7296342991010635787" key="MSG_FILES_PLUGIN" source="../asset/modules/files/js/EditorComponent.js" desc="name for the files plugin">Files</translation>
 </translationbundle>

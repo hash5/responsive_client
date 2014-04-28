@@ -21,9 +21,9 @@
 	<translation id="6468784957347062648" key="MSG_RK1SKDVE1FVZ" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="entry editor edit title">Eintrag bearbeiten</translation>
 	<translation id="3492245044200129208" key="MSG_YPZDSKDEKL3G" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal save btn">Speichern</translation>
 	<translation id="8461299294027390970" key="MSG_11Q8NMH0NV74G" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="tooltip to remove helper tile">Löschen</translation>
-	<translation id="7656530172193016977" key="MSG_TIME_AM" source="/closure/goog/date/date.js" desc="Suffix for morning times.">am</translation>
-	<translation id="2650497251098773617" key="MSG_TIME_PM" source="/closure/goog/date/date.js" desc="Suffix for afternoon times.">pm</translation>
-	<translation id="7936095480982438927" key="MSG_DATEPICKER_TODAY_BUTTON_LABEL" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that selects the current date.">Today</translation>
+	<translation id="7656530172193016977" key="MSG_TIME_AM" source="/closure/goog/date/date.js" desc="Suffix for morning times.">Uhr</translation>
+	<translation id="2650497251098773617" key="MSG_TIME_PM" source="/closure/goog/date/date.js" desc="Suffix for afternoon times.">Uhr</translation>
+	<translation id="7936095480982438927" key="MSG_DATEPICKER_TODAY_BUTTON_LABEL" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that selects the current date.">Heute</translation>
 	<translation id="363095865625764662" key="MSG_DATEPICKER_NONE" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that clears the selection.">None</translation>
 	<translation id="3205135428336611164" key="MSG_CALENDAR_PLUGIN" source="../asset/modules/calendar/js/EditorComponent.js" desc="name for the calendar plugin">Kalender</translation>
 	<translation id="3302075815358945759" key="MSG_TOMORROW" source="/closure/goog/date/relative.js" desc="Tomorrow.">Morgen</translation>
@@ -65,4 +65,16 @@
 	<translation id="7428775094586820208" key="MSG_1T5DOJAWQR6LQ" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="newest entries add button">Letzte Einträge</translation>
 	<translation id="7071774685227588554" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Letzte Einträge</translation>
 	<translation id="2053705403637248134" key="MSG_OFFLINE_INFO" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Verbindung zum Server verloren. Anfragen werden jetzt gecached.</translation>
+	<translation id="4641324179320064476" key="MSG_1UB3ITWI32AZC" source="../asset/common/templates/Settings.soy" desc="settings modal cancel btn">Cancel</translation>
+	<translation id="2709033634867915435" key="MSG_KJYSDNSFQCHP" source="../asset/common/templates/ui/EntryEditor.soy" desc="created on">erstellt am </translation>
+	<translation id="8769203528018276891" key="MSG_1AJPIT4V1F3JO" source="../asset/common/templates/ui/EntryEditor.soy" desc="cur saving status">speichern...</translation>
+	<translation id="2640009467474430345" key="MSG_1CTD3JKTL8SVF" source="../asset/common/templates/ui/EntryEditor.soy" desc="all changes saved status">Alle Änderungen gespeichert.</translation>
+	<translation id="7940324588904926553" key="MSG_RV6FB09ID7Q2" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor save btn title">Fertig</translation>
+	<translation id="3873420143759315220" key="MSG_8ZO6ZJUIQMNY" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor cancel btn title">Verwerfen</translation>
+	<translation id="8483736124856053104" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
+	<translation id="8396156743684686846" key="MSG_JXLNJKLY1YBE" source="../asset/common/templates/SearchTree.soy" desc="newest entries add button">Neuesten Einträge</translation>
+	<translation id="8217519619607284502" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Neuesten Einträge</translation>
+	<translation id="7783382412166058149" key="MSG_16H731MI10SP0" source="../asset/modules/files/js/Template.soy" desc="upload info text">Datei hochladen:</translation>
+	<translation id="520674266778320185" key="MSG_1HDA62IT12IFV" source="../asset/modules/files/js/Template.soy" desc="upload button text">Datei auswählen</translation>
+	<translation id="7296342991010635787" key="MSG_FILES_PLUGIN" source="../asset/modules/files/js/EditorComponent.js" desc="name for the files plugin">Datein</translation>
 </translationbundle>

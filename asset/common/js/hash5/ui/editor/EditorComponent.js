@@ -77,8 +77,7 @@ hash5.ui.editor.EditorComponent.prototype.getHandler = function()
 /** @inheritDoc */
 hash5.ui.editor.EditorComponent.prototype.disposeInternal = function()
 {
-    if(this.handler_)
-    {
+    if(this.handler_) {
         this.handler_.dispose();
     }
 
@@ -194,22 +193,18 @@ hash5.ui.editor.EditorComponent.prototype.handleChangedTag_ = function(e)
     var entryText = '',
         offset = 0; // offset of indices when e.queued (because no reparsing happen)
 
-    if(goog.DEBUG)
-    {
+    if(goog.DEBUG) {
         goog.asserts.assert(this.cachedEntryText_ ? e.queued : true,
             'CHANGED_TAG_UPDATE was not called for previous changes');
     }
 
-    if(e.queued)
-    {
+    if(e.queued) {
         var orgText = this.getEditor().getEntryText();
         this.cachedEntryText_ = this.cachedEntryText_ || orgText;
         entryText = this.cachedEntryText_;
 
         offset = entryText.length - orgText.length;
-    }
-    else
-    {
+    } else {
         entryText = this.getEditor().getEntryText();
     }
 
@@ -229,42 +224,40 @@ hash5.ui.editor.EditorComponent.prototype.handleChangedTag_ = function(e)
         return str.substring(0, startPos) + replace + str.substring(endPos);
     };
 
-    if(e.removeTag)
-    {
-        var startIndex = e.indices[0] - e.tagName.length - 2;
+    if(e.removeTag) {
+        var startIndex = e.indices[0];
+        if(e.tagName) {
+            startIndex -= e.tagName.length - 2;
+        }
         entryText = posReplace(entryText, '', startIndex, e.indices[1]);
-    }
-    else
-    {
+    } else {
         var newString = goog.isString(e.value) ? e.value : e.value.toString();
         var parsedIndices = e.indices,
             indices = parsedIndices || [entryText.length, entryText.length];
 
         // insert quotes if needed
-        if(newString.indexOf(" ") > -1)
-        {
+        if(newString.indexOf(" ") > -1) {
             newString = '"' + newString  + '"';
         }
 
         // insert key on new tags
-        if(!parsedIndices && newString.length > 0)
-        {
-            newString = ' #' + e.tagName + ':' + newString;
+        if(!parsedIndices && newString.length > 0) {
+            if(!!e.tagName) {
+                newString = ' #' + e.tagName + ':' + newString;
+            } else {
+                newString = ' ' + newString;
+            }
         }
 
         entryText = posReplace(entryText, newString, indices[0], indices[1]);
     }
 
-    if(e.queued)
-    {
+    if(e.queued) {
         // no update before CHANGED_TAG_UPDATE is dispatched
         this.cachedEntryText_ = entryText;
-    }
-    else
-    {
+    } else {
         // update text in entryEditor if changed
-        if(entryText != this.getEditor().getEntryText())
-        {
+        if(entryText != this.getEditor().getEntryText()) {
             this.getEditor().setEntryText(entryText);
         }
     }
@@ -278,8 +271,7 @@ hash5.ui.editor.EditorComponent.prototype.handleChangedTagUpdate_ = function(e)
 {
     var orgText = this.getEditor().getEntryText();
 
-    if(this.cachedEntryText_ != orgText)
-    {
+    if(this.cachedEntryText_ != orgText) {
         this.getEditor().setEntryText(this.cachedEntryText_ || orgText);
     }
 

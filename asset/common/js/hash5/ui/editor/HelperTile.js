@@ -65,8 +65,17 @@ hash5.ui.editor.HelperTile.prototype.enterDocument = function()
  */
 hash5.ui.editor.HelperTile.prototype.handleRemoveBtn_ = function(e)
 {
+    this.beforeClose_();
     this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
     this.dispose();
+};
+
+/**
+ * will be called before tile will be removed. Can be overridden from subclasses
+ * @protected
+ */
+hash5.ui.editor.HelperTile.prototype.beforeClose_ = function()
+{
 };
 
 /**

@@ -18,14 +18,28 @@ hash5.module.files.FileParser = function()
 
 /**
  * @param {hash5.parsing.Parser} parser
- * @return {Array.<hash5.module.filesendar.File>}
+ * @return {Array.<hash5.module.files.File>}
  */
 hash5.module.files.FileParser.prototype.parse = function(parser)
 {
-    var files = [];
+    var files = [],
+        rawText = parser.getRawText();
 
-    // check if server parsed is available
-    // TODO
+    var domains = hash5.module.files.FileParser.domainList,
+        regex = new RegExp("http(s)?:\/\/(" + domains.join('|') + ")\/files\/\\w+", 'ig'),
+        matches = rawText.match(regex);
+
+    if(matches) {
+        files = goog.array.map(matches, function(url) {
+            return new hash5.module.files.File(url);
+        });
+    }
 
     return files;
 };
+
+/**
+ * TODO work more abstract -> config file?
+ * @type {Array.<string>}
+ */
+hash5.module.files.FileParser.domainList = ['dev.hash5.com:8080', document.location.host];

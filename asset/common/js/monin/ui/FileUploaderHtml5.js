@@ -117,7 +117,7 @@ monin.ui.FileUploaderHtml5.prototype.handleFileDrop_ = function(e)
  */
 monin.ui.FileUploaderHtml5.prototype.handleLoadComplete_ = function(e)
 {
-    var responseText = /** @type {string} */ e.target.responseText;
+    var responseText = /** @type {string} */ (e.target.responseText);
     this.dispatchEvent({
         type: monin.ui.FileUploader.EventType.COMPLETE,
         data: goog.json.parse(responseText)

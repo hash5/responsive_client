@@ -1,4 +1,31 @@
 
 .file-tile {
 
+    .filereader.draganddrop #dragdroptip {
+        display: block;
+    }
+    .progress {
+        border: 1px solid #dedede;
+        height: 40px;
+        margin-top: 20px;
+        position: relative;
+        //width: 100%;
+    }
+
+    .progress-bar {
+        background: #f2b608;
+        color: #000;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        overflow: hidden;
+        width: 0%;
+    }
+    .progress-bar-status {
+        width: 100%;
+        position: absolute;
+        top: 11px;
+        white-space: nowrap;
+        text-align: center;
+    }
 }
