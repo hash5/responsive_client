@@ -224,13 +224,14 @@ hash5.ui.editor.EditorComponent.prototype.handleChangedTag_ = function(e)
         return str.substring(0, startPos) + replace + str.substring(endPos);
     };
 
-    if(e.removeTag) {
+    if(e.removeTag) { // remove tag
         var startIndex = e.indices[0];
         if(e.tagName) {
-            startIndex -= e.tagName.length - 2;
+            startIndex -= e.tagName.length + 2;
         }
         entryText = posReplace(entryText, '', startIndex, e.indices[1]);
-    } else {
+
+    } else { // insert or update tag
         var newString = goog.isString(e.value) ? e.value : e.value.toString();
         var parsedIndices = e.indices,
             indices = parsedIndices || [entryText.length, entryText.length];
