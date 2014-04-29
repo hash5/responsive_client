@@ -15,6 +15,10 @@
             <a href="?lang={msg desc="lang change code"}de{/msg}" class="lang-change">{msg desc="lang change button"}Deutsch{/msg}</a>
         </div>
         <button class="btn primary btn-login">Login</button>
+        <br /><br />
+        <a href="#passwRec" class="passw-rec-link">
+            {msg desc="password recovery button"}I don't know my password.{/msg}
+        </a>
     </div>
 {/template}
 
@@ -32,5 +36,29 @@
             {msg desc="register button"}create account{/msg}
         </button>
         <a href="#login" class="cancel-register">{msg desc="register cancel button"}Cancel{/msg}</a>
+    </div>
+{/template}
+
+/**
+ *
+ */
+{template .pwdRecovery}
+    <div class="login-form pwd-rec-form">
+        <div class="hash5-logo">hash<span>5</span></div>
+        <h2>
+            {msg desc="rev heading heading"}Forgot your password?{/msg}
+        </h2>
+        <div class="info-text">
+            {msg desc="pwd rec info text"}
+                Enter your username and email address below and we will send
+                you a link where you can enter a new password.
+            {/msg}
+        </div>
+        <br /><br />
+        <div class="form-wrapper"></div>
+        <button class="btn btn-rec">
+            {msg desc="rec button"}Send reset mail{/msg}
+        </button>
+        <a href="#login" class="cancel-rec">{msg desc="rec cancel button"}Cancel{/msg}</a>
     </div>
 {/template}

@@ -7,7 +7,7 @@
     "../asset/modules/calendar/js/",
     "../asset/modules/geo5/js/",
     "../asset/modules/links/js/",
-    "../asset/modules/files/js/",
+    "../asset/modules/files/js/"
 
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"

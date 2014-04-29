@@ -8,6 +8,7 @@ goog.require('hash5.validation.RequiredFieldValidator');
 goog.require('hash5.forms.DefaultErrorProvider');
 
 goog.require('hash5.ui.RegisterForm');
+goog.require('hash5.ui.PwdRecoveryForm');
 goog.require('hash5.templates.ui.LoginForm');
 
 /**
@@ -67,10 +68,12 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
     // register handlers
     var loginBtn = this.getElementByClass('btn-login'),
         registerBtn = this.getElementByClass('register-link'),
+        pwdRecBtn = this.getElementByClass('passw-rec-link'),
         userController = hash5.controller.UserController.getInstance();
     this.getHandler()
         .listen(loginBtn, goog.events.EventType.CLICK, this.handleLoginClick_)
         .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
+        .listen(pwdRecBtn, goog.events.EventType.CLICK, this.handlePwdRecoveryClick_)
 
         .listen(this.form_, goog.events.EventType.SUBMIT, this.handleLoginClick_)
         .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidated_)
@@ -152,3 +155,18 @@ hash5.ui.LoginForm.prototype.handleRegBtnClick_ = function(e)
 
     e.preventDefault();
 };
+
+/**
+ * password revobery button clicked
+ *
+ * @param  {goog.events.BrowserEvent} e
+ * @private
+ */
+hash5.ui.LoginForm.prototype.handlePwdRecoveryClick_ = function(e)
+{
+    var pwdForm = new hash5.ui.PwdRecoveryForm();
+    pwdForm.render(document.body);
+
+    this.dispose();
+};
+

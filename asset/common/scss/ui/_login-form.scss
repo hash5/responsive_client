@@ -1,6 +1,5 @@
 
-.login-form
-{
+.login-form {
     position: absolute;
     left: 50%;
     top: 20%;
@@ -12,15 +11,13 @@
     @include box-sizing(border-box);
     z-index: $overlayForegroundLevel - 1;
 
-    &.hidden
-    {
+    &.hidden {
         opacity: 0;
         @include scale(0.4);
         @include transition(transform 0.8s, opacity 0.8s);
     }
 
-    .hash5-logo
-    {
+    .hash5-logo {
         position: absolute;
         top: -50px;
         left: -50px;
@@ -33,15 +30,26 @@
         }
     }
 
-    .register-wrapper
-    {
+    .register-wrapper {
         float: right;
         text-align: right;
     }
-    .register-link
-    {
+    .register-link {
         color: #fff;
 
         &:hover {text-decoration: underline;}
+    }
+
+    .passw-rec-link {
+        font-size: 80%;
+    }
+}
+
+.pwd-rec-form {
+    h2 {
+        font-size: 32px;
+    }
+    .info-text {
+        line-height: 1.2em;
     }
 }

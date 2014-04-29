@@ -365,6 +365,39 @@ hash5.controller.UserController.prototype.handleRegistered_ = function(e)
     }
 };
 
+/**
+ * register user
+ * events of type hash5.controller.UserController.EventType will be dispatch as result
+ *
+ * @param  {string} username
+ * @param  {string} email
+ * @param {function(boolean)} callback resultCallback, first param indicates success
+ * @param {*=} handler
+ */
+hash5.controller.UserController.prototype.resetPassword = function(username, email, callback, handler)
+{
+    var xhr = new goog.net.XhrIo();
+    xhr.listen(goog.net.EventType.COMPLETE, function(e){
+        var success = xhr.isSuccess();
+
+        if(!success && xhr.getStatus() != goog.net.HttpStatus.BAD_REQUEST) {
+            this.dispatchEvent({
+                type: hash5.controller.ErrorController.EventType.ERROR,
+                errType: hash5.controller.ErrorController.ErrorType.XHR_ERROR,
+                xhr: xhr
+            });
+        }
+
+        callback.call(handler, success);
+    }, false, this);
+
+    var apiPrefix = hash5.App.getInstance().getApiPrefix(),
+        query = goog.Uri.QueryData.createFromMap({
+            'user': username,
+            'email': email
+        }).toString()
+    xhr.send(apiPrefix + '/resetpw?' + query, 'GET');
+};
 
 /**
  * @enum {string}

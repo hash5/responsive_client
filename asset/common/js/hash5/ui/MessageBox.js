@@ -72,6 +72,22 @@ hash5.ui.MessageBox.prototype.close = function()
 
 
 /**
+ * shows simple info message
+ * @param  {string} title
+ * @param  {string} msgText
+ * @return {hash5.ui.MessageBox}
+ */
+hash5.ui.MessageBox.info = function(title, msgText)
+{
+    var msg = new hash5.ui.MessageBox();
+    msg.render(document.body);
+    msg.setMessageText(title, msgText);
+    msg.setType(hash5.ui.MessageBox.Type.INFO);
+
+    return msg;
+};
+
+/**
  * shows simple warn message
  * @param  {string} title
  * @param  {string} msgText
@@ -92,5 +108,6 @@ hash5.ui.MessageBox.warn = function(title, msgText)
  * @enum {string}
  */
 hash5.ui.MessageBox.Type = {
-    WARN: 'warn'
+    WARN: 'warn',
+    INFO: 'info'
 }
