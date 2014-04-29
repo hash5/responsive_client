@@ -31,3 +31,8 @@
         text-align: center;
     }
 }
+
+.file-link {
+    display: inline-block;
+    @include resize-sprite($sprite, attached, 40);
+}
