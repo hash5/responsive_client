@@ -1,0 +1,18 @@
+
+.message-box {
+    position: fixed;
+    top: 200px;
+    left: 50%;
+    @include translate3d(-50%, 0, 0);
+    width: 100%;
+    max-width: 300px;
+    background: #fff;
+    padding: 20px;
+    z-index: $overlayForegroundLevel + 1;
+
+    .message-actions {
+        margin-top: 20px;
+    }
+
+
+}

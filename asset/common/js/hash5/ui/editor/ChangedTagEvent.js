@@ -15,7 +15,7 @@ hash5.ui.editor.EventType = {
  * Event to trigger tag update in the EntryEditor
  *
  * @param {string} type Event Type.
- * @param {hash5.validation.FormValidation} opt_target Reference to the object that is the target of
+ * @param {goog.events.EventTarget} opt_target Reference to the object that is the target of
  *     this event. It has to implement the {@code EventTarget} interface
  *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
  * @constructor

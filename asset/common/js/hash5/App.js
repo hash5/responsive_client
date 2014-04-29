@@ -55,8 +55,7 @@ hash5.App = function(){
         hash5.App.isTouch);
 
     // print version-number if set
-    if(hash5.VERS_NUMBER)
-    {
+    if(hash5.VERS_NUMBER) {
         document.write('<div class="vers-number">' + hash5.VERS_NUMBER + '</div>');
     }
 };
@@ -124,8 +123,7 @@ hash5.App.prototype.setLanguage = function(lang)
     return;
 
   var moduleUris = PLOVR_MODULE_URIS;
-  for(var moduleId in moduleUris)
-  {
+  for(var moduleId in moduleUris) {
     moduleUris[moduleId] = moduleUris[moduleId].replace('LANG', lang);
   }
 
@@ -157,8 +155,7 @@ hash5.App.isTouch = hash5.App.isMobile || goog.labs.userAgent.device.isTablet();
 hash5.bootstrap = function(config){
 
     // print js errors in popup if ?debug is in url
-    if(goog.DEBUG && /debug/gi.test(document.location.search))
-    {
+    if(/debug/gi.test(document.location.search)) {
         window.onerror = function(message, url, lineNumber) {
           alert(message);
           alert(url + lineNumber);

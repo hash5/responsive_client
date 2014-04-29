@@ -4,6 +4,7 @@ goog.provide('hash5.controller.UserController.EventType');
 goog.require('goog.net.XhrIo');
 
 goog.require('hash5.controller.BaseController');
+goog.require('hash5.controller.ErrorController');
 goog.require('hash5.model.User');
 goog.require('hash5.ui.OverlayLoginForm');
 
@@ -45,18 +46,14 @@ goog.addSingletonGetter(hash5.controller.UserController);
  */
 hash5.controller.UserController.prototype.initialize = function(config, callback, handler)
 {
-    if(goog.isDef(config['user-settings']))
-    {
+    if(goog.isDef(config['user-settings'])) {
         this.setUserSettings(config['user-settings']);
         this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
 
         callback.call(handler, true);
-    }
-    else
-    {
-        this.loadUserSettings(function(isLoggedIn){
-            if(isLoggedIn)
-            {
+    } else {
+        this.loadUserSettings(function(isLoggedIn) {
+            if(isLoggedIn) {
                 this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
             }
 
@@ -99,8 +96,7 @@ hash5.controller.UserController.prototype.getUserLocale = function()
 {
     var locale = this.userSettings_['locale'];
 
-    if(!locale)
-    {
+    if(!locale) {
         locale = goog.LOCALE;
         this.userSettings_['locale'] = locale;
         this.saveUserSetting();
@@ -119,8 +115,7 @@ hash5.controller.UserController.prototype.getUserSettings = function(key, defaul
 {
     var value = this.userSettings_[key];
 
-    if(goog.isDef(value))
-    {
+    if(goog.isDef(value)) {
         return value;
     }
 
@@ -175,28 +170,25 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(c
 {
     var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
-    if(xhr.isSuccess())
-    {
+    if(xhr.isSuccess()) {
         var userSettings = xhr.getResponseJson() || {};
         this.setUserSettings(userSettings);
 
         // TODO set real user data!
-        if(!this.currentUser_)
-        {
+        if(!this.currentUser_) {
             this.currentUser_ = new hash5.model.User("");
         }
-    }
-    else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
-    {
+    } else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED) {
         this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
-    }
-    else
-    {
-        this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
+    } else {
+        this.dispatchEvent({
+            type: hash5.controller.ErrorController.EventType.ERROR,
+            errType: hash5.controller.ErrorController.ErrorType.XHR_ERROR,
+            xhr: xhr
+        });
     }
 
-    if(goog.isFunction(callback))
-    {
+    if(goog.isFunction(callback)) {
         callback.call(handler, xhr.isSuccess());
     }
 
@@ -212,8 +204,7 @@ hash5.controller.UserController.prototype.saveUserSetting = function(callback, h
 {
     var xhr = new goog.net.XhrIo();
 
-    if(callback)
-    {
+    if(callback) {
         xhr.listen(goog.net.EventType.COMPLETE, callback, false, handler);
     }
     var apiPrefix = hash5.App.getInstance().getApiPrefix();
@@ -260,26 +251,25 @@ hash5.controller.UserController.prototype.login = function(username, password)
     */
 
     var xhr = new goog.net.XhrIo();
-    xhr.listen(goog.net.EventType.COMPLETE, function(e){
+    xhr.listen(goog.net.EventType.COMPLETE, function(e) {
         var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
-        if(xhr.isSuccess())
-        {
+        if(xhr.isSuccess()) {
             this.currentUser_ = new hash5.model.User(username);
 
             // TODO problems after session-refreshing because then UserSettings may
             // be different!
-            this.loadUserSettings(function(){
+            this.loadUserSettings(function() {
                 this.dispatchEvent(hash5.controller.UserController.EventType.LOGIN);
             }, this);
-        }
-        else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED)
-        {
+        } else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED) {
             this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
-        }
-        else
-        {
-            this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
+        } else {
+            this.dispatchEvent({
+                type: hash5.controller.ErrorController.EventType.ERROR,
+                errType: hash5.controller.ErrorController.ErrorType.XHR_ERROR,
+                xhr: xhr
+            });
         }
 
     }, false, this);
@@ -307,14 +297,15 @@ hash5.controller.UserController.prototype.handleLoggedOut_ = function(e)
 {
     var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
-    if(xhr.isSuccess())
-    {
+    if(xhr.isSuccess()) {
         this.dispatchEvent(hash5.controller.UserController.EventType.LOGOUT);
         document.location.reload();
-    }
-    else
-    {
-        this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
+    } else {
+        this.dispatchEvent({
+            type: hash5.controller.ErrorController.EventType.ERROR,
+            errType: hash5.controller.ErrorController.ErrorType.XHR_ERROR,
+            xhr: xhr
+        });
     }
 };
 
@@ -336,13 +327,20 @@ hash5.controller.UserController.prototype.handleUnauthorized_ = function(e)
  *
  * @param  {string} username
  * @param  {string} password
+ * @param  {string} email
  */
-hash5.controller.UserController.prototype.register = function(username, password)
+hash5.controller.UserController.prototype.register = function(username, password, email)
 {
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, this.handleRegistered_, false, this);
     var apiPrefix = hash5.App.getInstance().getApiPrefix();
-    xhr.send(apiPrefix + '/register?user=' + username + '&pass=' + password, 'get');
+
+    var query = goog.Uri.QueryData.createFromMap({
+        'user': username,
+        'pass': password,
+        'email': email
+    }).toString()
+    xhr.send(apiPrefix + '/register?' + query, 'GET');
 };
 
 /**
@@ -354,17 +352,16 @@ hash5.controller.UserController.prototype.handleRegistered_ = function(e)
 {
     var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
-    if(xhr.isSuccess())
-    {
+    if(xhr.isSuccess()) {
         this.dispatchEvent(hash5.controller.UserController.EventType.REGISTERED);
-    }
-    else if(xhr.getStatus() == goog.net.HttpStatus.CONFLICT)
-    {
+    } else if(xhr.getStatus() == goog.net.HttpStatus.CONFLICT) {
         this.dispatchEvent(hash5.controller.UserController.EventType.CONFLICT);
-    }
-    else
-    {
-        this.dispatchEvent(hash5.controller.UserController.EventType.ERROR);
+    } else {
+        this.dispatchEvent({
+            type: hash5.controller.ErrorController.EventType.ERROR,
+            errType: hash5.controller.ErrorController.ErrorType.XHR_ERROR,
+            xhr: xhr
+        });
     }
 };
 
@@ -377,6 +374,5 @@ hash5.controller.UserController.EventType = {
     LOGOUT: goog.events.getUniqueId('logout'),
     UNAUTHORIZED: goog.events.getUniqueId('unauthorized'),
     REGISTERED: goog.events.getUniqueId('registered'),
-    CONFLICT: goog.events.getUniqueId('conflict'),
-    ERROR: goog.events.getUniqueId('error')
+    CONFLICT: goog.events.getUniqueId('conflict')
 };

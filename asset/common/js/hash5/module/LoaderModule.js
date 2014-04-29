@@ -2,6 +2,8 @@ goog.provide('hash5.module.LoaderModule');
 
 goog.require('hash5.module.BaseModule');
 
+goog.require('hash5.controller.ErrorController');
+
 
 
 /**
@@ -24,6 +26,8 @@ goog.inherits(hash5.module.LoaderModule, hash5.module.BaseModule);
  */
 hash5.module.LoaderModule.prototype.initialize = function(context)
 {
+    hash5.controller.ErrorController.getInstance().initialize({});
+
     // init userController
     var userController = hash5.controller.UserController.getInstance();
     this.handler_.listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleLogin_);
