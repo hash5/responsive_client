@@ -10,7 +10,7 @@
     background: $colorBlue;
     padding: 20px;
     @include box-sizing(border-box);
-    z-index: 9999;
+    z-index: $overlayForegroundLevel - 1;
 
     &.hidden
     {
@@ -43,32 +43,5 @@
         color: #fff;
 
         &:hover {text-decoration: underline;}
-    }
-    .registration-visible
-    {
-        display: none;
-    }
-
-    .lang-change
-    {
-
-    }
-
-    &.registration-view
-    {
-        .btn-register
-        {
-            float: none;
-        }
-
-        .btn-login
-        {
-            display: none;
-        }
-
-        .registration-visible
-        {
-            display: block;
-        }
     }
 }

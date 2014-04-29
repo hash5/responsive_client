@@ -65,9 +65,9 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
     this.form_.errorProvider.render(this.getElement());
 
     // register handlers
-    var loginBtn = this.getElementByClass('btn-login');
-    var registerBtn = this.getElementByClass('register-link');
-    var userController = hash5.controller.UserController.getInstance();
+    var loginBtn = this.getElementByClass('btn-login'),
+        registerBtn = this.getElementByClass('register-link'),
+        userController = hash5.controller.UserController.getInstance();
     this.getHandler()
         .listen(loginBtn, goog.events.EventType.CLICK, this.handleLoginClick_)
         .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
