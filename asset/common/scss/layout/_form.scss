@@ -58,6 +58,10 @@ textarea.textbox {
     width: 100%;
     @include transition(opacity 1s, padding .5s, height .5s);
 
+    @include breakpoint(mobile) {
+        font-size: 14px;
+    }
+
     &.visible {
         height: auto;
         opacity: 1;
