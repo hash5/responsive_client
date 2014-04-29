@@ -14,7 +14,18 @@
             <div class="preview-holder">
                 <h4>{msg desc="preview heading"}Preview{/msg}</h4>
                 <button class="btn save-search">{msg desc="add column button"}Add Column{/msg}</button>
-                <ul class="previews"></ul>
+                <ul class="previews">
+                    <li class="short-search-error hidden">
+                        {msg desc="error message when not enough character where insered"}
+                            Please insert at least three characters to start the search.
+                        {/msg}
+                    </li>
+                    <li class="found-search-error hidden">
+                        {msg desc="error message when no entries there found"}
+                            Your search did not match any entries.
+                        {/msg}
+                    </li>
+                </ul>
             </div>
             <div class="click-catcher"></div>
         </div>

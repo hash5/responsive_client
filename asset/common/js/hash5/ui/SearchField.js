@@ -84,7 +84,7 @@ hash5.ui.SearchField.prototype.enterDocument = function()
 
     // autocomplete:
     var renderer = new goog.ui.ac.Renderer(this.getElementByClass('suggests-wrapper'));
-    var inputhandler = new goog.ui.ac.InputHandler(" ", " ", true, 300);
+    var inputhandler = new goog.ui.ac.InputHandler(' ', ' ', true, 300);
     var autoComplete = new goog.ui.ac.AutoComplete(this, renderer, inputhandler);
     this.getHandler().listen(autoComplete, goog.ui.ac.AutoComplete.EventType.UPDATE, this.handleSuggestSelected_);
     inputhandler.attachAutoComplete(autoComplete);
@@ -97,8 +97,7 @@ hash5.ui.SearchField.prototype.enterDocument = function()
  */
 hash5.ui.SearchField.prototype.handleFocus_ = function()
 {
-    if(!this.isVisible_ && this.searchInput_.getValue())
-    {
+    if(!this.isVisible_ && this.searchInput_.getValue()) {
         this.setHelperVisible(true);
     }
 };
@@ -114,15 +113,12 @@ hash5.ui.SearchField.prototype.handleFocus_ = function()
  */
 hash5.ui.SearchField.prototype.requestMatchingRows = function(token, maxMatches, matchHandler, opt_fullString)
 {
-  if(token.length > 3)
-  {
+  if(token.length > 3) {
     var recommender = hash5.ds.Recommondations.getInstance();
     recommender.autocomplete(opt_fullString || '', token, function(suggests){
       matchHandler.call(undefined, token, suggests);
     });
-  }
-  else
-  {
+  } else {
     matchHandler.call(undefined, token, []);
   }
 };
@@ -146,13 +142,10 @@ hash5.ui.SearchField.prototype.handleSuggestSelected_ = function(e)
 hash5.ui.SearchField.prototype.handleSubmit_ = function(e)
 {
     // timeout is needed to check if submit came from accepting suggest
-    window.setTimeout(goog.bind(function(){
-        if(this.suggestLocked_)
-        {
+    window.setTimeout(goog.bind(function() {
+        if(this.suggestLocked_) {
             this.suggestLocked_ = false;
-        }
-        else
-        {
+        } else {
             this.saveSearch();
         }
     }, this), 50);
@@ -165,13 +158,18 @@ hash5.ui.SearchField.prototype.handleSubmit_ = function(e)
  */
 hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
 {
-    var searchKey = /** @type {string} */ (this.searchInput_.getValue());
+    var searchKey = /** @type {string} */ (this.searchInput_.getValue()),
+        canSearch = (searchKey.length > 3);
 
-    if(searchKey.length > 3)
-    {
+    if(canSearch) {
         hash5.api.searchEntries(searchKey, undefined, this.handleSuggestsLoaded_, this);
         this.canceld_ = false;
+    } else {
+        this.removeChildren(true);
+        goog.dom.classes.enable(this.getElementByClass('found-search-error'), 'hidden', true);
     }
+
+    goog.dom.classes.enable(this.getElementByClass('short-search-error'), 'hidden', canSearch);
 
     this.setHelperVisible(searchKey.length > 0);
 
@@ -185,7 +183,7 @@ hash5.ui.SearchField.prototype.saveSearch = function()
 {
     var searchKey = /** @type {string} */ (this.searchInput_.getValue());
 
-    if(searchKey.length > 3){
+    if(searchKey.length > 3) {
         var entryCollection = hash5.api.searchEntries(searchKey);
         hash5.api.showEntryCollection(entryCollection, searchKey);
         this.setHelperVisible(false);
@@ -204,6 +202,9 @@ hash5.ui.SearchField.prototype.handleSuggestsLoaded_ = function(entryCollection)
         var entryUi = new hash5.ui.Entry(entry);
         this.addChild(entryUi, true);
     }, this);
+
+    var foundEntries = (entryCollection.count() > 0);
+    goog.dom.classes.enable(this.getElementByClass('found-search-error'), 'hidden', foundEntries);
 };
 
 /**
@@ -216,11 +217,9 @@ hash5.ui.SearchField.prototype.setHelperVisible = function(isVisible)
     goog.dom.classes.enable(this.getElementByClass('search-helper'), 'hidden', !isVisible);
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
 
-    if(isVisible)
-    {
+    if(isVisible) {
       this.getHandler().listen(document.body, goog.events.EventType.CLICK, this.handleDocClick_);
-    }else
-    {
+    } else {
       this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.handleDocClick_);
     }
 
@@ -244,8 +243,7 @@ hash5.ui.SearchField.prototype.handlePrevClick_ = function(e)
  */
 hash5.ui.SearchField.prototype.handleDocClick_ = function(e)
 {
-    if(!goog.dom.contains(this.getElement(), e.target))
-    {
+    if(!goog.dom.contains(this.getElement(), e.target)) {
         this.setHelperVisible(false);
     }
 };
