@@ -105,7 +105,7 @@ hash5.ds.Recommondations.prototype.recommend = function(text, callback, handler)
                 {
                     for(var j = 0; j < suggest['values'].length; j++)
                     {
-                        result.push('#' + suggest['name'] + '=' + suggest['values'][j]);
+                        result.push('#' + suggest['name'] + ':' + suggest['values'][j]['name']);
                     }
                 }
             }
