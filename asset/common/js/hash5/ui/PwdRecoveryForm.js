@@ -112,7 +112,7 @@ hash5.ui.PwdRecoveryForm.prototype.handleValidation_ = function(e)
  */
 hash5.ui.PwdRecoveryForm.prototype.handleRec_ = function(success)
 {
-    if(!success) {
+    if(success) {
         /** @desc pwd rec success msg title */
         var MSG_REC_SUCESS_TITLE = goog.getMsg('EMail send');
         /** @desc pwd rec success msg */

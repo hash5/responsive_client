@@ -119,7 +119,8 @@ hash5.modules.pages.PasswordRecovery.prototype.handleValidation_ = function(e)
                 'pass': formData['password']
             }).toString()
 
-        xhr.send('/resetpw?' + query, 'GET');
+            // TODO api prefix... config file?
+        xhr.send('/api/resetpw?' + query, 'GET');
     }
 };
 
@@ -132,7 +133,7 @@ hash5.modules.pages.PasswordRecovery.prototype.handleRequestLoaded_ = function(e
     var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
     if(xhr.isSuccess()) {
-        // TODO
+        hash5.ui.MessageBox.info('Changed', 'We changed your password.');
     } else if (xhr.getStatus() != goog.net.HttpStatus.BAD_REQUEST) {
         this.showInvalidRequestError_();
     } else {
