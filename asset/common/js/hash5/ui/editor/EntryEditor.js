@@ -106,8 +106,7 @@ hash5.ui.editor.EntryEditor.prototype.addComponent = function(comp)
 {
     this.components_.push(comp);
 
-    if(this.isInDocument())
-    {
+    if(this.isInDocument()) {
         this.initComponent_(comp);
     }
 };
@@ -121,8 +120,7 @@ hash5.ui.editor.EntryEditor.prototype.initComponent_ = function(comp)
 {
     comp.init();
 
-    if(comp.hasHelperTile())
-    {
+    if(comp.hasHelperTile()) {
         this.addHelperBtn(comp);
     }
 };
@@ -142,7 +140,7 @@ hash5.ui.editor.EntryEditor.prototype.addHelperBtn = function(comp)
     var wrapper = this.getElementByClass('helper-tile-btns');
     wrapper.appendChild(btn);
 
-    this.getHandler().listen(btn, goog.events.EventType.CLICK, function(e){
+    this.getHandler().listen(btn, goog.events.EventType.CLICK, function(e) {
         this.addHelperTile(comp);
     });
 };
@@ -174,7 +172,7 @@ hash5.ui.editor.EntryEditor.prototype.close = function()
 /** @inheritDoc */
 hash5.ui.editor.EntryEditor.prototype.disposeInternal = function()
 {
-    goog.array.forEach(this.components_, function(comp){
+    goog.array.forEach(this.components_, function(comp) {
         comp.dispose();
     }, this);
 

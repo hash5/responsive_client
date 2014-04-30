@@ -100,6 +100,7 @@ hash5.model.Entry.prototype.setText = function(text)
 {
     this.text_ = text;
     this.textParser_ = null;
+    this.parser_ = null;
 
     this.dispatchEvent(hash5.model.Entry.EventType.TEXT_CHANGED);
 };

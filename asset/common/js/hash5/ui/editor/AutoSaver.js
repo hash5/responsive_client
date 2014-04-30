@@ -86,8 +86,7 @@ hash5.ui.editor.AutoSaver.prototype.handleSaved_ = function()
 {
     this.unsavedChanges_ = false; // TODO could be wrong...
 
-    if(!this.isDisposed())
-    {
+    if(!this.isDisposed()) {
         goog.dom.classes.remove(this.getElementByClass('saved-info'), 'saving');
     }
 };
@@ -102,17 +101,13 @@ hash5.ui.editor.AutoSaver.prototype.handleSaveBtnClick_ = function(e)
     var entryText = this.editor_.getEntryText(),
         entry = this.editor_.getEntry();
 
-    if(entryText.length > 0)
-    {
-      if(this.unsavedChanges_)
-      {
+    if(entryText.length > 0) {
+      if(this.unsavedChanges_) {
         this.saveChanges();
       }
 
       this.editor_.close();
-    }
-    else
-    {
+    } else {
         entry.destroy();
     }
 };
@@ -130,15 +125,11 @@ hash5.ui.editor.AutoSaver.prototype.handleRevertBtnClick_ = function(e)
         entry = this.editor_.getEntry();
 
     // check if changes there saved
-    if(firstVersion.length > 1)
-    {
-        if(firstVersion.length > 0)
-        {
+    if(this.history_.length > 1) {
+        if(firstVersion.length > 0) {
             entry.setText(firstVersion);
             entry.save();
-        }
-        else
-        {
+        } else {
             // remove entry if entry had no text
             entry.destroy();
         }
