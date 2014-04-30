@@ -74,10 +74,8 @@ hash5.module.calendar.Event.factory = function(data)
     entryDate.recurrent_ = data['recurrent'] ? hash5.module.calendar.Duration.fromJson(data['recurrent'])  : null;
     entryDate.recend_ = data['recend'] ? dateParser(data['recend']) : null;
 
-    if(goog.isArray(data['exclude']))
-    {
-        for(var i = 0; i < data['exclude'].length; i++)
-        {
+    if(goog.isArray(data['exclude'])) {
+        for(var i = 0; i < data['exclude'].length; i++) {
             entryDate.exclude_.push(dateParser(data['exclude'][i]));
         }
     }
@@ -103,11 +101,9 @@ hash5.module.calendar.Event.prototype.setStartDate = function(date, indices, que
 {
     this.startDate_ = date;
 
-    if(goog.isDef(indices))
-    {
+    if(goog.isDef(indices)) {
         this.indices_['start'] = indices;
-    }else
-    {
+    } else {
         this.dispatchEvent({
             type: hash5.ui.editor.EventType.CHANGED_TAG,
             tagName: 'start',
@@ -136,21 +132,15 @@ hash5.module.calendar.Event.prototype.setEndDate = function(date, indices, queue
 {
     this.endDate_ = date;
 
-    if(goog.isDef(indices))
-    {
+    if(goog.isDef(indices)) {
         this.indices_['end'] = indices;
-    }
-    else
-    {
+    } else {
         var value = '';
 
         // only write time if start&end is at the same day and time is set
-        if(this.endDate_.hasTime() && goog.date.isSameDay(this.startDate_, this.endDate_))
-        {
+        if(this.endDate_.hasTime() && goog.date.isSameDay(this.startDate_, this.endDate_)) {
             value = date.getTimeString();
-        }
-        else
-        {
+        } else {
             value = date.toString();
         }
 
@@ -206,12 +196,9 @@ hash5.module.calendar.Event.prototype.setRecurrent = function(rec, indices)
 {
     this.recurrent_ = rec;
 
-    if(goog.isDef(indices))
-    {
+    if(goog.isDef(indices)) {
         this.indices_['recurrent'] = indices;
-    }
-    else
-    {
+    } else {
         this.dispatchEvent({
             type: hash5.ui.editor.EventType.CHANGED_TAG,
             tagName: 'recurrent',
@@ -238,18 +225,15 @@ hash5.module.calendar.Event.prototype.setRecend = function(date, indices)
 {
     this.recend_ = date;
 
-    if(goog.isDef(indices))
-    {
+    if(goog.isDef(indices)) {
         this.indices_['recend'] = indices;
-    }
-    else
-    {
+    } else {
         this.dispatchEvent({
             type: hash5.ui.editor.EventType.CHANGED_TAG,
             tagName: 'recend',
-            value: date,
+            value: date ? date.toString() : '',
             indices: this.indices_['recend'],
-            removeTag: !!date
+            removeTag: !date
         });
     }
 };
@@ -329,24 +313,24 @@ hash5.module.calendar.Event.prototype.dispatchUpdateEvent = function()
  */
 hash5.module.calendar.Event.prototype.equals = function(event)
 {
-    return this.equalDates_(this.startDate_, event.startDate_)
-        && this.equalDates_(this.endDate_, event.endDate_)
-        //&& this.equalDates_(this.recurrent_, event.recurrent_) // TODO
-        && this.equalDates_(this.recend_, event.recend_)
+    return this.equalObjs_(this.startDate_, event.startDate_)
+        && this.equalObjs_(this.endDate_, event.endDate_)
+        && this.equalObjs_(this.recurrent_, event.recurrent_)
+        && this.equalObjs_(this.recend_, event.recend_)
         && this.equalDateArrs_(this.exclude_, event.exclude_);
 };
 
 /**
- * @param {hash5.module.calendar.DateTime} date1
- * @param {hash5.module.calendar.DateTime} date2
+ * @param {hash5.module.calendar.DateTime|hash5.module.calendar.Duration} o1
+ * @param {hash5.module.calendar.DateTime|hash5.module.calendar.Duration} o2
  * @return {boolean}
  */
-hash5.module.calendar.Event.prototype.equalDates_ = function(date1, date2)
+hash5.module.calendar.Event.prototype.equalObjs_ = function(o1, o2)
 {
-    if((date1 && !date2) || (!date1 && date2))
+    if((o1 && !o2) || (!o1 && o2))
         return false;
 
-    return (!date1 && !date2) || date1.equals(date2);
+    return (!o1 && !o2) || o1.equals(o2);
 };
 
 /**

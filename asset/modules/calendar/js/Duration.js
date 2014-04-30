@@ -54,6 +54,17 @@ hash5.module.calendar.Duration.prototype.toJson = function()
 };
 
 /**
+ * @param {hash5.module.calendar.Duration} duration
+ * @return {boolean}
+ */
+hash5.module.calendar.Duration.prototype.equals = function(duration)
+{
+    return duration
+        && duration.number === this.number
+        && duration.unit === this.unit;
+};
+
+/**
  * @enum {string}
  */
 hash5.module.calendar.Duration.Types = {

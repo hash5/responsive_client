@@ -9,6 +9,7 @@ goog.require('hash5.forms.Checkbox');
 goog.require('hash5.forms.Select');
 goog.require('hash5.module.calendar.DatePickerInput');
 goog.require('hash5.module.calendar.DateUtils');
+goog.require('hash5.module.calendar.ExcludeHelper');
 
 /**
  * @param {hash5.module.calendar.Event=} event
@@ -46,15 +47,17 @@ goog.inherits(hash5.module.calendar.HelperTile, hash5.ui.editor.HelperTile);
 hash5.module.calendar.HelperTile.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
-
     goog.dom.classes.add(this.getElement(), 'calendar-tile');
-    this.generateFormItems_();
 
+    var excludeBtn = this.getDomHelper().createDom('button', 'btn add-exclude-btn hidden', 'exclude date');
+    this.getElement().appendChild(excludeBtn);
+
+    this.generateFormItems_();
     this.decorateFromEvent();
-    this.addChild(this.form_, true);
 
     this.getHandler()
-        .listen(this.form_, goog.events.EventType.CHANGE, this.handleFormChanges_);
+        .listen(this.form_, goog.events.EventType.CHANGE, this.handleFormChanges_)
+        .listen(excludeBtn, goog.events.EventType.CLICK, this.handleAddExcludeClick_);
 };
 
 /**
@@ -65,7 +68,7 @@ hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
 {
     this.startDate_ = this.form_.addFormItem('', 'datepicker', {fieldName: 'start'}).getControl();
     this.startTime_ = this.form_.addFormItem('', 'textbox', {fieldName: 'start-time'}).getControl();
-    this.endTime_ = this.form_.addFormItem("bis", 'textbox', {fieldName: 'end-time'}).getControl();
+    this.endTime_ = this.form_.addFormItem('to', 'textbox', {fieldName: 'end-time'}).getControl();
     this.endDate_ = this.form_.addFormItem('', 'datepicker', {fieldName: 'end'}).getControl();
 
     var allDay = this.form_.addFormItem('All day', 'checkbox', {fieldName: 'all-day'});
@@ -73,8 +76,7 @@ hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
     allDay.addCssClass('all-day-row');
 
     var recurrentOptions = [];
-    for(var i = 1; i < 30; i++)
-    {
+    for(var i = 1; i < 30; i++) {
         recurrentOptions.push({text: i + ' ', model: i});
     }
     this.rec_ = this.form_.addFormItem('recurrent', 'checkbox', {fieldName: 'recurrent-cb'}).getControl();
@@ -94,6 +96,8 @@ hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
         ]
     }).getControl();
     this.recUnit_.setSelectedIndex(0);
+
+    this.recend_ = this.form_.addFormItem('ends', 'datepicker', {fieldName: 'recend'}).getControl();
 };
 
 /**
@@ -103,13 +107,15 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
 {
     var event = this.event_;
 
-    if(this.newEvent_)
-    {
+    if(this.newEvent_) {
         // generate new event with current times
 
         var startDate = new hash5.module.calendar.DateTime(new Date());
+        startDate.setSeconds(0);
+        startDate.setMilliseconds(0);
+
         // round to next half hour
-        if(startDate.getMinutes() > 30){
+        if(startDate.getMinutes() > 30) {
             startDate.setHours(startDate.getHours() + 1);
             startDate.setMinutes(0);
         } else {
@@ -132,16 +138,29 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
     this.setTime_(this.startTime_, event.getStartDate());
     this.setDate_(this.endDate_, event.getEndDate());
     this.setTime_(this.endTime_, event.getEndDate());
+    this.setDate_(this.recend_, event.getRecend());
 
     var hasTime = event.hasTime();
     this.allDay_.setValue(!hasTime);
 
-    if(event.getRecurrent())
-    {
+    if(event.getRecurrent()) {
         var rec = event.getRecurrent();
         this.recUnit_.setValue(rec.unit);
         this.recVal_.setValue(rec.number);
         this.rec_.setValue(true);
+    }
+
+    // render form
+    if(!this.form_.isInDocument()) {
+        this.addChild(this.form_, true);
+    }
+
+    // render exclude dates (after form)
+    if(event.getRecurrent()) {
+        for(var i = 0; i < event.getExcluded().length; i++) {
+            var excludeDateHelper = new hash5.module.calendar.ExcludeHelper(this.event_, i);
+            this.addChild(excludeDateHelper, true);
+        }
     }
 
     this.enableRecHelpers_(!!event.getRecurrent());
@@ -157,8 +176,12 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
  */
 hash5.module.calendar.HelperTile.prototype.setDate_ = function(control, date)
 {
-    var formattedDate = hash5.module.calendar.DateUtils.dateToString(date);
-    control.setValue(formattedDate);
+    if(date) {
+        var formattedDate = hash5.module.calendar.DateUtils.dateToString(date);
+        control.setValue(formattedDate);
+    } else {
+        control.setValue('');
+    }
 };
 
 /**
@@ -199,14 +222,16 @@ hash5.module.calendar.HelperTile.prototype.handleFormChanges_ = function(e)
             }
             var startDate = utils.stringToDate(this.startDate_.getValue() + time);
             this.event_.setStartDate(startDate);
+            //this.checkValidDates(fieldName);
             break;
         case 'end':
         case 'end-time':
-            if(!allDay){
+            if (!allDay) {
                 time = ' ' + this.endTime_.getValue()
             }
             var endDate = utils.stringToDate(this.endDate_.getValue() + time);
             this.event_.setEndDate(endDate);
+            //this.checkValidDates(fieldName);
             break;
 
         case 'all-day':
@@ -223,13 +248,17 @@ hash5.module.calendar.HelperTile.prototype.handleFormChanges_ = function(e)
                 break;
             }
 
-            // break; be carefull - breakthrough!!
+            // be carefull - breakthrough!!
         case 'recurrent':
         case 'recurrent-type':
             var unit = this.recUnit_.getValue(),
                 number = this.recVal_.getValue(),
                 recurrent = new hash5.module.calendar.Duration(number, unit);
             this.event_.setRecurrent(recurrent);
+            break;
+        case 'recend':
+            var recend = utils.stringToDate(this.recend_.getValue());
+            this.event_.setRecend(recend);
             break;
     }
 };
@@ -244,6 +273,8 @@ hash5.module.calendar.HelperTile.prototype.enableRecHelpers_ = function(visible)
 {
     goog.dom.classes.enable(this.form_.getControlByName('recurrent').getElement(), 'hidden', !visible);
     goog.dom.classes.enable(this.form_.getControlByName('recurrent-type').getElement(), 'hidden', !visible);
+    goog.dom.classes.enable(this.form_.getFormItemByName('recend').getElement(), 'hidden', !visible);
+    goog.dom.classes.enable(this.getElementByClass('add-exclude-btn'), 'hidden', !visible);
 };
 
 /**
@@ -258,6 +289,19 @@ hash5.module.calendar.HelperTile.prototype.enableTimesHelpers_ = function(visibl
     goog.dom.classes.enable(this.form_.getFormItemByName('end-time').getElement(), 'hidden', !visible);
 };
 
+/**
+ * checks if start date and time is smaller than end date
+ * @return {boolean} true if values there changed
+ */
+hash5.module.calendar.HelperTile.prototype.checkValidDates = function()
+{
+    var changed = false,
+        event = this.event_;
+
+
+
+    return changed;
+};
 
 
 /**
@@ -266,4 +310,13 @@ hash5.module.calendar.HelperTile.prototype.enableTimesHelpers_ = function(visibl
 hash5.module.calendar.HelperTile.prototype.getEvent = function()
 {
     return this.event_;
+};
+
+/**
+ * @param  {goog.events.BrowserEvent} e
+ */
+hash5.module.calendar.HelperTile.prototype.handleAddExcludeClick_ = function(e)
+{
+    var excludeDateHelper = new hash5.module.calendar.ExcludeHelper(this.event_);
+    this.addChild(excludeDateHelper, true);
 };
