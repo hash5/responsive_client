@@ -196,7 +196,7 @@ hash5.view.ListView.prototype.removeChild = function(child, opt_unrender)
  * @type {string}
  * @private
  */
-hash5.view.ListView.prototype.storageKey_ = 'hash5-listview-opend';
+hash5.view.ListView.prototype.storageKey_ = 'listview-opend';
 
 
 /**

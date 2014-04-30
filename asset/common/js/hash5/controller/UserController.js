@@ -174,9 +174,10 @@ hash5.controller.UserController.prototype.handleUserSettingsLoaded_ = function(c
         var userSettings = xhr.getResponseJson() || {};
         this.setUserSettings(userSettings);
 
-        // TODO set real user data!
+        // set current user data
         if(!this.currentUser_) {
-            this.currentUser_ = new hash5.model.User("");
+            var userName = userSettings['user'] && userSettings['user']['name'];
+            this.currentUser_ = new hash5.model.User(userName);
         }
     } else if(xhr.getStatus() == goog.net.HttpStatus.UNAUTHORIZED) {
         this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
