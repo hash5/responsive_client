@@ -1,4 +1,4 @@
-goog.provide('hash5.module.calendar.ExcludeHelper');
+goog.provide('hash5.module.calendar.ui.ExcludeHelper');
 
 
 /**
@@ -7,7 +7,7 @@ goog.provide('hash5.module.calendar.ExcludeHelper');
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.module.calendar.ExcludeHelper = function(event, excludeIndex)
+hash5.module.calendar.ui.ExcludeHelper = function(event, excludeIndex)
 {
     goog.base(this);
 
@@ -34,10 +34,10 @@ hash5.module.calendar.ExcludeHelper = function(event, excludeIndex)
      */
     this.form_ = new hash5.forms.Form();
 };
-goog.inherits(hash5.module.calendar.ExcludeHelper, goog.ui.Component);
+goog.inherits(hash5.module.calendar.ui.ExcludeHelper, goog.ui.Component);
 
 /** @inheritDoc */
-hash5.module.calendar.ExcludeHelper.prototype.createDom = function()
+hash5.module.calendar.ui.ExcludeHelper.prototype.createDom = function()
 {
     var domHelper = this.getDomHelper(),
         el = domHelper.createDom('div', 'exclude-date', [
@@ -48,7 +48,7 @@ hash5.module.calendar.ExcludeHelper.prototype.createDom = function()
 };
 
 /** @inheritDoc */
-hash5.module.calendar.ExcludeHelper.prototype.enterDocument = function()
+hash5.module.calendar.ui.ExcludeHelper.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
@@ -62,6 +62,6 @@ hash5.module.calendar.ExcludeHelper.prototype.enterDocument = function()
 /**
  * @param  {goog.events.BrowserEvent} e
  */
-hash5.module.calendar.ExcludeHelper.prototype.handleRemoveBtnClick_ = function(e)
+hash5.module.calendar.ui.ExcludeHelper.prototype.handleRemoveBtnClick_ = function(e)
 {
 };

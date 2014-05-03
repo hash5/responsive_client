@@ -1,6 +1,6 @@
-goog.provide('hash5.module.calendar.DatePicker');
-goog.provide('hash5.module.calendar.DatePicker.SelectionMode');
-goog.provide('hash5.module.calendar.DatePickerEvent');
+goog.provide('hash5.module.calendar.ui.DatePicker');
+goog.provide('hash5.module.calendar.ui.DatePicker.SelectionMode');
+goog.provide('hash5.module.calendar.ui.DatePickerEvent');
 
 goog.require('goog.date');
 goog.require('goog.date.Date');
@@ -19,16 +19,16 @@ goog.require('goog.ui.Component');
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.module.calendar.DatePicker = function()
+hash5.module.calendar.ui.DatePicker = function()
 {
     goog.base(this);
 
     /**
      * Selection mode (Start date, End date, or both dates at the same time, i.e. Start date = End Date (single date mode)
      *
-     * @type {hash5.module.calendar.DatePicker.SelectionMode}
+     * @type {hash5.module.calendar.ui.DatePicker.SelectionMode}
      */
-    this.selectionMode_ = hash5.module.calendar.DatePicker.SelectionMode.BOTH;
+    this.selectionMode_ = hash5.module.calendar.ui.DatePicker.SelectionMode.BOTH;
 
     /**
      * Date and time symbols to use.
@@ -87,14 +87,14 @@ hash5.module.calendar.DatePicker = function()
     this.wdayStyles_[this.symbols_.WEEKENDRANGE[1]] =
     goog.getCssName(this.getBaseCssClass(), 'wkend-end');
 };
-goog.inherits(hash5.module.calendar.DatePicker, goog.ui.Component);
+goog.inherits(hash5.module.calendar.ui.DatePicker, goog.ui.Component);
 
 /**
  * Name of base CSS clase of datepicker.
  * @type {string}
  * @private
  */
-hash5.module.calendar.DatePicker.BASE_CSS_CLASS_ = goog.getCssName('uc-date-picker');
+hash5.module.calendar.ui.DatePicker.BASE_CSS_CLASS_ = goog.getCssName('uc-date-picker');
 
 
 /**
@@ -102,21 +102,21 @@ hash5.module.calendar.DatePicker.BASE_CSS_CLASS_ = goog.getCssName('uc-date-pick
  * @type {goog.date.Date}
  * @private
  */
-hash5.module.calendar.DatePicker.minDate_ = null;
+hash5.module.calendar.ui.DatePicker.minDate_ = null;
 
 /**
  * Maximum date
  * @type {goog.date.Date}
  * @private
  */
-hash5.module.calendar.DatePicker.maxDate_ = null;
+hash5.module.calendar.ui.DatePicker.maxDate_ = null;
 
 /**
  * Constants for event names
  *
  * @enum {string}
  */
-hash5.module.calendar.DatePicker.EventType = {
+hash5.module.calendar.ui.DatePicker.EventType = {
     CHANGE: 'change',
     HIDE: 'hide',
     SELECT: 'select',
@@ -127,7 +127,7 @@ hash5.module.calendar.DatePicker.EventType = {
  * Selection Mode: Start Date, End Date, Both dates simultaniosly
  * @enum {number}
  */
-hash5.module.calendar.DatePicker.SelectionMode = {
+hash5.module.calendar.ui.DatePicker.SelectionMode = {
   BOTH: 0,
   START: 1,
   END: 2
@@ -139,7 +139,7 @@ hash5.module.calendar.DatePicker.SelectionMode = {
  *
  * @param {goog.date.Date} date
  */
-hash5.module.calendar.DatePicker.prototype.setMinDate = function(date)
+hash5.module.calendar.ui.DatePicker.prototype.setMinDate = function(date)
 {
     this.minDate_ = date;
     this.redrawCalendarGrid_();
@@ -150,7 +150,7 @@ hash5.module.calendar.DatePicker.prototype.setMinDate = function(date)
  *
  * @param {goog.date.Date} date
  */
-hash5.module.calendar.DatePicker.prototype.setMaxDate = function(date)
+hash5.module.calendar.ui.DatePicker.prototype.setMaxDate = function(date)
 {
     this.maxDate_ = date;
     this.redrawCalendarGrid_();
@@ -159,9 +159,9 @@ hash5.module.calendar.DatePicker.prototype.setMaxDate = function(date)
 /**
  * Returns current selection mode
  *
- * @return {hash5.module.calendar.DatePicker.SelectionMode}
+ * @return {hash5.module.calendar.ui.DatePicker.SelectionMode}
  */
-hash5.module.calendar.DatePicker.prototype.getSelectionMode = function()
+hash5.module.calendar.ui.DatePicker.prototype.getSelectionMode = function()
 {
     return this.selectionMode_;
 };
@@ -169,9 +169,9 @@ hash5.module.calendar.DatePicker.prototype.getSelectionMode = function()
 /**
  * Sets selection mode
  *
- * @param {hash5.module.calendar.DatePicker.SelectionMode} selectionMode
+ * @param {hash5.module.calendar.ui.DatePicker.SelectionMode} selectionMode
  */
-hash5.module.calendar.DatePicker.prototype.setSelectionMode = function(selectionMode)
+hash5.module.calendar.ui.DatePicker.prototype.setSelectionMode = function(selectionMode)
 {
     this.selectionMode_ = selectionMode;
     this.updateHighlightDate_();
@@ -183,9 +183,9 @@ hash5.module.calendar.DatePicker.prototype.setSelectionMode = function(selection
  *
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.updateHighlightDate_ = function()
+hash5.module.calendar.ui.DatePicker.prototype.updateHighlightDate_ = function()
 {
-    if (this.selectionMode_ == hash5.module.calendar.DatePicker.SelectionMode.START)
+    if (this.selectionMode_ == hash5.module.calendar.ui.DatePicker.SelectionMode.START)
     {
         this.highlightDate_ = this.startDate_;
     }
@@ -198,7 +198,7 @@ hash5.module.calendar.DatePicker.prototype.updateHighlightDate_ = function()
 /**
  * @return {number} The first day of week, 0 = Monday, 6 = Sunday.
  */
-hash5.module.calendar.DatePicker.prototype.getFirstWeekday = function()
+hash5.module.calendar.ui.DatePicker.prototype.getFirstWeekday = function()
 {
     return this.activeMonth_.getFirstDayOfWeek();
 };
@@ -206,7 +206,7 @@ hash5.module.calendar.DatePicker.prototype.getFirstWeekday = function()
 /**
  * @return {goog.date.Date}
  */
-hash5.module.calendar.DatePicker.prototype.getMinDate = function()
+hash5.module.calendar.ui.DatePicker.prototype.getMinDate = function()
 {
     return this.minDate_;
 };
@@ -214,7 +214,7 @@ hash5.module.calendar.DatePicker.prototype.getMinDate = function()
 /**
  * @return {goog.date.Date}
  */
-hash5.module.calendar.DatePicker.prototype.getMaxDate = function()
+hash5.module.calendar.ui.DatePicker.prototype.getMaxDate = function()
 {
     return this.maxDate_;
 };
@@ -222,7 +222,7 @@ hash5.module.calendar.DatePicker.prototype.getMaxDate = function()
 /**
  * @return {goog.date.DateRange}
  */
-hash5.module.calendar.DatePicker.prototype.getRange = function()
+hash5.module.calendar.ui.DatePicker.prototype.getRange = function()
 {
     return new goog.date.DateRange(this.startDate_, this.endDate_);
 };
@@ -233,9 +233,9 @@ hash5.module.calendar.DatePicker.prototype.getRange = function()
  *   goog.getCssName(this.getBaseCssClass(), 'CLASS_NAME')
  * @return {string} Base CSS class.
  */
-hash5.module.calendar.DatePicker.prototype.getBaseCssClass = function()
+hash5.module.calendar.ui.DatePicker.prototype.getBaseCssClass = function()
 {
-    return hash5.module.calendar.DatePicker.BASE_CSS_CLASS_;
+    return hash5.module.calendar.ui.DatePicker.BASE_CSS_CLASS_;
 };
 
 /**
@@ -243,7 +243,7 @@ hash5.module.calendar.DatePicker.prototype.getBaseCssClass = function()
  *
  * @param {number} wday Week day, 0 = Monday, 6 = Sunday.
  */
-hash5.module.calendar.DatePicker.prototype.setFirstWeekday = function(wday)
+hash5.module.calendar.ui.DatePicker.prototype.setFirstWeekday = function(wday)
 {
     this.activeMonth_.setFirstDayOfWeek(wday);
     this.updateCalendarGrid_();
@@ -253,7 +253,7 @@ hash5.module.calendar.DatePicker.prototype.setFirstWeekday = function(wday)
 /**
  * Changes the active month to the previous one.
  */
-hash5.module.calendar.DatePicker.prototype.previousMonth = function()
+hash5.module.calendar.ui.DatePicker.prototype.previousMonth = function()
 {
     this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, -1));
     this.updateCalendarGrid_();
@@ -262,7 +262,7 @@ hash5.module.calendar.DatePicker.prototype.previousMonth = function()
 /**
  * Changes the active month to the next one.
  */
-hash5.module.calendar.DatePicker.prototype.nextMonth = function()
+hash5.module.calendar.ui.DatePicker.prototype.nextMonth = function()
 {
     this.activeMonth_.add(new goog.date.Interval(goog.date.Interval.MONTHS, 1));
     this.updateCalendarGrid_();
@@ -271,7 +271,7 @@ hash5.module.calendar.DatePicker.prototype.nextMonth = function()
 /**
  * @return goog.date.Date.
  */
-hash5.module.calendar.DatePicker.prototype.getStartDate = function()
+hash5.module.calendar.ui.DatePicker.prototype.getStartDate = function()
 {
     return this.startDate_;
 };
@@ -279,20 +279,20 @@ hash5.module.calendar.DatePicker.prototype.getStartDate = function()
 /**
  * @return goog.date.Date.
  */
-hash5.module.calendar.DatePicker.prototype.getEndDate = function()
+hash5.module.calendar.ui.DatePicker.prototype.getEndDate = function()
 {
     return this.endDate_;
 };
 
 /** @inheritDoc */
-hash5.module.calendar.DatePicker.prototype.createDom = function()
+hash5.module.calendar.ui.DatePicker.prototype.createDom = function()
 {
     goog.base(this, 'createDom');
     this.decorateInternal(this.getElement());
 };
 
 /** @inheritDoc */
-hash5.module.calendar.DatePicker.prototype.decorateInternal = function(el)
+hash5.module.calendar.ui.DatePicker.prototype.decorateInternal = function(el)
 {
     goog.base(this, 'decorateInternal', el);
 
@@ -329,7 +329,7 @@ hash5.module.calendar.DatePicker.prototype.decorateInternal = function(el)
     el.appendChild(rows);
 };
 
-hash5.module.calendar.DatePicker.prototype.decorateNav_ = function(navEl)
+hash5.module.calendar.ui.DatePicker.prototype.decorateNav_ = function(navEl)
 {
     this.elNavRow_ = navEl;
 
@@ -350,7 +350,7 @@ hash5.module.calendar.DatePicker.prototype.decorateNav_ = function(navEl)
 
 
 /** @inheritDoc */
-hash5.module.calendar.DatePicker.prototype.enterDocument = function()
+hash5.module.calendar.ui.DatePicker.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
@@ -366,7 +366,7 @@ hash5.module.calendar.DatePicker.prototype.enterDocument = function()
 };
 
 /** @inheritDoc */
-hash5.module.calendar.DatePicker.prototype.disposeInternal = function()
+hash5.module.calendar.ui.DatePicker.prototype.disposeInternal = function()
 {
     goog.base(this, 'disposeInternal');
     this.startDate_ = null;
@@ -383,7 +383,7 @@ hash5.module.calendar.DatePicker.prototype.disposeInternal = function()
  * @private
  * @return {boolean}
  */
-hash5.module.calendar.DatePicker.prototype.isInRange_ = function(date, start, end)
+hash5.module.calendar.ui.DatePicker.prototype.isInRange_ = function(date, start, end)
 {
     var time = date.getTime();
     return time >= start.getTime() &&
@@ -396,7 +396,7 @@ hash5.module.calendar.DatePicker.prototype.isInRange_ = function(date, start, en
  * @param {goog.events.BrowserEvent} e Click event.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.handleGridMouseDown_ = function(e)
+hash5.module.calendar.ui.DatePicker.prototype.handleGridMouseDown_ = function(e)
 {
     var startEnd = this.getStartEnd(e.target);
     if (!startEnd)
@@ -404,8 +404,8 @@ hash5.module.calendar.DatePicker.prototype.handleGridMouseDown_ = function(e)
         return;
     }
 
-    var evt = new hash5.module.calendar.DatePickerEvent(
-        hash5.module.calendar.DatePicker.EventType.SELECT, this, startEnd[0],
+    var evt = new hash5.module.calendar.ui.DatePickerEvent(
+        hash5.module.calendar.ui.DatePicker.EventType.SELECT, this, startEnd[0],
         startEnd[1]);
 
     this.dispatchEvent(evt);
@@ -425,7 +425,7 @@ hash5.module.calendar.DatePicker.prototype.handleGridMouseDown_ = function(e)
  * @param {goog.events.BrowserEvent} e MouseOver event.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.handleGridOver_ = function(e)
+hash5.module.calendar.ui.DatePicker.prototype.handleGridOver_ = function(e)
 {
     var startEnd = this.getStartEnd(e.target);
     if (!startEnd)
@@ -433,7 +433,7 @@ hash5.module.calendar.DatePicker.prototype.handleGridOver_ = function(e)
         return;
     }
 
-    var highlight = this.selectionMode_ == hash5.module.calendar.DatePicker.SelectionMode.START ? startEnd[0] : startEnd[1];
+    var highlight = this.selectionMode_ == hash5.module.calendar.ui.DatePicker.SelectionMode.START ? startEnd[0] : startEnd[1];
     this.redrawCalendarGrid_(startEnd[0], startEnd[1], highlight);
 };
 
@@ -443,7 +443,7 @@ hash5.module.calendar.DatePicker.prototype.handleGridOver_ = function(e)
  * @param {goog.events.BrowserEvent} e MouseOver event.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.handleNextClick_ = function(e)
+hash5.module.calendar.ui.DatePicker.prototype.handleNextClick_ = function(e)
 {
     e.stopPropagation();
     this.nextMonth();
@@ -455,7 +455,7 @@ hash5.module.calendar.DatePicker.prototype.handleNextClick_ = function(e)
  * @param {goog.events.BrowserEvent} e MouseOver event.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.handlePrevClick_ = function(e)
+hash5.module.calendar.ui.DatePicker.prototype.handlePrevClick_ = function(e)
 {
     e.stopPropagation();
     this.previousMonth();
@@ -466,7 +466,7 @@ hash5.module.calendar.DatePicker.prototype.handlePrevClick_ = function(e)
  * @return Array.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.getStartEnd = function(target)
+hash5.module.calendar.ui.DatePicker.prototype.getStartEnd = function(target)
 {
     var classes = goog.dom.classes,
         baseClass = this.getBaseCssClass();
@@ -482,11 +482,11 @@ hash5.module.calendar.DatePicker.prototype.getStartEnd = function(target)
 
     switch (this.selectionMode_)
     {
-        case hash5.module.calendar.DatePicker.SelectionMode.BOTH:
+        case hash5.module.calendar.ui.DatePicker.SelectionMode.BOTH:
             start = date;
             end = date;
             break;
-        case hash5.module.calendar.DatePicker.SelectionMode.START:
+        case hash5.module.calendar.ui.DatePicker.SelectionMode.START:
             start = date;
             end = this.endDate_;
 
@@ -495,7 +495,7 @@ hash5.module.calendar.DatePicker.prototype.getStartEnd = function(target)
                 end = start;
             }
             break;
-        case hash5.module.calendar.DatePicker.SelectionMode.END:
+        case hash5.module.calendar.ui.DatePicker.SelectionMode.END:
             start = this.startDate_;
             end = date;
 
@@ -516,7 +516,7 @@ hash5.module.calendar.DatePicker.prototype.getStartEnd = function(target)
  * @param {goog.events.BrowserEvent} e MouseOut event.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.handleGridOut_ = function(e)
+hash5.module.calendar.ui.DatePicker.prototype.handleGridOut_ = function(e)
 {
     if (!goog.dom.classes.has(e.target, goog.getCssName(this.getBaseCssClass(), 'date')))
     {
@@ -533,7 +533,7 @@ hash5.module.calendar.DatePicker.prototype.handleGridOut_ = function(e)
  * @return {goog.date.Date}
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.getDateFromTarget_ = function(cell)
+hash5.module.calendar.ui.DatePicker.prototype.getDateFromTarget_ = function(cell)
 {
     // colIndex/rowIndex is broken in Safari, find position by looping
     var el, x = -1, y = -2; // first col/row is for weekday/weeknum
@@ -551,10 +551,10 @@ hash5.module.calendar.DatePicker.prototype.getDateFromTarget_ = function(cell)
  * @param {goog.date.Date} end
  *
  */
-hash5.module.calendar.DatePicker.prototype.selectRange = function(start, end)
+hash5.module.calendar.ui.DatePicker.prototype.selectRange = function(start, end)
 {
-    var changeEvent = new hash5.module.calendar.DatePickerEvent(
-        hash5.module.calendar.DatePicker.EventType.CHANGE, this, start, end);
+    var changeEvent = new hash5.module.calendar.ui.DatePickerEvent(
+        hash5.module.calendar.ui.DatePicker.EventType.CHANGE, this, start, end);
     if (this.dispatchEvent(changeEvent))
     {
         this.startDate_ = start;
@@ -571,7 +571,7 @@ hash5.module.calendar.DatePicker.prototype.selectRange = function(start, end)
  *
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.updateCalendarGrid_ = function()
+hash5.module.calendar.ui.DatePicker.prototype.updateCalendarGrid_ = function()
 {
     if (!this.getElement())
     {
@@ -621,7 +621,7 @@ hash5.module.calendar.DatePicker.prototype.updateCalendarGrid_ = function()
  * @param {goog.date.Date=} opt_highlight highlight date.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_end, opt_highlight)
+hash5.module.calendar.ui.DatePicker.prototype.redrawCalendarGrid_ = function(opt_start, opt_end, opt_highlight)
 {
     if (!this.getElement())
     {
@@ -706,7 +706,7 @@ hash5.module.calendar.DatePicker.prototype.redrawCalendarGrid_ = function(opt_st
  * first day of week.
  * @private
  */
-hash5.module.calendar.DatePicker.prototype.redrawWeekdays_ = function()
+hash5.module.calendar.ui.DatePicker.prototype.redrawWeekdays_ = function()
 {
     if (!this.getElement())
     {
@@ -725,7 +725,7 @@ hash5.module.calendar.DatePicker.prototype.redrawWeekdays_ = function()
  * Sets visibility
  * @param {goog.math.Coordinate} position
  */
-hash5.module.calendar.DatePicker.prototype.setVisible = function(position)
+hash5.module.calendar.ui.DatePicker.prototype.setVisible = function(position)
 {
     var style = goog.style;
     var element = this.getElement();
@@ -734,10 +734,10 @@ hash5.module.calendar.DatePicker.prototype.setVisible = function(position)
     {
         style.setPageOffset(element, position);
         style.setStyle(element, 'visibility', 'visible');
-        this.dispatchEvent(hash5.module.calendar.DatePicker.EventType.SHOW);
+        this.dispatchEvent(hash5.module.calendar.ui.DatePicker.EventType.SHOW);
 
         // Making sure selected date is visible
-        var date = this.selectionMode_ == hash5.module.calendar.DatePicker.SelectionMode.START ? this.startDate_ : this.endDate_;
+        var date = this.selectionMode_ == hash5.module.calendar.ui.DatePicker.SelectionMode.START ? this.startDate_ : this.endDate_;
         this.activeMonth_ = date.clone();
         this.activeMonth_.setDate(1);
         this.updateCalendarGrid_();
@@ -745,7 +745,7 @@ hash5.module.calendar.DatePicker.prototype.setVisible = function(position)
     else
     {
         style.setStyle(element, 'visibility', 'hidden');
-        this.dispatchEvent(hash5.module.calendar.DatePicker.EventType.HIDE);
+        this.dispatchEvent(hash5.module.calendar.ui.DatePicker.EventType.HIDE);
     }
 };
 
@@ -755,13 +755,13 @@ hash5.module.calendar.DatePicker.prototype.setVisible = function(position)
  * Object representing a date picker event.
  *
  * @param {string} type Event type.
- * @param {hash5.module.calendar.DatePicker} target Date picker initiating event.
+ * @param {hash5.module.calendar.ui.DatePicker} target Date picker initiating event.
  * @param {goog.date.Date} startDate Selected date.
  * @param {goog.date.Date} endDate Selected date.
  * @constructor
  * @extends {goog.events.Event}
  */
-hash5.module.calendar.DatePickerEvent = function(type, target, startDate, endDate)
+hash5.module.calendar.ui.DatePickerEvent = function(type, target, startDate, endDate)
 {
     goog.events.Event.call(this, type, target);
 
@@ -777,4 +777,4 @@ hash5.module.calendar.DatePickerEvent = function(type, target, startDate, endDat
      */
     this.endDate = endDate;
 };
-goog.inherits(hash5.module.calendar.DatePickerEvent, goog.events.Event);
+goog.inherits(hash5.module.calendar.ui.DatePickerEvent, goog.events.Event);

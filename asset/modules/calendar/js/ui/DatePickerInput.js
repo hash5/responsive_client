@@ -1,9 +1,8 @@
-goog.provide('hash5.module.calendar.DatePickerInput');
+goog.provide('hash5.module.calendar.ui.DatePickerInput');
 
 goog.require('goog.ui.InputDatePicker');
 
 goog.require('hash5.forms.Textbox');
-goog.require('hash5.module.calendar.DatePicker');
 
 
 /**
@@ -13,7 +12,7 @@ goog.require('hash5.module.calendar.DatePicker');
  * @constructor
  * @extends {hash5.forms.Textbox}
  */
-hash5.module.calendar.DatePickerInput = function(content)
+hash5.module.calendar.ui.DatePickerInput = function(content)
 {
     goog.base(this, content);
 
@@ -29,11 +28,11 @@ hash5.module.calendar.DatePickerInput = function(content)
     this.datePicker_ = new goog.ui.InputDatePicker(formatter, parser);
     this.registerDisposable(this.datePicker_);
 };
-goog.inherits(hash5.module.calendar.DatePickerInput, hash5.forms.Textbox);
+goog.inherits(hash5.module.calendar.ui.DatePickerInput, hash5.forms.Textbox);
 
 
 /** @inheritDoc */
-hash5.module.calendar.DatePickerInput.prototype.enterDocument = function()
+hash5.module.calendar.ui.DatePickerInput.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
@@ -47,7 +46,7 @@ hash5.module.calendar.DatePickerInput.prototype.enterDocument = function()
 /**
  * @param {goog.ui.DatePickerEvent} e
  */
-hash5.module.calendar.DatePickerInput.prototype.handleDateSelect = function(e)
+hash5.module.calendar.ui.DatePickerInput.prototype.handleDateSelect = function(e)
 {
     this.fireChangeEvent_();
 };
@@ -59,6 +58,6 @@ hash5.module.calendar.DatePickerInput.prototype.handleDateSelect = function(e)
 goog.ui.registry.setDecoratorByClassName(
     'datepicker',
     function() {
-      return new hash5.module.calendar.DatePickerInput('');
+      return new hash5.module.calendar.ui.DatePickerInput('');
     }
 );

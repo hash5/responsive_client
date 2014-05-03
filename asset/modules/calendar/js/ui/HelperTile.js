@@ -1,4 +1,4 @@
-goog.provide('hash5.module.calendar.HelperTile');
+goog.provide('hash5.module.calendar.ui.HelperTile');
 
 goog.require('goog.date.Interval');
 
@@ -7,16 +7,16 @@ goog.require('hash5.forms.Form');
 goog.require('hash5.forms.Textbox');
 goog.require('hash5.forms.Checkbox');
 goog.require('hash5.forms.Select');
-goog.require('hash5.module.calendar.DatePickerInput');
+goog.require('hash5.module.calendar.ui.DatePickerInput');
 goog.require('hash5.module.calendar.DateUtils');
-goog.require('hash5.module.calendar.ExcludeHelper');
+goog.require('hash5.module.calendar.ui.ExcludeHelper');
 
 /**
  * @param {hash5.module.calendar.Event=} event
  * @constructor
  * @extends {hash5.ui.editor.HelperTile}
  */
-hash5.module.calendar.HelperTile = function(event)
+hash5.module.calendar.ui.HelperTile = function(event)
 {
     goog.base(this);
 
@@ -41,10 +41,10 @@ hash5.module.calendar.HelperTile = function(event)
      */
     this.form_ = new hash5.forms.Form();
 };
-goog.inherits(hash5.module.calendar.HelperTile, hash5.ui.editor.HelperTile);
+goog.inherits(hash5.module.calendar.ui.HelperTile, hash5.ui.editor.HelperTile);
 
 /** @inheritDoc */
-hash5.module.calendar.HelperTile.prototype.enterDocument = function()
+hash5.module.calendar.ui.HelperTile.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
     goog.dom.classes.add(this.getElement(), 'calendar-tile');
@@ -64,7 +64,7 @@ hash5.module.calendar.HelperTile.prototype.enterDocument = function()
  * generates form-items
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
+hash5.module.calendar.ui.HelperTile.prototype.generateFormItems_ = function()
 {
     this.startDate_ = this.form_.addFormItem('', 'datepicker', {fieldName: 'start'}).getControl();
     this.startTime_ = this.form_.addFormItem('', 'textbox', {fieldName: 'start-time'}).getControl();
@@ -79,7 +79,9 @@ hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
     for(var i = 1; i < 30; i++) {
         recurrentOptions.push({text: i + ' ', model: i});
     }
-    this.rec_ = this.form_.addFormItem('recurrent', 'checkbox', {fieldName: 'recurrent-cb'}).getControl();
+    /** @desc checkbox title to enable recurrent events */
+    var MSG_RECURRENT_CB_TITLE = goog.getMsg('recurrent event');
+    this.rec_ = this.form_.addFormItem(MSG_RECURRENT_CB_TITLE, 'checkbox', {fieldName: 'recurrent-cb'}).getControl();
     this.recVal_ = this.form_.addFormItem('', 'select', {
         fieldName: 'recurrent',
         options: recurrentOptions
@@ -103,7 +105,7 @@ hash5.module.calendar.HelperTile.prototype.generateFormItems_ = function()
 /**
  * sets input-values from event
  */
-hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
+hash5.module.calendar.ui.HelperTile.prototype.decorateFromEvent = function()
 {
     var event = this.event_;
 
@@ -158,7 +160,7 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
     // render exclude dates (after form)
     if(event.getRecurrent()) {
         for(var i = 0; i < event.getExcluded().length; i++) {
-            var excludeDateHelper = new hash5.module.calendar.ExcludeHelper(this.event_, i);
+            var excludeDateHelper = new hash5.module.calendar.ui.ExcludeHelper(this.event_, i);
             this.addChild(excludeDateHelper, true);
         }
     }
@@ -174,7 +176,7 @@ hash5.module.calendar.HelperTile.prototype.decorateFromEvent = function()
  * @param {hash5.module.calendar.DateTime} date
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.setDate_ = function(control, date)
+hash5.module.calendar.ui.HelperTile.prototype.setDate_ = function(control, date)
 {
     if(date) {
         var formattedDate = hash5.module.calendar.DateUtils.dateToString(date);
@@ -191,7 +193,7 @@ hash5.module.calendar.HelperTile.prototype.setDate_ = function(control, date)
  * @param {hash5.module.calendar.DateTime} date
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.setTime_ = function(control, date)
+hash5.module.calendar.ui.HelperTile.prototype.setTime_ = function(control, date)
 {
     var formattedDate = hash5.module.calendar.DateUtils.timeToString(date);
     control.setValue(formattedDate);
@@ -203,7 +205,7 @@ hash5.module.calendar.HelperTile.prototype.setTime_ = function(control, date)
  * @param  {goog.events.Event} e
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.handleFormChanges_ = function(e)
+hash5.module.calendar.ui.HelperTile.prototype.handleFormChanges_ = function(e)
 {
     var control = /** @type {hash5.forms.IControl} */ (e.target),
         fieldName = control.getFieldName(),
@@ -269,7 +271,7 @@ hash5.module.calendar.HelperTile.prototype.handleFormChanges_ = function(e)
  * @param  {boolean} visible
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.enableRecHelpers_ = function(visible)
+hash5.module.calendar.ui.HelperTile.prototype.enableRecHelpers_ = function(visible)
 {
     goog.dom.classes.enable(this.form_.getControlByName('recurrent').getElement(), 'hidden', !visible);
     goog.dom.classes.enable(this.form_.getControlByName('recurrent-type').getElement(), 'hidden', !visible);
@@ -283,7 +285,7 @@ hash5.module.calendar.HelperTile.prototype.enableRecHelpers_ = function(visible)
  * @param  {boolean} visible
  * @private
  */
-hash5.module.calendar.HelperTile.prototype.enableTimesHelpers_ = function(visible)
+hash5.module.calendar.ui.HelperTile.prototype.enableTimesHelpers_ = function(visible)
 {
     goog.dom.classes.enable(this.form_.getFormItemByName('start-time').getElement(), 'hidden', !visible);
     goog.dom.classes.enable(this.form_.getFormItemByName('end-time').getElement(), 'hidden', !visible);
@@ -293,7 +295,7 @@ hash5.module.calendar.HelperTile.prototype.enableTimesHelpers_ = function(visibl
  * checks if start date and time is smaller than end date
  * @return {boolean} true if values there changed
  */
-hash5.module.calendar.HelperTile.prototype.checkValidDates = function()
+hash5.module.calendar.ui.HelperTile.prototype.checkValidDates = function()
 {
     var changed = false,
         event = this.event_;
@@ -307,7 +309,7 @@ hash5.module.calendar.HelperTile.prototype.checkValidDates = function()
 /**
  * @return {hash5.module.calendar.Event}
  */
-hash5.module.calendar.HelperTile.prototype.getEvent = function()
+hash5.module.calendar.ui.HelperTile.prototype.getEvent = function()
 {
     return this.event_;
 };
@@ -315,8 +317,8 @@ hash5.module.calendar.HelperTile.prototype.getEvent = function()
 /**
  * @param  {goog.events.BrowserEvent} e
  */
-hash5.module.calendar.HelperTile.prototype.handleAddExcludeClick_ = function(e)
+hash5.module.calendar.ui.HelperTile.prototype.handleAddExcludeClick_ = function(e)
 {
-    var excludeDateHelper = new hash5.module.calendar.ExcludeHelper(this.event_);
+    var excludeDateHelper = new hash5.module.calendar.ui.ExcludeHelper(this.event_);
     this.addChild(excludeDateHelper, true);
 };
