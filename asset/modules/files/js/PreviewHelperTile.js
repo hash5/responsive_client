@@ -41,6 +41,7 @@ hash5.module.files.PreviewHelperTile.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+    goog.dom.classes.add(this.getElement(), 'file-tile');
 };
 
 /** @inheritDoc */

@@ -65,6 +65,8 @@ hash5.module.files.UploadHelperTile.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+    goog.dom.classes.add(this.getElement(), 'file-tile');
+
     this.uploader_.decorate(this.getElementByClass('upload-btn'));
     this.uploader_.setMultiple(false);
 };
