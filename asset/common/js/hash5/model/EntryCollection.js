@@ -65,7 +65,7 @@ hash5.model.EntryCollection = function(entries, searchPattern)
     var entryStore = hash5.ds.EntryStore.getInstance();
     this.setParentEventTarget(entryStore);
     this.handler_.listen(entryStore,
-        [hash5.model.Entry.EventType.TEXT_CHANGED, hash5.model.Entry.EventType.CREATED],
+        [hash5.model.Entry.EventType.TEXT_CHANGED_PUBLISHED, hash5.model.Entry.EventType.CREATED],
         this.handleEntryStoreChanged_);
 };
 goog.inherits(hash5.model.EntryCollection, hash5.model.Collection);

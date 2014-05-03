@@ -105,11 +105,12 @@ hash5.ui.editor.AutoSaver.prototype.handleSaveBtnClick_ = function(e)
       if(this.unsavedChanges_) {
         this.saveChanges();
       }
-
-      this.editor_.close();
     } else {
         entry.destroy();
     }
+
+    entry.publishTextChange();
+    this.editor_.close();
 };
 
 
