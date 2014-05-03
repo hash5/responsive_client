@@ -158,12 +158,12 @@ hash5.module.calendar.ui.HelperTile.prototype.decorateFromEvent = function()
     }
 
     // render exclude dates (after form)
-    if(event.getRecurrent()) {
+    /*if(event.getRecurrent()) {
         for(var i = 0; i < event.getExcluded().length; i++) {
             var excludeDateHelper = new hash5.module.calendar.ui.ExcludeHelper(this.event_, i);
             this.addChild(excludeDateHelper, true);
         }
-    }
+    }*/
 
     this.enableRecHelpers_(!!event.getRecurrent());
     this.enableTimesHelpers_(hasTime);
@@ -276,7 +276,7 @@ hash5.module.calendar.ui.HelperTile.prototype.enableRecHelpers_ = function(visib
     goog.dom.classes.enable(this.form_.getControlByName('recurrent').getElement(), 'hidden', !visible);
     goog.dom.classes.enable(this.form_.getControlByName('recurrent-type').getElement(), 'hidden', !visible);
     goog.dom.classes.enable(this.form_.getFormItemByName('recend').getElement(), 'hidden', !visible);
-    goog.dom.classes.enable(this.getElementByClass('add-exclude-btn'), 'hidden', !visible);
+    //goog.dom.classes.enable(this.getElementByClass('add-exclude-btn'), 'hidden', !visible);
 };
 
 /**
