@@ -26,8 +26,10 @@ hash5.ui.OverlayLoginForm.prototype.enterDocument = function()
     var overlay = hash5.ui.Overlay.getInstance();
     overlay.setVisible(true, hash5.ui.Overlay.Level.FOREGROUND, false);
 
-    var registerPart = this.getElementByClass('register-wrapper');
-    goog.dom.classes.add(registerPart, 'hidden');
+    goog.dom.classes.add(this.getElementByClass('register-wrapper'), 'hidden');
+    goog.dom.classes.add(this.getElementByClass('passw-rec-link'), 'hidden');
+    var stayLoggedInEl = this.form_.getFormItemByName('stay-signed-in').getElement()
+    goog.dom.classes.add(stayLoggedInEl, 'hidden');
 };
 
 /** @inheritDoc */

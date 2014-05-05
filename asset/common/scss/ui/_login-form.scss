@@ -9,7 +9,7 @@
     background: $colorBlue;
     padding: 20px;
     @include box-sizing(border-box);
-    z-index: $overlayForegroundLevel - 1;
+    z-index: $overlayForegroundLevel + 1;
 
     &.hidden {
         opacity: 0;

@@ -80,9 +80,12 @@ hash5.forms.Checkbox.prototype.setInvalid = function(isInvalid)
  */
 hash5.forms.Checkbox.prototype.setConfig = function(config)
 {
-    if (goog.isDef(config.fieldName))
-    {
+    if (goog.isDef(config.fieldName)) {
         this.fieldName_ = config.fieldName;
+    }
+
+    if (goog.isDef(config.value)) {
+        this.setValue(config.value);
     }
 };
 

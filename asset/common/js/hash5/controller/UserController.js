@@ -238,8 +238,9 @@ hash5.controller.UserController.prototype.isLoggedIn = function()
  *
  * @param  {string} username
  * @param  {string} password
+ * @param  {boolean=} staySignedIn
  */
-hash5.controller.UserController.prototype.login = function(username, password)
+hash5.controller.UserController.prototype.login = function(username, password, staySignedIn)
 {
     // TODO enable this check (maybe at extra msg)
     // ensure that only the same user can renew the session
@@ -275,7 +276,9 @@ hash5.controller.UserController.prototype.login = function(username, password)
 
     }, false, this);
     var apiPrefix = hash5.App.getInstance().getApiPrefix();
-    xhr.send(apiPrefix + '/login', 'post', 'user=' + username + '&pass=' + password);
+    // TODO set right staySignedIn param name
+    var staySignedInStr = staySignedIn ? '1' : '0';
+    xhr.send(apiPrefix + '/login', 'post', 'user=' + username + '&pass=' + password + '&login=' + staySignedInStr);
 };
 
 /**

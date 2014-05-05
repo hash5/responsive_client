@@ -4,6 +4,7 @@ goog.require('goog.ui.Component');
 
 goog.require('hash5.forms.Form');
 goog.require('hash5.forms.Textbox');
+goog.require('hash5.forms.Checkbox');
 goog.require('hash5.validation.RequiredFieldValidator');
 goog.require('hash5.forms.DefaultErrorProvider');
 
@@ -25,7 +26,7 @@ hash5.ui.LoginForm = function()
 
     /**
      * @type {hash5.forms.Form}
-     * @private
+     * @protected
      */
     this.form_ = new hash5.forms.Form();
 
@@ -33,8 +34,11 @@ hash5.ui.LoginForm = function()
     var MSG_USERNAME1 = goog.getMsg('Username');
     /** @desc password */
     var MSG_PASSWORD1 = goog.getMsg('Password');
+    /** @desc stay sigend in checkbox */
+    var MSG_KEEP_LOGIN = goog.getMsg('Stay signed in');
     this.form_.addFormItem(MSG_USERNAME1, 'textbox', {fieldName: 'username'});
     this.form_.addFormItem(MSG_PASSWORD1, 'textbox', {fieldName: 'password', password: true});
+    this.form_.addFormItem(MSG_KEEP_LOGIN, 'checkbox', {fieldName: 'stay-signed-in', value: 1});
 
     /** @desc required msg forusername */
     var MSG_USERNAME_REQ1 = goog.getMsg('Please insert your username.');
@@ -109,7 +113,8 @@ hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
         var data = this.form_.getData();
 
         var userController = hash5.controller.UserController.getInstance();
-        userController.login(data['username'].trim(), data['password'].trim());
+        var staySignedIn = data['stay-signed-in'] === '1';
+        userController.login(data['username'].trim(), data['password'].trim(), staySignedIn);
     }
 };
 
