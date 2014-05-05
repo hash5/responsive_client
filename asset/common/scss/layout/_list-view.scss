@@ -1,7 +1,6 @@
 
 
-.list-view
-{
+.list-view {
     white-space: nowrap;
     height: 100%;
     overflow: auto;
@@ -11,8 +10,7 @@
     }
 }
 
-.entry-list-switcher
-{
+.entry-list-switcher {
     position: absolute;
     bottom: 0;
     height: 40px;
@@ -21,14 +19,12 @@
     z-index: 100;
     text-align: right;
 
-    .stats
-    {
+    .stats {
         float: left;
         padding: 12px;
     }
 
-    .left-btn, .right-btn
-    {
+    .left-btn, .right-btn {
         display: inline-block;
         margin-top: 5px;
         margin-right: 30px;
@@ -37,14 +33,23 @@
         @include rotate(90deg);
         @include box-sizing(border-box);
 
-        &.hidden
-        {
+        &.hidden {
             visibility: hidden;
         }
     }
 
-    .right-btn
-    {
+    .right-btn {
         @include rotate(-90deg);
     }
+}
+
+.no-list-hint {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    margin-top: 10%;
+    white-space: normal;
+    padding: 20px;
+    @include box-sizing(border-box);
+    background: #FFF;
 }

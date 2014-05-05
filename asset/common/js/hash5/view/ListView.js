@@ -23,7 +23,6 @@ hash5.view.ListView = function()
 {
     goog.base(this);
 
-
     /**
      * @type {goog.fx.DragListGroup}
      * @private
@@ -31,6 +30,12 @@ hash5.view.ListView = function()
     this.dlg_ = new goog.fx.DragListGroup();
     this.dlg_.setHysteresis(10);
     this.dlg_.setFunctionToGetHandleForDragItem(this.getDragItem_);
+
+    /**
+     * hint message element when no lists are displayed
+     * @type {Element}
+     */
+    this.emptyHint_ = null;
 
     this.restoreLists();
 };
@@ -48,18 +53,17 @@ hash5.view.ListView.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    if(hash5.App.isMobile)
-    {
+    if(hash5.App.isMobile) {
         var switcher = new hash5.ui.ListSwitcher(this);
         switcher.render(this.getElement().parentElement);
-    }
-    else
-    {
+    } else {
         // init drag & drop
         this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.RIGHT);
         this.dlg_.init();
         this.getHandler().listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
     }
+
+    this.checkForEmptyView();
 };
 
 /**
@@ -71,8 +75,7 @@ hash5.view.ListView.prototype.handleListDragged_ = function(e)
 
     // get child component object for draged element
     this.forEachChild(function(child, i) {
-        if (child.getElement() == e.currDragItem)
-        {
+        if (child.getElement() == e.currDragItem) {
             oldIndex = i;
             movedChild = child;
             newIndex = goog.array.indexOf(goog.dom.getChildren(this.getContentElement()),
@@ -114,21 +117,18 @@ hash5.view.ListView.prototype.addEntryCollection = function(collection, title, a
     var listUi;
 
     // check if list is already displayed
-    this.forEachChild(function(child){
-        if(child.getSearchPattern() == collection.getSearchPattern())
-        {
+    this.forEachChild(function(child) {
+        if(child.getSearchPattern() == collection.getSearchPattern()) {
             listUi = child;
         }
     }, this);
 
     // create new list
-    if(!listUi)
-    {
+    if(!listUi) {
         listUi = new hash5.ui.EntryListContainer(collection, title);
         this.addChild(listUi, true);
 
-        if(this.isInDocument())
-        {
+        if(this.isInDocument()) {
             this.dlg_.listenForDragEvents(listUi.getElement());
         }
 
@@ -137,10 +137,11 @@ hash5.view.ListView.prototype.addEntryCollection = function(collection, title, a
     }
 
     // hightlight list
-    if(animated !== false)
-    {
+    if(animated !== false) {
         this.slideToList(listUi);
     }
+
+    this.checkForEmptyView();
 
     return listUi;
 };
@@ -188,7 +189,27 @@ hash5.view.ListView.prototype.removeChild = function(child, opt_unrender)
     this.dispatchEvent(hash5.view.ListView.EventType.LIST_REMOVED);
     this.storeLists();
 
+    this.checkForEmptyView();
+
     return removedChild;
+};
+
+/**
+ * checks if currently no list is displayed.
+ * Hint will be rendered then.
+ */
+hash5.view.ListView.prototype.checkForEmptyView = function()
+{
+    if(this.getChildCount() == 0) {
+        if(this.emptyHint_ == null) {
+            this.emptyHint_ = goog.soy.renderAsFragment(hash5.templates.ListView.noListsHint);
+            goog.dom.appendChild(this.getElement(), this.emptyHint_);
+        }
+
+        goog.dom.classes.remove(this.emptyHint_, 'hidden');
+    } else if (this.emptyHint_ != null) {
+        goog.dom.classes.add(this.emptyHint_, 'hidden');
+    }
 };
 
 
@@ -228,17 +249,13 @@ hash5.view.ListView.prototype.restoreLists = function()
     var storage = hash5.storage.AppData.getInstance();
     var lastLists = storage.get(this.storageKey_);
 
-    if(lastLists)
-    {
-        for(var i = 0; i < lastLists.length; i++)
-        {
+    if(lastLists) {
+        for(var i = 0; i < lastLists.length; i++) {
             var list = lastLists[i];
             var collection = hash5.api.getEntries(list['searchPattern']);
             this.addEntryCollection(collection, list['title'], false);
         }
-    }
-    else
-    {
+    } else {
         var newestEntries = hash5.api.getNewestEntries();
         /** @desc newest entry list heading */
         var MSG_NEWEST_HEADING = goog.getMsg('Latest Entries');
