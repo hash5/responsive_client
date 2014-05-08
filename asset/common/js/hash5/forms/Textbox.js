@@ -289,13 +289,14 @@ hash5.forms.Textbox.prototype.setValue = function(value)
     }
 };
 
-
+/** @inheritDoc */
+hash5.forms.Textbox.prototype.CSS_CLASS = 'textbox';
 
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'textbox',
+    hash5.forms.Textbox.prototype.CSS_CLASS,
     function() {
       return new hash5.forms.Textbox('');
     }

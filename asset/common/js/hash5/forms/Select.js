@@ -91,11 +91,14 @@ hash5.forms.Select.prototype.setConfig = function(config)
  */
 hash5.forms.Select.prototype.setInvalid = goog.nullFunction;
 
+/** @inheritDoc */
+hash5.forms.Select.prototype.CSS_CLASS = 'select';
+
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'select',
+    hash5.forms.Select.prototype.CSS_CLASS,
     function() {
       return new hash5.forms.Select();
 });

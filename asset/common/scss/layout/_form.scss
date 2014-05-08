@@ -113,8 +113,19 @@ textarea.textbox {
     }
 }
 
-.goog-checkbox
-{
+.form-item-checkbox {
+    position: relative;
+
+    .form-item-label {
+        margin-left: 30px;
+    }
+    .form-item-control {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}
+.goog-checkbox {
     display: inline-block;
     position: relative;
     width: 12px;
@@ -125,17 +136,14 @@ textarea.textbox {
     background: $colorLightGray;
     outline: none;
 
-    &:hover
-    {
+    &:hover {
         opacity: 0.8;
     }
 }
-.goog-checkbox-checked
-{
+.goog-checkbox-checked {
     background: $colorYellow;
 
-    &:before
-    {
+    &:before {
         position: absolute;
         left: 0;
         top: -3px;

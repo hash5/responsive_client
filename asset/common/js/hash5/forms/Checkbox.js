@@ -98,11 +98,14 @@ hash5.forms.Checkbox.prototype.setValue = function(value)
     this.setChecked(value == 1);
 };
 
+/** @inheritDoc */
+hash5.forms.Checkbox.prototype.CSS_CLASS = 'checkbox';
+
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'checkbox',
+    hash5.forms.Checkbox.prototype.CSS_CLASS,
     function() {
       return new hash5.forms.Checkbox();
     });

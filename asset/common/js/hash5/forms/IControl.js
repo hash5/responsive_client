@@ -39,3 +39,9 @@ hash5.forms.IControl.prototype.setInvalid = function(isInvalid) {};
  * @param {*} value
  */
 hash5.forms.IControl.prototype.setValue = function(value) {};
+
+/**
+ * @const
+ * @type {string}
+ */
+hash5.forms.IControl.prototype.CSS_CLASS;
