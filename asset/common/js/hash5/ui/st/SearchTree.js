@@ -1,45 +1,43 @@
-goog.provide('hash5.ui.SearchTree');
+goog.provide('hash5.ui.st.SearchTree');
 
-goog.require('goog.ui.tree.TreeControl');
-goog.require('goog.fx.DragDropGroup');
-
-goog.require('hash5.ui.SearchTreeNode');
-goog.require('hash5.ui.SearchTreeDragHandler');
+goog.require('hash5.ui.st.FolderNode');
+goog.require('hash5.ui.st.SearchNode');
+goog.require('hash5.ui.st.SearchTreeDragHandler');
 goog.require('hash5.templates.SearchTree');
 
 /**
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.ui.SearchTree = function()
+hash5.ui.st.SearchTree = function()
 {
     goog.base(this);
 
-    /**
-     * @type {goog.ui.tree.TreeControl}
-     * @private
-     */
-    this.tree_ = new goog.ui.tree.TreeControl('root');
-    this.registerDisposable(this.tree_);
 
     /**
-     * @type {hash5.ui.SearchTreeDragHandler}
+     * @type {hash5.ui.st.SearchTreeDragHandler}
      * @private
      */
-    this.dragHandler_ = new hash5.ui.SearchTreeDragHandler();
+    this.dragHandler_ = new hash5.ui.st.SearchTreeDragHandler();
     this.registerDisposable(this.dragHandler_);
 };
-goog.inherits(hash5.ui.SearchTree, goog.ui.Component);
+goog.inherits(hash5.ui.st.SearchTree, goog.ui.Component);
 
 /** @inheritDoc */
-hash5.ui.SearchTree.prototype.createDom = function()
+hash5.ui.st.SearchTree.prototype.createDom = function()
 {
     var el = goog.soy.renderAsFragment(hash5.templates.SearchTree.wrapper);
     this.decorateInternal(/** @type {Element} */ (el));
 };
 
 /** @inheritDoc */
-hash5.ui.SearchTree.prototype.enterDocument = function()
+hash5.ui.st.SearchTree.prototype.getContentElement = function()
+{
+    return this.getElementByClass('search-tree-root');
+};
+
+/** @inheritDoc */
+hash5.ui.st.SearchTree.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
@@ -58,7 +56,7 @@ hash5.ui.SearchTree.prototype.enterDocument = function()
 /**
  * @param {goog.events.BrowserEvent} e
  */
-hash5.ui.SearchTree.prototype.addNewestEntries_ = function(e)
+hash5.ui.st.SearchTree.prototype.addNewestEntries_ = function(e)
 {
     var newestEntries = hash5.api.getNewestEntries();
     /** @desc newest entry list heading */
@@ -71,7 +69,7 @@ hash5.ui.SearchTree.prototype.addNewestEntries_ = function(e)
  *
  * @param  {Array} searchTree
  */
-hash5.ui.SearchTree.prototype.renderSearchTree = function(searchTree)
+hash5.ui.st.SearchTree.prototype.renderSearchTree = function(searchTree)
 {
     /**
      * example:
@@ -98,33 +96,33 @@ hash5.ui.SearchTree.prototype.renderSearchTree = function(searchTree)
         ]
      */
 
-    for(var i = 0; i < searchTree.length; i++)
-    {
-        this.addSubNode_(this.tree_.getTree(), searchTree[i]);
+    for(var i = 0; i < searchTree.length; i++) {
+        this.addSubNode_(this, searchTree[i]);
     }
-
-    this.tree_.setShowRootNode(false);
-    this.tree_.render(this.getElement());
 };
 
 /**
  *
- * @param  {goog.ui.tree.TreeNode} parentNode
+ * @param  {hash5.ui.st.Node|goog.ui.Component} parentNode
  * @param  {Object} data
  * @private
  */
-hash5.ui.SearchTree.prototype.addSubNode_ = function(parentNode, data)
+hash5.ui.st.SearchTree.prototype.addSubNode_ = function(parentNode, data)
 {
-    var node = new hash5.ui.SearchTreeNode(data['title'], this.dragHandler_);
+    var node;
+    if(data['type'] === 'folder') {
+        node = new hash5.ui.st.FolderNode(data['title'], this.dragHandler_);
+    } else {
+        node = new hash5.ui.st.SearchNode(data['title'], this.dragHandler_);
+    }
+
     node.setModel(data);
-    parentNode.add(node);
+    parentNode.addChild(node, true);
 
     this.getHandler().listen(node, goog.events.EventType.CHANGE, this.handleChange_);
 
-    if(data['children'])
-    {
-        for(var i = 0; i < data['children'].length; i++)
-        {
+    if(data['children']) {
+        for(var i = 0; i < data['children'].length; i++) {
             this.addSubNode_(node, data['children'][i]);
         }
     }
@@ -135,7 +133,7 @@ hash5.ui.SearchTree.prototype.addSubNode_ = function(parentNode, data)
  * @param  {string} search
  * @param  {string=} title
  */
-hash5.ui.SearchTree.prototype.addSearch = function(search, title)
+hash5.ui.st.SearchTree.prototype.addSearch = function(search, title)
 {
     var data = {
         'title': title || search,
@@ -143,7 +141,7 @@ hash5.ui.SearchTree.prototype.addSearch = function(search, title)
         'query': search
     };
 
-    this.addSubNode_(this.tree_.getTree(), data);
+    this.addSubNode_(this, data);
 
     this.handleChange_();
 };
@@ -153,7 +151,7 @@ hash5.ui.SearchTree.prototype.addSearch = function(search, title)
  *
  * @param {string=} title optional title for the new folder
  */
-hash5.ui.SearchTree.prototype.addFolder = function(title)
+hash5.ui.st.SearchTree.prototype.addFolder = function(title)
 {
     var strTitle = goog.isString(title) ? title : 'new folder';
 
@@ -162,7 +160,7 @@ hash5.ui.SearchTree.prototype.addFolder = function(title)
         'type': 'folder'
     };
 
-    this.addSubNode_(this.tree_.getTree(), data);
+    this.addSubNode_(this, data);
 
     this.handleChange_();
 };
@@ -172,7 +170,7 @@ hash5.ui.SearchTree.prototype.addFolder = function(title)
  * handles any change in the searchTree
  * serializes the tree and stores it to the server
  */
-hash5.ui.SearchTree.prototype.handleChange_ = function()
+hash5.ui.st.SearchTree.prototype.handleChange_ = function()
 {
     var searchTreeData = this.serialize();
     var userController = hash5.controller.UserController.getInstance();
@@ -183,37 +181,30 @@ hash5.ui.SearchTree.prototype.handleChange_ = function()
 /**
  * @return {!Array} serialized tree
  */
-hash5.ui.SearchTree.prototype.serialize = function()
+hash5.ui.st.SearchTree.prototype.serialize = function()
 {
     var treeData = [];
-    var tree = this.tree_;
 
-    var children = tree.getChildren();
-    for(var i = 0; i < children.length; i++)
-    {
-        var child = /** @type {hash5.ui.SearchTreeNode} */ (children[i]);
+    this.forEachChild(function(child){
         treeData.push(this.serializeNode_(child));
-    }
+    }, this);
 
     return treeData;
 };
 
 /**
- * @param {hash5.ui.SearchTreeNode} node
+ * @param {hash5.ui.st.Node} node
  * @return {!Object} serialized node
  */
-hash5.ui.SearchTree.prototype.serializeNode_ = function(node)
+hash5.ui.st.SearchTree.prototype.serializeNode_ = function(node)
 {
-    var model = node.getModel();
-
-    var children = node.getChildren();
     var childrenData = [];
-    for(var i = 0; i < children.length; i++)
-    {
-        var child = /** @type {hash5.ui.SearchTreeNode} */ (children[i]);
+    node.forEachChild(function(el){
+        var child = /** @type {hash5.ui.st.Node} */ (el);
         childrenData.push(this.serializeNode_(child));
-    }
+    }, this);
 
+    var model = node.getModel();
     var nodeData = {
         'title': model['title'],
         'type': model['type'],
@@ -222,4 +213,26 @@ hash5.ui.SearchTree.prototype.serializeNode_ = function(node)
     };
 
     return nodeData;
+};
+
+/** @inheritDoc */
+hash5.ui.st.SearchTree.prototype.addChild = function(child, opt_render)
+{
+    // make sure that searchnodes are always at the end
+    var index = 0,
+        lastFolder = null;
+
+    this.forEachChild(function(child) {
+        if(child instanceof hash5.ui.st.FolderNode) {
+            goog.dom.classes.remove(child.getElement(), 'last-folder');
+            lastFolder = child;
+            index++;
+        }
+    });
+
+    if(lastFolder != null) {
+        //goog.dom.classes.add(child.getElement(), 'last-folder');
+    }
+
+    this.addChildAt(child, index, opt_render);
 };

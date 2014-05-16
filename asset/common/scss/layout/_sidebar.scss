@@ -1,9 +1,8 @@
 
-$sidebarWidth: 200px;
+$sidebarWidth: 250px;
 $sidebarTabletWidth: 50px;
 
-.page-sidebar
-{
+.page-sidebar {
     position: fixed;
     top: 0;
     width: $sidebarWidth;
@@ -22,31 +21,25 @@ $sidebarTabletWidth: 50px;
     }
     @include breakpoint(tablet){
         width: $sidebarTabletWidth;
-        li span
-        {
+        .main-nav li span {
             display: none;
         }
     }
 
-    &.visible
-    {
+    &.visible {
         @include translate3d(0, 0, 0);
         width: $sidebarWidth;
-        li span
-        {
+        .main-nav li span {
             display: inline;
         }
     }
 }
 
-.main-nav
-{
-    li
-    {
+.main-nav {
+    li {
         padding: 5px 10px;
 
-        &:before
-        {
+        &:before {
             margin: 0 5px;;
         }
     }

@@ -1,4 +1,4 @@
-goog.provide('hash5.ui.SearchTreeDragHandler');
+goog.provide('hash5.ui.st.SearchTreeDragHandler');
 
 goog.require('goog.fx.DragDropGroup');
 goog.require('goog.events.EventHandler');
@@ -8,9 +8,16 @@ goog.require('goog.events.EventTarget');
  * @constructor
  * @extends {goog.events.EventTarget}
  */
-hash5.ui.SearchTreeDragHandler = function()
+hash5.ui.st.SearchTreeDragHandler = function()
 {
     goog.base(this);
+
+    /**
+     * current drag item
+     * @type {goog.fx.DragDropItem}
+     * @private
+     */
+    this.curDragItem_ = null;
 
     /**
      * @type {goog.events.EventHandler}
@@ -25,6 +32,7 @@ hash5.ui.SearchTreeDragHandler = function()
      */
     this.ddGroupFolders_ = new goog.fx.DragDropGroup();
     this.ddGroupFolders_.addTarget(this.ddGroupFolders_);
+    this.ddGroupFolders_.createDragElementInternal = goog.bind(this.createDragElement_, this);
 
     /**
      * @type {goog.fx.DragDropGroup}
@@ -32,14 +40,15 @@ hash5.ui.SearchTreeDragHandler = function()
      */
     this.ddGroupLinks_ = new goog.fx.DragDropGroup();
     this.ddGroupLinks_.addTarget(this.ddGroupFolders_);
+    this.ddGroupLinks_.createDragElementInternal = goog.bind(this.createDragElement_, this);
 
     this.init();
 };
-goog.inherits(hash5.ui.SearchTreeDragHandler, goog.events.EventTarget);
+goog.inherits(hash5.ui.st.SearchTreeDragHandler, goog.events.EventTarget);
 
 /**
  */
-hash5.ui.SearchTreeDragHandler.prototype.init = function()
+hash5.ui.st.SearchTreeDragHandler.prototype.init = function()
 {
     this.ddGroupFolders_.setDragClass('search-item-drag');
     this.ddGroupFolders_.setSourceClass('source');
@@ -64,20 +73,17 @@ hash5.ui.SearchTreeDragHandler.prototype.init = function()
     this.handler_.listen(this.ddGroupLinks_, eType.DRAGEND, this.handleDragEnd_);
 };
 
-/**
- *
- * @param  {hash5.ui.SearchTreeNode} node
- */
-hash5.ui.SearchTreeDragHandler.prototype.addItem = function(node)
-{
-    var dragItem = node.getElementByClass('drag-item');
 
-    if(node.getType() == hash5.ui.SearchTreeNode.Type.FOLDER)
-    {
+/**
+ * @param  {hash5.ui.st.Node} node
+ */
+hash5.ui.st.SearchTreeDragHandler.prototype.addItem = function(node)
+{
+    var dragItem = node.getDragItem();
+
+    if(node instanceof hash5.ui.st.FolderNode) {
         this.ddGroupFolders_.addItem(dragItem, node);
-    }
-    else
-    {
+    } else {
         this.ddGroupLinks_.addItem(dragItem, node);
     }
 };
@@ -87,8 +93,9 @@ hash5.ui.SearchTreeDragHandler.prototype.addItem = function(node)
  * @param  {goog.fx.DragDropEvent} e
  * @private
  */
-hash5.ui.SearchTreeDragHandler.prototype.handleDragOver_ = function(e)
+hash5.ui.st.SearchTreeDragHandler.prototype.handleDragOver_ = function(e)
 {
+    console.log(e.dropTargetItem.element);
     goog.dom.classes.add(e.dropTargetItem.element, 'drag-over');
 };
 
@@ -97,7 +104,7 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDragOver_ = function(e)
  * @param  {goog.fx.DragDropEvent} e
  * @private
  */
-hash5.ui.SearchTreeDragHandler.prototype.handleDragOut_ = function(e)
+hash5.ui.st.SearchTreeDragHandler.prototype.handleDragOut_ = function(e)
 {
     goog.dom.classes.remove(e.dropTargetItem.element, 'drag-over');
 };
@@ -107,19 +114,18 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDragOut_ = function(e)
  * @param  {goog.fx.DragDropEvent} e
  * @private
  */
-hash5.ui.SearchTreeDragHandler.prototype.handleDrop_ = function(e)
+hash5.ui.st.SearchTreeDragHandler.prototype.handleDrop_ = function(e)
 {
-    var movedItem = /** @type {hash5.ui.SearchTreeNode} */ (e.dragSourceItem.data);
-    var dropedItem = /** @type {hash5.ui.SearchTreeNode} */ (e.dropTargetItem.data);
+    var movedItem = /** @type {hash5.ui.st.Node} */ (e.dragSourceItem.data);
+    var dropedItem = /** @type {hash5.ui.st.Node} */ (e.dropTargetItem.data);
     goog.dom.classes.remove(e.dropTargetItem.element, 'drag-over');
 
-    if(movedItem === dropedItem)
-    {
+    if(movedItem === dropedItem) {
         return;
     }
 
-    movedItem.getParent().remove(movedItem);
-    dropedItem.add(movedItem);
+    movedItem.getParent().removeChild(movedItem, true);
+    dropedItem.addChild(movedItem, true);
 
     this.dispatchEvent(goog.fx.AbstractDragDrop.EventType.DROP);
 };
@@ -129,8 +135,9 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDrop_ = function(e)
  * @param  {goog.fx.DragDropEvent} e
  * @private
  */
-hash5.ui.SearchTreeDragHandler.prototype.handleDragStart_ = function(e)
+hash5.ui.st.SearchTreeDragHandler.prototype.handleDragStart_ = function(e)
 {
+    this.curDragItem_ = e.dragSourceItem;
     goog.dom.classes.add(e.dragSourceItem.element, 'dragged');
 };
 
@@ -140,7 +147,21 @@ hash5.ui.SearchTreeDragHandler.prototype.handleDragStart_ = function(e)
  * @param  {goog.fx.DragDropEvent} e
  * @private
  */
-hash5.ui.SearchTreeDragHandler.prototype.handleDragEnd_ = function(e)
+hash5.ui.st.SearchTreeDragHandler.prototype.handleDragEnd_ = function(e)
 {
     goog.dom.classes.remove(e.dragSourceItem.element, 'dragged');
+};
+
+
+/**
+ * Generates an element to follow the cursor during dragging, given a drag
+ * source element.
+ * @param {Element} sourceEl Drag source element.
+ * @return {Element} The new drag element.
+ * @private
+ */
+hash5.ui.st.SearchTreeDragHandler.prototype.createDragElement_ = function(sourceEl)
+{
+    var model = this.curDragItem_.data.getModel();
+    return goog.dom.createDom('div', 'dragelement', model['title']);
 };
