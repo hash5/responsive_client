@@ -7,6 +7,7 @@ goog.require('goog.events.EventTarget');
 /**
  * @constructor
  * @extends {goog.events.EventTarget}
+ * @suppress {accessControls}
  */
 hash5.ui.st.SearchTreeDragHandler = function()
 {
@@ -51,8 +52,6 @@ goog.inherits(hash5.ui.st.SearchTreeDragHandler, goog.events.EventTarget);
 hash5.ui.st.SearchTreeDragHandler.prototype.init = function()
 {
     this.ddGroupFolders_.setDragClass('search-item-drag');
-    this.ddGroupFolders_.setSourceClass('source');
-    this.ddGroupFolders_.setTargetClass('target');
     this.ddGroupFolders_.init();
 
     this.ddGroupLinks_.setDragClass('search-item-drag');
@@ -89,13 +88,24 @@ hash5.ui.st.SearchTreeDragHandler.prototype.addItem = function(node)
 };
 
 /**
+ * adds extra element to folderGroup so that elements can be moved to root-level.
+ *
+ * @param  {Element} el
+ * @param  {goog.ui.Component} rootParent Component which holds root nodes
+ */
+hash5.ui.st.SearchTreeDragHandler.prototype.addRootDummy = function(el, rootParent)
+{
+    this.ddGroupFolders_.addItem(el, rootParent);
+};
+
+
+/**
  *
  * @param  {goog.fx.DragDropEvent} e
  * @private
  */
 hash5.ui.st.SearchTreeDragHandler.prototype.handleDragOver_ = function(e)
 {
-    console.log(e.dropTargetItem.element);
     goog.dom.classes.add(e.dropTargetItem.element, 'drag-over');
 };
 

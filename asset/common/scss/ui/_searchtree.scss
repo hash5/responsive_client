@@ -47,6 +47,8 @@
     li li li header {padding-left: 65px;}
     li li li li header {padding-left: 87px;}
 
+    .last-folder {margin-bottom: 30px;}
+
     .search-tree-root > .folder-node-outer:last-of-type {
       margin-bottom: 30px;
     }
@@ -94,7 +96,7 @@
         font-family: $iconFontFamily;
         margin-right: 8px;
         @include rotate(-90deg);
-        @include transition(all 1s);
+        @include transition(all .6s);
       }
 
       &:hover {
@@ -162,6 +164,9 @@
     }
     .dragged {
       opacity: 0.6;
+    }
+    .root-node-dummy {
+      height: 1em;
     }
 }
 .visible .searchtree {

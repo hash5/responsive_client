@@ -50,6 +50,7 @@ hash5.ui.st.SearchTree.prototype.enterDocument = function()
     var userSearchTree = hash5.controller.UserController.getInstance().getSearchTree();
     this.renderSearchTree(userSearchTree);
 
+    this.dragHandler_.addRootDummy(this.getElementByClass('root-node-dummy'), this);
     this.getHandler().listen(this.dragHandler_, goog.fx.AbstractDragDrop.EventType.DROP, this.handleChange_);
 };
 
@@ -219,20 +220,21 @@ hash5.ui.st.SearchTree.prototype.serializeNode_ = function(node)
 hash5.ui.st.SearchTree.prototype.addChild = function(child, opt_render)
 {
     // make sure that searchnodes are always at the end
-    var index = 0,
-        lastFolder = null;
 
-    this.forEachChild(function(child) {
-        if(child instanceof hash5.ui.st.FolderNode) {
-            goog.dom.classes.remove(child.getElement(), 'last-folder');
-            lastFolder = child;
-            index++;
-        }
-    });
 
-    if(lastFolder != null) {
-        //goog.dom.classes.add(child.getElement(), 'last-folder');
+    if(child instanceof hash5.ui.st.SearchNode) {
+        goog.base(this, 'addChild', child, opt_render);
+    } else {
+        var index = 0;
+        this.forEachChild(function(node) {
+            if(node instanceof hash5.ui.st.FolderNode) {
+                goog.dom.classes.remove(node.getElement(), 'last-folder');
+                index++;
+            }
+        });
+
+        this.addChildAt(child, index, opt_render);
+        goog.dom.classes.add(child.getElement(), 'last-folder');
     }
 
-    this.addChildAt(child, index, opt_render);
 };
