@@ -77,6 +77,15 @@ hash5.ui.PageSidebar.prototype.addSearchTreeItem = function(search, title)
     this.searchTree_.addSearch(search, title);
 };
 
+/**
+ * returns searchTree instance
+ * @return {hash5.ui.st.SearchTree}
+ */
+hash5.ui.PageSidebar.prototype.getSearchTree = function()
+{
+    return this.searchTree_;
+};
+
 
 /**
  * Register this control so it can be created from markup.

@@ -1,5 +1,12 @@
 goog.provide('hash5.module');
 
+
+/**
+ * @type {Array.<hash5.module.BaseModule>}
+ * @private
+ */
+hash5.module.loadedModules_ = [];
+
 /**
  * sets the module loaded and registers constructor to create module
  * The constructor should derive from {@see hash5.module.BaseModule}.
@@ -14,6 +21,9 @@ hash5.module.setLoaded = function(moduleId, constructor)
     moduleManager.setModuleConstructor(constructor);
     moduleManager.setLoaded(moduleId);
     moduleManager.afterLoadModuleCode(moduleId);
+
+    var instance = moduleManager.getModuleInfo(moduleId).getModule();
+    hash5.module.loadedModules_.push(instance);
 };
 
 
@@ -30,6 +40,18 @@ hash5.module.setStaticLoaded = function(moduleId, constructor)
     var instance = new constructor;
     var app = hash5.App.getInstance();
     instance.initialize(app);
+
+    hash5.module.loadedModules_.push(instance);
+};
+
+/**
+ * will call modulesLoaded on all modules
+ */
+hash5.module.setModulesLoaded = function()
+{
+    goog.array.forEach(hash5.module.loadedModules_, function(module){
+        module.modulesLoaded();
+    });
 };
 
 

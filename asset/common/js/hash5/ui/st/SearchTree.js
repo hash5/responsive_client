@@ -66,6 +66,15 @@ hash5.ui.st.SearchTree.prototype.addNewestEntries_ = function(e)
 };
 
 /**
+ * reloads searchtree from usersettings
+ */
+hash5.ui.st.SearchTree.prototype.reloadSearchTree = function()
+{
+    var userSearchTree = hash5.controller.UserController.getInstance().getSearchTree();
+    this.renderSearchTree(userSearchTree);
+};
+
+/**
  * renders search tree
  *
  * @param  {Array} searchTree
@@ -76,12 +85,10 @@ hash5.ui.st.SearchTree.prototype.renderSearchTree = function(searchTree)
      * example:
      * [
           {
-            "id": "n139254344870083",
             "title": "folder",
             "type": "folder",
             "children": [
               {
-                "id": "r139254343255888",
                 "title": "#hashCompex",
                 "type": "request",
                 "query": "query=#hashCompex"
@@ -89,7 +96,6 @@ hash5.ui.st.SearchTree.prototype.renderSearchTree = function(searchTree)
             ]
           },
           {
-            "id": "r139254327577248",
             "title": "asdf",
             "type": "request",
             "query": "query=#hash"
@@ -97,6 +103,7 @@ hash5.ui.st.SearchTree.prototype.renderSearchTree = function(searchTree)
         ]
      */
 
+     this.removeChildren();
     for(var i = 0; i < searchTree.length; i++) {
         this.addSubNode_(this, searchTree[i]);
     }

@@ -30,6 +30,13 @@ hash5.controller.UserController = function()
      * @private
      */
     this.userSettings_ = {};
+
+    /**
+     * true if the user was fresg registered
+     * @type {boolean}
+     * @private
+     */
+    this.registeredUser_ = false;
 };
 goog.inherits(hash5.controller.UserController, hash5.controller.BaseController);
 goog.addSingletonGetter(hash5.controller.UserController);
@@ -109,7 +116,8 @@ hash5.controller.UserController.prototype.getUserLocale = function()
  * returns userSettings for specific key
  *
  * @param {string} key
- * @param {string=} defaultVal
+ * @param {*=} defaultVal
+ * @return {*}
  */
 hash5.controller.UserController.prototype.getUserSettings = function(key, defaultVal)
 {
@@ -357,6 +365,7 @@ hash5.controller.UserController.prototype.handleRegistered_ = function(e)
     var xhr = /** @type {goog.net.XhrIo} */ (e.target);
 
     if(xhr.isSuccess()) {
+        this.registeredUser_ = true;
         this.dispatchEvent(hash5.controller.UserController.EventType.REGISTERED);
     } else if(xhr.getStatus() == goog.net.HttpStatus.CONFLICT) {
         this.dispatchEvent(hash5.controller.UserController.EventType.CONFLICT);
@@ -368,6 +377,15 @@ hash5.controller.UserController.prototype.handleRegistered_ = function(e)
         });
     }
 };
+
+/**
+ * @return  {boolean}
+ */
+hash5.controller.UserController.prototype.hasRegistered = function()
+{
+    return this.registeredUser_;
+};
+
 
 /**
  * register user

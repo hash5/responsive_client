@@ -91,6 +91,23 @@ hash5.App.prototype.getApiPrefix = function()
 
 
 /**
+ * returns all Modules which should be loaded when login was
+ * successfull
+ * @return {Array.<hash5.module.Modules>}
+ */
+hash5.App.prototype.getAutoLoadModules = function()
+{
+  return [
+      hash5.module.Modules.CALENDAR,
+      hash5.module.Modules.FILES,
+      hash5.module.Modules.GEO5
+  ];
+};
+
+
+
+
+/**
  * initialize the module manager
  * this should be called only once!
  */
