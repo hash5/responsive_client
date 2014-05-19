@@ -65,8 +65,10 @@ hash5.ui.st.Node.prototype.handleEditClick_ = function(e)
         this.dispose();
     } else if (goog.dom.classes.has(target, 'rename')) {
         var model = this.getModel();
+        /** @desc new title label */
+        var MSG_NEW_TITLE = goog.getMsg('New name: ');
         // TODO custom modal
-        var newTitle = prompt('Neuer Name: ', model['title']);
+        var newTitle = prompt(MSG_NEW_TITLE, model['title']);
         if(newTitle) {
             this.setTitle(newTitle);
         }
