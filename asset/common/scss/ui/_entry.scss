@@ -15,18 +15,19 @@
         right: 0;
         bottom: 5px;
 
-        &>a
+        & > a
         {
             display: inline-block;
-            width: 20px;
-            height: 20px;
             cursor: pointer;
-            margin-right: 5px;
+            margin-right: 10px;
+            color: #000;
 
             &:hover
             {
                 opacity: 0.8;
             }
+
+            i {width:  auto;}
         }
     }
     &:hover .entry-actions
@@ -39,15 +40,6 @@
         {
             visibility: visible;
         }
-    }
-
-    .action-edit
-    {
-        @include resize-sprite($sprite, edit, 50);
-    }
-    .action-delete
-    {
-        @include resize-sprite($sprite, trash, 50);
     }
 
     .entry-body

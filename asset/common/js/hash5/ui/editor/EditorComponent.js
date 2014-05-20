@@ -26,10 +26,11 @@ hash5.ui.editor.EditorComponent = function(model, editor)
     this.entryEditor_ = editor;
 
     /**
+     * css class to show icon for module
      * @type {string}
      * @protected
      */
-    this.icon_ = '';
+    this.iconClass_ = '';
 
     /**
      * @type {string}
@@ -100,7 +101,7 @@ hash5.ui.editor.EditorComponent.prototype.getEditor = function()
  */
 hash5.ui.editor.EditorComponent.prototype.getIcon = function()
 {
-    return this.icon_;
+    return this.iconClass_;
 };
 
 

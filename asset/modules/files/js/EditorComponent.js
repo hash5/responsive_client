@@ -16,7 +16,7 @@ hash5.module.files.EditorComponent = function(model, editor)
     goog.base(this, model, editor);
 
 
-    this.icon_ = '/client/asset/common/img/sprite/attached.png';
+    this.iconClass_ = 'icon-attachment';
     /** @desc name for the files plugin */
     var MSG_FILES_PLUGIN = goog.getMsg('Files');
     this.title_ = MSG_FILES_PLUGIN;

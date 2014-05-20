@@ -48,9 +48,11 @@
         cursor: pointer;
         display: inline-block;
         z-index: 10;
+        font-size: 20px;
+        color: $colorDarkGray;
 
         &:hover {
-            opacity: 0.8;
+            color: #000;
         }
     }
 
@@ -87,9 +89,9 @@
 
         }
     }
-    .action-toggle{@include resize-sprite($sprite, arrow, 50); margin-left: 10px;}
-    .action-add{@include resize-sprite($sprite, add, 50);}
-    .action-close{@include resize-sprite($sprite, close, 50); margin-left: 10px;}
+    //.action-toggle{@include resize-sprite($sprite, arrow, 50); margin-left: 10px;}
+    //.action-add{@include resize-sprite($sprite, add, 50);}
+    //.action-close{@include resize-sprite($sprite, close, 50); margin-left: 10px;}
 
     i {width: 30px; display: inline-block;}
 

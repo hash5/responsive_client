@@ -66,6 +66,7 @@ hash5.ui.MessageBox.prototype.setType = function(type)
  */
 hash5.ui.MessageBox.prototype.close = function()
 {
+    this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
     hash5.ui.Overlay.getInstance().setVisible(false);
     this.dispose();
 };
@@ -110,4 +111,4 @@ hash5.ui.MessageBox.warn = function(title, msgText)
 hash5.ui.MessageBox.Type = {
     WARN: 'warn',
     INFO: 'info'
-}
+};

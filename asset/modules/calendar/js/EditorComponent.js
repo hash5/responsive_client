@@ -14,7 +14,7 @@ hash5.module.calendar.EditorComponent = function(model, editor)
 {
     goog.base(this, model, editor);
 
-    this.icon_ = '/client/asset/common/img/sprite/calender.png';
+    this.iconClass_ = 'icon-event';
 
     /** @desc name for the calendar plugin */
     var MSG_CALENDAR_PLUGIN = goog.getMsg('Calendar');

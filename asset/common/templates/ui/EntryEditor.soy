@@ -52,21 +52,21 @@
 {template .history}
     <div class="history-btns">
         <button class="btn undo-btn tooltip hidden" data-tooltip="{msg desc="tooltip undo"}undo changes{/msg}">
-            <-
+            <i class="icon-undo"></i>
         </button>
         <button class="btn redo-btn tooltip hidden" data-tooltip="{msg desc="tooltip redo"}redo changes{/msg}">
-            ->
+            <i class="icon-redo"></i>
         </button>
     </div>
 {/template}
 
 /**
  * @param title title of helperTile
- * @param icon path to icon
+ * @param icon icon class
  */
 {template .tileBtn}
     <li>
-        <img src="{$icon}" title="{$title}" />
+        <i class="{$icon}" title="{$title}"></i>
     </li>
 {/template}
 
@@ -79,7 +79,7 @@
 {template .helperTile}
     <div class="helper-tile">
         <h3>
-            <img src="{$icon}" class="icon" />
+            <i class="tile-icon {$icon}"></i>
             {$title}
         </h3>
         <div class="remove-btn" data-tooltip="{msg desc="tooltip to remove helper tile"}remove{/msg}"></div>
