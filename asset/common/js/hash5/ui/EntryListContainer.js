@@ -8,6 +8,8 @@ goog.require('hash5.templates.ui.EntryListContainer');
 
 
 /**
+ * Container for an EntryList. Provides edit functionality.
+ *
  * @param {hash5.model.EntryCollection} entryCollection
  * @param {string=} title
  *
@@ -66,6 +68,7 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
 
     this.getHandler()
         .listen(this.getElementByClass('entry-list-actions'), goog.events.EventType.CLICK, this.handleActionClick_)
+        .listen(this.getElementByClass('entry-list-menu'), goog.events.EventType.CLICK, this.handleActionClick_)
         .listen(this.quickCreateEntry_, goog.ui.Textarea.EventType.RESIZE, this.adjustQuickEditHeight_)
         .listen(this.quickCreateEntry_, goog.ui.Component.EventType.CLOSE, this.closeQuickEdit);
 };
@@ -82,8 +85,7 @@ hash5.ui.EntryListContainer.prototype.adjustQuickEditHeight_ = function(visible)
 
     this.quickCreateEntry_.setVisible(!!visible);
 
-    if(!goog.isDef(visible) || visible)
-    {
+    if(!goog.isDef(visible) || visible) {
         offset = this.quickCreateEntry_.getElement().offsetHeight;
     }
 
@@ -91,15 +93,16 @@ hash5.ui.EntryListContainer.prototype.adjustQuickEditHeight_ = function(visible)
 };
 
 /**
- * shows the quick editor
+ * toggles the quick editor
  */
-hash5.ui.EntryListContainer.prototype.showQuickEdit = function()
+hash5.ui.EntryListContainer.prototype.toggleQuickEdit = function()
 {
-    this.adjustQuickEditHeight_(true);
+    var isVisible = this.quickCreateEntry_.isVisible();
+    this.adjustQuickEditHeight_(!isVisible);
 };
 
 /**
- * shows the quick editor
+ * closes the quick editor
  */
 hash5.ui.EntryListContainer.prototype.closeQuickEdit = function()
 {
@@ -111,17 +114,31 @@ hash5.ui.EntryListContainer.prototype.closeQuickEdit = function()
  */
 hash5.ui.EntryListContainer.prototype.toggleActionmenu = function(e)
 {
-    var actions = this.getElementByClass('entry-list-menu');
+    var actionsEl = this.getElementByClass('entry-list-menu');
 
-    goog.dom.classes.toggle(actions, 'visible');
+    goog.dom.classes.toggle(actionsEl, 'visible');
 
-    if(goog.dom.classes.has(actions, 'visible'))
-    {
-        this.getHandler().listen(document.body, goog.events.EventType.CLICK, this.toggleActionmenu, true);
+    var offset = 0;
+    if(goog.dom.classes.has(actionsEl, 'visible')) {
+        offset = actionsEl.offsetHeight;
+        this.getHandler().listen(document.body, goog.events.EventType.CLICK, this.handleDocumentCloseClick_, true);
+    } else {
+        this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.handleDocumentCloseClick_, true);
     }
-    else
-    {
-        this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.toggleActionmenu, true);
+
+    this.entryList_.setTopOffset(offset);
+};
+
+/**
+ * @param {goog.events.BrowserEvent} e
+ */
+hash5.ui.EntryListContainer.prototype.handleDocumentCloseClick_ = function(e)
+{
+    var clickedEl = e.target;
+
+    // check if click was not on element
+    if(!goog.dom.contains(this.getElement(), clickedEl)) {
+        this.toggleActionmenu();
     }
 };
 
@@ -153,11 +170,12 @@ hash5.ui.EntryListContainer.prototype.getTitle = function()
  */
 hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 {
-    var action = e.target.getAttribute('data-action');
+    var clickedTarget = e.target,
+        action = clickedTarget.getAttribute('data-action');
 
     switch(action){
         case 'add':
-            this.showQuickEdit();
+            this.toggleQuickEdit();
             break;
         case 'toggle':
             this.toggleActionmenu();
@@ -176,10 +194,10 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
             this.close();
             break;
         case 'sort-text':
-            this.toggleSort_(hash5.ds.options.SortField.TEXT);
+            this.toggleSort_(hash5.ds.options.SortField.TEXT, clickedTarget);
             break;
         case 'sort-date':
-            this.toggleSort_(hash5.ds.options.SortField.CREATED_DATE);
+            this.toggleSort_(hash5.ds.options.SortField.CREATED_DATE, clickedTarget);
             break;
     }
 };
@@ -188,13 +206,21 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
  * applies given sort and toggles action btns
  * @param  {hash5.ds.options.SortField} sortField
  */
-hash5.ui.EntryListContainer.prototype.toggleSort_ = function(sortField)
+hash5.ui.EntryListContainer.prototype.toggleSort_ = function(sortField, el)
 {
-    var collection = this.entryList_.getEntryCollection();
-    collection.sortBy(sortField);
+    var sortOrder = hash5.ds.options.SortOrder.DESC;
 
-    goog.dom.classes.toggle(this.getElementByClass('action-sort-text'), 'hidden');
-    goog.dom.classes.toggle(this.getElementByClass('action-sort-date'), 'hidden');
+    goog.dom.classes.remove(this.getElementByClass('action-sort-text'), 'active-sort');
+    goog.dom.classes.remove(this.getElementByClass('action-sort-date'), 'active-sort');
+    if(goog.dom.classes.has(el, 'asc')) {
+        sortOrder = hash5.ds.options.SortOrder.ASC;
+    }
+    goog.dom.classes.toggle(el, 'asc');
+    goog.dom.classes.add(el, 'active-sort');
+
+    var collection = this.entryList_.getEntryCollection();
+    collection.sortBy(sortField, sortOrder);
+    // TODO store into LocalStorage...
 };
 
 

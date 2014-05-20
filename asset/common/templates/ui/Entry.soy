@@ -1,0 +1,24 @@
+{namespace hash5.templates.ui.Entry}
+
+/**
+ * @param editUrl url to link edit button
+ * @param deleteUrl url to delete
+ * @param body entry text body
+ * @param date created date
+ */
+{template .listEntry}
+    <li class="entry">
+        <div class="entry-actions">
+            <a class="action-edit" href="{$editUrl}">
+                <i class="icon-edit"></i>
+            </a>
+            <a class="action-delete" href="{$deleteUrl}">
+                <i class="icon-delete"></i>
+            </a>
+        </div>
+        <div class="entry-body">{$body|noAutoescape}</div>
+        <div class="entry-info">
+            <span class="entry-date">{$date}</span>
+        </div>
+    </li>
+{/template}

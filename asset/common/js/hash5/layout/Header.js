@@ -64,7 +64,7 @@ hash5.layout.Header.prototype.initDefaultButtons = function()
     // ------- add -------
     /** @desc add title */
     var MSG_ADD_TITLE = goog.getMsg('Add');
-    var addGroup = new hash5.layout.HeaderButtonGroup(MSG_ADD_TITLE, 'icon-add-light');
+    var addGroup = new hash5.layout.HeaderButtonGroup(MSG_ADD_TITLE, 'icon-add');
     this.getHandler().listen(addGroup, goog.ui.Component.EventType.ACTION, function(){
         hash5.api.editEntry(null);
     });
@@ -73,14 +73,14 @@ hash5.layout.Header.prototype.initDefaultButtons = function()
     // ------- settings -------
     /** @desc settings btn title */
     var MSG_SETTINGS = goog.getMsg('Settings');
-    var settingsGroup = new hash5.layout.HeaderButtonGroup(MSG_SETTINGS, 'icon-gears-light');
-    settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_SETTINGS, 'icon-gears-light', function(){
+    var settingsGroup = new hash5.layout.HeaderButtonGroup(MSG_SETTINGS, 'icon-gears');
+    settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_SETTINGS, 'icon-gears', function(){
         var settingsUi = new hash5.view.Settings();
         settingsUi.render(document.body);
     }));
     /** @desc logout btn title */
     var MSG_LOGOUT = goog.getMsg('Logout');
-    settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_LOGOUT, 'icon-user-light', function(){
+    settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_LOGOUT, 'icon-profile', function(){
         var userController = hash5.controller.UserController.getInstance();
         userController.logout();
     }));

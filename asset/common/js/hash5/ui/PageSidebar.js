@@ -4,7 +4,7 @@ goog.require('goog.ui.Component');
 goog.require('goog.ui.registry');
 
 goog.require('hash5.ui.Overlay');
-goog.require('hash5.ui.SearchTree');
+goog.require('hash5.ui.st.SearchTree');
 
 
 /**
@@ -24,7 +24,7 @@ hash5.ui.PageSidebar = function()
     this.isVisible_ = false;
 
     /**
-     * @type {hash5.ui.SearchTree}
+     * @type {hash5.ui.st.SearchTree}
      * @private
      */
     this.searchTree_ = null;
@@ -38,7 +38,7 @@ hash5.ui.PageSidebar.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
 
     // render searchtree
-    this.searchTree_ = new hash5.ui.SearchTree();
+    this.searchTree_ = new hash5.ui.st.SearchTree();
     this.searchTree_.render(document.getElementById('searchtree'));
 };
 
@@ -75,6 +75,15 @@ hash5.ui.PageSidebar.prototype.toggle = function()
 hash5.ui.PageSidebar.prototype.addSearchTreeItem = function(search, title)
 {
     this.searchTree_.addSearch(search, title);
+};
+
+/**
+ * returns searchTree instance
+ * @return {hash5.ui.st.SearchTree}
+ */
+hash5.ui.PageSidebar.prototype.getSearchTree = function()
+{
+    return this.searchTree_;
 };
 
 

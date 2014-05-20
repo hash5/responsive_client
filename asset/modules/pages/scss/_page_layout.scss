@@ -1,0 +1,12 @@
+
+.layer {
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    @include transform(translate(-50%, 0));
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    @include box-sizing(border-box);
+}

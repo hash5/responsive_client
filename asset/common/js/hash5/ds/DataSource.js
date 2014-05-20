@@ -95,11 +95,13 @@ hash5.ds.DataSource.prototype.destroy = function(model)
 hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
 {
     // TODO unobserved request..
+    // TODO is this used??? check UserController...
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, function(e){
         callback.call(handler, e.getResponseJson());
     }, false, this);
-    xhr.send('/usersettings');
+    var apiPrefix = hash5.App.getInstance().getApiPrefix();
+    xhr.send(apiPrefix + '/usersettings');
 };
 
 /**

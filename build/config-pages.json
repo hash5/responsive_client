@@ -1,0 +1,39 @@
+{
+  "id": "hash5-pages",
+  "paths": [
+    "../asset/common/js/",
+    "../asset/common/templates/",
+    "../asset/modules/pages/js/",
+    "../asset/modules/pages/templates/",
+
+    "../asset/closure-library/third_party/",
+    "../asset/third-party/soyutils_usegoog.js"
+  ],
+  "mode": "ADVANCED",
+  "level": "VERBOSE",
+  "externs": [
+    "../asset/third-party/plovr-externs.js",
+    "../asset/third-party/twitter-text-externs.js",
+    "../asset/third-party/modernizr-externs.js"
+  ],
+  "define": {
+      "goog.DEBUG": false,
+      "hash5.VERS_NUMBER": "1.1"
+  },
+  "output-charset": "UTF-8",
+
+  "languages": {
+    "de": "../asset/modules/pages/locales/de.xtb",
+    "en": "../asset/modules/pages/locales/en.xtb"
+  },
+
+  "closure-library": "../asset/closure-library/closure/goog/",
+  "modules": {
+    "pages": {
+      "inputs": "../asset/modules/pages/js/Pages.js",
+      "deps": []
+    }
+  },
+  "module-output-path": "../asset/common/js-min/{LANG}/%s.js",
+  "module-production-uri": "/asset/common/js-min/LANG/%s.js"
+}

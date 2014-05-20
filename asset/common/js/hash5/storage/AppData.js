@@ -26,9 +26,9 @@ hash5.storage.AppData.prototype.getUserSpecKey = function(key)
 {
     var userController = hash5.controller.UserController.getInstance(),
         curUser = userController.getCurrentUser(),
-        userName = 'blaUser'; //curUser.getUserName(); // TODO unsure user is realy set
+        userName = curUser.getUserName();
 
-    return userName + key;
+    return 'hash5-' + userName + key;
 }
 
 

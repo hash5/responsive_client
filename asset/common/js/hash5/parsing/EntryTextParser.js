@@ -90,8 +90,7 @@ hash5.parsing.EntryTextParser.prototype.setParsed = function(parsed)
  */
 hash5.parsing.EntryTextParser.prototype.toString = function()
 {
-    if(!this.isParsed_)
-    {
+    if(!this.isParsed_) {
         this.dispatchEvent(hash5.parsing.EntryTextParser.EventType.PARSE);
 
         this.setParsed(this.replaceSimpleTags());
@@ -120,13 +119,16 @@ hash5.parsing.EntryTextParser.prototype.triggerDisplay = function(entryUi)
  */
 hash5.parsing.EntryTextParser.prototype.replaceSimpleTags = function()
 {
-    var entryText = this.modifiedText_;
-    var entry = this.model;
+    var entryText = this.modifiedText_,
+        entry = this.model,
+        simpleTags = this.parser_.getSimpleTags();
 
-    var simpleTags = this.parser_.getSimpleTags();
-    for(var i = 0; i  < simpleTags.length; i++)
-    {
-        // TODO does not work with "#link1 #link"
+    // sort tags by length to avoid replace errors (tag1 tag1a)
+    goog.array.sort(simpleTags, function(tag1, tag2) {
+        return tag2.length - tag1.length;
+    });
+
+    for(var i = 0; i  < simpleTags.length; i++) {
         var tag = '#' + simpleTags[i];
         entryText = entryText.replace(tag, '<a class="hash-link simple" href="/search/'
             + encodeURIComponent(simpleTags[i]) + '">' + tag + '</a>');

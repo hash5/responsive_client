@@ -51,8 +51,14 @@ goog.inherits(hash5.forms.FormItem, goog.ui.Component);
 /** @inheritDoc */
 hash5.forms.FormItem.prototype.createDom = function()
 {
+    var addCssClass = '';
+
+    if(this.control_) {
+        addCssClass = ' form-item-' + this.control_.CSS_CLASS;
+    }
+
     var dom = this.getDomHelper(),
-    el = dom.createDom('div', 'form-item', [
+    el = dom.createDom('div', 'form-item' + addCssClass, [
             dom.createDom('div', 'form-item-label', this.label_),
             dom.createDom('div', 'form-item-control'),
             dom.createDom('div', 'clear')

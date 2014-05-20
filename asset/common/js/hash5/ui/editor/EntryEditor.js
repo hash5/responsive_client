@@ -5,6 +5,9 @@ goog.require('goog.ui.Component');
 
 goog.require('hash5.forms.Textarea');
 goog.require('hash5.templates.ui.EntryEditor');
+goog.require('hash5.ui.editor.AutoSaver');
+goog.require('hash5.ui.editor.History');
+
 
 // TODO check if entry is already loaded!
 
@@ -51,7 +54,7 @@ goog.inherits(hash5.ui.editor.EntryEditor, goog.ui.Component);
 /** @inheritDoc */
 hash5.ui.editor.EntryEditor.prototype.createDom = function()
 {
-    var relDate = goog.date.relative.getDateString(this.entry_.getCreatedDate());
+    var relDate = goog.date.relative.getPastDateString(this.entry_.getCreatedDate());
     var data = {
         date: relDate
     };
@@ -74,15 +77,15 @@ hash5.ui.editor.EntryEditor.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    var eh = this.getHandler();
+    this.getHandler().listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_);
 
-    var saveBtn = this.getElementByClass('save-btn');
-    eh.listen(saveBtn, goog.events.EventType.CLICK, this.handleSaveBtnClicked_);
+    var autoSaver = new hash5.ui.editor.AutoSaver(this);
+    this.addChild(autoSaver);
+    autoSaver.render(this.getElementByClass('entry-actions'));
 
-    var cancleBtn = this.getElementByClass('cancle-btn');
-    eh.listen(cancleBtn, goog.events.EventType.CLICK, this.close);
-
-    eh.listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_);
+    var history = new hash5.ui.editor.History(this);
+    this.addChild(history);
+    history.render(this.getElementByClass('entry-info'));
 
     goog.array.forEach(this.components_, function(comp){
         this.initComponent_(comp);
@@ -103,8 +106,7 @@ hash5.ui.editor.EntryEditor.prototype.addComponent = function(comp)
 {
     this.components_.push(comp);
 
-    if(this.isInDocument())
-    {
+    if(this.isInDocument()) {
         this.initComponent_(comp);
     }
 };
@@ -118,8 +120,7 @@ hash5.ui.editor.EntryEditor.prototype.initComponent_ = function(comp)
 {
     comp.init();
 
-    if(comp.hasHelperTile())
-    {
+    if(comp.hasHelperTile()) {
         this.addHelperBtn(comp);
     }
 };
@@ -139,7 +140,7 @@ hash5.ui.editor.EntryEditor.prototype.addHelperBtn = function(comp)
     var wrapper = this.getElementByClass('helper-tile-btns');
     wrapper.appendChild(btn);
 
-    this.getHandler().listen(btn, goog.events.EventType.CLICK, function(e){
+    this.getHandler().listen(btn, goog.events.EventType.CLICK, function(e) {
         this.addHelperTile(comp);
     });
 };
@@ -171,7 +172,7 @@ hash5.ui.editor.EntryEditor.prototype.close = function()
 /** @inheritDoc */
 hash5.ui.editor.EntryEditor.prototype.disposeInternal = function()
 {
-    goog.array.forEach(this.components_, function(comp){
+    goog.array.forEach(this.components_, function(comp) {
         comp.dispose();
     }, this);
 
@@ -187,25 +188,6 @@ hash5.ui.editor.EntryEditor.prototype.handleTextChanged_ = function(e)
 {
     this.parser_.setRawText(this.getEntryText());
     this.dispatchEvent(hash5.ui.editor.EntryEditor.EventType.TEXT_CHANGE);
-};
-
-
-/**
- * handles save button click
- *
- * @param  {goog.events.BrowserEvent} e
- */
-hash5.ui.editor.EntryEditor.prototype.handleSaveBtnClicked_ = function(e)
-{
-    var entryText = this.textEditor_.getValue();
-
-    if(entryText.length > 0)
-    {
-      this.entry_.setText(entryText);
-      this.entry_.save();
-
-      this.close();
-    }
 };
 
 /**
@@ -261,4 +243,4 @@ hash5.ui.editor.EntryEditor.prototype.setEntryText = function(entryText)
  */
 hash5.ui.editor.EntryEditor.EventType ={
     TEXT_CHANGE: 'editor_text_change'
-}
+};

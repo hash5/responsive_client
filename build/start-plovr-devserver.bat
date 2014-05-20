@@ -1,1 +1,1 @@
-java -jar plovr.jar serve config.json
+java -jar plovr.jar serve config.json config-pages.json

@@ -8,3 +8,4 @@ sed 's/"hash5.VERS_NUMBER": ".*"/"hash5.VERS_NUMBER": "'"$VERS_NUMBER"'"/' $CONF
 
 # start plovr compiler
 java -jar plovr.jar build genConfig.json
+java -jar plovr.jar build config-pages.json

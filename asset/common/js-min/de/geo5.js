@@ -1,2 +1,2 @@
-function ur(){O.call(this)}C(ur,hi);ur.prototype.Aa=function(){console.log("geo5 loaded")};gi("geo5",ur);
-//@ sourceURL=/client/asset/common/js-min/LANG/geo5.js
+function or(){O.call(this)}C(or,aj);or.prototype.ia=function(){console.log("geo5 loaded")};Zi("geo5",or);
+//@ sourceURL=/asset/common/js-min/LANG/geo5.js

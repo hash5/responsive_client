@@ -7,13 +7,16 @@
 @mixin hui_tooltip($content: attr(data-tooltip), $direction: bottom)
 {
   position: relative;
-  line-height: 1em;
+  font-size: 12px;
+  line-height: 12px;
 
 
   &:before, &:after
   {
     display: none;
     z-index: 99998;
+    font-size: 12px;
+    line-height: 12px;
   }
 
   &:hover
@@ -63,7 +66,7 @@
       }
       &:after
       {
-        bottom: -33px;
+        bottom: -29px;
         left: 47%; margin-left: -20px;
       }
       &.left-tooltip:after

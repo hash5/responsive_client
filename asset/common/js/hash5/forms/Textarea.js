@@ -234,11 +234,15 @@ hash5.forms.Textarea.prototype.focus = function()
 };
 
 
+/** @inheritDoc */
+hash5.forms.Textarea.prototype.CSS_CLASS = 'textarea';
+
+
 /**
  * Register this control so it can be created from markup.
  */
 goog.ui.registry.setDecoratorByClassName(
-    'textarea',
+    hash5.forms.Textarea.prototype.CSS_CLASS,
     function() {
       return new hash5.forms.Textarea('');
     });

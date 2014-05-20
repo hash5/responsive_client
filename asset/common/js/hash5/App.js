@@ -55,8 +55,7 @@ hash5.App = function(){
         hash5.App.isTouch);
 
     // print version-number if set
-    if(hash5.VERS_NUMBER)
-    {
+    if(hash5.VERS_NUMBER) {
         document.write('<div class="vers-number">' + hash5.VERS_NUMBER + '</div>');
     }
 };
@@ -69,6 +68,44 @@ hash5.App.prototype.setConfig = function(config)
 {
   this.config = config;
 };
+
+/**
+ * returns App config object
+ *
+ * @return  {Object}
+ */
+hash5.App.prototype.getConfig = function()
+{
+  return this.config;
+};
+
+/**
+ * prefix to access hash5 REST api
+ *
+ * @return  {string}
+ */
+hash5.App.prototype.getApiPrefix = function()
+{
+  return this.config['api_path_prefix'] || '';
+};
+
+
+/**
+ * returns all Modules which should be loaded when login was
+ * successfull
+ * @return {Array.<hash5.module.Modules>}
+ */
+hash5.App.prototype.getAutoLoadModules = function()
+{
+  return [
+      hash5.module.Modules.CALENDAR,
+      hash5.module.Modules.FILES,
+      hash5.module.Modules.GEO5
+  ];
+};
+
+
+
 
 /**
  * initialize the module manager
@@ -103,8 +140,7 @@ hash5.App.prototype.setLanguage = function(lang)
     return;
 
   var moduleUris = PLOVR_MODULE_URIS;
-  for(var moduleId in moduleUris)
-  {
+  for(var moduleId in moduleUris) {
     moduleUris[moduleId] = moduleUris[moduleId].replace('LANG', lang);
   }
 
@@ -136,8 +172,7 @@ hash5.App.isTouch = hash5.App.isMobile || goog.labs.userAgent.device.isTablet();
 hash5.bootstrap = function(config){
 
     // print js errors in popup if ?debug is in url
-    if(goog.DEBUG && /debug/gi.test(document.location.search))
-    {
+    if(/debug/gi.test(document.location.search)) {
         window.onerror = function(message, url, lineNumber) {
           alert(message);
           alert(url + lineNumber);

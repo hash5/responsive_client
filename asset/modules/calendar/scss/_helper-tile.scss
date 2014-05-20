@@ -1,29 +1,37 @@
 
-.helper-tile.calendar-tile
-{
-    .form-item, .form-item-control, .textbox
-    {
+.helper-tile.calendar-tile {
+    border-left: 2px solid #FFCD34;
+
+    .form-item, .form-item-control, .textbox {
         float: left;
     }
-    .form-item-label
-    {
+    .form-item-label {
         height: 1em;
     }
 
-    .all-day-row
-    {
+    .all-day-row {
         clear: both;
         margin-right: 20px;
     }
 
-    .textbox
-    {
-        width: 95px;
+    .textbox {
+        width: 85px;
         margin-right: 5px;
     }
 
-    .hidden
-    {
+    .hidden {
         display: none;
+    }
+
+    .exclude-date {
+        padding: 10px;
+        margin: 5px;
+        border: 1px solid;
+        clear: both;
+        position: relative;
+
+        .form-item, .form-item-control, .textbox {
+            float: none;
+        }
     }
 }

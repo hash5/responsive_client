@@ -2,9 +2,13 @@
   "id": "hash5",
   "paths": [
     "../asset/common/js/",
+    "../asset/common/templates/",
+
     "../asset/modules/calendar/js/",
     "../asset/modules/geo5/js/",
     "../asset/modules/links/js/",
+    "../asset/modules/files/js/",
+
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
   ],
@@ -13,6 +17,7 @@
   "externs": [
     "../asset/third-party/plovr-externs.js",
     "../asset/third-party/twitter-text-externs.js",
+    "../asset/third-party/modernizr-externs.js",
     "../asset/third-party/google_maps_api_v3_15-externs.js"
   ],
   "define": {
@@ -40,6 +45,10 @@
     },
     "geo5": {
       "inputs": "../asset/modules/geo5/js/Geo5Module.js",
+      "deps": ["app"]
+    },
+    "files": {
+      "inputs": "../asset/modules/files/js/FilesModule.js",
       "deps": ["app"]
     }
   },

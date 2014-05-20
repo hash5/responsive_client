@@ -1,6 +1,6 @@
 goog.provide('hash5.module.calendar.EditorComponent');
 
-goog.require('hash5.module.calendar.HelperTile');
+goog.require('hash5.module.calendar.ui.HelperTile');
 goog.require('hash5.module.calendar.CalendarParser');
 
 /**
@@ -14,8 +14,8 @@ hash5.module.calendar.EditorComponent = function(model, editor)
 {
     goog.base(this, model, editor);
 
+    this.iconClass_ = 'icon-event';
 
-    this.icon_ = '/client/asset/common/img/sprite/calender.png';
     /** @desc name for the calendar plugin */
     var MSG_CALENDAR_PLUGIN = goog.getMsg('Calendar');
     this.title_ = MSG_CALENDAR_PLUGIN;
@@ -42,7 +42,9 @@ hash5.module.calendar.EditorComponent.prototype.init = function()
 /** @inheritDoc */
 hash5.module.calendar.EditorComponent.prototype.getNewHelperTile = function()
 {
-    return new hash5.module.calendar.HelperTile();
+    var tile = new hash5.module.calendar.ui.HelperTile();
+    this.curParsedCalendars_.push(tile.getEvent());
+    return tile;
 };
 
 /**
@@ -75,7 +77,9 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
 
         for(var i = 0; i < parsedCalendars.length; i++)
         {
-            var tile = new hash5.module.calendar.HelperTile(parsedCalendars[i]);
+            var event = parsedCalendars[i];
+
+            var tile = new hash5.module.calendar.ui.HelperTile(event);
             this.addHelperTile(tile);
 
             this.getHandler().listen(tile, goog.ui.Component.EventType.CLOSE, this.handleTileRemoved_);
@@ -83,10 +87,11 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
     }
     else
     {
-        // update indices
+        for(var i = 0; i < this.curParsedCalendars_.length; i++)
+        {
+            this.curParsedCalendars_[i].updateIndices(parsedCalendars[i]);
+        }
     }
-
-    console.log(parsedCalendars);
 };
 
 /**
@@ -94,86 +99,7 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
  */
 hash5.module.calendar.EditorComponent.prototype.handleTileRemoved_ = function(e)
 {
-    var tile = /** @type {hash5.module.calendar.HelperTile} */ (e.target);
+    var tile = /** @type {hash5.module.calendar.ui.HelperTile} */ (e.target);
 
-    // TODO remove date...
-};
-
-
-/**
- * @param {hash5.module.calendar.Event} event
- * @return {boolean} returns true if text has changed
- */
-hash5.module.calendar.EditorComponent.prototype.updateTextForEvent = function(event)
-{
-    var entryText = this.getEditor().getEntryText();
-
-    // because changing the text the indices got by the parser have to be adjusted
-    var changedLength = 0;
-
-    /**
-     * replaces positions from startPos to endPos with new replace string
-     *
-     * @param {string} str
-     * @param {string} replace
-     * @param {number} startPos
-     * @param {number} endPos
-     * @return {string} new string
-     */
-    var posReplace = function(str, replace, startPos, endPos)
-    {
-        var res = str.substring(0, startPos + changedLength) + replace + str.substring(endPos + changedLength);
-
-        changedLength += replace.length - (endPos - startPos);
-
-        return res;
-    };
-
-
-    var insertString = function(newString, key)
-    {
-        var parsedIndices = event.getIndices(key);
-        var indices = parsedIndices || [entryText.length, entryText.length];
-
-        if(!parsedIndices && newString.length > 0)
-        {
-            newString = ' #' + key + ':' + newString;
-        }
-
-        entryText = posReplace(entryText, newString, indices[0], indices[1]);
-    };
-
-    // TODO check if brackets are needed!
-
-    var insertDate = function(date, key)
-    {
-        var dateStr = date.toString();
-        if(dateStr.indexOf(" ") > -1)
-        {
-            dateStr = '"' + dateStr  + '"';
-        }
-
-        insertString(dateStr, key);
-    };
-
-    insertDate(event.getStartDate(), 'start');
-
-    if(goog.date.isSameDay(event.getStartDate(), event.getEndDate()))
-    {
-        insertString(event.getEndDate().getTimeString(), 'end');
-    }
-    else
-    {
-        insertDate(event.getEndDate(), 'end');
-    }
-
-    insertString(event.getRecurrent() ? event.getRecurrent().toString() : '', 'recurrent');
-
-    if(entryText != this.getEditor().getEntryText())
-    {
-        this.getEditor().setEntryText(entryText);
-        return true;
-    }
-
-    return false;
+    tile.getEvent().removeAllTags();
 };

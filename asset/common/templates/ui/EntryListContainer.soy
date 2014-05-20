@@ -1,0 +1,40 @@
+{namespace hash5.templates.ui.EntryListContainer}
+
+/**
+ * @param title title for the list
+ */
+{template .container}
+    <section class="entry-list-container">
+        <div class="entry-list-actions touch-visible">
+            <div class="action" data-tooltip="{msg desc="add entry list action"}add{/msg}" data-action="add">
+                <i class="icon-add"></i>
+            </div>
+            <div class="action" data-tooltip="{msg desc="close entry list action"}close{/msg}" data-action="close">
+                <i class="icon-exit"></i>
+            </div>
+            <div class="action icon-arrowdown" data-action="toggle"></div>
+        </div>
+        <h3 title="{$title}"><span class="drag-element"></span>{$title}</h3>
+
+        <div class="entry-list-menu">
+            <ul>
+                <li class="action-save" data-action="save">
+                    <i class="icon-star"></i>
+                    {msg desc="save to searchtree entry list action"}Save Column{/msg}
+                </li>
+                <li class="action-delete" data-action="delete">
+                    <i class="icon-delete"></i>
+                    {msg desc="delete all entry list action"}Delete all entries{/msg}
+                </li>
+                <li class="action-sort-text" data-action="sort-text">
+                    <i class="icon-sort_desc"></i>
+                    {msg desc="sort entries by text"}Sort by text{/msg}
+                </li>
+                <li class="action-sort-date active-sort" data-action="sort-date">
+                    <i class="icon-sort_desc"></i>
+                    {msg desc="sort entries by created_date"}Sort by date{/msg}
+                </li>
+            </ul>
+        </div>
+    </section>
+{/template}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+        <title>hash5 - Reset Password</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+        <base href="/client/" />
+
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" media="all" href="asset/common/css/pages.css" type="text/css" />
+        <script src="asset/third-party/modernizr.js"></script>
+	</head>
+	<body>
+        <noscript>
+            <div class="noscript-error">
+                <div class="text">
+                    <h2>Bitte aktivieren Sie JavaScript in Ihrem Browser!</h2>
+                    Diese Seite kann leider nur mit aktiviertem JavaScript benutzt werden.
+                </div>
+            </div>
+        </noscript>
+
+        <div id="page">
+
+        </div>
+
+        <script>
+            (function() {
+
+                var writeScriptTag = function(src){
+                    document.write('<script type="text/javascript" src="' + src + '"></' + 'script>');
+                };
+                var writeScriptContent = function(content){
+                    document.write('<script type="text/javascript"> ' + content + '</' + 'script>');
+                };
+
+                if(!/compiled/gi.test(document.location.search) &&
+                    (/local/gi.test(document.location.host) ||
+                    /debug/gi.test(document.location.search))){
+                    // development mode
+                    writeScriptTag('http://localhost:9810/compile?id=hash5-pages&mode=RAW');
+                }else{
+                    // production mode
+                    var getUrlParam = function(name){
+                        var results = new RegExp('[\\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.search);
+                        return (results && results[1]) || 0;
+                    }
+                    var lang = getUrlParam('lang') || 'en';
+                    writeScriptTag('asset/common/js-min/' + lang + '/pages.js');
+                }
+
+            })();
+        </script>
+
+        <script>
+            hash5.pageBootstrap({
+                'page': 'resetpw',
+                'path_prefix': '/client',
+                'api_path_prefix': ''
+            });
+        </script>
+    </body>
+</html>

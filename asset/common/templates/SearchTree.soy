@@ -1,0 +1,55 @@
+{namespace hash5.templates.SearchTree}
+
+/**
+ *
+ */
+{template .wrapper}
+    <div>
+        <h3>{msg desc="search tree heading"}Saved searches{/msg}</h3>
+        <div class="btn add-folder-btn tooltip" data-tooltip="{msg desc="add folder button"}Add Folder{/msg}">+</div>
+        <div class="btn newest-entries-btn">{msg desc="newest entries add button"}Latest entries{/msg}</div>
+        <ul class="search-tree-root"></ul>
+        <div class="root-node-dummy">   </div>
+    </div>
+{/template}
+
+/**
+ *
+ * @param title title for the folder
+ */
+{template .folderNode}
+    <li class="folder-node-outer">
+        <header class="folder-node">
+            <span class="drag-element"></span>
+            <span class="collapse-icon"></span>
+            <span class="title">{$title}</span>
+            <span class="edit-icon tooltip" data-tooltip="{msg desc="searchtree edit folder hint"}edit{/msg}"><i class="icon-arrowdown"></i></span>
+        </header>
+        <div class="edit-bar">
+            <span class="desc">{msg desc="searchtree edit folder heading"}Edit folder{/msg}:</span>
+            <div class="remove"><i class="icon-delete"></i> {msg desc="searchtree remove folder"}remove folder{/msg}</div>
+            <div class="rename"><i class="icon-edit"></i> {msg desc="searchtree rename folder"}rename folder{/msg}</div>
+        </div>
+        <ul class="sub-nodes"></ul>
+    </li>
+{/template}
+
+/**
+ *
+ * @param title title for the search node
+ */
+{template .searchNode}
+    <li class="search-node-outer">
+        <header class="search-node">
+            <span class="drag-element"></span>
+            <i class="icon-search"></i>
+            <span class="title">{$title}</span>
+            <span class="edit-icon tooltip" data-tooltip="{msg desc="searchtree edit search hint"}edit{/msg}"><i class="icon-arrowdown"></i></span>
+        </header>
+        <div class="edit-bar">
+            <span class="desc">{msg desc="searchtree edit search heading"}Edit search{/msg}:</span>
+            <div class="remove"><i class="icon-delete"></i> {msg desc="searchtree remove search"}remove search{/msg}</div>
+            <div class="rename"><i class="icon-edit"></i> {msg desc="searchtree rename search"}rename search{/msg}</div>
+        </div>
+    </li>
+{/template}

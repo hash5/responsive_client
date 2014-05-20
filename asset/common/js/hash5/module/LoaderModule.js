@@ -2,6 +2,8 @@ goog.provide('hash5.module.LoaderModule');
 
 goog.require('hash5.module.BaseModule');
 
+goog.require('hash5.controller.ErrorController');
+
 
 
 /**
@@ -24,12 +26,13 @@ goog.inherits(hash5.module.LoaderModule, hash5.module.BaseModule);
  */
 hash5.module.LoaderModule.prototype.initialize = function(context)
 {
+    hash5.controller.ErrorController.getInstance().initialize({});
+
     // init userController
     var userController = hash5.controller.UserController.getInstance();
     this.handler_.listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleLogin_);
     userController.initialize(context.config, function(isLoggedIn){
-        if(!isLoggedIn)
-        {
+        if(!isLoggedIn) {
             var loginForm = new hash5.ui.LoginForm();
             loginForm.render(document.body);
 
@@ -43,21 +46,40 @@ hash5.module.LoaderModule.prototype.handleLogin_ = function()
 {
     this.showLoader(true);
 
-    var userController = hash5.controller.UserController.getInstance();
-    var lang = userController.getUserLocale();
-    hash5.App.getInstance().setLanguage(lang);
+    var app = hash5.App.getInstance();
 
+    // set user language
+    var userController = hash5.controller.UserController.getInstance(),
+        lang = userController.getUserLocale();
+    app.setLanguage(lang);
+
+    // load modules
     var moduleManager = goog.module.ModuleManager.getInstance();
     moduleManager.execOnLoad(hash5.module.Modules.CORE, goog.bind(function(){
         this.showLoader(false);
     }, this));
 
-    // TODO get from app-file
-    moduleManager.load(hash5.module.Modules.CALENDAR);
-    moduleManager.load(hash5.module.Modules.GEO5);
+    var waitForCounter = 0,
+        modules2Load = app.getAutoLoadModules();
+
+    goog.array.forEach(modules2Load, function(module){
+        waitForCounter++;
+        moduleManager.execOnLoad(module, function() {
+            waitForCounter--;
+
+            if(waitForCounter <= 0) {
+                // all modules are loaded
+                hash5.module.setModulesLoaded();
+            }
+        });
+    });
+
 };
 
-
+/**
+ * shows or hides the page loader animation
+ * @param  {boolean} visilbe
+ */
 hash5.module.LoaderModule.prototype.showLoader = function(visilbe)
 {
     var loader = goog.dom.getElement('page-loader');

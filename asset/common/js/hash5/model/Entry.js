@@ -100,9 +100,21 @@ hash5.model.Entry.prototype.setText = function(text)
 {
     this.text_ = text;
     this.textParser_ = null;
+    this.parser_ = null;
 
     this.dispatchEvent(hash5.model.Entry.EventType.TEXT_CHANGED);
 };
+
+/**
+ * dispatches TEXT_CHANGED_PUBLISHED event
+ * used to update for examle the entry lists - TEXT_CHANGED is triggered on each
+ * text update...
+ */
+hash5.model.Entry.prototype.publishTextChange = function()
+{
+    this.dispatchEvent(hash5.model.Entry.EventType.TEXT_CHANGED_PUBLISHED);
+};
+
 
 /**
  * @return {string}
@@ -287,5 +299,6 @@ hash5.model.Entry.prototype.serialize = function()
  */
 hash5.model.Entry.EventType = {
     CREATED: 'entry_created',
-    TEXT_CHANGED: 'text_changed'
+    TEXT_CHANGED: 'text_changed', // fired on each text change (because autosave very often when editing an entry)
+    TEXT_CHANGED_PUBLISHED: 'text_changed_published' // event used to refresh text depending actions
 };

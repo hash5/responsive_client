@@ -31,7 +31,7 @@ hash5.ui.Entry.prototype.createDom = function()
 {
     var entry = this.getModel();
 
-    var relDate = goog.date.relative.getDateString(entry.getCreatedDate());
+    var relDate = goog.date.relative.getPastDateString(entry.getCreatedDate());
     var data = {
         editUrl: '/edit/' + entry.getId(),
         deleteUrl: '/delete/' + entry.getId(),
@@ -51,7 +51,8 @@ hash5.ui.Entry.prototype.enterDocument = function()
     var entry = this.getModel();
 
     this.getHandler()
-        .listen(entry, hash5.model.Entry.EventType.TEXT_CHANGED, this.handleTextChanged_);
+        .listen(entry, hash5.model.Entry.EventType.TEXT_CHANGED, this.handleTextChanged_)
+        .listen(this.getElement(), goog.events.EventType.CLICK, this.handleClick_);
 
     entry.getTextParser().triggerDisplay(this);
 
@@ -68,4 +69,15 @@ hash5.ui.Entry.prototype.handleTextChanged_ = function(e)
 
     this.getElementByClass('entry-body').innerHTML = entryText;
     this.getModel().getTextParser().triggerDisplay(this);
+};
+
+/**
+ * @param  {goog.events.BrowserEvent} e
+ */
+hash5.ui.Entry.prototype.handleClick_ = function(e)
+{
+    if(e.target.nodeName != goog.dom.TagName.A)
+    {
+        this.getElementByClass('action-edit').click();
+    }
 };

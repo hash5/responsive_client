@@ -1,0 +1,88 @@
+{namespace hash5.templates.ui.EntryEditor}
+
+/**
+ * @param date created date
+ */
+{template .wrapper}
+    <div class="entry-editor">
+        <h2>
+            {msg desc="entry editor edit title"}Edit entry{/msg}
+        </h2>
+        <div class="entry-info">
+            <span class="entry-date">
+                {msg desc="created on"}created on {/msg}
+                {$date}
+            </span>
+        </div>
+
+        <div class="entry-editor-body">
+        </div>
+
+        <div class="recommondations"></div>
+
+        <ul class="helper-tile-btns"></ul>
+
+        <div class="helper-tiles"></div>
+
+        <div class="entry-actions"></div>
+    </div>
+{/template}
+
+
+/**
+ */
+{template .saveBtns}
+    <div class="save-btns">
+        <div class="saved-info">
+            <span class="saving-msg">{msg desc="cur saving status"}saving...{/msg}</span>
+            <span class="saved-msg">{msg desc="all changes saved status"}All changes saved.{/msg}</span>
+        </div>
+
+        <button class="btn primary save-btn">
+            {msg desc="entry editor save btn title"}Done{/msg}
+        </button>
+        <button class="btn cancel-btn">
+            {msg desc="entry editor cancel btn title"}Revert{/msg}
+        </button>
+    </div>
+{/template}
+
+/**
+ */
+{template .history}
+    <div class="history-btns">
+        <button class="btn undo-btn tooltip hidden" data-tooltip="{msg desc="tooltip undo"}undo changes{/msg}">
+            <i class="icon-undo"></i>
+        </button>
+        <button class="btn redo-btn tooltip hidden" data-tooltip="{msg desc="tooltip redo"}redo changes{/msg}">
+            <i class="icon-redo"></i>
+        </button>
+    </div>
+{/template}
+
+/**
+ * @param title title of helperTile
+ * @param icon icon class
+ */
+{template .tileBtn}
+    <li>
+        <i class="{$icon}" title="{$title}"></i>
+    </li>
+{/template}
+
+
+
+/**
+ * @param title title of helperTile
+ * @param icon path to icon
+ */
+{template .helperTile}
+    <div class="helper-tile">
+        <h3>
+            <i class="tile-icon {$icon}"></i>
+            {$title}
+        </h3>
+        <div class="remove-btn" data-tooltip="{msg desc="tooltip to remove helper tile"}remove{/msg}"></div>
+        <div class="helper-tile-content"></div>
+    </div>
+{/template}

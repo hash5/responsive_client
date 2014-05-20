@@ -4,10 +4,12 @@ goog.require('goog.ui.Component');
 
 goog.require('hash5.forms.Form');
 goog.require('hash5.forms.Textbox');
+goog.require('hash5.forms.Checkbox');
 goog.require('hash5.validation.RequiredFieldValidator');
 goog.require('hash5.forms.DefaultErrorProvider');
 
 goog.require('hash5.ui.RegisterForm');
+goog.require('hash5.ui.PwdRecoveryForm');
 goog.require('hash5.templates.ui.LoginForm');
 
 /**
@@ -24,7 +26,7 @@ hash5.ui.LoginForm = function()
 
     /**
      * @type {hash5.forms.Form}
-     * @private
+     * @protected
      */
     this.form_ = new hash5.forms.Form();
 
@@ -32,8 +34,11 @@ hash5.ui.LoginForm = function()
     var MSG_USERNAME1 = goog.getMsg('Username');
     /** @desc password */
     var MSG_PASSWORD1 = goog.getMsg('Password');
+    /** @desc stay sigend in checkbox */
+    var MSG_KEEP_LOGIN = goog.getMsg('Stay signed in');
     this.form_.addFormItem(MSG_USERNAME1, 'textbox', {fieldName: 'username'});
     this.form_.addFormItem(MSG_PASSWORD1, 'textbox', {fieldName: 'password', password: true});
+    this.form_.addFormItem(MSG_KEEP_LOGIN, 'checkbox', {fieldName: 'stay-signed-in', value: 1});
 
     /** @desc required msg forusername */
     var MSG_USERNAME_REQ1 = goog.getMsg('Please insert your username.');
@@ -65,12 +70,14 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
     this.form_.errorProvider.render(this.getElement());
 
     // register handlers
-    var loginBtn = this.getElementByClass('btn-login');
-    var registerBtn = this.getElementByClass('register-link');
-    var userController = hash5.controller.UserController.getInstance();
+    var loginBtn = this.getElementByClass('btn-login'),
+        registerBtn = this.getElementByClass('register-link'),
+        pwdRecBtn = this.getElementByClass('passw-rec-link'),
+        userController = hash5.controller.UserController.getInstance();
     this.getHandler()
         .listen(loginBtn, goog.events.EventType.CLICK, this.handleLoginClick_)
         .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
+        .listen(pwdRecBtn, goog.events.EventType.CLICK, this.handlePwdRecoveryClick_)
 
         .listen(this.form_, goog.events.EventType.SUBMIT, this.handleLoginClick_)
         .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidated_)
@@ -106,7 +113,8 @@ hash5.ui.LoginForm.prototype.handleValidated_ = function(e)
         var data = this.form_.getData();
 
         var userController = hash5.controller.UserController.getInstance();
-        userController.login(data['username'], data['password']);
+        var staySignedIn = data['stay-signed-in'] === '1';
+        userController.login(data['username'].trim(), data['password'].trim(), staySignedIn);
     }
 };
 
@@ -152,3 +160,18 @@ hash5.ui.LoginForm.prototype.handleRegBtnClick_ = function(e)
 
     e.preventDefault();
 };
+
+/**
+ * password revobery button clicked
+ *
+ * @param  {goog.events.BrowserEvent} e
+ * @private
+ */
+hash5.ui.LoginForm.prototype.handlePwdRecoveryClick_ = function(e)
+{
+    var pwdForm = new hash5.ui.PwdRecoveryForm();
+    pwdForm.render(document.body);
+
+    this.dispose();
+};
+

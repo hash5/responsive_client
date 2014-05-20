@@ -114,11 +114,12 @@ hash5.module.calendar.CalendarParser.prototype.addValidEvent = function(array, e
 
   if(event.getStartDate() && event.getEndDate()) {
 
-    if(event.getStartDate() > event.getEndDate()) {
+    // disabled swap because HelperTile should handle this
+    /* if(event.getStartDate() > event.getEndDate()) {
       var swap = event.getStartDate();
       event.setStartDate(event.getEndDate());
       event.setEndDate(swap);
-    }
+    } */
 
     array.push(event);
   }

@@ -57,6 +57,8 @@ hash5.ds.ConnectionManager = function()
     this.online_ = true;
     // TODO maybe use onlinehandler from closure library?
 
+    this.apiPathPrefix_ = hash5.App.getInstance().getApiPrefix();
+
     var userController = hash5.controller.UserController.getInstance();
     goog.events.listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleServerAvailable_, false, this);
 };
@@ -172,6 +174,11 @@ hash5.ds.ConnectionManager.prototype.send_ = function(id, url, method, content, 
     else if(goog.isObject(content))
     {
         data = goog.Uri.QueryData.createFromMap(content).toString();
+    }
+
+    if(!(url.indexOf(this.apiPathPrefix_) === 0))
+    {
+        url = this.apiPathPrefix_ + url;
     }
 
     return this.xhr_.send(id, url, method, data, undefined, undefined, callback, 0);

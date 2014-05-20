@@ -1,6 +1,5 @@
 
-.search-field
-{
+.search-field {
     position: absolute;
     top: 5px;
     left: 200px;
@@ -14,19 +13,16 @@
         max-width: 100%;
     }
 
-    &.visible
-    {
+    &.visible {
         display: block;
     }
 
-    .ac-renderer
-    {
+    .ac-renderer {
         width: 100%;
         position: relative;
     }
 }
-.search-input .textbox
-{
+.search-input .textbox {
     width: 400px;
     /*@include transition(width .3s);
 
@@ -36,8 +32,7 @@
     }*/
 }
 
-.search-btn
-{
+.search-btn {
     position: absolute;
     right: 5px;
     top: 5px;
@@ -49,37 +44,37 @@
     padding: 0;
     cursor: pointer;
 
-    &:before
-    {
+    &:before {
         margin: 0;
     }
 }
 
-.search-helper
-{
+.search-helper {
     width: 100%;
     max-width: 400px;
     background: #fff;
     @include box-shadow(2px 2px 2px rgba(102, 102, 102, .4));
 
-    h4
-    {
+    h4 {
         font-size: 20px;
         font-weight: 300;
         padding: 10px;
         border-bottom: 2px solid;
     }
 
-    .save-search
-    {
+    .save-search {
         position: absolute;
         top: 5px;
         right: 10px;
     }
 
-    .preview-holder
-    {
+    .preview-holder {
         position: relative;
+    }
+
+    .short-search-error, .found-search-error {
+        padding: 10px;
+        font-size: 14px;
     }
 }
 

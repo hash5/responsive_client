@@ -6,7 +6,7 @@ goog.require('goog.module.BaseModule');
 
 /**
  * A basic module object that represents a module of Javascript code that can
- * be dynamically loaded.
+ * be loaded dynamically.
  *
  * @constructor
  * @extends {goog.module.BaseModule}
@@ -26,3 +26,9 @@ goog.inherits(hash5.module.BaseModule, goog.module.BaseModule);
  * @suppress {checkTypes}
  */
 hash5.module.BaseModule.prototype.initialize = function(context) {};
+
+
+/**
+ * will be called when all modules from LoaderModule are loaded
+ */
+hash5.module.BaseModule.prototype.modulesLoaded = function() {};

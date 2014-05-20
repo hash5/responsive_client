@@ -1,147 +1,180 @@
 
-.searchtree
-{
-    margin-top: 50px;
-    border-top: 2px solid;
+.search-tree-root {
+  margin-top: 20px;
+  margin-left: -5px;
+}
+
+.searchtree {
+    //margin-top: 50px;
+    //border-top: 2px solid;
     padding-top: 10px;
     padding-left: 5px;
+    font-size: 14px;
 
     @include breakpoint(tablet){
         display: none;
+
+        .drag-element, .edit-icon {
+          visibility: visible;
+        }
     }
 
-    .edit-btns
-    {
-      display: inline-block;
+    .drag-element, .edit-icon {
       visibility: hidden;
-      margin-left: 5px;
-      //position: absolute;
+    }
+    .drag-element {
+      position: absolute;
+      left: 5px;
+      top: 6px;
+    }
+    header {
+      padding: 10px 4px;
+      position: relative;
+      @include box-sizing(border-box);
+      border-left: 3px solid transparent;
 
-      & > span
-      {
-        display: inline-block;
-        background: red;
-        margin-left: 5px;
+      &:hover {
+        border-left: 3px solid $colorYellow;
+        background: #fff;
 
-        &:hover
-        {
-          opacity: 0.6;
+        .drag-element, .edit-icon {
+          visibility: visible;
         }
       }
-      .rename{@include resize-sprite($sprite, edit, 30);}
-      .delete{@include resize-sprite($sprite, trash, 30);}
     }
-    //.focused .selected .edit-btns
-    .goog-tree-item-label:hover .edit-btns // TODO .touch
-    {
-      visibility: visible;
+    li header {padding-left: 18px;}
+    li li header {padding-left: 37px;}
+    li li li header {padding-left: 65px;}
+    li li li li header {padding-left: 87px;}
+
+    .last-folder {margin-bottom: 30px;}
+
+    .search-tree-root > .folder-node-outer:last-of-type {
+      margin-bottom: 30px;
     }
 
+    .folder-node {
+      background: $colorLighterGray;
 
-    .drag-over
-    {
+      .title {
+        font-weight: 600;
+      }
+    }
+
+    .title {
+      cursor: pointer;
+    }
+    .search-node  {
+      .title {
+        color: $colorBlue;
+        margin: 0 20px;
+        display: inline-block;
+        line-height: 1.2em;
+      }
+      .icon-search {position: absolute;}
+      .icon-search:before {
+        margin-left: 0;
+        font-size: 14px;
+        color: $colorBlue;
+      }
+    }
+
+    .sub-nodes {
+      display: none;
+      //@include transition(all 1s);
+    }
+    .collapsed > .sub-nodes {
+      display: block;
+    }
+
+    .collapse-icon {
+      cursor: pointer;
+
+      &:before {
+        display: inline-block;
+        content: $iconArrowDownKey;
+        font-family: $iconFontFamily;
+        margin-right: 8px;
+        @include rotate(-90deg);
+        @include transition(all .6s);
+      }
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .collapsed > .folder-node .collapse-icon:before {
+      @include rotate(0);
+    }
+
+    .edit-icon {
+      cursor: pointer;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      height: 30px;
+      width: 30px;
+      z-index: 12;
+
+      i:before {
+        margin: 8px;
+        display: inline-block;
+      }
+
+      &:hover {
+        color: $colorYellow;
+      }
+    }
+
+    .edit-bar {
+      max-height: 0;
+      overflow: hidden;
+      background: $colorGreen1;
+      @include transition(all .6s);
+      position: relative;
+
+      .desc {
+        display: block;
+        padding: 8px;
+      }
+
+      & > div {
+        padding: 4px;
+        cursor: pointer;
+
+        &:hover {
+          color: #fff;
+        }
+      }
+    }
+    .edit-bar-visible {
+      & > header .edit-icon {
+        visibility: visible;
+        background: $colorGreen1;
+      }
+      & > .edit-bar {
+        max-height: 80px;
+        padding: 5px;
+      }
+    }
+
+    .drag-over {
+      border: 2px solid red;
       background: rgba($colorYellow, 0.4);
     }
-    .dragged
-    {
+    .dragged {
       opacity: 0.6;
     }
+    .root-node-dummy {
+      height: 1em;
+    }
 }
-.visible .searchtree
-{
+.visible .searchtree {
     display: block;
 }
 
-.search-item-drag
-{
+.search-item-drag {
   z-index: 99999;
   background: $colorYellow;
   padding: 5px;
-}
-
-
-.goog-tree-root:focus {
-  outline: none;
-}
-
-.goog-tree-row {
-  margin: 10px 0;
-}
-
-.goog-tree-row span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.goog-tree-children {
-
-}
-
-.goog-tree-icon {
-
-}
-
-.goog-tree-expand-icon {
-  vertical-align: -2px;
-  height: 16px;
-  width: 16px;
-  cursor: pointer;
-  @include transition(transform 0.8s);
-}
-
-.goog-tree-expand-icon-tplus, .goog-tree-expand-icon-lplus {
-  width: 19px;
-  @include resize-sprite($sprite, arrow, 50);
-  @include rotate(-90deg);
-}
-
-.goog-tree-expand-icon-tminus, .goog-tree-expand-icon-lminus {
-  width: 19px;
-  @include resize-sprite($sprite, arrow, 50);
-  @include rotate(0deg);
-}
-
-.search-link .goog-tree-item-label {
-    color: $colorBlue;
-    text-decoration: none;
-
-    &:hover
-    {
-        text-decoration: underline;
-    }
-}
-
-.goog-tree-item-label {
-  margin-left: 3px;
-  padding: 1px 2px 1px 2px;
-  text-decoration: none;
-  color: WindowText;
-  cursor: default;
-
-  max-width: 120px;
-  display: inline-block;
-
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-.goog-tree-item-label:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.selected .goog-tree-item-label {
-  //background-color: ButtonFace;
-  //color: ButtonText;
-}
-
-.focused .selected .goog-tree-item-label {
-  background-color: Highlight;
-  color: HighlightText;
-}
-
-.goog-tree-hide-root {
-  display: none;
 }
