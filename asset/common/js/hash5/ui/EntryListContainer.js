@@ -98,6 +98,11 @@ hash5.ui.EntryListContainer.prototype.adjustQuickEditHeight_ = function(visible)
 hash5.ui.EntryListContainer.prototype.toggleQuickEdit = function()
 {
     var isVisible = this.quickCreateEntry_.isVisible();
+
+    if(!isVisible) {
+        this.showActionmenu(false);
+    }
+
     this.adjustQuickEditHeight_(!isVisible);
 };
 
@@ -106,7 +111,9 @@ hash5.ui.EntryListContainer.prototype.toggleQuickEdit = function()
  */
 hash5.ui.EntryListContainer.prototype.closeQuickEdit = function()
 {
-    this.adjustQuickEditHeight_(false);
+    if(this.quickCreateEntry_.isVisible()) {
+        this.adjustQuickEditHeight_(false);
+    }
 };
 
 /**
@@ -114,12 +121,28 @@ hash5.ui.EntryListContainer.prototype.closeQuickEdit = function()
  */
 hash5.ui.EntryListContainer.prototype.toggleActionmenu = function(e)
 {
+    this.showActionmenu();
+};
+
+/**
+ * @param  {boolean=} visible
+ */
+hash5.ui.EntryListContainer.prototype.showActionmenu = function(visible)
+{
     var actionsEl = this.getElementByClass('entry-list-menu');
 
-    goog.dom.classes.toggle(actionsEl, 'visible');
+    if(visible) {
+        goog.dom.classes.add(actionsEl, 'visible');
+    } else if (goog.isDef(visible) && !visible) {
+        goog.dom.classes.remove(actionsEl, 'visible');
+    } else {
+        goog.dom.classes.toggle(actionsEl, 'visible');
+    }
 
     var offset = 0;
     if(goog.dom.classes.has(actionsEl, 'visible')) {
+        this.closeQuickEdit();
+
         offset = actionsEl.offsetHeight;
         this.getHandler().listen(document.body, goog.events.EventType.CLICK, this.handleDocumentCloseClick_, true);
     } else {
@@ -127,6 +150,7 @@ hash5.ui.EntryListContainer.prototype.toggleActionmenu = function(e)
     }
 
     this.entryList_.setTopOffset(offset);
+
 };
 
 /**
@@ -138,9 +162,10 @@ hash5.ui.EntryListContainer.prototype.handleDocumentCloseClick_ = function(e)
 
     // check if click was not on element
     if(!goog.dom.contains(this.getElement(), clickedEl)) {
-        this.toggleActionmenu();
+        this.showActionmenu(false);
     }
 };
+
 
 /**
  * returns searchpattern to search for listed entries
@@ -172,6 +197,12 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
 {
     var clickedTarget = e.target,
         action = clickedTarget.getAttribute('data-action');
+
+    if(!action) {
+        clickedTarget = goog.dom.getParentElement(/** @type {Element} */ (clickedTarget));
+        action = clickedTarget.getAttribute('data-action');
+
+    }
 
     switch(action){
         case 'add':

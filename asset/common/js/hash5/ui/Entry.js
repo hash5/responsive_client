@@ -76,7 +76,8 @@ hash5.ui.Entry.prototype.handleTextChanged_ = function(e)
  */
 hash5.ui.Entry.prototype.handleClick_ = function(e)
 {
-    if(e.target.nodeName != goog.dom.TagName.A)
+    var tagName = e.target.nodeName;
+    if(tagName != goog.dom.TagName.A && tagName != goog.dom.TagName.I)
     {
         this.getElementByClass('action-edit').click();
     }
