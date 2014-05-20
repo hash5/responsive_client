@@ -15,7 +15,7 @@ hash5.module.geo5.EditorComponent = function(model, editor)
     goog.base(this, model, editor);
 
 
-    this.icon_ = '/client/asset/common/img/sprite/calender.png';
+    this.iconClass_ = 'icon-geo';
     /** @desc name for the geo5 plugin */
     var MSG_geo5_PLUGIN = goog.getMsg('geo5');
     this.title_ = MSG_geo5_PLUGIN;
@@ -25,8 +25,6 @@ hash5.module.geo5.EditorComponent = function(model, editor)
      * @private
      */
     this.curParsedPositions_ = [];
-
-
 };
 goog.inherits(hash5.module.geo5.EditorComponent, hash5.ui.editor.EditorComponent);
 
@@ -91,7 +89,7 @@ hash5.module.geo5.EditorComponent.prototype.checkForNewLocations = function()
 };
 
 hash5.module.geo5.EditorComponent.prototype.updateTextForPosition = function(pos){
-   
+
    var entryText = this.getEditor().getEntryText();
 
  /**
@@ -119,7 +117,7 @@ hash5.module.geo5.EditorComponent.prototype.updateTextForPosition = function(pos
    {
         entryText += ' ' + pos.toString();
    }
-   
+
     if(entryText != this.getEditor().getEntryText())
     {
         this.getEditor().setEntryText(entryText);

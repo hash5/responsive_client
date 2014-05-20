@@ -57,7 +57,7 @@ hash5.module.geo5.HelperTile.prototype.drawExampleMap = function()
 
     if(this.currentPos == null){
       this.currentPos = new hash5.module.geo5.LatLng(0,0,0);
-      this.getCurrentPosition();
+      this.getCurrentUserPosition();
     }
 
     var mapOptions = {
@@ -72,7 +72,7 @@ hash5.module.geo5.HelperTile.prototype.drawExampleMap = function()
     this.marker_ = new google.maps.Marker({
         position: this.currentPos.getLatLng(),
         map: this.map,
-        draggable: true, 
+        draggable: true,
         title: 'Hofgarten Ettlingen'
     });
 
@@ -88,7 +88,7 @@ hash5.module.geo5.HelperTile.prototype.posChanged_ = function(){
   //use getter and setter functions
   if(this.currentPos == null)
     this.currentPos = new hash5.module.geo5.LatLng(this.marker_.getPosition().lat(), this.marker_.getPosition().lng(), 1);
-  
+
   //update hash5latln
   this.currentPos.setLatitude(this.marker_.getPosition().lat());
   this.currentPos.setLongitude(this.marker_.getPosition().lng());
@@ -104,9 +104,10 @@ hash5.module.geo5.HelperTile.prototype.posChanged_ = function(){
  *@private
  *
  */
-hash5.module.geo5.HelperTile.prototype.getCurrentPosition = function(){
-    if(navigator.geolocation)
-        navigator.geolocation.getCurrentPosition(goog.bind(this.updateCurrentPosition, this));
+hash5.module.geo5.HelperTile.prototype.getCurrentUserPosition = function(){
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(goog.bind(this.updateCurrentPosition, this));
+    }
 };
 
 /**
