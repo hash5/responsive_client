@@ -29,7 +29,6 @@ hash5.module.Geo5Module.prototype.initialize = function(context)
 
 hash5.module.Geo5Module.prototype.handleGMapsApiLoaded_ = function()
 {
-    console.log("maps api loaded");
     hash5.api.registerEditorComponent(hash5.module.geo5.EditorComponent);
 };
 

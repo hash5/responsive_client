@@ -5,32 +5,36 @@ goog.require('goog.date.Interval');
 goog.require('hash5.ui.editor.HelperTile');
 
 /**
+ *
+ * @param {hash5.module.geo5.LatLng=} pos
  * @constructor
  * @extends {hash5.ui.editor.HelperTile}
- * @param {hash5.module.geo5.LatLng}
  */
 hash5.module.geo5.HelperTile = function(pos)
 {
     goog.base(this);
 
     /**
-     * @type {google.maps}
+     * @type {google.maps.Map}
      * @private
      */
-     this.map;
+     this.map_;
 
      /**
       * @type {hash5.module.geo5.LatLng}
       * @private
       */
-      this.currentPos = pos || null;
+      this.currentPos = pos || new hash5.module.geo5.LatLng(0, 0);
+
+      if(!pos) {
+        this.loadCurrentUserPosition()
+      }
 
       /**
-       * @type {google.maps.marker}
+       * @type {google.maps.Marker}
        * @private
        */
       this.marker_ = null;
-
 };
 goog.inherits(hash5.module.geo5.HelperTile, hash5.ui.editor.HelperTile);
 
@@ -39,86 +43,78 @@ hash5.module.geo5.HelperTile.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-
-    this.setUpControls_();
-    this.drawExampleMap();
-};
-
-/**
- * @private
- */
-hash5.module.geo5.HelperTile.prototype.setUpControls_ = function()
-{
-    //this.useCurrentLocatoin = this.form_.addFormItem('', 'checkbox', {fieldName: 'use-current-pos'}).getControl();
-};
-
-hash5.module.geo5.HelperTile.prototype.drawExampleMap = function()
-{
-
-    if(this.currentPos == null){
-      this.currentPos = new hash5.module.geo5.LatLng(0,0,0);
-      this.getCurrentUserPosition();
-    }
-
     var mapOptions = {
         zoom: 15,
         center: this.currentPos.getLatLng(),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
+
     var renderElement = this.getContentElement();
     renderElement.style.height = '200px';
-    this.map = new google.maps.Map(renderElement, mapOptions);
+    this.map_ = new google.maps.Map(renderElement, mapOptions);
 
     this.marker_ = new google.maps.Marker({
         position: this.currentPos.getLatLng(),
-        map: this.map,
+        map: this.map_,
         draggable: true,
-        title: 'Hofgarten Ettlingen'
+        title: 'Position'
     });
 
-    google.maps.event.addListener(this.marker_, 'dragend', goog.bind(this.posChanged_,this));
-
+    google.maps.event.addListener(this.marker_, 'dragend', goog.bind(this.handlePosChanged_,this));
 };
 
 /**
- * callback to update the maps view
+ * handles marker position change
  */
-hash5.module.geo5.HelperTile.prototype.posChanged_ = function(){
-  console.log(this.marker_.getPosition());
-  //use getter and setter functions
-  if(this.currentPos == null)
-    this.currentPos = new hash5.module.geo5.LatLng(this.marker_.getPosition().lat(), this.marker_.getPosition().lng(), 1);
+hash5.module.geo5.HelperTile.prototype.handlePosChanged_ = function()
+{
+  //update position
+  var newPosition = new google.maps.LatLng(this.marker_.getPosition().lat(), this.marker_.getPosition().lng());
+  this.currentPos.setLatLng(newPosition);
 
-  //update hash5latln
-  this.currentPos.setLatitude(this.marker_.getPosition().lat());
-  this.currentPos.setLongitude(this.marker_.getPosition().lng());
-
-  //update position of the marker and the map
-  this.currentPos.setLatLng(new google.maps.LatLng(this.marker_.getPosition().lat(), this.marker_.getPosition().lng()));
-  //this.map.panTo(this.currentLatLng);
-
-  this.getComponent().updateTextForPosition(this.currentPos);
+  this.dispatchEvent({
+      type: hash5.ui.editor.EventType.CHANGED_TAG,
+      tagName: 'coords',
+      value: this.currentPos.toString(),
+      indices: this.currentPos.getIndices()
+  });
 };
 
 /**
- *@private
- *
+ * @private
  */
-hash5.module.geo5.HelperTile.prototype.getCurrentUserPosition = function(){
+hash5.module.geo5.HelperTile.prototype.loadCurrentUserPosition = function()
+{
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(goog.bind(this.updateCurrentPosition, this));
     }
 };
 
 /**
- * @param {google.maps.LatLng}
+ * @param {GeolocationPosition} pos
  * @private
  */
- hash5.module.geo5.HelperTile.prototype.updateCurrentPosition = function(pos){
-    console.log('lat '+ pos.coords.latitude + ' long ' + pos.coords.longitude);
-    if(this.currentPos == null)
-      this.currentPos = new hash5.module.geo5.LatLng(0,0,0);
+hash5.module.geo5.HelperTile.prototype.updateCurrentPosition = function(pos)
+{
     this.currentPos.setLatLng(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-    this.map.panTo(this.currentPos.getLatLng());
-    this.marker_.setPosition(this.currentPos.getLatLng());
- };
+
+    if(this.map_) {
+      this.map_.panTo(this.currentPos.getLatLng());
+      this.marker_.setPosition(this.currentPos.getLatLng());
+    }
+};
+
+/**
+ * @return {hash5.module.geo5.LatLng}
+ */
+hash5.module.geo5.HelperTile.prototype.getPosition = function()
+{
+    return this.currentPos;
+};
+
+/** @inheritDoc */
+hash5.module.geo5.HelperTile.prototype.disposeInternal = function()
+{
+  google.maps.event.clearListeners(this.marker_, 'dragend');
+  goog.base(this, 'disposeInternal');
+};
