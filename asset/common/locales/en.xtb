@@ -98,7 +98,6 @@
 	<translation id="5374989843585274992" key="MSG_KEEP_LOGIN" source="../asset/common/js/hash5/ui/LoginForm.js" desc="stay sigend in checkbox">Stay signed in</translation>
 	<translation id="5150468964842762536" key="MSG_GTP21E4MYC5O" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip undo">undo changes</translation>
 	<translation id="3475511796024271502" key="MSG_1AXN3ZNPKZKAS" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip redo">redo changes</translation>
-	<translation id="7233944787889347873" key="MSG_MONTH_AND_YEAR" source="/closure/goog/date/date.js" desc="Month/year format given the month name and the numeric year."><ph name="monthName" /> <ph name="yearNum" /></translation>
 	<translation id="6448680667685906644" key="MSG_RECURRENT_CB_TITLE" source="../asset/modules/calendar/js/ui/HelperTile.js" desc="checkbox title to enable recurrent events">recurrent event</translation>
 	<translation id="5397860641616251871" key="MSG_IXPGZDLF62DN" source="../asset/common/templates/ui/EntryListContainer.soy" desc="save to searchtree entry list action">Save Column</translation>
 	<translation id="3082461009102385797" key="MSG_Z0UIFYLDZ0AM" source="../asset/common/templates/ui/EntryListContainer.soy" desc="delete all entry list action">Delete all entries</translation>

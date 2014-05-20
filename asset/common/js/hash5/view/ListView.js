@@ -29,6 +29,7 @@ hash5.view.ListView = function()
      */
     this.dlg_ = new goog.fx.DragListGroup();
     this.dlg_.setHysteresis(10);
+    this.dlg_.setCurrDragItemClass('dragging');
     this.dlg_.setFunctionToGetHandleForDragItem(this.getDragItem_);
 
     /**
@@ -53,12 +54,14 @@ hash5.view.ListView.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
+    var el = this.getElement();
+
     if(hash5.App.isMobile) {
         var switcher = new hash5.ui.ListSwitcher(this);
-        switcher.render(this.getElement().parentElement);
+        switcher.render(el.parentElement);
     } else {
         // init drag & drop
-        this.dlg_.addDragList(this.getElement(), goog.fx.DragListDirection.RIGHT);
+        this.dlg_.addDragList(el, goog.fx.DragListDirection.RIGHT);
         this.dlg_.init();
         this.getHandler().listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
     }
@@ -103,6 +106,7 @@ hash5.view.ListView.prototype.getDragItem_ = function(el)
     return goog.dom.getElementByClass('drag-element', el);
 };
 
+
 /**
  * renderes the given entry collection in the mainPanel
  * if there is already a list with same searchpattern, the list will not be added!
@@ -111,6 +115,7 @@ hash5.view.ListView.prototype.getDragItem_ = function(el)
  * @param  {string=} title
  * @param {boolean=} animated when set to false, no scroll animation will be played
  * @return {hash5.ui.EntryListContainer} returns rendered EntryListContainer
+ * @suppress {accessControls}
  */
 hash5.view.ListView.prototype.addEntryCollection = function(collection, title, animated)
 {
@@ -202,7 +207,8 @@ hash5.view.ListView.prototype.checkForEmptyView = function()
 {
     if(this.getChildCount() == 0) {
         if(this.emptyHint_ == null) {
-            this.emptyHint_ = goog.soy.renderAsFragment(hash5.templates.ListView.noListsHint);
+            var template = goog.soy.renderAsFragment(hash5.templates.ListView.noListsHint);
+            this.emptyHint_ = /** @type {Element} */ (template);
             goog.dom.appendChild(this.getElement(), this.emptyHint_);
         }
 

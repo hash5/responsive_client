@@ -1,2 +1,2 @@
-function hs(){N.call(this)}C(hs,Ri);hs.prototype.ia=function(){console.log("geo5 loaded")};Qi("geo5",hs);
+function or(){O.call(this)}C(or,aj);or.prototype.ia=function(){console.log("geo5 loaded")};Zi("geo5",or);
 //@ sourceURL=/asset/common/js-min/LANG/geo5.js

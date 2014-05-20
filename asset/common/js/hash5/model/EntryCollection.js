@@ -80,6 +80,15 @@ hash5.model.EntryCollection.prototype.setOptions = function(options)
     this.options_ = options;
 };
 
+/**
+ * returns current options
+ * @return {hash5.ds.Options}
+ */
+hash5.model.EntryCollection.prototype.getOptions = function()
+{
+    return this.options_;
+};
+
 
 /** @inheritDoc */
 hash5.model.EntryCollection.prototype.insert = function(item)
@@ -169,10 +178,12 @@ hash5.model.EntryCollection.prototype.handleEntryStoreChanged_ = function(e)
  * sets sortField and refreshes collection
  *
  * @param  {hash5.ds.options.SortField} sortField
+ * * @param  {hash5.ds.options.SortOrder=} order
  */
-hash5.model.EntryCollection.prototype.sortBy = function(sortField)
+hash5.model.EntryCollection.prototype.sortBy = function(sortField, order)
 {
     this.options_.sort = sortField;
+    this.options_.order = order || hash5.ds.options.SortOrder.ASC;
 
     this.refresh();
 };

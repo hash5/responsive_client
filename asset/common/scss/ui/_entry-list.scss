@@ -1,6 +1,19 @@
 
-.entry-list-container
-{
+.drag-element {
+    display: inline-block;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8IURPQ1RZUEUgc3ZnICBQVUJMSUMgJy0vL1czQy8vRFREIFNWRyAxLjEvL0VOJyAgJ2h0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCc+DQo8c3ZnIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGhlaWdodD0iMTJweCIgdmlld0JveD0iNjUgLTE0Mi45NTkgOCAxMiIgd2lkdGg9IjhweCIgdmVyc2lvbj0iMS4xIiB5PSIwcHgiIHg9IjBweCIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgNjUgLTE0Mi45NTkgOCAxMiI+DQo8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Im02NS0xNDIuOTZ2Mmg4di0yaC04em0wIDdoOHYtMmgtOHYyem0wIDVoOHYtMmgtOHYyeiIgZmlsbC1ydWxlPSJldmVub2RkIi8+DQo8L3N2Zz4NCg==) no-repeat center;
+    cursor: move;
+    height: 20px;
+    opacity: .3;
+    width: 10px;
+    margin-right: 5px;
+
+    &:hover {
+        opacity: .5;
+    }
+}
+
+.entry-list-container {
     width: 300px;
     height: 100%;
     padding: 10px;
@@ -13,91 +26,59 @@
         width: 100%;
     }
 
-    .drag-element1
-    {
-        display: inline-block;
-        width: 2px;
-        height: 20px;
-        cursor: move;
-        margin-right: 5px;
-        border: 3px solid $colorLightGray;
-        border-top: 0;
-        border-bottom: 0;
-
-        &:hover
-        {
-            border-color: $colorDarkGray;
-        }
-    }
-
-    .drag-element
-    {
-        display: inline-block;
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8IURPQ1RZUEUgc3ZnICBQVUJMSUMgJy0vL1czQy8vRFREIFNWRyAxLjEvL0VOJyAgJ2h0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCc+DQo8c3ZnIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGhlaWdodD0iMTJweCIgdmlld0JveD0iNjUgLTE0Mi45NTkgOCAxMiIgd2lkdGg9IjhweCIgdmVyc2lvbj0iMS4xIiB5PSIwcHgiIHg9IjBweCIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgNjUgLTE0Mi45NTkgOCAxMiI+DQo8cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Im02NS0xNDIuOTZ2Mmg4di0yaC04em0wIDdoOHYtMmgtOHYyem0wIDVoOHYtMmgtOHYyeiIgZmlsbC1ydWxlPSJldmVub2RkIi8+DQo8L3N2Zz4NCg==) no-repeat center;
-        cursor: move;
-        height: 20px;
-        opacity: .3;
-        width: 10px;
-        margin-right: 5px;
-
-        &:hover
-        {
-            opacity: .5;
-        }
-    }
-
-    .entry-list-actions
-    {
+    .entry-list-actions {
         float: right;
         margin-top: 3px;
         visibility: hidden;
     }
 
-
-    &:hover .entry-list-actions
-    {
+    &:hover .entry-list-actions {
         visibility: visible;
     }
 
-    .action
-    {
+    &.dragging {
+        visibility: hidden;
+
+        .entry-actions {
+            visibility: hidden !important;
+        }
+    }
+
+    .action {
         cursor: pointer;
         display: inline-block;
         z-index: 10;
 
-        &:hover
-        {
+        &:hover {
             opacity: 0.8;
         }
     }
 
-    .entry-list-menu
-    {
+    .entry-list-menu {
         position: absolute;
+        left: 0;
         top: 30px;
-        right: 30px;
+        width: 100%;
+        padding: 10px;
+        padding-bottom: 0;
+        @include box-sizing(border-box);
+        //@include box-shadow(0 1px 0 1px #E4E6EB);
         display: none;
-        @include box-shadow(0 1px 0 1px #E4E6EB);
-        z-index: 12;
 
-        &.visible
-        {
+        &.visible {
             display: block;
         }
 
-        li
-        {
+        li {
             padding: 8px;
             cursor: pointer;
             background: #FFF;
 
-            &:hover
-            {
+            &:hover {
                 background: $colorYellow;
             }
 
-            &:before
-            {
+            &:before {
                 content: '';
                 display: inline-block;
                 vertical-align: -3px;
@@ -109,13 +90,14 @@
     .action-toggle{@include resize-sprite($sprite, arrow, 50); margin-left: 10px;}
     .action-add{@include resize-sprite($sprite, add, 50);}
     .action-close{@include resize-sprite($sprite, close, 50); margin-left: 10px;}
-    .action-save:before{@include resize-sprite($sprite, save, 50);}
-    .action-delete:before{@include resize-sprite($sprite, trash, 50);}
-    .action-sort-text:before,
-    .action-sort-date:before{@include resize-sprite($sprite, sort, 50);}
 
-    h3
-    {
+    i {width: 30px; display: inline-block;}
+
+    .active-sort {font-weight: 600;}
+
+    .asc i:before {content: $iconSortAscKey;}
+
+    h3 {
         font-size: 20px;
         max-width: 200px;
         height: 1.3em;
@@ -124,8 +106,7 @@
     }
 }
 
-.quick-create-entry
-{
+.quick-create-entry {
     position: absolute;
     left: 0;
     top: 55px;
@@ -133,14 +114,12 @@
     padding: 10px;
     @include box-sizing(border-box);
 
-    textarea
-    {
+    textarea {
         resize: none;
     }
 }
 
-.entry-list
-{
+.entry-list {
     position: absolute;
     top: 50px;
     left: 0;
@@ -153,8 +132,7 @@
     //background: $bodyBg;
     @include transition(top .5s);
 
-    &.is-loading:after
-    {
+    &.is-loading:after {
         display: block;
         content: '#';
         text-align: center;

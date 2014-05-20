@@ -96,7 +96,6 @@ hash5.module.files.UploadHelperTile.prototype.setStatus = function(statusText)
  */
 hash5.module.files.UploadHelperTile.prototype.uploadFiles_ = function(e)
 {
-  console.log("da");
   if (this.isUploading_) {
       return;
   }
