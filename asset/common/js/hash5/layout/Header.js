@@ -8,6 +8,7 @@ goog.require('hash5.layout.HeaderButtonGroup');
 goog.require('hash5.layout.HeaderButton');
 goog.require('hash5.view.Settings');
 goog.require('hash5.ui.ConnectionStatus');
+goog.require('hash5.ui.search.SearchField');
 
 /**
  * this class represents the page header
@@ -43,7 +44,7 @@ hash5.layout.Header.prototype.enterDocument = function()
 
     this.initDefaultButtons();
 
-    var searchField = hash5.ui.SearchField.getInstance();
+    var searchField = hash5.ui.search.SearchField.getInstance();
     this.addChild(searchField, true);
 };
 /**
@@ -57,7 +58,7 @@ hash5.layout.Header.prototype.initDefaultButtons = function()
     var MSG_SEARCH_TITLE = goog.getMsg('Search');
     var searchGroup = new hash5.layout.HeaderButtonGroup(MSG_SEARCH_TITLE, 'icon-search mobile-only');
     this.getHandler().listen(searchGroup, goog.ui.Component.EventType.ACTION, function(){
-        hash5.ui.SearchField.getInstance().toggle();
+        hash5.ui.search.SearchField.getInstance().toggle();
     });
     this.addButtonGroup(searchGroup);
 

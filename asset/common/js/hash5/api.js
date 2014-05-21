@@ -1,5 +1,6 @@
 goog.provide('hash5.api');
 goog.provide('hash5.api.layout');
+goog.provide('hash5.api.search');
 
 
 goog.require('hash5.ds.DataSource');
@@ -41,22 +42,22 @@ hash5.api.getEntries = function(url, collection, options, callback, handler, app
 
 
 /**
- * searches for entries with given searchStr
+ * searches for entries with given searchStr or searchoptions
  * results will be added to collection.
  *
- * @param  {string} searchStr
+ * @param  {string|hash5.ds.SearchOptions} searchOptions
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
  * @param {Function=} callback called when request is finished and results added to collection
  * @param {*=} handler
  *
  * @return {hash5.model.EntryCollection} collection where result entries will be added
  */
-hash5.api.searchEntries = function(searchStr, collection, callback, handler)
+hash5.api.searchEntries = function(searchOptions, collection, callback, handler)
 {
     // TODO add options
     var options = undefined;
     var ds = hash5.ds.DataSource.getInstance();
-    return ds.search(searchStr, collection, options, callback, handler);
+    return ds.search(searchOptions, collection, options, callback, handler);
 };
 
 
@@ -120,4 +121,33 @@ hash5.api.registerEditorComponent = function(constructor)
 hash5.api.layout.addHeaderButtonGroup = function(buttonGroup)
 {
     hash5.layout.Header.getInstance().addButtonGroup(buttonGroup);
+};
+
+// --------- search ---------
+
+/**
+ * adds new form item to search option filters
+ * @param {string} label
+ * @param {string} className
+ * @param {Object=} controlConfig
+ * @return {hash5.forms.IControl} generated control
+ */
+hash5.api.search.addFilterItem = function(label, className, controlConfig)
+{
+    var searchField = hash5.ui.search.SearchField.getInstance();
+    var searchOptionsCmp = searchField.getSearchOptionCmp();
+    return searchOptionsCmp.addFormItem(label, className, controlConfig);
+};
+
+
+/**
+ * returns eventtarget to listen for form changes
+ * @return {goog.events.EventTarget}
+ */
+hash5.api.search.getChangeEventDispatcher = function()
+{
+    var searchField = hash5.ui.search.SearchField.getInstance();
+    var searchOptionsCmp = searchField.getSearchOptionCmp();
+
+    return searchOptionsCmp;
 };

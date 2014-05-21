@@ -1,7 +1,7 @@
-goog.provide('hash5.ui.SearchField');
+goog.provide('hash5.ui.search.SearchField');
+goog.provide('hash5.ui.search.SearchField.EventType');
 
 goog.require('goog.ui.Component');
-goog.require('goog.ui.registry');
 
 goog.require('goog.ui.ac.Renderer');
 goog.require('goog.ui.ac.InputHandler');
@@ -9,6 +9,7 @@ goog.require('goog.ui.ac.AutoComplete');
 
 goog.require('hash5.forms.Textbox');
 goog.require('hash5.templates.Searchfield');
+goog.require('hash5.ui.search.SearchOptionsHelper');
 
 
 /**
@@ -16,7 +17,7 @@ goog.require('hash5.templates.Searchfield');
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.ui.SearchField = function()
+hash5.ui.search.SearchField = function()
 {
     goog.base(this);
 
@@ -48,12 +49,24 @@ hash5.ui.SearchField = function()
      * @private
      */
     this.isVisible_ = false;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.ignoreChangeEvent_ = false;
+
+    /**
+     * @type {hash5.ui.search.SearchOptionsHelper}
+     * @private
+     */
+    this.searchOptions_ = new hash5.ui.search.SearchOptionsHelper(this);
 };
-goog.inherits(hash5.ui.SearchField, goog.ui.Component);
-goog.addSingletonGetter(hash5.ui.SearchField);
+goog.inherits(hash5.ui.search.SearchField, goog.ui.Component);
+goog.addSingletonGetter(hash5.ui.search.SearchField);
 
 /** @inheritDoc */
-hash5.ui.SearchField.prototype.createDom = function()
+hash5.ui.search.SearchField.prototype.createDom = function()
 {
     var el = goog.soy.renderAsFragment(hash5.templates.Searchfield.wrapper);
     this.decorateInternal(/** @type {Element} */ (el));
@@ -64,13 +77,13 @@ hash5.ui.SearchField.prototype.createDom = function()
 
 
 /** @inheritDoc */
-hash5.ui.SearchField.prototype.getContentElement = function()
+hash5.ui.search.SearchField.prototype.getContentElement = function()
 {
     return this.previewsEl_;
 };
 
 /** @inheritDoc */
-hash5.ui.SearchField.prototype.enterDocument = function()
+hash5.ui.search.SearchField.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
@@ -80,7 +93,8 @@ hash5.ui.SearchField.prototype.enterDocument = function()
         .listen(this.searchInput_, goog.events.EventType.CHANGE, this.handleTextInput_)
         .listen(this.previewsEl_, goog.events.EventType.CLICK, this.handlePrevClick_)
         .listen(this.getElementByClass('save-search'), goog.events.EventType.CLICK, this.saveSearch)
-        .listen(this.getElementByClass('search-btn'), goog.events.EventType.CLICK, this.saveSearch);
+        .listen(this.getElementByClass('search-btn'), goog.events.EventType.CLICK, this.saveSearch)
+        .listen(this.getElementByClass('toggle-options'), goog.events.EventType.CLICK, this.toggleOptions_);
 
     // autocomplete:
     var renderer = new goog.ui.ac.Renderer(this.getElementByClass('suggests-wrapper'));
@@ -89,13 +103,15 @@ hash5.ui.SearchField.prototype.enterDocument = function()
     this.getHandler().listen(autoComplete, goog.ui.ac.AutoComplete.EventType.UPDATE, this.handleSuggestSelected_);
     inputhandler.attachAutoComplete(autoComplete);
     inputhandler.attachInputs(this.searchInput_.getElement());
+
+    this.searchOptions_.render(this.getElementByClass('options-holder'));
 };
 
 /**
  * handles focus of searchInput field. If input contains any keys,
  * suggests box will be shown again.
  */
-hash5.ui.SearchField.prototype.handleFocus_ = function()
+hash5.ui.search.SearchField.prototype.handleFocus_ = function()
 {
     if(!this.isVisible_ && this.searchInput_.getValue()) {
         this.setHelperVisible(true);
@@ -111,7 +127,7 @@ hash5.ui.SearchField.prototype.handleFocus_ = function()
  * @param {Function} matchHandler callback to execute after matching.
  * @param {string=} opt_fullString The full string from the input box.
  */
-hash5.ui.SearchField.prototype.requestMatchingRows = function(token, maxMatches, matchHandler, opt_fullString)
+hash5.ui.search.SearchField.prototype.requestMatchingRows = function(token, maxMatches, matchHandler, opt_fullString)
 {
   if(token.length > 3) {
     var recommender = hash5.ds.Recommondations.getInstance();
@@ -129,7 +145,7 @@ hash5.ui.SearchField.prototype.requestMatchingRows = function(token, maxMatches,
  *
  * @param  {goog.events.Event} e
  */
-hash5.ui.SearchField.prototype.handleSuggestSelected_ = function(e)
+hash5.ui.search.SearchField.prototype.handleSuggestSelected_ = function(e)
 {
     this.suggestLocked_ = true;
 };
@@ -139,7 +155,7 @@ hash5.ui.SearchField.prototype.handleSuggestSelected_ = function(e)
  *
  * @param  {goog.events.Event} e
  */
-hash5.ui.SearchField.prototype.handleSubmit_ = function(e)
+hash5.ui.search.SearchField.prototype.handleSubmit_ = function(e)
 {
     // timeout is needed to check if submit came from accepting suggest
     window.setTimeout(goog.bind(function() {
@@ -156,13 +172,42 @@ hash5.ui.SearchField.prototype.handleSubmit_ = function(e)
  *
  * @param  {goog.events.Event} e
  */
-hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
+hash5.ui.search.SearchField.prototype.handleTextInput_ = function(e)
 {
-    var searchKey = /** @type {string} */ (this.searchInput_.getValue()),
-        canSearch = (searchKey.length > 3);
+    if(!this.ignoreChangeEvent_) {
+        var searchKey = /** @type {string} */ (this.searchInput_.getValue());
+
+        this.dispatchEvent(hash5.ui.search.SearchField.EventType.TEXT_CHANGE);
+
+        this.setHelperVisible(searchKey.length > 0);
+    }
+
+
+    // TODO --> handleInputSubmit_
+};
+
+/**
+ * @return {string}
+ */
+hash5.ui.search.SearchField.prototype.getCurrentSearchstring = function()
+{
+    return /** @type {string} */ (this.searchInput_.getValue());
+};
+
+/**
+ * @param {hash5.ui.search.FilterChangeEvent} e
+ */
+hash5.ui.search.SearchField.prototype.setCurrentSearchFromEvent = function(e)
+{
+    var searchOptions = e.searchOptions,
+        canSearch = searchOptions.canSearch();
+
+    this.ignoreChangeEvent_ = true;
+    this.searchInput_.setValue(e.newSearchString);
+    this.ignoreChangeEvent_ = false;
 
     if(canSearch) {
-        hash5.api.searchEntries(searchKey, undefined, this.handleSuggestsLoaded_, this);
+        hash5.api.searchEntries(searchOptions, undefined, this.handleSuggestsLoaded_, this);
         this.canceld_ = false;
     } else {
         this.removeChildren(true);
@@ -170,21 +215,17 @@ hash5.ui.SearchField.prototype.handleTextInput_ = function(e)
     }
 
     goog.dom.classes.enable(this.getElementByClass('short-search-error'), 'hidden', canSearch);
-
-    this.setHelperVisible(searchKey.length > 0);
-
-    // TODO --> handleInputSubmit_
 };
 
 /**
  * saves the current search as column
  */
-hash5.ui.SearchField.prototype.saveSearch = function()
+hash5.ui.search.SearchField.prototype.saveSearch = function()
 {
     var searchKey = /** @type {string} */ (this.searchInput_.getValue());
 
     if(searchKey.length > 3) {
-        var entryCollection = hash5.api.searchEntries(searchKey);
+        var entryCollection = hash5.api.searchEntries(searchKey); // TODO searchkey...
         hash5.api.showEntryCollection(entryCollection, searchKey);
         this.setHelperVisible(false);
         this.searchInput_.reset();
@@ -194,7 +235,7 @@ hash5.ui.SearchField.prototype.saveSearch = function()
 /**
  * @param  {hash5.model.EntryCollection} entryCollection
  */
-hash5.ui.SearchField.prototype.handleSuggestsLoaded_ = function(entryCollection)
+hash5.ui.search.SearchField.prototype.handleSuggestsLoaded_ = function(entryCollection)
 {
     this.removeChildren(true);
 
@@ -212,7 +253,7 @@ hash5.ui.SearchField.prototype.handleSuggestsLoaded_ = function(entryCollection)
  *
  * @param {boolean} isVisible
  */
-hash5.ui.SearchField.prototype.setHelperVisible = function(isVisible)
+hash5.ui.search.SearchField.prototype.setHelperVisible = function(isVisible)
 {
     goog.dom.classes.enable(this.getElementByClass('search-helper'), 'hidden', !isVisible);
     goog.dom.classes.enable(this.getElement(), 'visible', isVisible);
@@ -230,7 +271,7 @@ hash5.ui.SearchField.prototype.setHelperVisible = function(isVisible)
  *
  * @param {goog.events.BrowserEvent} e
  */
-hash5.ui.SearchField.prototype.handlePrevClick_ = function(e)
+hash5.ui.search.SearchField.prototype.handlePrevClick_ = function(e)
 {
   this.setHelperVisible(false);
 };
@@ -241,7 +282,7 @@ hash5.ui.SearchField.prototype.handlePrevClick_ = function(e)
  *
  * @param {goog.events.BrowserEvent} e
  */
-hash5.ui.SearchField.prototype.handleDocClick_ = function(e)
+hash5.ui.search.SearchField.prototype.handleDocClick_ = function(e)
 {
     if(!goog.dom.contains(this.getElement(), e.target)) {
         this.setHelperVisible(false);
@@ -251,7 +292,31 @@ hash5.ui.SearchField.prototype.handleDocClick_ = function(e)
 /**
  * toggles visibility. used to hide/show component on mobile.
  */
-hash5.ui.SearchField.prototype.toggle = function()
+hash5.ui.search.SearchField.prototype.toggle = function()
 {
     goog.dom.classes.toggle(this.getElement(), 'visible');
+};
+
+/**
+ * toggles visibility of search options.
+ */
+hash5.ui.search.SearchField.prototype.toggleOptions_ = function()
+{
+    this.searchOptions_.setVisibility();
+};
+
+/**
+ * @return {hash5.ui.search.SearchOptions} current control to display options
+ */
+hash5.ui.search.SearchField.prototype.getSearchOptionCmp = function()
+{
+    return this.searchOptions_;
+};
+
+
+/**
+ * @enum {String}
+ */
+hash5.ui.search.SearchField.EventType = {
+    TEXT_CHANGE: 'search_text_change'
 };

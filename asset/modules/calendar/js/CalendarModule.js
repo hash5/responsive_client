@@ -5,6 +5,7 @@ goog.require('hash5.module.BaseModule');
 goog.require('hash5.api');
 
 goog.require('hash5.module.calendar.EditorComponent');
+goog.require('hash5.module.calendar.SearchOptionsHelper');
 
 /**
  *
@@ -24,6 +25,9 @@ goog.inherits(hash5.module.CalendarModule, hash5.module.BaseModule);
 hash5.module.CalendarModule.prototype.initialize = function(context)
 {
     hash5.api.registerEditorComponent(hash5.module.calendar.EditorComponent);
+
+    var searchOptions = new hash5.module.calendar.SearchOptionsHelper();
+    searchOptions.init();
 };
 
 hash5.module.setLoaded(hash5.module.Modules.CALENDAR, hash5.module.CalendarModule);

@@ -13,7 +13,10 @@
             <div class="suggests-wrapper"></div>
             <div class="preview-holder">
                 <h4>{msg desc="preview heading"}Preview{/msg}</h4>
-                <button class="btn save-search">{msg desc="add column button"}Add Column{/msg}</button>
+                <div class="option-buttons">
+                    <button class="btn save-search">{msg desc="add column button"}Add Column{/msg}</button>
+                    <button class="btn toggle-options">{msg desc="toggle search options"}Options{/msg}</button>
+                </div>
                 <ul class="previews">
                     <li class="short-search-error hidden">
                         {msg desc="error message when not enough character where insered"}
@@ -27,7 +30,18 @@
                     </li>
                 </ul>
             </div>
-            <div class="click-catcher"></div>
+            <div class="options-holder"></div>
         </div>
+    </div>
+{/template}
+
+
+/**
+ *
+ */
+{template .searchOptionsHelper}
+    <div class="search-options">
+        <h3>{msg desc="search options heading"}Searchoptions{/msg}</h3>
+        <div class="form-wrapper"></div>
     </div>
 {/template}

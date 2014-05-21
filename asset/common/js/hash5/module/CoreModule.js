@@ -15,7 +15,6 @@ goog.require('hash5.ui.UiDecorator');
 goog.require('hash5.layout.Header');
 goog.require('hash5.ui.PageSidebar');
 
-goog.require('hash5.ui.SearchField');
 goog.require('hash5.ui.editor.EntryEditor');
 goog.require('hash5.module.initData');
 

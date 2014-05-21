@@ -45,6 +45,26 @@ goog.inherits(hash5.forms.Form, goog.ui.Component);
  */
 hash5.forms.Form.prototype.addFormItem = function(label, className, controlConfig)
 {
+    var control = goog.ui.registry.getDecoratorByClassName(className);
+    if (!control)
+    {
+        throw new Error('Decorator not found for control type "' + className + '"');
+    }
+
+    return this.addFormControl(label, control, controlConfig);
+};
+
+/**
+ * Adds form control to form
+ *
+ * @param {string} label
+ * @param {control} className
+ * @param {Object=} controlConfig
+ *
+ * @return {hash5.forms.FormItem} created FormItem
+ */
+hash5.forms.Form.prototype.addFormControl = function(label, control, controlConfig)
+{
     controlConfig = controlConfig || {};
 
     var formItem = new hash5.forms.FormItem();
@@ -53,11 +73,6 @@ hash5.forms.Form.prototype.addFormItem = function(label, className, controlConfi
         formItem.setLabel(label);
     }
 
-    var control = goog.ui.registry.getDecoratorByClassName(className);
-    if (!control)
-    {
-        throw new Error('Decorator not found for control type "' + className + '"');
-    }
     control.setConfig(controlConfig);
     formItem.setControl(control);
     this.addChild(formItem, true);

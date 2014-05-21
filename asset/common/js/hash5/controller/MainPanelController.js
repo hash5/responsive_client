@@ -2,7 +2,6 @@ goog.provide('hash5.controller.MainPanelController');
 
 goog.require('hash5.controller.BaseController');
 goog.require('hash5.view.ListView');
-goog.require('hash5.ui.SearchField');
 
 
 /**

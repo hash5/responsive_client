@@ -108,7 +108,7 @@ hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
  * searches for entries with given searchStr
  * results will be added to collection.
  *
- * @param  {string} searchStr
+ * @param  {string|hash5.ds.SearchOptions} searchOptions
  * @param {hash5.model.EntryCollection=} collection optional. if no collection will be assign, a new one will be created
  * @param {hash5.ds.Options=} options will be merged with hash5.ds.DataSource.DefaultOptions and specifies pagination
  * @param {Function=} callback called when request is finished and results added to collection
@@ -116,9 +116,22 @@ hash5.ds.DataSource.prototype.loadUsersettings = function(callback, handler)
  *
  * @return {hash5.model.EntryCollection} collection where result entries will be added
  */
-hash5.ds.DataSource.prototype.search = function(searchStr, collection, options, callback, handler)
+hash5.ds.DataSource.prototype.search = function(searchOptions, collection, options, callback, handler)
 {
-    return this.getEntries('/entries?query=' + encodeURIComponent(searchStr), collection, options, callback, handler);
+    if(goog.isString(searchOptions)) {
+        return this.getEntries('/entries?query=' + encodeURIComponent(searchOptions), collection, options, callback, handler);
+    } else {
+        var url = 'query=' + encodeURIComponent(searchOptions.querySearchString);
+
+        // TODO extSearch
+
+        for (var urlKey in searchOptions.urlParams) {
+            var value = encodeURIComponent(searchOptions.urlParams[urlKey]);
+            url += '&' + urlKey + '=' + value;
+        }
+
+        this.getEntries('/entries?' + url, collection, options, callback, handler);
+    }
 };
 
 /**
