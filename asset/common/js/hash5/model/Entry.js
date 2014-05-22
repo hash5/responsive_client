@@ -47,6 +47,12 @@ hash5.model.Entry = function(id)
     this.text_ = '';
 
     /**
+     * @type {string}
+     * @private
+     */
+    this.metaText_ = '';
+
+    /**
      * @type {goog.date.DateTime}
      * @private
      */
@@ -117,11 +123,42 @@ hash5.model.Entry.prototype.publishTextChange = function()
 
 
 /**
+ * string used by server to start meta informations
+ * @type {string}
+ * @private
+ */
+hash5.model.Entry.prototype.metaDivider_ = '===hash5===';
+
+/**
+ * sets entry text from server (parses extra meta information)
+ * @param {string} serverText
+ */
+hash5.model.Entry.prototype.setServerText = function(serverText)
+{
+    var metaStartIndex = serverText.indexOf(this.metaDivider_);
+    if(metaStartIndex > -1) {
+        this.metaText_ = serverText.substr(metaStartIndex + this.metaDivider_.length);
+        this.text_ = serverText.substr(0, metaStartIndex);
+    } else {
+        this.metaText_ = '';
+        this.text_ = serverText;
+    }
+};
+
+/**
  * @return {string}
  */
 hash5.model.Entry.prototype.getText = function()
 {
     return this.text_;
+};
+
+/**
+ * @return {string}
+ */
+hash5.model.Entry.prototype.getMetaText = function()
+{
+    return this.metaText_;
 };
 
 /**
@@ -261,7 +298,7 @@ hash5.model.Entry.prototype.update = function(data)
 
     if(goog.isDef(data['text']))
     {
-        this.text_ = data['text'];
+        this.setServerText(data['text']);
         fireChange = true;
     }
 
