@@ -33,5 +33,5 @@ hash5.ds.SearchOptions = function()
 hash5.ds.SearchOptions.prototype.canSearch = function()
 {
     // TODO if today is specified for example...
-    return this.querySearchString || this.querySearchString.length > 3;
+    return !!this.querySearchString && this.querySearchString.length > 3;
 }

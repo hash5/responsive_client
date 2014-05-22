@@ -306,7 +306,7 @@ hash5.ui.search.SearchField.prototype.toggleOptions_ = function()
 };
 
 /**
- * @return {hash5.ui.search.SearchOptions} current control to display options
+ * @return {hash5.ui.search.SearchOptionsHelper} current control to display options
  */
 hash5.ui.search.SearchField.prototype.getSearchOptionCmp = function()
 {
@@ -315,7 +315,7 @@ hash5.ui.search.SearchField.prototype.getSearchOptionCmp = function()
 
 
 /**
- * @enum {String}
+ * @enum {string}
  */
 hash5.ui.search.SearchField.EventType = {
     TEXT_CHANGE: 'search_text_change'

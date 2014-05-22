@@ -58,7 +58,7 @@ hash5.forms.Form.prototype.addFormItem = function(label, className, controlConfi
  * Adds form control to form
  *
  * @param {string} label
- * @param {control} className
+ * @param {hash5.forms.IControl|goog.ui.Component} control
  * @param {Object=} controlConfig
  *
  * @return {hash5.forms.FormItem} created FormItem

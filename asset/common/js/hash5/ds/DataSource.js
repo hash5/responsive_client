@@ -130,7 +130,7 @@ hash5.ds.DataSource.prototype.search = function(searchOptions, collection, optio
             url += '&' + urlKey + '=' + value;
         }
 
-        this.getEntries('/entries?' + url, collection, options, callback, handler);
+        return this.getEntries('/entries?' + url, collection, options, callback, handler);
     }
 };
 

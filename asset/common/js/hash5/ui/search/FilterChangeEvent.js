@@ -6,7 +6,7 @@ goog.require('goog.events.Event');
 
 
 /**
- * @enum {String}
+ * @enum {string}
  */
 hash5.ui.search.EventType = {
     FILTER_CHANGE: 'search_filter_change'

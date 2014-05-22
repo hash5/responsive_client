@@ -33,7 +33,7 @@ hash5.ui.search.SearchOptionsHelper = function(searchfield)
 
     /**
      * @type {boolean}
-     * @privat
+     * @private
      */
     this.visiblity_ = false;
 
