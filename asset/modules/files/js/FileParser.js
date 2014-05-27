@@ -26,7 +26,8 @@ hash5.module.files.FileParser.prototype.parse = function(parser)
         rawText = parser.getRawText();
 
     var domains = hash5.module.files.FileParser.domainList,
-        regex = new RegExp("http(s)?:\/\/(" + domains.join('|') + ")\/files\/\\w+", 'ig'),
+        url = hash5.App.getInstance().getApiPrefix() + '/files/',
+        regex = new RegExp("http(s)?:\/\/(" + domains.join('|') + ")" + url + "\\w+", 'ig'),
         matches = rawText.match(regex);
 
     if(matches) {
