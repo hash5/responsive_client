@@ -57,6 +57,10 @@ hash5.ds.ConnectionManager = function()
     this.online_ = true;
     // TODO maybe use onlinehandler from closure library?
 
+    /**
+     * @type {string}
+     * @private
+     */
     this.apiPathPrefix_ = hash5.App.getInstance().getApiPrefix();
 
     var userController = hash5.controller.UserController.getInstance();

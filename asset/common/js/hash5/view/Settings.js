@@ -4,6 +4,7 @@ goog.require('goog.ui.Component');
 
 goog.require('hash5.forms.Form');
 goog.require('hash5.forms.Select');
+goog.require('hash5.ui.Overlay');
 
 goog.require('hash5.templates.Settings');
 

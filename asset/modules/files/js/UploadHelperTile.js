@@ -105,7 +105,8 @@ hash5.module.files.UploadHelperTile.prototype.uploadFiles_ = function(e)
 
   this.isUploading_ = true;
   this.updateProgress(0);
-  this.uploader_.send('/files', e.files);
+  var apiPrefix = hash5.App.getInstance().getApiPrefix();
+  this.uploader_.send(apiPrefix + '/files', e.files);
 
   this.showPreview_(e.files);
 };
