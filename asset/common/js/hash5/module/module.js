@@ -67,5 +67,6 @@ hash5.module.Modules = {
     CALENDAR: 'calendar',
     LINKS: 'calendar',
     GEO5: 'geo5',
-    FILES: 'files'
+    FILES: 'files',
+    INTRO: 'intro'
 };

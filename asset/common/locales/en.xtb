@@ -116,4 +116,17 @@
 	<translation id="3934095444908305137" key="MSG_UKZCSGUZFQ8Y" source="../asset/modules/files/js/Template.soy" desc="drag drop hint">or Drag&amp;Drop</translation>
 	<translation id="4417557988329914384" key="MSG_NEW_TITLE" source="../asset/common/js/hash5/ui/st/Node.js" desc="new title label">Neuer Name: </translation>
 	<translation id="1141695658582010175" key="MSG_NEW_TITLE" source="../asset/common/js/hash5/ui/st/Node.js" desc="new title label">New name: </translation>
+	<translation id="7921723126025047070" key="MSG_TODAY_CB" source="../asset/modules/calendar/js/SearchOptionsHelper.js" desc="form-item label for today entries">Today</translation>
+	<translation id="3214467419349854616" key="MSG_1QQ2V49NZ5VVU" source="../asset/modules/intro/js/Template.soy" desc="intro layer heading">Welcome to Hash5</translation>
+	<translation id="7790999344048373821" key="MSG_1CPG4TF7L85Z5" source="../asset/modules/intro/js/Template.soy" desc="intro layer text">asdf</translation>
+	<translation id="8188988424302416879" key="MSG_1PEX99KL3P2V" source="../asset/modules/intro/js/Template.soy" desc="intro layer tour teaser">New to Hash5?</translation>
+	<translation id="7495434389427446744" key="MSG_567OLIUKIHET" source="../asset/modules/intro/js/Template.soy" desc="intro layer tour teaser">Take the Intro Tour to get an introduction:</translation>
+	<translation id="4019399182399264973" key="MSG_LDG1M8JEHQ6X" source="../asset/modules/intro/js/Template.soy" desc="intro layer start intro tour btn">Start intro tour</translation>
+	<translation id="2798167531847186272" key="MSG_1IT4KG4OW4894" source="../asset/modules/intro/js/Template.soy" desc="intro layer close btn">Start without tour</translation>
+	<translation id="356421045252655441" key="MSG_ISVKX2FHS971" source="../asset/common/templates/SearchField.soy" desc="toggle search options">Options</translation>
+	<translation id="1417421035413536083" key="MSG_H4PSOMZ4NYN3" source="../asset/common/templates/SearchField.soy" desc="search options heading">Searchoptions</translation>
+	<translation id="6819521883315590959" key="MSG_OPTIONS_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for containing strings">Containing</translation>
+	<translation id="6561318456446798105" key="MSG_OPTIONS_NOT_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for not containing strings">Not Containing</translation>
+	<translation id="6563484510341014146" key="MSG_OPTIONS_OPTIONAL_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for optional containing strings">Optional Containing</translation>
+	<translation id="1575571646327790033" key="MSG_geo5_PLUGIN" source="../asset/modules/geo5/js/EditorComponent.js" desc="name for the geo5 plugin">geo5</translation>
 </translationbundle>

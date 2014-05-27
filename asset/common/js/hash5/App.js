@@ -100,8 +100,7 @@ hash5.App.prototype.getAutoLoadModules = function()
   return [
       hash5.module.Modules.CALENDAR,
       hash5.module.Modules.FILES,
-      hash5.module.Modules.GEO5,
-      hash5.module.Modules.INTRO // TODO remove
+      hash5.module.Modules.GEO5
   ];
 };
 

@@ -54,8 +54,9 @@ $iconArrowDownKey: "\e000";
 .icon-event:before {
   content: "\e004";
 }
+$iconExitKey: "\e008";
 .icon-exit:before {
-  content: "\e008";
+  content: $iconExitKey;
 }
 .icon-delete:before {
   content: "\e009";

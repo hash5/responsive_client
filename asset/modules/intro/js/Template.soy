@@ -1,0 +1,35 @@
+{namespace hash5.module.intro.Template}
+
+/**
+ */
+{template .introLayer}
+    <div class="layer intro-layer">
+        <div class="close"></div>
+        <h2>{msg desc="intro layer heading"}
+            Welcome to Hash5
+        {/msg}</h2>
+        <div class="intro-text">
+            {msg desc="intro layer text"}
+                asdf
+            {/msg}
+            <br /><br />
+
+            <h3>
+                {msg desc="intro layer tour teaser"}
+                    New to Hash5?
+                {/msg}
+            </h3>
+            <p>
+                {msg desc="intro layer tour teaser"}
+                    Take the Intro Tour to get an introduction:
+                {/msg}
+            </p>
+        </div>
+        <button class="btn enabled primary btn-start">
+            {msg desc="intro layer start intro tour btn"}Start intro tour{/msg}
+        </button>
+        <button class="btn enabled btn-cancel right">
+            {msg desc="intro layer close btn"}Start without tour{/msg}
+        </button>
+    </div>
+{/template}

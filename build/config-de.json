@@ -8,6 +8,7 @@
     "../asset/modules/geo5/js/",
     "../asset/modules/links/js/",
     "../asset/modules/files/js/",
+    "../asset/modules/intro/js/",
 
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
@@ -49,6 +50,10 @@
     },
     "files": {
       "inputs": "../asset/modules/files/js/FilesModule.js",
+      "deps": ["app"]
+    },
+    "intro": {
+      "inputs": "../asset/modules/intro/js/IntroModule.js",
       "deps": ["app"]
     }
   },
