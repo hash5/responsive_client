@@ -74,7 +74,7 @@ hash5.forms.Form.prototype.addFormControl = function(label, control, controlConf
     }
 
     control.setConfig(controlConfig);
-    formItem.setControl(control);
+    formItem.setControl(/** @type {hash5.forms.IControl} */ (control));
     this.addChild(formItem, true);
 
     return formItem;

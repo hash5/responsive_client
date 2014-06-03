@@ -132,5 +132,5 @@ hash5.ui.search.SearchOptionsHelper.prototype.setVisibility = function(visible)
  */
 hash5.ui.search.SearchOptionsHelper.prototype.addFormItem = function(label, className, controlConfig)
 {
-    return this.form_.addFormItem(label, className, controlConfig).getControl();
+    return /** @type {hash5.forms.IControl} */ (this.form_.addFormItem(label, className, controlConfig).getControl());
 };
