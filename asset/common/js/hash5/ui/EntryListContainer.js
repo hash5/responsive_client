@@ -215,7 +215,7 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
             this.close();
             break;
         case 'save':
-            hash5.api.addSearchTreeItem(this.getSearchPattern(), this.title_);
+            this.saveToSearchtree();
             break;
         case 'delete':
             var collection = this.entryList_.getEntryCollection();
@@ -231,6 +231,14 @@ hash5.ui.EntryListContainer.prototype.handleActionClick_ = function(e)
             this.toggleSort_(hash5.ds.options.SortField.CREATED_DATE, clickedTarget);
             break;
     }
+};
+
+/**
+ * saves current search to searchtree
+ */
+hash5.ui.EntryListContainer.prototype.saveToSearchtree = function()
+{
+    hash5.api.addSearchTreeItem(this.getSearchPattern(), this.title_);
 };
 
 /**

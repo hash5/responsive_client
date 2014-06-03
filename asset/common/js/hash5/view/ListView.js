@@ -6,6 +6,7 @@ goog.require('hash5.ui.EntryListContainer');
 goog.require('hash5.storage.AppData');
 goog.require('hash5.templates.ListView');
 goog.require('hash5.ui.ListSwitcher');
+goog.require('hash5.ui.PageSidebar');
 goog.require('hash5.style');
 
 goog.require('monin.fx.WindowScroll');
@@ -13,9 +14,11 @@ goog.require('hash5.fx.CssClassAnimation');
 goog.require('goog.fx.easing');
 goog.require('goog.fx.DragListGroup');
 
-// TODO maybe extract drag behaviour for reuse
 
 /**
+ * Default ListView controller.
+ * Class is responsible for drag&drop and storing into LocalStorage.
+ *
  * @constructor
  * @extends {hash5.view.BaseView}
  */
@@ -30,6 +33,7 @@ hash5.view.ListView = function()
     this.dlg_ = new goog.fx.DragListGroup();
     this.dlg_.setHysteresis(10);
     this.dlg_.setCurrDragItemClass('dragging');
+    this.dlg_.setDraggerElClass('drag-list');
     this.dlg_.setFunctionToGetHandleForDragItem(this.getDragItem_);
 
     /**
@@ -37,6 +41,12 @@ hash5.view.ListView = function()
      * @type {Element}
      */
     this.emptyHint_ = null;
+
+    /**
+     * cached sidebar reference
+     * @type {hash5.ui.PageSidebar}
+     */
+    this.sidebar_ = hash5.ui.PageSidebar.getInstance();
 
     this.restoreLists();
 };
@@ -56,21 +66,55 @@ hash5.view.ListView.prototype.enterDocument = function()
 
     var el = this.getElement();
 
-    if(hash5.App.isMobile) {
+    if (hash5.App.isMobile) {
         var switcher = new hash5.ui.ListSwitcher(this);
         switcher.render(el.parentElement);
     } else {
         // init drag & drop
         this.dlg_.addDragList(el, goog.fx.DragListDirection.RIGHT);
         this.dlg_.init();
-        this.getHandler().listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
+        this.getHandler()
+            .listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGSTART, this.handleListDragStart_)
+            .listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGMOVE, this.handleListDragMove_)
+            .listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
     }
 
     this.checkForEmptyView();
 };
 
+
 /**
- * @param  {goog.events.Event} e
+ * @param  {goog.fx.DragListGroupEvent} e
+ */
+hash5.view.ListView.prototype.handleListDragStart_ = function(e)
+{
+
+    this.sidebarPos_ = goog.style.getBounds(this.sidebar_.getElement());
+};
+
+
+/**
+ * @param  {goog.fx.DragListGroupEvent} e
+ */
+hash5.view.ListView.prototype.handleListDragMove_ = function(e)
+{
+    var isOverSideBar = this.isOverSideBar_(e.event);
+    this.sidebar_.setListHover(isOverSideBar);
+};
+
+/**
+ * @param  {goog.events.BrowserEvent|goog.fx.DragEvent} e
+ * @return {boolean}
+ */
+hash5.view.ListView.prototype.isOverSideBar_ = function(e)
+{
+    var curPos = new goog.math.Coordinate(e.clientX, e.clientY);
+    return hash5.style.isInRect(curPos, this.sidebarPos_);
+};
+
+
+/**
+ * @param  {goog.fx.DragListGroupEvent} e
  */
 hash5.view.ListView.prototype.handleListDragged_ = function(e)
 {
@@ -95,6 +139,12 @@ hash5.view.ListView.prototype.handleListDragged_ = function(e)
     this.storeLists();
 
     //this.dispatchEvent(hash5.ui.PlaceItemGroup.EventType.REORDER);
+
+    // droped on sidebar?
+    if (this.isOverSideBar_(e.event)) {
+        movedChild.saveToSearchtree();
+    }
+    this.sidebar_.setListHover(false);
 };
 
 /**
@@ -123,13 +173,13 @@ hash5.view.ListView.prototype.addEntryCollection = function(collection, title, a
 
     // check if list is already displayed
     this.forEachChild(function(child) {
-        if(child.getSearchPattern() == collection.getSearchPattern()) {
+        if (child.getSearchPattern() == collection.getSearchPattern()) {
             listUi = child;
         }
     }, this);
 
     // create new list
-    if(!listUi) {
+    if (!listUi) {
         listUi = new hash5.ui.EntryListContainer(collection, title);
         this.addChild(listUi, true);
 
@@ -142,7 +192,7 @@ hash5.view.ListView.prototype.addEntryCollection = function(collection, title, a
     }
 
     // hightlight list
-    if(animated !== false) {
+    if (animated !== false) {
         this.slideToList(listUi);
     }
 
@@ -205,7 +255,7 @@ hash5.view.ListView.prototype.removeChild = function(child, opt_unrender)
  */
 hash5.view.ListView.prototype.checkForEmptyView = function()
 {
-    if(this.getChildCount() == 0) {
+    if (this.getChildCount() == 0) {
         if(this.emptyHint_ == null) {
             var template = goog.soy.renderAsFragment(hash5.templates.ListView.noListsHint);
             this.emptyHint_ = /** @type {Element} */ (template);
@@ -255,7 +305,7 @@ hash5.view.ListView.prototype.restoreLists = function()
     var storage = hash5.storage.AppData.getInstance();
     var lastLists = storage.get(this.storageKey_);
 
-    if(lastLists) {
+    if (lastLists) {
         for(var i = 0; i < lastLists.length; i++) {
             var list = lastLists[i];
             var collection = hash5.api.getEntries(list['searchPattern']);

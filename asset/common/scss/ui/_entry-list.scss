@@ -43,6 +43,9 @@
             visibility: hidden !important;
         }
     }
+    &.drag-list {
+        z-index: 1001;
+    }
 
     .action {
         cursor: pointer;

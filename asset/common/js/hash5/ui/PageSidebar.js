@@ -28,9 +28,30 @@ hash5.ui.PageSidebar = function()
      * @private
      */
     this.searchTree_ = null;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    this.isHover_ = false;
 };
 goog.inherits(hash5.ui.PageSidebar, goog.ui.Component);
 goog.addSingletonGetter(hash5.ui.PageSidebar);
+
+/** @inheritDoc */
+hash5.ui.PageSidebar.prototype.decorateInternal = function(el)
+{
+    goog.base(this, 'decorateInternal', el);
+
+    /** @desc hint message to drop lists on sidebar */
+    var MSG_LIST_DROP_HINT = goog.getMsg('Drop list here to save it to your saved-searches');
+
+    var dom = this.getDomHelper(),
+        dropHint = dom.createDom('div', 'drop-hint', [
+            dom.createDom('span', undefined, MSG_LIST_DROP_HINT)
+            ]);
+    goog.dom.appendChild(el, dropHint);
+};
 
 /** @inheritDoc */
 hash5.ui.PageSidebar.prototype.enterDocument = function()
@@ -84,6 +105,18 @@ hash5.ui.PageSidebar.prototype.addSearchTreeItem = function(search, title)
 hash5.ui.PageSidebar.prototype.getSearchTree = function()
 {
     return this.searchTree_;
+};
+
+/**
+ * sets hover state for list drag&drop
+ * @param {boolean} isHover
+ */
+hash5.ui.PageSidebar.prototype.setListHover = function(isHover)
+{
+    if (this.isHover_ != isHover) {
+        goog.dom.classes.enable(this.getElement(), 'list-hover', isHover);
+        this.isHover_ = isHover;
+    }
 };
 
 

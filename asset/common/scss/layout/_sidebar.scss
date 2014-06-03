@@ -33,6 +33,27 @@ $sidebarTabletWidth: 50px;
             display: inline;
         }
     }
+
+    .drop-hint {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: #fff;
+        text-align: center;
+        font-weight: 600;
+        display: none;
+
+        span {
+            position: absolute;
+            top: 40%;
+            display: block;
+        }
+    }
+    &.list-hover .drop-hint {
+        display: block;
+    }
 }
 
 .main-nav {
