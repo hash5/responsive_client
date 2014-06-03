@@ -239,6 +239,18 @@ hash5.ui.editor.EntryEditor.prototype.setEntryText = function(entryText)
 
 
 /**
+ * returns placeholder element to extend ui.
+ * Area is located directly under the textarea.
+ *
+ * @return {Element}
+ */
+hash5.ui.editor.EntryEditor.prototype.getBottomArea = function()
+{
+    return this.getElementByClass('module-bottom-holder');
+};
+
+
+/**
  * @enum {string}
  */
 hash5.ui.editor.EntryEditor.EventType ={

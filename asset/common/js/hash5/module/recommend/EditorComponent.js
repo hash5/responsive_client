@@ -5,6 +5,8 @@ goog.require('hash5.module.recommend.AutoComplete');
 
 
 /**
+ * Recommondations EditorComponent
+ *
  * @param {hash5.model.Entry} model
  * @param {hash5.ui.editor.EntryEditor} editor
  *
@@ -21,6 +23,10 @@ hash5.module.recommend.EditorComponent = function(model, editor)
      */
     this.autoComplete_ = null;
 
+    /**
+     * @type {Element}
+     * @private
+     */
     this.recEl_ = null;
 
     this.hasHelperTile_ = false;
@@ -35,8 +41,11 @@ hash5.module.recommend.EditorComponent.prototype.init = function()
     var entryTextInput = editor.getTextarea().getElement();
     this.autoComplete_ = hash5.module.recommend.AutoComplete.attachAutoComplete(entryTextInput);
 
-    // TODO create new div!
-    this.recEl_ = goog.dom.getElementByClass('recommondations');
+    // create holder element
+    var wrapper = goog.dom.createElement('div');
+    goog.dom.append(editor.getBottomArea(), wrapper);
+    this.recEl_ = wrapper;
+
     this.getHandler()
         .listen(editor, hash5.ui.editor.EntryEditor.EventType.TEXT_CHANGE, this.handleTextChanged_)
         .listen(this.recEl_, goog.events.EventType.CLICK, this.handleRecommondationClick_);
