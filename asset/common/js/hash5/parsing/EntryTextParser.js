@@ -121,17 +121,21 @@ hash5.parsing.EntryTextParser.prototype.replaceSimpleTags = function()
 {
     var entryText = this.modifiedText_,
         entry = this.model,
-        simpleTags = this.parser_.getSimpleTags();
+        tags = this.parser_.getSimpleTags();
+
+    goog.array.forEach(this.parser_.getComplexTags(), function(complexTag){
+        tags.push(complexTag.key);
+    });
 
     // sort tags by length to avoid replace errors (tag1 tag1a)
-    goog.array.sort(simpleTags, function(tag1, tag2) {
+    goog.array.sort(tags, function(tag1, tag2) {
         return tag2.length - tag1.length;
     });
 
-    for(var i = 0; i  < simpleTags.length; i++) {
-        var tag = '#' + simpleTags[i];
+    for(var i = 0; i  < tags.length; i++) {
+        var tag = '#' + tags[i];
         entryText = entryText.replace(tag, '<a class="hash-link simple" href="/search/'
-            + encodeURIComponent(simpleTags[i]) + '">' + tag + '</a>');
+            + encodeURIComponent(tags[i]) + '">' + tag + '</a>');
     }
 
     return entryText;
