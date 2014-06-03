@@ -43,6 +43,8 @@ hash5.controller.MainPanelController.prototype.initialize = function(config)
     goog.dom.classes.remove(pageEl, 'hidden');
 
     this.panelEl_ = goog.dom.getElementByClass('main-panel');
+
+    // render default view
     this.renderView(this.listView_);
 };
 

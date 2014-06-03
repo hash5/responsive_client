@@ -74,6 +74,7 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
         registerBtn = this.getElementByClass('register-link'),
         pwdRecBtn = this.getElementByClass('passw-rec-link'),
         userController = hash5.controller.UserController.getInstance();
+
     this.getHandler()
         .listen(loginBtn, goog.events.EventType.CLICK, this.handleLoginClick_)
         .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
@@ -83,7 +84,7 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
         .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidated_)
 
         .listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_)
-        .listenOnce(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, this.handleWrongLogIn_);
+        .listen(userController, hash5.controller.UserController.EventType.UNAUTHORIZED, this.handleWrongLogIn_);
 
     this.form_.getControlByName('username').focus();
 };
@@ -171,6 +172,8 @@ hash5.ui.LoginForm.prototype.handlePwdRecoveryClick_ = function(e)
 {
     var pwdForm = new hash5.ui.PwdRecoveryForm();
     pwdForm.render(document.body);
+
+    e.preventDefault();
 
     this.dispose();
 };
