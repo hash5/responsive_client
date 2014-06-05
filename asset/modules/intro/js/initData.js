@@ -46,7 +46,7 @@ hash5.module.intro.initData_en = {
         },
         {
             selector: '.entry-editor-body',
-            body: 'Insert some body of your entry.',
+            body: 'Insert some text for your new entry.',
             direction: hash5.module.intro.Tooltip.Direction.TOP,
             waitForClick: false
         },

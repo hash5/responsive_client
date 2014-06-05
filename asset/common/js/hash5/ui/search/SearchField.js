@@ -22,8 +22,6 @@ hash5.ui.search.SearchField = function()
     goog.base(this);
 
     /**
-     * search input field
-     *
      * @type {hash5.forms.Textbox}
      * @private
      */
@@ -203,7 +201,7 @@ hash5.ui.search.SearchField.prototype.setCurrentSearchFromEvent = function(e)
         canSearch = searchOptions.canSearch();
 
     this.ignoreChangeEvent_ = true;
-    this.searchInput_.setValue(e.newSearchString);
+    //this.searchInput_.setValue(e.newSearchString);
     this.ignoreChangeEvent_ = false;
 
     if(canSearch) {
