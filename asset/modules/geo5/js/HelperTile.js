@@ -113,6 +113,21 @@ hash5.module.geo5.HelperTile.prototype.getPosition = function()
 };
 
 /** @inheritDoc */
+hash5.module.geo5.HelperTile.prototype.beforeClose_ = function()
+{
+  var parsedIndices = this.currentPos.getIndices();
+
+  if (parsedIndices) {
+    this.dispatchEvent({
+        type: hash5.ui.editor.EventType.CHANGED_TAG,
+        tagName: 'coords',
+        removeTag: true,
+        indices: parsedIndices
+    });
+  }
+};
+
+/** @inheritDoc */
 hash5.module.geo5.HelperTile.prototype.disposeInternal = function()
 {
   google.maps.event.clearListeners(this.marker_, 'dragend');

@@ -81,8 +81,6 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
 
             var tile = new hash5.module.calendar.ui.HelperTile(event);
             this.addHelperTile(tile);
-
-            this.getHandler().listen(tile, goog.ui.Component.EventType.CLOSE, this.handleTileRemoved_);
         }
     }
     else
@@ -92,14 +90,4 @@ hash5.module.calendar.EditorComponent.prototype.checkForNewDates = function()
             this.curParsedCalendars_[i].updateIndices(parsedCalendars[i]);
         }
     }
-};
-
-/**
- * @param {goog.events.Event} e
- */
-hash5.module.calendar.EditorComponent.prototype.handleTileRemoved_ = function(e)
-{
-    var tile = /** @type {hash5.module.calendar.ui.HelperTile} */ (e.target);
-
-    tile.getEvent().removeAllTags();
 };

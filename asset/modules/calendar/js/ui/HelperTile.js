@@ -322,3 +322,9 @@ hash5.module.calendar.ui.HelperTile.prototype.handleAddExcludeClick_ = function(
     var excludeDateHelper = new hash5.module.calendar.ui.ExcludeHelper(this.event_);
     this.addChild(excludeDateHelper, true);
 };
+
+/** @inheritDoc */
+hash5.module.calendar.ui.HelperTile.prototype.beforeClose_ = function()
+{
+    this.getEvent().removeAllTags();
+};
