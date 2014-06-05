@@ -4,6 +4,8 @@ goog.require('hash5.controller.BaseController');
 goog.require('hash5.ui.editor.EntryEditor');
 
 /**
+ * Controller for EntryEditor. Manages Components and creates
+ * new editors.
  *
  * @constructor
  * @extends {hash5.controller.BaseController}
@@ -67,23 +69,25 @@ hash5.controller.EditorController.prototype.registerComponent = function(comp)
  */
 hash5.controller.EditorController.prototype.createEntryEditor = function(entry)
 {
-    if(this.entryEditor_ && !this.entryEditor_.isDisposed())
-    {
+    if (this.entryEditor_ && !this.entryEditor_.isDisposed()) {
+        // check if entry is already in editor
+        if (this.entryEditor_.getEntry() === entry) {
+            return null;
+        }
+
         var curEditorText = this.entryEditor_.getEntryText();
 
         this.entryEditor_.dispose();
         this.entryEditor_ = null;
 
-        if(!entry && !curEditorText)
-        {
+        if (!entry && !curEditorText) {
             // if currently no entrytext is insered and a new entry
             // should be added, the editor will be closed
             return null;
         }
     }
 
-    if(!entry)
-    {
+    if (!entry) {
         entry = new hash5.model.Entry();
     }
 

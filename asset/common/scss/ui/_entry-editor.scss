@@ -16,6 +16,8 @@
     background: #fff;
     @include box-shadow(0 2px 10px rgba(0, 0, 0, 0.2));
 
+    @include animation(editor_slide-in .4s);
+
     @include breakpoint(mobile){
       max-width: 100%;
     }
@@ -138,4 +140,10 @@
         color: #fff;
       }
     }
+}
+
+@include keyframes(editor_slide-in) {
+  from {
+    @include translate3d(100%, 0, 0);
+  }
 }
