@@ -51,7 +51,7 @@ hash5.module.intro.initData_en = {
             waitForClick: false
         },
         {
-            selector: '.recommondations',
+            selector: '.module-bottom-holder',
             body: 'Might want to add some more hashtags?',
             direction: hash5.module.intro.Tooltip.Direction.BOTTOM,
             waitForClick: true

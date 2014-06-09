@@ -47,8 +47,6 @@ hash5.view.ListView = function()
      * @type {hash5.ui.PageSidebar}
      */
     this.sidebar_ = hash5.ui.PageSidebar.getInstance();
-
-    this.restoreLists();
 };
 goog.inherits(hash5.view.ListView, hash5.view.BaseView);
 
@@ -79,6 +77,7 @@ hash5.view.ListView.prototype.enterDocument = function()
             .listen(this.dlg_, goog.fx.DragListGroup.EventType.DRAGEND, this.handleListDragged_);
     }
 
+    this.restoreLists();
     this.checkForEmptyView();
 };
 
