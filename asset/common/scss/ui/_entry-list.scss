@@ -147,4 +147,8 @@
         font-weight: 700;
         @include animation(loader-anim 1.5s infinite);
     }
+
+    @include breakpoint(mobile){
+        padding-bottom: 50px;
+    }
 }
