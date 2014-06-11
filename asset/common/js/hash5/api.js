@@ -134,6 +134,7 @@ hash5.api.layout.addHeaderButtonGroup = function(buttonGroup)
  */
 hash5.api.search.addFilterItem = function(label, className, controlConfig)
 {
+    // TODO move to controller
     var searchField = hash5.ui.search.SearchField.getInstance();
     var searchOptionsCmp = searchField.getSearchOptionCmp();
     return searchOptionsCmp.addFormItem(label, className, controlConfig);
@@ -146,8 +147,5 @@ hash5.api.search.addFilterItem = function(label, className, controlConfig)
  */
 hash5.api.search.getChangeEventDispatcher = function()
 {
-    var searchField = hash5.ui.search.SearchField.getInstance();
-    var searchOptionsCmp = searchField.getSearchOptionCmp();
-
-    return searchOptionsCmp;
+    return hash5.controller.SearchController.getInstance();
 };

@@ -123,16 +123,22 @@ hash5.parsing.EntryTextParser.prototype.replaceSimpleTags = function()
         entry = this.model,
         tags = this.parser_.getSimpleTags();
 
+    // add complex tags
     goog.array.forEach(this.parser_.getComplexTags(), function(complexTag){
-        tags.push(complexTag.key);
+        if(!goog.array.contains(tags, complexTag.key)) {
+            tags.push(complexTag.key);
+        }
     });
+
+    // TODO sorting does not work!!! stillt double replace...
+    // indices or regex replace--> "#bla " "#bla:" "#bla\n"
 
     // sort tags by length to avoid replace errors (tag1 tag1a)
     goog.array.sort(tags, function(tag1, tag2) {
         return tag2.length - tag1.length;
     });
 
-    for(var i = 0; i  < tags.length; i++) {
+    for(var i = 0; i < tags.length; i++) {
         var tag = '#' + tags[i];
         entryText = entryText.replace(tag, '<a class="hash-link simple" href="/search/'
             + encodeURIComponent(tags[i]) + '">' + tag + '</a>');

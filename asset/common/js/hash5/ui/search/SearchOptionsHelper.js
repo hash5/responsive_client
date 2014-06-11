@@ -11,11 +11,10 @@ goog.require('hash5.ui.search.FilterChangeEvent');
 goog.require('hash5.ds.SearchOptions');
 
 /**
- * @param {hash5.ui.search.SearchField} searchfield
  * @constructor
  * @extends {goog.ui.Component}
  */
-hash5.ui.search.SearchOptionsHelper = function(searchfield)
+hash5.ui.search.SearchOptionsHelper = function()
 {
     goog.base(this);
 
@@ -24,12 +23,6 @@ hash5.ui.search.SearchOptionsHelper = function(searchfield)
      * @private
      */
     this.form_ = new hash5.forms.Form();
-
-    /**
-     * @type {hash5.ui.search.SearchField}
-     * @private
-     */
-    this.searchField_ = searchfield;
 
     /**
      * @type {boolean}
@@ -60,10 +53,6 @@ hash5.ui.search.SearchOptionsHelper.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.getHandler()
-        .listen(this.searchField_, hash5.ui.search.SearchField.EventType.TEXT_CHANGE, this.handleTextChange_)
-        .listen(this.form_, goog.events.EventType.CHANGE, this.handleFilterChange_);
-
     this.addChild(this.form_, true);
 
     var defaultOptionsHelpers = new hash5.ui.search.DefaultSearchOptionsHelper();
@@ -71,39 +60,27 @@ hash5.ui.search.SearchOptionsHelper.prototype.enterDocument = function()
 };
 
 /**
- * handles search text change
- * @param {goog.events.Event} e
+ * returns current form values
+ * @return {Object}
  */
-hash5.ui.search.SearchOptionsHelper.prototype.handleTextChange_ = function(e)
+hash5.ui.search.SearchOptionsHelper.prototype.getValues = function()
 {
-    var curSearchStr = this.searchField_.getCurrentSearchstring(),
-        values2Change = {};
+    return this.form_.getData()
+};
 
-// TODO custom event
-    this.dispatchEvent({
-        type: hash5.ui.search.SearchField.EventType.TEXT_CHANGE,
-        curSearchText: curSearchStr,
-        values2Change: values2Change
-    });
+
+/**
+ * changes values for given controls
+ * @param {Object} values2Change
+ */
+hash5.ui.search.SearchOptionsHelper.prototype.setValues = function(values2Change)
+{
+    this.form_.reset();
 
     for(var itemKey in values2Change) {
         var control = this.form_.getControlByName(itemKey);
         control.setValue(values2Change[itemKey]);
     }
-};
-
-/**
- * @param {goog.events.Event} e
- */
-hash5.ui.search.SearchOptionsHelper.prototype.handleFilterChange_ = function(e)
-{
-    var filterChangeEvent = new hash5.ui.search.FilterChangeEvent(hash5.ui.search.EventType.FILTER_CHANGE, this);
-    filterChangeEvent.formData = this.form_.getData();
-    filterChangeEvent.searchOptions = new hash5.ds.SearchOptions();
-
-    this.dispatchEvent(filterChangeEvent);
-
-    this.searchField_.setCurrentSearchFromEvent(filterChangeEvent);
 };
 
 /**

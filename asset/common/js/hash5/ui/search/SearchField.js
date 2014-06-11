@@ -1,5 +1,4 @@
 goog.provide('hash5.ui.search.SearchField');
-goog.provide('hash5.ui.search.SearchField.EventType');
 
 goog.require('goog.ui.Component');
 
@@ -58,7 +57,7 @@ hash5.ui.search.SearchField = function()
      * @type {hash5.ui.search.SearchOptionsHelper}
      * @private
      */
-    this.searchOptions_ = new hash5.ui.search.SearchOptionsHelper(this);
+    this.searchOptions_ = new hash5.ui.search.SearchOptionsHelper();
 };
 goog.inherits(hash5.ui.search.SearchField, goog.ui.Component);
 goog.addSingletonGetter(hash5.ui.search.SearchField);
@@ -175,13 +174,49 @@ hash5.ui.search.SearchField.prototype.handleTextInput_ = function(e)
     if(!this.ignoreChangeEvent_) {
         var searchKey = /** @type {string} */ (this.searchInput_.getValue());
 
-        this.dispatchEvent(hash5.ui.search.SearchField.EventType.TEXT_CHANGE);
+        this.dispatchEvent(goog.ui.Component.EventType.CHANGE);
 
         this.setHelperVisible(searchKey.length > 0);
     }
 
 
     // TODO --> handleInputSubmit_
+};
+
+/**
+ * saves the current search as column
+ */
+hash5.ui.search.SearchField.prototype.saveSearch = function()
+{
+    var searchKey = /** @type {string} */ (this.searchInput_.getValue());
+// TODO controller, searchoptions
+    if(searchKey.length > 3) {
+        var entryCollection = hash5.api.searchEntries(searchKey); // TODO searchkey...
+        hash5.api.showEntryCollection(entryCollection, searchKey);
+        this.setHelperVisible(false);
+        this.searchInput_.reset();
+    }
+};
+
+
+/**
+ * sets new searchstring for input field and whether search is possible
+ *
+ * @param {string} newSearchString
+ * @param {boolean} canSearch
+ */
+hash5.ui.search.SearchField.prototype.setNewSearchString = function(newSearchString, canSearch)
+{
+    this.ignoreChangeEvent_ = true;
+    this.searchInput_.setValue(newSearchString);
+    this.ignoreChangeEvent_ = false;
+
+    if(!canSearch) {
+        this.removeChildren(true);
+        goog.dom.classes.enable(this.getElementByClass('found-search-error'), 'hidden', true);
+    }
+
+    goog.dom.classes.enable(this.getElementByClass('short-search-error'), 'hidden', canSearch);
 };
 
 /**
@@ -193,47 +228,11 @@ hash5.ui.search.SearchField.prototype.getCurrentSearchstring = function()
 };
 
 /**
- * @param {hash5.ui.search.FilterChangeEvent} e
- */
-hash5.ui.search.SearchField.prototype.setCurrentSearchFromEvent = function(e)
-{
-    var searchOptions = e.searchOptions,
-        canSearch = searchOptions.canSearch();
-
-    this.ignoreChangeEvent_ = true;
-    //this.searchInput_.setValue(e.newSearchString);
-    this.ignoreChangeEvent_ = false;
-
-    if(canSearch) {
-        hash5.api.searchEntries(searchOptions, undefined, this.handleSuggestsLoaded_, this);
-        this.canceld_ = false;
-    } else {
-        this.removeChildren(true);
-        goog.dom.classes.enable(this.getElementByClass('found-search-error'), 'hidden', true);
-    }
-
-    goog.dom.classes.enable(this.getElementByClass('short-search-error'), 'hidden', canSearch);
-};
-
-/**
- * saves the current search as column
- */
-hash5.ui.search.SearchField.prototype.saveSearch = function()
-{
-    var searchKey = /** @type {string} */ (this.searchInput_.getValue());
-
-    if(searchKey.length > 3) {
-        var entryCollection = hash5.api.searchEntries(searchKey); // TODO searchkey...
-        hash5.api.showEntryCollection(entryCollection, searchKey);
-        this.setHelperVisible(false);
-        this.searchInput_.reset();
-    }
-};
-
-/**
+ * renders given suggests
+ *
  * @param  {hash5.model.EntryCollection} entryCollection
  */
-hash5.ui.search.SearchField.prototype.handleSuggestsLoaded_ = function(entryCollection)
+hash5.ui.search.SearchField.prototype.setSuggests = function(entryCollection)
 {
     this.removeChildren(true);
 
@@ -309,12 +308,4 @@ hash5.ui.search.SearchField.prototype.toggleOptions_ = function()
 hash5.ui.search.SearchField.prototype.getSearchOptionCmp = function()
 {
     return this.searchOptions_;
-};
-
-
-/**
- * @enum {string}
- */
-hash5.ui.search.SearchField.EventType = {
-    TEXT_CHANGE: 'search_text_change'
 };

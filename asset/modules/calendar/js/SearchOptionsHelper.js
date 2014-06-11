@@ -30,6 +30,6 @@ hash5.module.calendar.SearchOptionsHelper.prototype.init = function()
 hash5.module.calendar.SearchOptionsHelper.prototype.handleFilterChange_ = function(e)
 {
     if(e.formData['today'] == '1') {
-        e.searchOptions.urlParams['daterange'] = 'today';
+        e.searchOptions.urlParams['eventrange'] = 'today';
     }
 };

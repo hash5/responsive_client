@@ -8,6 +8,7 @@ goog.require('hash5.Router');
 goog.require('hash5.controller.MainPanelController');
 goog.require('hash5.controller.EditorController');
 goog.require('hash5.controller.UndoController');
+goog.require('hash5.controller.SearchController');
 
 
 // include ui controls for auto-decation here
@@ -48,6 +49,7 @@ hash5.module.CoreModule.prototype.initialize = function(context)
     hash5.controller.MainPanelController.getInstance().initialize(config);
     hash5.controller.EditorController.getInstance().initialize(config);
     hash5.controller.UndoController.getInstance().initialize(config);
+    hash5.controller.SearchController.getInstance().initialize(config);
 
     // init router
     var router = hash5.Router.getInstance();
