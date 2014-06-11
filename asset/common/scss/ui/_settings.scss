@@ -1,7 +1,6 @@
 
 
-.settings
-{
+.settings {
     position: absolute;
     top: 100px;
     left: 50%;
@@ -11,4 +10,8 @@
     background: #fff;
     padding: 20px;
     z-index: $overlayForegroundLevel + 1;
+
+    .info {
+        margin: 10px 0;
+    }
 }

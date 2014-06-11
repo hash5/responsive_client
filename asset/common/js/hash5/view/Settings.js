@@ -28,11 +28,17 @@ goog.inherits(hash5.view.Settings, goog.ui.Component);
 /** @inheritDoc */
 hash5.view.Settings.prototype.createDom = function()
 {
-  var el = soy.renderAsFragment(hash5.templates.Settings.wrapper);
-  this.decorateInternal(/** @type {Element} */ (el));
+    var userController = hash5.controller.UserController.getInstance();
 
-  this.addChild(this.form_);
-  this.form_.render(this.getElementByClass('form-wrapper'));
+    var data = {
+        serverVersion: userController.getUserSettings('serverVersion')
+    };
+
+    var el = goog.soy.renderAsFragment(hash5.templates.Settings.wrapper, data);
+    this.decorateInternal(/** @type {Element} */ (el));
+
+    this.addChild(this.form_);
+    this.form_.render(this.getElementByClass('form-wrapper'));
 };
 
 /** @inheritDoc */
@@ -69,7 +75,8 @@ hash5.view.Settings.prototype.createForm_ = function()
             {text: 'English', model: 'en'}
         ]
     });
-    var curLang = hash5.controller.UserController.getInstance().getUserSettings('locale', 'en');
+    var userController = hash5.controller.UserController.getInstance();
+    var curLang = userController.getUserSettings('locale', 'en');
     formItem.getControl().setValue(curLang);
 };
 
