@@ -28,8 +28,7 @@ hash5.layout.HeaderButton = function(title, cssClass, clickHandler)
      */
     this.cssClass_ = cssClass || '';
 
-    if(goog.isFunction(clickHandler))
-    {
+    if(goog.isFunction(clickHandler)) {
         this.getHandler().listen(this, goog.ui.Component.EventType.ACTION, clickHandler);
     }
 };

@@ -1,8 +1,7 @@
 
 $headerHeight: 50px;
 
-.page-header
-{
+.page-header {
     position: fixed;
     width: 100%;
     height: $headerHeight;
@@ -14,8 +13,7 @@ $headerHeight: 50px;
     z-index: 1002;
 }
 
-.hash5-logo
-{
+.hash5-logo {
     position: relative;
     float: left;
     padding-left: 20px;
@@ -24,8 +22,7 @@ $headerHeight: 50px;
     font-size: 30px;
     line-height: 50px;
 
-    span
-    {
+    span {
         position: absolute;
         bottom: -10px;
         font-weight: 600;
@@ -35,8 +32,7 @@ $headerHeight: 50px;
 }
 
 
-.sidebar-toggle-btn
-{
+.sidebar-toggle-btn {
     height: 20px;
     width: 28px;
     margin: 15px;
@@ -56,31 +52,26 @@ $headerHeight: 50px;
     }
 }
 
-.header-right-bar
-{
+.header-right-bar {
     float: right;
 
-    .action-item
-    {
+    .action-item {
         position: relative;
         float: left;
         cursor: pointer;
 
-        .toggle-icon
-        {
+        .toggle-icon {
             text-align: center;
             height: 30px;
             padding: 10px 15px;
 
-            &:before
-            {
+            &:before {
                 font-size: 22px;
                 margin: 0;
             }
         }
 
-        ul
-        {
+        ul {
             display: none;
             position: absolute;
             top: 50px;
@@ -88,13 +79,12 @@ $headerHeight: 50px;
 
             background: rgba(0,0,0,0.6);
         }
-        &:hover, &.visible
-        {
+        &:hover, &.visible {
             background: rgba(0,0,0,0.4);
             ul {display: block;}
         }
-        li
-        {
+        &:active{background: transparent;}
+        li {
             padding: 10px;
             color: #fff;
             white-space: nowrap;

@@ -91,22 +91,16 @@ hash5.layout.HeaderButtonGroup.prototype.handleClick_ = function(e)
 {
     var clickedEl = /** @type {Element} */ (e.target);
 
-    if(this.hasChildren())
-    {
+    if(this.hasChildren()) {
         this.isVisible_ = !this.isVisible_ && goog.dom.classes.has(clickedEl, 'toggle-icon');
         goog.dom.classes.enable(this.getElement(), 'visible', this.isVisible_);
 
-        if(this.isVisible_)
-        {
+        if(this.isVisible_) {
             this.getHandler().listenOnce(document.body, goog.events.EventType.CLICK, this.handleDocumentClick_, true);
-        }
-        else
-        {
+        } else {
             this.getHandler().unlisten(document.body, goog.events.EventType.CLICK, this.handleDocumentClick_, true);
         }
-    }
-    else
-    {
+    } else {
         this.dispatchEvent(goog.ui.Component.EventType.ACTION);
     }
 };
