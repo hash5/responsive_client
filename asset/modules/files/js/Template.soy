@@ -20,10 +20,13 @@
 {/template}
 
 /**
+ * @param fileName name for file
+ * @param fileSize size of file
  * @param url url for file
  */
 {template .previewHelperTile}
     <div>
+        {$fileName} ({$fileSize})<br />
         <a href="{$url}" target="_blank">Download</a>
     </div>
 {/template}

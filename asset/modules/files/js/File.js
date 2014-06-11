@@ -1,10 +1,13 @@
 goog.provide('hash5.module.files.File');
 
 /**
+ * @param {string} id
  * @param {string} url
+ * @param {Object} info
+ *
  * @constructor
  */
-hash5.module.files.File = function(url)
+hash5.module.files.File = function(id, url, info)
 {
     //goog.base(this);
 
@@ -18,7 +21,13 @@ hash5.module.files.File = function(url)
      * @type {string}
      * @private
      */
-    this.id_ = '';
+    this.id_ = id;
+
+    /**
+     * @type {Object}
+     * @private
+     */
+    this.info_ = info;
 };
 
 /**
@@ -36,11 +45,16 @@ hash5.module.files.File.prototype.getUrl = function()
  */
 hash5.module.files.File.prototype.getId = function()
 {
-    if(!this.id_) {
-        this.id_ = this.url_.substr(this.url_.lastIndexOf('/') + 1);
-    }
-
     return this.id_ ;
+};
+
+/**
+ * returns file infos
+ * @return {Object}
+ */
+hash5.module.files.File.prototype.getFileInfo = function()
+{
+    return this.info_ ;
 };
 
 /**

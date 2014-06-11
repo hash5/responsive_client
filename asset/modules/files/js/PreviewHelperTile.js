@@ -1,5 +1,7 @@
 goog.provide('hash5.module.files.PreviewHelperTile');
 
+goog.require('goog.format');
+
 goog.require('hash5.ui.editor.HelperTile');
 goog.require('hash5.module.files.Template');
 
@@ -28,7 +30,11 @@ hash5.module.files.PreviewHelperTile.prototype.createDom = function()
 {
     goog.base(this, 'createDom');
 
+    var fileInfo = this.file_.getFileInfo();
+
     var data = {
+        fileName: fileInfo['filename'],
+        fileSize: goog.format.fileSize(fileInfo['length']),
         url: this.file_.getUrl()
     };
 

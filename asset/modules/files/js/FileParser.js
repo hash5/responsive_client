@@ -31,16 +31,49 @@ hash5.module.files.FileParser.prototype.parse = function(parser)
         matches = rawText.match(regex);
 
     if(matches) {
+        var entry = parser.getEntry(),
+            serverParsed = entry.getServerObj();
+
         files = goog.array.map(matches, function(url) {
-            return new hash5.module.files.File(url);
-        });
+          var id = url.substr(url.lastIndexOf('/') + 1),
+            info = this.getFileInfo(id, serverParsed);
+
+            return new hash5.module.files.File(id, url, info);
+        }, this);
     }
 
     return files;
 };
 
 /**
- * TODO work more abstract -> config file?
+ * returns file infos
+ * @param  {string} fileId
+ * @param  {Object=} serverParsed
+ * @return {Object}
+ */
+hash5.module.files.FileParser.prototype.getFileInfo = function(fileId, serverParsed)
+{
+  // check for server informations
+  if(serverParsed && goog.isDef(serverParsed['attachedFiles'])) {
+    for(var i = 0; i < serverParsed['attachedFiles'].length; i++) {
+      var info = serverParsed['attachedFiles'][i];
+      if(info['_id'] === fileId) {
+        return info;
+      }
+    }
+  }
+
+  // check in global storage
+  return hash5.module.files.FileParser.fileInfos[fileId] || null;
+};
+
+/**
+ * global fileInfo storage
+ * @type {Object.<string, Object>}
+ */
+hash5.module.files.FileParser.fileInfos = {};
+
+/**
  * @type {Array.<string>}
  */
 hash5.module.files.FileParser.domainList = ['dev.hash5.com:8080', document.location.host];

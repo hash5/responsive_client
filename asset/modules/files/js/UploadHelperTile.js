@@ -147,7 +147,11 @@ hash5.module.files.UploadHelperTile.prototype.showPreview_ = function(files)
 hash5.module.files.UploadHelperTile.prototype.handleUploaded_ = function(e)
 {
     var responseData = e.data,
-      file = responseData[0];
+      file = responseData[0],
+      fileId = file['_id'];
+
+    // set to storage
+    hash5.module.files.FileParser.fileInfos[fileId] = file;
 
     /*var exampleResponse = [
       {
