@@ -26,6 +26,7 @@ hash5.ui.editor.EntryEditor = function(entry)
      * @private
      */
     this.entry_ = entry;
+    this.getHandler().listen(entry, hash5.model.EventType.DESTROY, this.close);
 
     /**
      * @type {hash5.forms.Textarea}
