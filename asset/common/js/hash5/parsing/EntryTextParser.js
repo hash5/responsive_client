@@ -130,18 +130,23 @@ hash5.parsing.EntryTextParser.prototype.replaceSimpleTags = function()
         }
     });
 
-    // TODO sorting does not work!!! stillt double replace...
-    // indices or regex replace--> "#bla " "#bla:" "#bla\n"
-
-    // sort tags by length to avoid replace errors (tag1 tag1a)
-    goog.array.sort(tags, function(tag1, tag2) {
-        return tag2.length - tag1.length;
-    });
+    // characters to divide hashtags
+    var divideCharacters = [undefined, ' ', ':', '=', '\n'];
 
     for(var i = 0; i < tags.length; i++) {
         var tag = '#' + tags[i];
-        entryText = entryText.replace(tag, '<a class="hash-link simple" href="/search/'
-            + encodeURIComponent(tags[i]) + '">' + tag + '</a>');
+
+        // check replace to make sure #impo will not replace #important hash
+        entryText = entryText.replace(new RegExp(tag, 'gi'), function(match, pos){
+            var nextChar = entryText.charAt(match.length + pos);
+
+            if(divideCharacters.indexOf(nextChar) > 0) {
+                return '<a class="hash-link simple" href="/search/'
+                    + encodeURIComponent(tags[i]) + '">' + tag + '</a>';
+            } else {
+                return match;
+            }
+        });
     }
 
     return entryText;
