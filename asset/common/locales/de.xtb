@@ -42,8 +42,6 @@
 	<translation id="1081926157258772881" key="MSG_IN_DAYS_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many days something happens (singular).">in <ph name="num" /> Tag</translation>
 	<translation id="6511054188199036888" key="MSG_IN_DAYS_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many days something happens (plural).">in <ph name="num" /> Tagen</translation>
 	<translation id="5505833551326918382" key="MSG_ADD_ENTRY" source="../asset/common/js/hash5/ui/QuickCreateEntry.js" desc="qucick edit placeholder">Eintrag hinzufügen...</translation>
-	<translation id="7141543709934632345" key="MSG_KBYCE8UAEIDB" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="add entry list action">Hinzufügen</translation>
-	<translation id="8464512011312511379" key="MSG_J13TJW7OAMS0" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="close entry list action">Schließen</translation>
 	<translation id="7761452865245188589" key="MSG_V99P3NME5ZXQ" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="delete all entry list action">Alle löschen</translation>
 	<translation id="8035258730776425762" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Letzte Einträge</translation>
 	<translation id="4463237795828482645" key="MSG_18GIEN36PX54E" source="../asset/common/js/hash5/templates/SearchField.soy" desc="search btn label">Suchen</translation>
@@ -128,4 +126,8 @@
 	<translation id="6561318456446798105" key="MSG_OPTIONS_NOT_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for not containing strings">Nicht enthalten</translation>
 	<translation id="6563484510341014146" key="MSG_OPTIONS_OPTIONAL_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for optional containing strings">Optional enthalten</translation>
 	<translation id="1575571646327790033" key="MSG_geo5_PLUGIN" source="../asset/modules/geo5/js/EditorComponent.js" desc="name for the geo5 plugin">geo5</translation>
+	<translation id="5618691672660683135" key="MSG_LIST_DROP_HINT" source="../asset/common/js/hash5/ui/PageSidebar.js" desc="hint message to drop lists on sidebar">Drop list here to save it to your saved-searches</translation>
+	<translation id="4015673512441790743" key="MSG_M9QJIMC7WXFS" source="../asset/common/templates/ui/EntryListContainer.soy" desc="add entry list action">Neuen Eintrag Hinzufügen</translation>
+	<translation id="1177522097714894605" key="MSG_YXTO7CMM2FAH" source="../asset/common/templates/ui/EntryListContainer.soy" desc="close entry list action">Spalte schließen</translation>
+	<translation id="4343638367779587031" key="MSG_HELP" source="../asset/common/js/hash5/layout/Header.js" desc="help btn title">Help</translation>
 </translationbundle>

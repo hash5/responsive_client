@@ -129,4 +129,8 @@
 	<translation id="6561318456446798105" key="MSG_OPTIONS_NOT_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for not containing strings">Not Containing</translation>
 	<translation id="6563484510341014146" key="MSG_OPTIONS_OPTIONAL_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for optional containing strings">Optional Containing</translation>
 	<translation id="1575571646327790033" key="MSG_geo5_PLUGIN" source="../asset/modules/geo5/js/EditorComponent.js" desc="name for the geo5 plugin">geo5</translation>
+	<translation id="5618691672660683135" key="MSG_LIST_DROP_HINT" source="../asset/common/js/hash5/ui/PageSidebar.js" desc="hint message to drop lists on sidebar">Drop list here to save it to your saved-searches</translation>
+	<translation id="4015673512441790743" key="MSG_M9QJIMC7WXFS" source="../asset/common/templates/ui/EntryListContainer.soy" desc="add entry list action">add new entry</translation>
+	<translation id="1177522097714894605" key="MSG_YXTO7CMM2FAH" source="../asset/common/templates/ui/EntryListContainer.soy" desc="close entry list action">close column</translation>
+	<translation id="4343638367779587031" key="MSG_HELP" source="../asset/common/js/hash5/layout/Header.js" desc="help btn title">Help</translation>
 </translationbundle>
