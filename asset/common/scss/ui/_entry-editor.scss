@@ -1,6 +1,5 @@
 
-.entry-editor
-{
+.entry-editor {
     position: fixed;
     top: 0;
     right: 0;
@@ -22,42 +21,36 @@
       max-width: 100%;
     }
 
-    .goog-textarea
-    {
+    .goog-textarea {
         min-height: 100px;
         resize: none;
     }
 
-    .entry-date
-    {
+    .entry-date {
       font-size: 70%;
       text-align: right;
       margin-bottom: 10px;
       float: right;
     }
 
-    .saved-info
-    {
+    .saved-info {
       font-size: 12px;
       color: #777;
       margin-bottom: 10px;
 
       .saving-msg {display: none;}
 
-      &.saving
-      {
+      &.saving {
         .saving-msg {display: block;}
         .saved-msg {display: none;}
       }
     }
 
-    .helper-tile-btns
-    {
+    .helper-tile-btns {
       margin-top: 20px;
       background: #EAEDF2;
 
-      li
-      {
+      li {
         cursor: pointer;
         margin: 5px;
         padding: 5px;
@@ -66,79 +59,64 @@
         font-size: 22px;
         color: $colorDarkGray;
 
-        &:hover
-        {
+        &:hover {
           border-bottom: 2px solid $colorYellow;
           margin-bottom: 0;
         }
       }
     }
 
-
-    .helper-tiles
-    {
-    }
-    .helper-tile
-    {
+    .helper-tile {
         margin: 20px 0;
         padding: 10px;
         @include box-shadow(0 1px 0 1px #E4E6EB);
         position: relative;
 
-        h3
-        {
+        h3 {
           font-size: 18px;
         }
 
 
-        .tile-icon
-        {
+        .tile-icon {
           margin-right: 10px;
           font-size: 20px;
         }
 
-        .remove-btn
-        {
+        .remove-btn {
           position: absolute;
           top: 10px;
           right: 10px;
           @include resize-sprite($sprite, close, 40);
           cursor: pointer;
-          &:hover
-          {
+
+          &:hover {
             opacity: 0.8;
           }
         }
     }
-    .helper-tile-content
-    {
+    .helper-tile-content {
       @include clearfix(); // for older browsers --> pie-clearfix()
     }
 
-    .entry-actions
-    {
+    .entry-actions {
         margin-top: 20px;
         padding-top: 10px;
         border-top: 2px solid;
     }
-    .cancel-btn
-    {
+    .cancel-btn {
         float: right;
     }
 
-    .suggest
-    {
+    .suggest {
       margin-top: 5px;
       padding: 5px;
       display: inline-block;
       background: rgba($colorBlue, 0.8);
       border-radius: 5px;
       cursor: pointer;
+      color: #fff;
 
-      &:hover
-      {
-        color: #fff;
-      }
+      &:hover { color: #000; }
     }
 }
 
