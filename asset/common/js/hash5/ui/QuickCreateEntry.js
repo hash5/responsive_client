@@ -69,8 +69,7 @@ hash5.ui.QuickCreateEntry.prototype.enterDocument = function()
 hash5.ui.QuickCreateEntry.prototype.checkForTemplate_ = function()
 {
     var entryText = this.textarea_.getValue();
-    if(!entryText && this.textTemplate_)
-    {
+    if(!entryText && this.textTemplate_) {
         this.textarea_.setValue(this.textTemplate_ + ' ');
     }
 };
@@ -81,11 +80,10 @@ hash5.ui.QuickCreateEntry.prototype.checkForTemplate_ = function()
  */
 hash5.ui.QuickCreateEntry.prototype.handleKeyDown_ = function(e)
 {
-    if(e.keyCode === goog.events.KeyCodes.ENTER && !e.shiftKey)
-    {
+    if(e.keyCode === goog.events.KeyCodes.ENTER && !e.shiftKey) {
       this.saveEntryText();
       e.preventDefault();
-    }else if(e.keyCode === goog.events.KeyCodes.ESC){
+    } else if(e.keyCode === goog.events.KeyCodes.ESC) {
       this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
     }
 };
@@ -94,8 +92,7 @@ hash5.ui.QuickCreateEntry.prototype.saveEntryText = function()
 {
     var entryText = /** @type {string} */ (this.textarea_.getValue());
 
-    if(entryText)
-    {
+    if(entryText) {
       var entry = new hash5.model.Entry();
       entry.setText(entryText);
       entry.save();
@@ -112,11 +109,13 @@ hash5.ui.QuickCreateEntry.prototype.handleBlur_ = function(e)
 {
     var entryText = this.textarea_.getValue();
     if(entryText.trim() == this.textTemplate_.trim()
-      || entryText.trim().length == 0)
-    {
+      || entryText.trim().length == 0) {
       this.textarea_.reset();
-      this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
+    } else {
+      this.saveEntryText();
     }
+
+    this.dispatchEvent(goog.ui.Component.EventType.CLOSE);
 
 };
 
@@ -125,8 +124,7 @@ hash5.ui.QuickCreateEntry.prototype.handleBlur_ = function(e)
  */
 hash5.ui.QuickCreateEntry.prototype.setVisible = function(visible)
 {
-    if(visible)
-    {
+    if(visible) {
       this.textarea_.focus();
     }
 
