@@ -137,7 +137,7 @@ hash5.module.files.UploadHelperTile.prototype.showPreview_ = function(files)
         thumbHolder.appendChild(span);
       };
     })(orgFile);
-    reader.readAsDataURL(orgFile);
+    reader.readAsDataURL(/** @type {!Blob} */ (orgFile));
   }
 };
 

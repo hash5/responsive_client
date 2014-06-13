@@ -74,7 +74,7 @@ hash5.forms.Form.prototype.addFormControl = function(label, control, controlConf
     }
 
     control.setConfig(controlConfig);
-    formItem.setControl(/** @type {hash5.forms.IControl} */ (control));
+    formItem.setControl(/** @type {goog.ui.Component} */ (control));
     this.addChild(formItem, true);
 
     return formItem;
