@@ -87,7 +87,12 @@ hash5.ds.Request.prototype.setCompleted = function(e)
  */
 hash5.ds.Request.prototype.setCompletedWithError = function(e)
 {
-    this.dispatchEvent(goog.net.EventType.ERROR);
+    var handled = this.dispatchEvent(goog.net.EventType.ERROR);
+
+    if(!handled) {
+        // TODO custom message
+        alert("uncached network exception");
+    }
 };
 
 /**
