@@ -26,7 +26,9 @@ hash5.module.intro.initData_en = {
     'entries': [
         'Use hashtags to sort your Entries #intro',
         'You can use the hashtag #todo to mark all your todo-items for example. #intor',
-        'Do you want to remove all example entries? --> Create a new column with the search for #intro and select "Delete all entries."'
+        'Do you want to remove all example entries? --> Create a new column with the search for #intro and select "Delete all entries."',
+        '#work #todo some work task',
+        '#private private information'
     ],
     'open-lists': [
         '#intro', '#todo'
@@ -34,7 +36,7 @@ hash5.module.intro.initData_en = {
     'intro-tour': [
         {
             selector: '.entry-list-container',
-            body: 'Entrylists are used to diplay one kind of entries.<br /> Here your latest entries are displayed.',
+            body: 'Entrylists are used to diplay one kind of entries.<br /> This column displays your latest entries.',
             direction: hash5.module.intro.Tooltip.Direction.NONE,
             waitForClick: false
         },
@@ -72,6 +74,12 @@ hash5.module.intro.initData_en = {
             selector: '.save-btn',
             body: 'Finish the editing and close the editor.',
             direction: hash5.module.intro.Tooltip.Direction.BOTTOM,
+            waitForClick: true
+        },
+        {
+            selector: '.search-box',
+            body: 'Use the search to find your entries and to create new columns.',
+            direction: hash5.module.intro.Tooltip.Direction.TOP,
             waitForClick: true
         }
     ]

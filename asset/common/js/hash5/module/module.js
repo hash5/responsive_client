@@ -54,6 +54,20 @@ hash5.module.setModulesLoaded = function()
     });
 };
 
+/**
+ * returns loaded module instance
+ *
+ * @param {hash5.module.Modules} moduleId
+ * @return {hash5.module.BaseModule}
+ */
+hash5.module.getModule = function(moduleId)
+{
+    var moduleManager = goog.module.ModuleManager.getInstance(),
+        moduleInfo = moduleManager.getModuleInfo(moduleId);
+
+    return /** @type {hash5.module.BaseModule} */ (moduleInfo.getModule());
+};
+
 
 /**
  * module id's

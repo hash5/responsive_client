@@ -25,6 +25,22 @@ goog.inherits(hash5.module.IntroModule, hash5.module.BaseModule);
  */
 hash5.module.IntroModule.prototype.initialize = function(context)
 {
+};
+
+/**
+ * sets up some example data
+ */
+hash5.module.IntroModule.prototype.showIntroTour = function()
+{
+    var introLayer = new hash5.module.intro.IntroLayer();
+    introLayer.render(document.body);
+};
+
+/**
+ * sets up some example data
+ */
+hash5.module.IntroModule.prototype.prepareUserAccount = function()
+{
     var userController = hash5.controller.UserController.getInstance();
 
     var dataReadyCallback = function() {
@@ -47,9 +63,7 @@ hash5.module.IntroModule.prototype.initialize = function(context)
         dataReadyCallback();
     }
 
-
-    var introLayer = new hash5.module.intro.IntroLayer();
-    introLayer.render(document.body);
+    this.showIntroTour();
 };
 
 /**

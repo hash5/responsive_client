@@ -72,7 +72,10 @@ hash5.module.CoreModule.prototype.initialize = function(context)
     var userController = hash5.controller.UserController.getInstance();
     if(!userController.getUserSettings('respWebclientInit', false)) {
         var moduleManager = goog.module.ModuleManager.getInstance();
-        moduleManager.load(hash5.module.Modules.INTRO);
+        moduleManager.execOnLoad(hash5.module.Modules.INTRO, function(){
+            var module = hash5.module.getModule(hash5.module.Modules.INTRO);
+            module.prepareUserAccount();
+        });
     }
 
     hash5.module.setStaticLoaded(hash5.module.Modules.RECOMMEND, hash5.module.RecommondationModule);

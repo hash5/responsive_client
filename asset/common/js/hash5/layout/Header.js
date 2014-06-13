@@ -75,10 +75,22 @@ hash5.layout.Header.prototype.initDefaultButtons = function()
     /** @desc settings btn title */
     var MSG_SETTINGS = goog.getMsg('Settings');
     var settingsGroup = new hash5.layout.HeaderButtonGroup(MSG_SETTINGS, 'icon-gears');
+
     settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_SETTINGS, 'icon-gears', function(){
         var settingsUi = new hash5.view.Settings();
         settingsUi.render(document.body);
     }));
+
+    /** @desc help btn title */
+    var MSG_HELP = goog.getMsg('Help');
+    settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_HELP, 'icon-light', function(){
+        var moduleManager = goog.module.ModuleManager.getInstance();
+        moduleManager.execOnLoad(hash5.module.Modules.INTRO, function(){
+            var module = hash5.module.getModule(hash5.module.Modules.INTRO);
+            module.showIntroTour();
+        });
+    }));
+
     /** @desc logout btn title */
     var MSG_LOGOUT = goog.getMsg('Logout');
     settingsGroup.addButton(new hash5.layout.HeaderButton(MSG_LOGOUT, 'icon-profile', function(){
