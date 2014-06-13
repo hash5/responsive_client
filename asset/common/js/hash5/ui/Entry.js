@@ -32,7 +32,7 @@ hash5.ui.Entry.prototype.getModel;
 hash5.ui.Entry.prototype.createDom = function()
 {
     // split text when length is greater than this value
-    var splitLength = 200;
+    var splitLength = 400;
 
     var entry = this.getModel(),
         relDate = goog.date.relative.getPastDateString(entry.getCreatedDate()),
