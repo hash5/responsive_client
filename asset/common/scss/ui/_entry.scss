@@ -1,6 +1,5 @@
 
-.entry
-{
+.entry {
     position: relative;
     margin-top: 5px;
     padding: 8px;
@@ -9,54 +8,57 @@
     list-style: none;
 
 
-    .entry-actions
-    {
+    .entry-actions {
         visibility: hidden;
         position: absolute;
         right: 0;
         bottom: 5px;
 
-        & > a
-        {
+        & > a {
             display: inline-block;
             cursor: pointer;
             margin-right: 10px;
             color: $colorDarkGray;
 
-            &:hover
-            {
+            &:hover {
                 opacity: 0.8;
             }
 
             i {width:  auto;}
         }
     }
-    &:hover .entry-actions
-    {
+    &:hover .entry-actions {
         visibility: visible;
     }
 
-    @include breakpoint(tablet){
-        .entry-actions
-        {
+    @include breakpoint(tablet) {
+        .entry-actions {
             visibility: visible;
         }
     }
 
-    .entry-body
-    {
+    .entry-body {
         white-space: normal;
         word-wrap: break-word;
         font-size: 90%;
         line-height: 1.2em;
     }
+
+    // text_expose behaviour
+    .text_exposed_show {display: none;}
+    &.text_exposed {
+        .text_exposed_hide {display: none;}
+        .text_exposed_show {display: inline;}
+    }
+    .see_more_link {
+        margin-top: 5px;
+        display: block;
+    }
 }
 
-.entry-info
-{
+.entry-info {
     margin-top: 5px;
 }
-.entry-date
-{
+.entry-date {
     font-size: 70%;
 }

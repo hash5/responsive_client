@@ -3,7 +3,9 @@
 /**
  * @param editUrl url to link edit button
  * @param deleteUrl url to delete
- * @param body entry text body
+ * @param prevBody first part of entry text body
+ * @param restBody second part of entry text body
+ * @param needExpose whether text can be expandet
  * @param date created date
  */
 {template .listEntry}
@@ -16,7 +18,25 @@
                 <i class="icon-delete"></i>
             </a>
         </div>
-        <div class="entry-body">{$body|noAutoescape}</div>
+        <div class="entry-body">
+            {if $needExpose}
+                <p>
+                    {$prevBody|noAutoescape}
+                    <span class="text_exposed_hide">...</span>
+                    <span class="text_exposed_show">
+                        {$restBody|noAutoescape}
+                    </span>
+                </p>
+                <span class="text_exposed_hide">
+                    <a href="#" role="button" class="see_more_link">
+                        <i class="icon-arrowdown"></i>
+                        {msg desc="show more link text"}Show more{/msg}
+                    </a>
+                </span>
+            {else}
+                {$prevBody|noAutoescape}
+            {/if}
+        </div>
         <div class="entry-info">
             <span class="entry-date">{$date}</span>
         </div>

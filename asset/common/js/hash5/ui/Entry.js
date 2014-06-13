@@ -5,6 +5,8 @@ goog.require('goog.date.relative');
 
 goog.require('hash5.model.Entry');
 goog.require('hash5.templates.ui.Entry');
+goog.require('hash5.utils');
+
 
 /**
  * @param {hash5.model.Entry} model
@@ -29,19 +31,38 @@ hash5.ui.Entry.prototype.getModel;
 /** @inheritDoc */
 hash5.ui.Entry.prototype.createDom = function()
 {
-    var entry = this.getModel();
+    // split text when length is greater than this value
+    var splitLength = 200;
 
-    var relDate = goog.date.relative.getPastDateString(entry.getCreatedDate());
+    var entry = this.getModel(),
+        relDate = goog.date.relative.getPastDateString(entry.getCreatedDate()),
+        prevBody = entry.getTextParser().toString(),
+        restBody = '';
+
+    var needExpose = prevBody.length > splitLength;
+
+    if(needExpose) {
+        // make sure split does not break html tags
+        var splitPosition = hash5.utils.findSplitPosition(prevBody, splitLength);
+        restBody = prevBody.substr(splitPosition);
+        prevBody = prevBody.substr(0, splitPosition);
+
+        needExpose = restBody.length > 0;
+    }
+
     var data = {
         editUrl: '/edit/' + entry.getId(),
         deleteUrl: '/delete/' + entry.getId(),
-        body: entry.getTextParser().toString(),
+        prevBody: prevBody,
+        restBody: restBody,
+        needExpose: needExpose,
         date: relDate
     };
 
     var el = goog.soy.renderAsFragment(hash5.templates.ui.Entry.listEntry, data);
     this.decorateInternal(/** @type {Element} */ (el));
 };
+
 
 /** @inheritDoc */
 hash5.ui.Entry.prototype.enterDocument = function()
@@ -77,8 +98,14 @@ hash5.ui.Entry.prototype.handleTextChanged_ = function(e)
 hash5.ui.Entry.prototype.handleClick_ = function(e)
 {
     var tagName = e.target.nodeName;
-    if(tagName != goog.dom.TagName.A && tagName != goog.dom.TagName.I)
-    {
+
+    if(tagName != goog.dom.TagName.A && tagName != goog.dom.TagName.I) {
+        this.dispatchEvent(goog.ui.Component.EventType.ACTION);
         this.getElementByClass('action-edit').click();
+    }
+
+    if(goog.dom.classes.has(e.target, 'see_more_link')) {
+        goog.dom.classes.add(this.getElement(), 'text_exposed');
+        e.preventDefault();
     }
 };
