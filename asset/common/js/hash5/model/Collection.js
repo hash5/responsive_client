@@ -186,7 +186,7 @@ hash5.model.Collection.prototype.remove = function(item)
 hash5.model.Collection.prototype.removeAt = function(index)
 {
     var item = this.data_[index],
-        removed = goog.array.remove(this.data_, item);
+        removed = goog.array.removeAt(this.data_, index);
 
     if (removed)
     {
@@ -231,18 +231,26 @@ hash5.model.Collection.prototype.serialize = function()
  */
 hash5.model.Collection.prototype.merge = function(modelArr)
 {
-    // TODO disabled merge alog because of wrong ui move problems...
-    for(var i = this.data_.length; i > 0; i--)
-    {
-        this.removeAt(i - 1);
+    // simple merge algo, without move events!
+
+    var i = 0;
+    for(var length = modelArr.length; i < length; i++) {
+        var newModel = modelArr[i],
+            curModel = this.data_[i];
+
+        if(newModel !== curModel) {
+            this.insertAt(newModel, i);
+        }
     }
 
-    for(var length = modelArr.length; i < length; i++)
-    {
-        this.insert(modelArr[i]);
+    // remove remaining items
+    for(var length = this.data_.length; i < length; i++) {
+        this.removeAt(this.data_.length -1);
     }
 
 /*
+    // complex merge algo with move events --> does not work properly...
+    // (problem with ui.component move...?)
     var i = 0;
     for(var length = modelArr.length; i < length; i++)
     {

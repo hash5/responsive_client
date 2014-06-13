@@ -69,13 +69,17 @@ hash5.ui.Entry.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    var entry = this.getModel();
+    var entry = this.getModel(),
+        el = this.getElement();
 
     this.getHandler()
         .listen(entry, hash5.model.Entry.EventType.TEXT_CHANGED, this.handleTextChanged_)
-        .listen(this.getElement(), goog.events.EventType.CLICK, this.handleClick_);
+        .listen(el, goog.events.EventType.CLICK, this.handleClick_);
 
     entry.getTextParser().triggerDisplay(this);
+
+    var insertAnim = new hash5.fx.CssClassAnimation(el, hash5.fx.CssClassAnimation.Animations.INSERT);
+    insertAnim.play();
 
     //var dlg = this.getParent().getDragHandler();
     //dlg.listenForDragEvents(this.getElement());

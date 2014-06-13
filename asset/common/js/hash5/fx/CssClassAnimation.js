@@ -55,5 +55,6 @@ hash5.fx.CssClassAnimation.prototype.handleTransitionEnd = function(e)
  * @enum {string}
  */
 hash5.fx.CssClassAnimation.Animations = {
-    FOCUS: 'focus-anim'
+    FOCUS: 'focus-anim',
+    INSERT: 'insert-anim'
 };

@@ -1,0 +1,10 @@
+
+.insert-anim {
+    @include animation(insert-anim 1.2s ease);
+}
+
+@include keyframes(insert-anim) {
+  0% {background-color: inherit;}
+  50% {background-color: $colorGreen1;}
+  100% {background-color: inherit;}
+}

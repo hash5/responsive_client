@@ -1,6 +1,5 @@
 
-.focus-anim
-{
+.focus-anim {
     @include animation(box-focus-anim 2s 0.5s ease 2);
 }
 
