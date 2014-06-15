@@ -6,19 +6,21 @@
 {template .login}
     <div class="login-form">
         <div class="hash5-logo">hash<span>5</span></div>
-        <div class="form-wrapper"></div>
-        <div class="register-wrapper">
-            <button class="btn register-link">
-                {msg desc="register button"}or create new account{/msg}
-            </button>
+        <form id="login-form" class="form-tag">
+            <div class="form-wrapper"></div>
+            <div class="register-wrapper">
+                <button class="btn register-link">
+                    {msg desc="register button"}or create new account{/msg}
+                </button>
+                <br /><br />
+                <a href="?lang={msg desc="lang change code"}de{/msg}" class="lang-change">{msg desc="lang change button"}Deutsch{/msg}</a>
+            </div>
+            <button class="btn primary btn-login" type="submit">Login</button>
             <br /><br />
-            <a href="?lang={msg desc="lang change code"}de{/msg}" class="lang-change">{msg desc="lang change button"}Deutsch{/msg}</a>
-        </div>
-        <button class="btn primary btn-login">Login</button>
-        <br /><br />
-        <a href="#passwRec" class="passw-rec-link">
-            {msg desc="password recovery button"}I don't know my password.{/msg}
-        </a>
+            <a href="#passwRec" class="passw-rec-link">
+                {msg desc="password recovery button"}I don't know my password.{/msg}
+            </a>
+        </form>
     </div>
 {/template}
 

@@ -70,13 +70,13 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
     this.form_.errorProvider.render(this.getElement());
 
     // register handlers
-    var loginBtn = this.getElementByClass('btn-login'),
+    var formWrapper = this.getElementByClass('form-tag'),
         registerBtn = this.getElementByClass('register-link'),
         pwdRecBtn = this.getElementByClass('passw-rec-link'),
         userController = hash5.controller.UserController.getInstance();
 
     this.getHandler()
-        .listen(loginBtn, goog.events.EventType.CLICK, this.handleLoginClick_)
+        .listen(formWrapper, goog.events.EventType.SUBMIT, this.handleLoginClick_)
         .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
         .listen(pwdRecBtn, goog.events.EventType.CLICK, this.handlePwdRecoveryClick_)
 
@@ -99,6 +99,8 @@ hash5.ui.LoginForm.prototype.handleLoginClick_ = function(e)
 {
     // validate from
     this.form_.validate();
+
+    e.preventDefault();
 };
 
 
