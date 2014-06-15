@@ -1,31 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE translationbundle>
 <translationbundle lang="en">
-	<translation id="3603953136035743377" key="MSG_15MA9WC7D24EG" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register button">or create new account</translation>
-	<translation id="8914174396777800493" key="MSG_1TSN7FIFRIT61" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="lang change code">de</translation>
-	<translation id="5731102291567675345" key="MSG_1WBUXJJJK6ALW" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="lang change button">Deutsch</translation>
-	<translation id="8691650432970362875" key="MSG_1QHVFDJ6JO0JD" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register heading">Register</translation>
-	<translation id="8601435840013717474" key="MSG_CP60GO4NLSG2" source="../asset/common/js/hash5/templates/ui/LoginForm.soy" desc="register button">create account</translation>
-	<translation id="29061588115776576" key="MSG_14D9FYATIY8H8" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal cancel btn">Cancel</translation>
+	<translation id="1162784786620928825" key="MSG_N24KXRXWR7YX" source="../asset/common/templates/ui/MessageBox.soy" desc="ok button title">OK</translation>
+	<translation id="2543455318222533539" key="MSG_ERROR_MESSAGE_TITLE" source="../asset/common/js/hash5/controller/ErrorController.js" desc="error message box title">Error</translation>
+	<translation id="4949579631849901468" key="MSG_DEFAULT_ERROR_MESSAGE" source="../asset/common/js/hash5/controller/ErrorController.js" desc="error message box title">An uncaught exception was raised.</translation>
+	<translation id="3603953136035743377" key="MSG_15MA9WC7D24EG" source="../asset/common/templates/ui/LoginForm.soy" desc="register button">or create new account</translation>
+	<translation id="8914174396777800493" key="MSG_1TSN7FIFRIT61" source="../asset/common/templates/ui/LoginForm.soy" desc="lang change code">de</translation>
+	<translation id="5731102291567675345" key="MSG_1WBUXJJJK6ALW" source="../asset/common/templates/ui/LoginForm.soy" desc="lang change button">Deutsch</translation>
+	<translation id="4386777414091197530" key="MSG_16AJ3FXLXOPMZ" source="../asset/common/templates/ui/LoginForm.soy" desc="password recovery button">I don't know my password.</translation>
+	<translation id="8691650432970362875" key="MSG_1QHVFDJ6JO0JD" source="../asset/common/templates/ui/LoginForm.soy" desc="register heading">Register</translation>
+	<translation id="8601435840013717474" key="MSG_CP60GO4NLSG2" source="../asset/common/templates/ui/LoginForm.soy" desc="register button">create account</translation>
+	<translation id="4641324179320064476" key="MSG_1UB3ITWI32AZC" source="../asset/common/templates/Settings.soy" desc="settings modal cancel btn">Cancel</translation>
+	<translation id="4452562263653049438" key="MSG_19F19JFAP8CQW" source="../asset/common/templates/ui/LoginForm.soy" desc="rev heading heading">Forgot your password?</translation>
+	<translation id="2287035899527421190" key="MSG_1H357U6S6AXRZ" source="../asset/common/templates/ui/LoginForm.soy" desc="pwd rec info text">Enter your username and email address below and we will send you a link where you can enter a new password.</translation>
+	<translation id="8973291444779671675" key="MSG_5KXHKV3P3WUF" source="../asset/common/templates/ui/LoginForm.soy" desc="rec button">Send reset mail</translation>
 	<translation id="1047959220914296384" key="MSG_USERNAME" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="username">Username</translation>
-	<translation id="5796336013099753435" key="MSG_PASSWORD" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password">Password</translation>
+	<translation id="5766899232673757425" key="MSG_PASSWORD" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password">Password</translation>
+	<translation id="974453622629183189" key="MSG_PASSWORD_REPEAT" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password repeat">Confirm your password</translation>
+	<translation id="373205061597952298" key="MSG_EMAIL" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="email field">Email address</translation>
 	<translation id="8255869980679741143" key="MSG_USERNAME_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg forusername">Please insert your username.</translation>
 	<translation id="4869280965051537343" key="MSG_PASSWORD_REQ" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="required msg for password">Please insert your password.</translation>
 	<translation id="1699889279504198943" key="MSG_PASSWORD_DISMATCH" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="error msg for not equal passwords">These passwords don't match.</translation>
+	<translation id="3908707876874731687" key="MSG_INVALID_EMAIL" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="error msg for not equal passwords">Please insert a valid email address.</translation>
 	<translation id="7564739925386103068" key="MSG_USER_CONFLICT" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="user name conflict error msg">Someone already has that username.</translation>
+	<translation id="8971120662930589705" key="MSG_REC_USERNAME" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="username">Username</translation>
+	<translation id="8314698316301328792" key="MSG_REC_EMAIL" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="email field">Email address</translation>
+	<translation id="3091046003152390614" key="MSG_REC_USERNAME_REQ" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="required msg forusername">Please insert your username.</translation>
+	<translation id="8225174230710311730" key="MSG_REC_INVALID_EMAIL" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="error msg for not equal passwords">Please insert a valid email address.</translation>
+	<translation id="7845851583575459858" key="MSG_REC_SUCESS_TITLE" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="pwd rec success msg title">EMail send</translation>
+	<translation id="7342281971750980924" key="MSG_REC_SUCESS" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="pwd rec success msg">We've sent password reset instructions to your e-mail address</translation>
+	<translation id="395895240322490510" key="MSG_INVALID_USER" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="user name + email invalid error msg">Sorry but we could not find your account.</translation>
 	<translation id="7443418876915152054" key="MSG_USERNAME1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="username">Username</translation>
 	<translation id="3009194278238042444" key="MSG_PASSWORD1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="password">Password</translation>
+	<translation id="5374989843585274992" key="MSG_KEEP_LOGIN" source="../asset/common/js/hash5/ui/LoginForm.js" desc="stay sigend in checkbox">Stay signed in</translation>
 	<translation id="3171001077743357119" key="MSG_USERNAME_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg forusername">Please insert your username.</translation>
 	<translation id="4839133846505152977" key="MSG_PASSWORD_REQ1" source="../asset/common/js/hash5/ui/LoginForm.js" desc="required msg for password">Please insert your password.</translation>
 	<translation id="4701102176954940477" key="MSG_WRONG_PASSWORD" source="../asset/common/js/hash5/ui/LoginForm.js" desc="wrong password msg">The email or password you entered is incorrect.</translation>
-	<translation id="6468784957347062648" key="MSG_RK1SKDVE1FVZ" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="entry editor edit title">Edit entry</translation>
-	<translation id="3492245044200129208" key="MSG_YPZDSKDEKL3G" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal save btn">Save</translation>
-	<translation id="8461299294027390970" key="MSG_11Q8NMH0NV74G" source="../asset/common/js/hash5/templates/ui/EntryEditor.soy" desc="tooltip to remove helper tile">remove</translation>
+	<translation id="6468784957347062648" key="MSG_RK1SKDVE1FVZ" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor edit title">Edit entry</translation>
+	<translation id="2709033634867915435" key="MSG_KJYSDNSFQCHP" source="../asset/common/templates/ui/EntryEditor.soy" desc="created on">created on </translation>
+	<translation id="8769203528018276891" key="MSG_1AJPIT4V1F3JO" source="../asset/common/templates/ui/EntryEditor.soy" desc="cur saving status">saving...</translation>
+	<translation id="2640009467474430345" key="MSG_1CTD3JKTL8SVF" source="../asset/common/templates/ui/EntryEditor.soy" desc="all changes saved status">All changes saved.</translation>
+	<translation id="7940324588904926553" key="MSG_RV6FB09ID7Q2" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor save btn title">Done</translation>
+	<translation id="3873420143759315220" key="MSG_8ZO6ZJUIQMNY" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor cancel btn title">Revert</translation>
+	<translation id="5150468964842762536" key="MSG_GTP21E4MYC5O" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip undo">undo changes</translation>
+	<translation id="3475511796024271502" key="MSG_1AXN3ZNPKZKAS" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip redo">redo changes</translation>
+	<translation id="8461299294027390970" key="MSG_11Q8NMH0NV74G" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip to remove helper tile">remove</translation>
+	<translation id="7233944787889347873" key="MSG_MONTH_AND_YEAR" source="/closure/goog/date/date.js" desc="Month/year format given the month name and the numeric year."><ph name="monthName" /> <ph name="yearNum" /></translation>
 	<translation id="7656530172193016977" key="MSG_TIME_AM" source="/closure/goog/date/date.js" desc="Suffix for morning times.">am</translation>
 	<translation id="2650497251098773617" key="MSG_TIME_PM" source="/closure/goog/date/date.js" desc="Suffix for afternoon times.">pm</translation>
 	<translation id="7936095480982438927" key="MSG_DATEPICKER_TODAY_BUTTON_LABEL" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that selects the current date.">Today</translation>
 	<translation id="363095865625764662" key="MSG_DATEPICKER_NONE" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that clears the selection.">None</translation>
+	<translation id="6448680667685906644" key="MSG_RECURRENT_CB_TITLE" source="../asset/modules/calendar/js/ui/HelperTile.js" desc="checkbox title to enable recurrent events">recurrent event</translation>
 	<translation id="3205135428336611164" key="MSG_CALENDAR_PLUGIN" source="../asset/modules/calendar/js/EditorComponent.js" desc="name for the calendar plugin">Calendar</translation>
+	<translation id="7921723126025047070" key="MSG_TODAY_CB" source="../asset/modules/calendar/js/SearchOptionsHelper.js" desc="form-item label for today entries">Today</translation>
+	<translation id="3214467419349854616" key="MSG_1QQ2V49NZ5VVU" source="../asset/modules/intro/js/Template.soy" desc="intro layer heading">Welcome to Hash5</translation>
+	<translation id="7790999344048373821" key="MSG_1CPG4TF7L85Z5" source="../asset/modules/intro/js/Template.soy" desc="intro layer text">asdf</translation>
+	<translation id="8188988424302416879" key="MSG_1PEX99KL3P2V" source="../asset/modules/intro/js/Template.soy" desc="intro layer tour teaser">New to Hash5?</translation>
+	<translation id="7495434389427446744" key="MSG_567OLIUKIHET" source="../asset/modules/intro/js/Template.soy" desc="intro layer tour teaser">Take the Intro Tour to get an introduction:</translation>
+	<translation id="4019399182399264973" key="MSG_LDG1M8JEHQ6X" source="../asset/modules/intro/js/Template.soy" desc="intro layer start intro tour btn">Start intro tour</translation>
+	<translation id="2798167531847186272" key="MSG_1IT4KG4OW4894" source="../asset/modules/intro/js/Template.soy" desc="intro layer close btn">Start without tour</translation>
+	<translation id="1141695658582010175" key="MSG_NEW_TITLE" source="../asset/common/js/hash5/ui/st/Node.js" desc="new title label">New name: </translation>
+	<translation id="5581493262020535326" key="MSG_1WI15Y8B7HEAF" source="../asset/common/templates/SearchTree.soy" desc="search tree heading">Saved searches</translation>
+	<translation id="986884507728576849" key="MSG_1KC4BV76SZEGQ" source="../asset/common/templates/SearchTree.soy" desc="add group button">Add Group</translation>
+	<translation id="8396156743684686846" key="MSG_JXLNJKLY1YBE" source="../asset/common/templates/SearchTree.soy" desc="newest entries add button">Latest entries</translation>
+	<translation id="3046482427585406340" key="MSG_62FS6ZVKS4W5" source="../asset/common/templates/SearchTree.soy" desc="searchtree edit search hint">edit</translation>
+	<translation id="7498831467593041153" key="MSG_1QMCDXEEXIA19" source="../asset/common/templates/SearchTree.soy" desc="searchtree edit group heading">Edit group</translation>
+	<translation id="7941406175192015396" key="MSG_1KN5CE9YJ9PXR" source="../asset/common/templates/SearchTree.soy" desc="searchtree remove group">remove group</translation>
+	<translation id="3408564240948336204" key="MSG_Z97PR5536Q1X" source="../asset/common/templates/SearchTree.soy" desc="searchtree rename group">rename group</translation>
+	<translation id="5948850604371703444" key="MSG_1HFGBBKTBTYEK" source="../asset/common/templates/SearchTree.soy" desc="searchtree edit search heading">Edit search</translation>
+	<translation id="6226080889481999068" key="MSG_18ER6K1CZ6L3J" source="../asset/common/templates/SearchTree.soy" desc="searchtree remove search">remove search</translation>
+	<translation id="4849290501067174345" key="MSG_ZL9CBT8VVQFE" source="../asset/common/templates/SearchTree.soy" desc="searchtree rename search">rename search</translation>
+	<translation id="8217519619607284502" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/st/SearchTree.js" desc="newest entry list heading">Latest Entries</translation>
+	<translation id="5618691672660683135" key="MSG_LIST_DROP_HINT" source="../asset/common/js/hash5/ui/PageSidebar.js" desc="hint message to drop lists on sidebar">Drop list here to save it to your saved-searches</translation>
 	<translation id="3302075815358945759" key="MSG_TOMORROW" source="/closure/goog/date/relative.js" desc="Tomorrow.">Tomorrow</translation>
 	<translation id="2230012501304111723" key="MSG_TODAY" source="/closure/goog/date/relative.js" desc="Today.">Today</translation>
 	<translation id="3408896348886713221" key="MSG_YESTERDAY" source="/closure/goog/date/relative.js" desc="Yesterday.">Yesterday</translation>
@@ -41,96 +87,41 @@
 	<translation id="6872298578359114528" key="MSG_DAYS_AGO_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating how many days ago something happened (plural)."><ph name="num" /> days ago</translation>
 	<translation id="1081926157258772881" key="MSG_IN_DAYS_SINGULAR" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many days something happens (singular).">in <ph name="num" /> day</translation>
 	<translation id="6511054188199036888" key="MSG_IN_DAYS_PLURAL" source="/closure/goog/date/relative.js" desc="Relative date indicating in how many days something happens (plural).">in <ph name="num" /> days</translation>
+	<translation id="8180672915676487748" key="MSG_1T4CSYLH5NJ2Y" source="../asset/common/templates/ui/Entry.soy" desc="show more link text">Show more</translation>
 	<translation id="5505833551326918382" key="MSG_ADD_ENTRY" source="../asset/common/js/hash5/ui/QuickCreateEntry.js" desc="qucick edit placeholder">Add Entry...</translation>
-	<translation id="7141543709934632345" key="MSG_KBYCE8UAEIDB" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="add entry list action">add</translation>
-	<translation id="8464512011312511379" key="MSG_J13TJW7OAMS0" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="close entry list action">close</translation>
-	<translation id="7761452865245188589" key="MSG_V99P3NME5ZXQ" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="delete all entry list action">Delete all</translation>
-	<translation id="8035258730776425762" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
-	<translation id="4463237795828482645" key="MSG_18GIEN36PX54E" source="../asset/common/js/hash5/templates/SearchField.soy" desc="search btn label">Search</translation>
-	<translation id="8110680991594254670" key="MSG_10KPA4FGYE26Z" source="../asset/common/js/hash5/templates/SearchField.soy" desc="preview heading">Preview</translation>
-	<translation id="1872691692674123183" key="MSG_16K60HO5P8S2C" source="../asset/common/js/hash5/templates/SearchField.soy" desc="add column button">Add Column</translation>
-	<translation id="8724543422330761023" key="MSG_Placeholder" source="../asset/common/js/hash5/ui/SearchField.js" desc="search box placeholder">Search...</translation>
-	<translation id="8502001353614489348" key="MSG_ADD_FOLDER" source="../asset/common/js/hash5/ui/SearchTree.js" desc="add folder button">Add Folder</translation>
-	<translation id="3317439382039901875" key="MSG_UNDO" source="../asset/common/js/hash5/controller/UndoController.js" desc="header btn for undo menu">Undo</translation>
-	<translation id="4599720509812622647" key="MSG_133GJ5W9W1JGH" source="../asset/common/js/hash5/templates/Settings.soy" desc="settings modal heading">Settings</translation>
-	<translation id="8177477612884511513" key="MSG_LANGUAGE" source="../asset/common/js/hash5/view/Settings.js" desc="username">Language</translation>
-	<translation id="6608789283188933674" key="MSG_SEARCH_TITLE" source="../asset/common/js/hash5/layout/Header.js" desc="search title">Search</translation>
-	<translation id="7418881267038288571" key="MSG_ADD_TITLE" source="../asset/common/js/hash5/layout/Header.js" desc="add title">Add</translation>
-	<translation id="1594427186360964062" key="MSG_SETTINGS" source="../asset/common/js/hash5/layout/Header.js" desc="settings btn title">Settings</translation>
-	<translation id="192207046017539897" key="MSG_LOGOUT" source="../asset/common/js/hash5/layout/Header.js" desc="logout btn title">Logout</translation>
-	<translation id="3550314706871989205" key="MSG_SX6F1K1NGKY3" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="sort entries by text">Sort by text</translation>
-	<translation id="203490498955050458" key="MSG_1M9XXTN9IEQYR" source="../asset/common/js/hash5/templates/ui/EntryListContainer.soy" desc="sort entries by created_date">Sort by date</translation>
-	<translation id="7337991190476357156" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
-	<translation id="5310161572591863071" key="MSG_KTDG029AHC58" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="add folder button">Add Folder</translation>
-	<translation id="7428775094586820208" key="MSG_1T5DOJAWQR6LQ" source="../asset/common/js/hash5/templates/SearchTree.soy" desc="newest entries add button">Latest entries</translation>
-	<translation id="7071774685227588554" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Latest Entries</translation>
-	<translation id="2053705403637248134" key="MSG_OFFLINE_INFO" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Lost connection to server. Requests are now cached.</translation>
-	<translation id="4641324179320064476" key="MSG_1UB3ITWI32AZC" source="../asset/common/templates/Settings.soy" desc="settings modal cancel btn">Cancel</translation>
-	<translation id="2709033634867915435" key="MSG_KJYSDNSFQCHP" source="../asset/common/templates/ui/EntryEditor.soy" desc="created on">created on </translation>
-	<translation id="8769203528018276891" key="MSG_1AJPIT4V1F3JO" source="../asset/common/templates/ui/EntryEditor.soy" desc="cur saving status">saving...</translation>
-	<translation id="2640009467474430345" key="MSG_1CTD3JKTL8SVF" source="../asset/common/templates/ui/EntryEditor.soy" desc="all changes saved status">All changes saved.</translation>
-	<translation id="7940324588904926553" key="MSG_RV6FB09ID7Q2" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor save btn title">Done</translation>
-	<translation id="3873420143759315220" key="MSG_8ZO6ZJUIQMNY" source="../asset/common/templates/ui/EntryEditor.soy" desc="entry editor cancel btn title">Revert</translation>
-	<translation id="8483736124856053104" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
-	<translation id="8396156743684686846" key="MSG_JXLNJKLY1YBE" source="../asset/common/templates/SearchTree.soy" desc="newest entries add button">Latest entries</translation>
-	<translation id="8217519619607284502" key="MSG_NEWESTENTRIES_HEADING" source="../asset/common/js/hash5/ui/SearchTree.js" desc="newest entry list heading">Latest Entries</translation>
-	<translation id="7783382412166058149" key="MSG_16H731MI10SP0" source="../asset/modules/files/js/Template.soy" desc="upload info text">Upload new file:</translation>
-	<translation id="520674266778320185" key="MSG_1HDA62IT12IFV" source="../asset/modules/files/js/Template.soy" desc="upload button text">Select File</translation>
-	<translation id="7296342991010635787" key="MSG_FILES_PLUGIN" source="../asset/modules/files/js/EditorComponent.js" desc="name for the files plugin">Files</translation>
-	<translation id="1162784786620928825" key="MSG_N24KXRXWR7YX" source="../asset/common/templates/ui/MessageBox.soy" desc="ok button title">OK</translation>
-	<translation id="2543455318222533539" key="MSG_ERROR_MESSAGE_TITLE" source="../asset/common/js/hash5/controller/ErrorController.js" desc="error message box title">Error</translation>
-	<translation id="4949579631849901468" key="MSG_DEFAULT_ERROR_MESSAGE" source="../asset/common/js/hash5/controller/ErrorController.js" desc="error message box title">An uncaught exception was raised.</translation>
-	<translation id="4386777414091197530" key="MSG_16AJ3FXLXOPMZ" source="../asset/common/templates/ui/LoginForm.soy" desc="password recovery button">I don't know my password.</translation>
-	<translation id="4452562263653049438" key="MSG_19F19JFAP8CQW" source="../asset/common/templates/ui/LoginForm.soy" desc="rev heading heading">Forgot your password?</translation>
-	<translation id="2287035899527421190" key="MSG_1H357U6S6AXRZ" source="../asset/common/templates/ui/LoginForm.soy" desc="pwd rec info text">Enter your username and email address below and we will send you a link where you can enter a new password.</translation>
-	<translation id="8973291444779671675" key="MSG_5KXHKV3P3WUF" source="../asset/common/templates/ui/LoginForm.soy" desc="rec button">Send reset mail</translation>
-	<translation id="5766899232673757425" key="MSG_PASSWORD" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password">Password</translation>
-	<translation id="974453622629183189" key="MSG_PASSWORD_REPEAT" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="password repeat">Confirm your password</translation>
-	<translation id="373205061597952298" key="MSG_EMAIL" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="email field">Email address</translation>
-	<translation id="3908707876874731687" key="MSG_INVALID_EMAIL" source="../asset/common/js/hash5/ui/RegisterForm.js" desc="error msg for not equal passwords">Please insert a valid email address.</translation>
-	<translation id="8971120662930589705" key="MSG_REC_USERNAME" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="username">Username</translation>
-	<translation id="8314698316301328792" key="MSG_REC_EMAIL" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="email field">Email address</translation>
-	<translation id="3091046003152390614" key="MSG_REC_USERNAME_REQ" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="required msg forusername">Please insert your username.</translation>
-	<translation id="8225174230710311730" key="MSG_REC_INVALID_EMAIL" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="error msg for not equal passwords">Please insert a valid email address.</translation>
-	<translation id="7845851583575459858" key="MSG_REC_SUCESS_TITLE" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="pwd rec success msg title">EMail send</translation>
-	<translation id="7342281971750980924" key="MSG_REC_SUCESS" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="pwd rec success msg">We've sent password reset instructions to your e-mail address</translation>
-	<translation id="395895240322490510" key="MSG_INVALID_USER" source="../asset/common/js/hash5/ui/PwdRecoveryForm.js" desc="user name + email invalid error msg">Sorry but we could not find your account.</translation>
-	<translation id="5374989843585274992" key="MSG_KEEP_LOGIN" source="../asset/common/js/hash5/ui/LoginForm.js" desc="stay sigend in checkbox">Stay signed in</translation>
-	<translation id="5150468964842762536" key="MSG_GTP21E4MYC5O" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip undo">undo changes</translation>
-	<translation id="3475511796024271502" key="MSG_1AXN3ZNPKZKAS" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip redo">redo changes</translation>
-	<translation id="6448680667685906644" key="MSG_RECURRENT_CB_TITLE" source="../asset/modules/calendar/js/ui/HelperTile.js" desc="checkbox title to enable recurrent events">recurrent event</translation>
+	<translation id="4015673512441790743" key="MSG_M9QJIMC7WXFS" source="../asset/common/templates/ui/EntryListContainer.soy" desc="add entry list action">add new entry</translation>
+	<translation id="1177522097714894605" key="MSG_YXTO7CMM2FAH" source="../asset/common/templates/ui/EntryListContainer.soy" desc="close entry list action">close column</translation>
 	<translation id="5397860641616251871" key="MSG_IXPGZDLF62DN" source="../asset/common/templates/ui/EntryListContainer.soy" desc="save to searchtree entry list action">Save Column</translation>
 	<translation id="3082461009102385797" key="MSG_Z0UIFYLDZ0AM" source="../asset/common/templates/ui/EntryListContainer.soy" desc="delete all entry list action">Delete all entries</translation>
+	<translation id="3550314706871989205" key="MSG_SX6F1K1NGKY3" source="../asset/common/templates/ui/EntryListContainer.soy" desc="sort entries by text">Sort by text</translation>
+	<translation id="203490498955050458" key="MSG_1M9XXTN9IEQYR" source="../asset/common/templates/ui/EntryListContainer.soy" desc="sort entries by created_date">Sort by date</translation>
 	<translation id="5969159722671580295" key="MSG_1EIJPHNOME3RS" source="../asset/common/templates/ListView.soy" desc="hint message heading when no list is displayed">There are no lists to display!</translation>
 	<translation id="213494567465850111" key="MSG_C4U9MZRLE0U3" source="../asset/common/templates/ListView.soy" desc="hint message when no list is displayed">Use the searchfield to create a new search or open a saved search from your searchtree.</translation>
+	<translation id="8483736124856053104" key="MSG_NEWEST_HEADING" source="../asset/common/js/hash5/view/ListView.js" desc="newest entry list heading">Latest Entries</translation>
+	<translation id="3317439382039901875" key="MSG_UNDO" source="../asset/common/js/hash5/controller/UndoController.js" desc="header btn for undo menu">Undo</translation>
+	<translation id="4463237795828482645" key="MSG_18GIEN36PX54E" source="../asset/common/templates/SearchField.soy" desc="search btn label">Search</translation>
+	<translation id="8110680991594254670" key="MSG_10KPA4FGYE26Z" source="../asset/common/templates/SearchField.soy" desc="preview heading">Preview</translation>
+	<translation id="1872691692674123183" key="MSG_16K60HO5P8S2C" source="../asset/common/templates/SearchField.soy" desc="add column button">Add Column</translation>
+	<translation id="356421045252655441" key="MSG_ISVKX2FHS971" source="../asset/common/templates/SearchField.soy" desc="toggle search options">Options</translation>
 	<translation id="4531300256371720160" key="MSG_UTKXBI9H3CRH" source="../asset/common/templates/SearchField.soy" desc="error message when not enough character where insered">Please insert at least three characters to start the search.</translation>
 	<translation id="894734635802244010" key="MSG_2SFBZBEBRCJQ" source="../asset/common/templates/SearchField.soy" desc="error message when no entries there found">Your search did not match any entries.</translation>
-	<translation id="5581493262020535326" key="MSG_1WI15Y8B7HEAF" source="../asset/common/templates/SearchTree.soy" desc="search tree heading">Saved searches</translation>
-	<translation id="3046482427585406340" key="MSG_62FS6ZVKS4W5" source="../asset/common/templates/SearchTree.soy" desc="searchtree edit search hint">edit</translation>
-	<translation id="4971378927501961104" key="MSG_1IHMFVYK64GB2" source="../asset/common/templates/SearchTree.soy" desc="searchtree edit folder heading">Edit folder</translation>
-	<translation id="2908415924307815365" key="MSG_1ATNYMHECOJLR" source="../asset/common/templates/SearchTree.soy" desc="searchtree remove folder">remove folder</translation>
-	<translation id="2625168007331885933" key="MSG_C25FFKNODQ19" source="../asset/common/templates/SearchTree.soy" desc="searchtree rename folder">rename folder</translation>
-	<translation id="5948850604371703444" key="MSG_1HFGBBKTBTYEK" source="../asset/common/templates/SearchTree.soy" desc="searchtree edit search heading">Edit search</translation>
-	<translation id="6226080889481999068" key="MSG_18ER6K1CZ6L3J" source="../asset/common/templates/SearchTree.soy" desc="searchtree remove search">remove search</translation>
-	<translation id="4849290501067174345" key="MSG_ZL9CBT8VVQFE" source="../asset/common/templates/SearchTree.soy" desc="searchtree rename search">rename search</translation>
-	<translation id="3934095444908305137" key="MSG_UKZCSGUZFQ8Y" source="../asset/modules/files/js/Template.soy" desc="drag drop hint">or Drag&amp;Drop</translation>
-	<translation id="4417557988329914384" key="MSG_NEW_TITLE" source="../asset/common/js/hash5/ui/st/Node.js" desc="new title label">Neuer Name: </translation>
-	<translation id="1141695658582010175" key="MSG_NEW_TITLE" source="../asset/common/js/hash5/ui/st/Node.js" desc="new title label">New name: </translation>
-	<translation id="7921723126025047070" key="MSG_TODAY_CB" source="../asset/modules/calendar/js/SearchOptionsHelper.js" desc="form-item label for today entries">Today</translation>
-	<translation id="3214467419349854616" key="MSG_1QQ2V49NZ5VVU" source="../asset/modules/intro/js/Template.soy" desc="intro layer heading">Welcome to Hash5</translation>
-	<translation id="7790999344048373821" key="MSG_1CPG4TF7L85Z5" source="../asset/modules/intro/js/Template.soy" desc="intro layer text">asdf</translation>
-	<translation id="8188988424302416879" key="MSG_1PEX99KL3P2V" source="../asset/modules/intro/js/Template.soy" desc="intro layer tour teaser">New to Hash5?</translation>
-	<translation id="7495434389427446744" key="MSG_567OLIUKIHET" source="../asset/modules/intro/js/Template.soy" desc="intro layer tour teaser">Take the Intro Tour to get an introduction:</translation>
-	<translation id="4019399182399264973" key="MSG_LDG1M8JEHQ6X" source="../asset/modules/intro/js/Template.soy" desc="intro layer start intro tour btn">Start intro tour</translation>
-	<translation id="2798167531847186272" key="MSG_1IT4KG4OW4894" source="../asset/modules/intro/js/Template.soy" desc="intro layer close btn">Start without tour</translation>
-	<translation id="356421045252655441" key="MSG_ISVKX2FHS971" source="../asset/common/templates/SearchField.soy" desc="toggle search options">Options</translation>
 	<translation id="1417421035413536083" key="MSG_H4PSOMZ4NYN3" source="../asset/common/templates/SearchField.soy" desc="search options heading">Searchoptions</translation>
 	<translation id="6819521883315590959" key="MSG_OPTIONS_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for containing strings">Containing</translation>
 	<translation id="6561318456446798105" key="MSG_OPTIONS_NOT_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for not containing strings">Not Containing</translation>
 	<translation id="6563484510341014146" key="MSG_OPTIONS_OPTIONAL_CONTAINING" source="../asset/common/js/hash5/ui/search/DefaultSearchOptionsHelper.js" desc="form-item label for optional containing strings">Optional Containing</translation>
-	<translation id="1575571646327790033" key="MSG_geo5_PLUGIN" source="../asset/modules/geo5/js/EditorComponent.js" desc="name for the geo5 plugin">geo5</translation>
-	<translation id="5618691672660683135" key="MSG_LIST_DROP_HINT" source="../asset/common/js/hash5/ui/PageSidebar.js" desc="hint message to drop lists on sidebar">Drop list here to save it to your saved-searches</translation>
-	<translation id="4015673512441790743" key="MSG_M9QJIMC7WXFS" source="../asset/common/templates/ui/EntryListContainer.soy" desc="add entry list action">add new entry</translation>
-	<translation id="1177522097714894605" key="MSG_YXTO7CMM2FAH" source="../asset/common/templates/ui/EntryListContainer.soy" desc="close entry list action">close column</translation>
+	<translation id="8724543422330761023" key="MSG_Placeholder" source="../asset/common/js/hash5/ui/search/SearchField.js" desc="search box placeholder">Search...</translation>
+	<translation id="4599720509812622647" key="MSG_133GJ5W9W1JGH" source="../asset/common/templates/Settings.soy" desc="settings modal heading">Settings</translation>
+	<translation id="3492245044200129208" key="MSG_YPZDSKDEKL3G" source="../asset/common/templates/Settings.soy" desc="settings modal save btn">Save</translation>
+	<translation id="8177477612884511513" key="MSG_LANGUAGE" source="../asset/common/js/hash5/view/Settings.js" desc="username">Language</translation>
+	<translation id="2053705403637248134" key="MSG_OFFLINE_INFO" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Lost connection to server. Requests are now cached.</translation>
+	<translation id="6608789283188933674" key="MSG_SEARCH_TITLE" source="../asset/common/js/hash5/layout/Header.js" desc="search title">Search</translation>
+	<translation id="7418881267038288571" key="MSG_ADD_TITLE" source="../asset/common/js/hash5/layout/Header.js" desc="add title">Add</translation>
+	<translation id="1594427186360964062" key="MSG_SETTINGS" source="../asset/common/js/hash5/layout/Header.js" desc="settings btn title">Settings</translation>
 	<translation id="4343638367779587031" key="MSG_HELP" source="../asset/common/js/hash5/layout/Header.js" desc="help btn title">Help</translation>
+	<translation id="192207046017539897" key="MSG_LOGOUT" source="../asset/common/js/hash5/layout/Header.js" desc="logout btn title">Logout</translation>
+	<translation id="1575571646327790033" key="MSG_geo5_PLUGIN" source="../asset/modules/geo5/js/EditorComponent.js" desc="name for the geo5 plugin">geo5</translation>
+	<translation id="7783382412166058149" key="MSG_16H731MI10SP0" source="../asset/modules/files/js/Template.soy" desc="upload info text">Upload new file:</translation>
+	<translation id="520674266778320185" key="MSG_1HDA62IT12IFV" source="../asset/modules/files/js/Template.soy" desc="upload button text">Select File</translation>
+	<translation id="3934095444908305137" key="MSG_UKZCSGUZFQ8Y" source="../asset/modules/files/js/Template.soy" desc="drag drop hint">or Drag&amp;Drop</translation>
+	<translation id="7296342991010635787" key="MSG_FILES_PLUGIN" source="../asset/modules/files/js/EditorComponent.js" desc="name for the files plugin">Files</translation>
 </translationbundle>
