@@ -18,20 +18,20 @@ hash5.module.intro.initData_en = {
             ]
         },
         {
-            "title": "#intro",
+            "title": "#demo",
             "type": "request",
-            "query": "/entries?query=#intro"
+            "query": "/entries?query=#demo"
         }
     ],
     'entries': [
-        'Use hashtags to sort your Entries #intro',
-        'You can use the hashtag #todo to mark all your todo-items for example. #intor',
-        'Do you want to remove all example entries? --> Create a new column with the search for #intro and select "Delete all entries."',
+        'Use hashtags to sort your Entries #demo',
+        'You can use the hashtag #todo to mark all your todo-items for example. #demo',
+        'Do you want to remove all example entries? --> Create a new column with the search for #demo and select "Delete all entries."',
         '#work #todo some work task',
         '#private private information'
     ],
     'open-lists': [
-        '#intro', '#todo'
+        '#demo', '#todo'
     ],
     'intro-tour': [
         {
@@ -99,18 +99,18 @@ hash5.module.intro.initData_de = {
             ]
         },
         {
-            "title": "#intro",
+            "title": "#demo",
             "type": "request",
-            "query": "/entries?query=#intro"
+            "query": "/entries?query=#demo"
         }
     ],
     'entries': [
-        'Mit hashtags können Einträge sortiert werden #intro.',
-        'Der Hashtag #todo könnte so zum Beispiel alle zu erledigende Aufgaben grupieren #intro.',
-        'Du möchtest alle Beispieleinträge löschen? -> Erstelle eine neue Spalte mit der Suche nach #intro und wähle "Alle Einträge löschen."'
+        'Mit hashtags können Einträge sortiert werden #demo.',
+        'Der Hashtag #todo könnte so zum Beispiel alle zu erledigende Aufgaben grupieren #demo.',
+        'Du möchtest alle Beispieleinträge löschen? -> Erstelle eine neue Spalte mit der Suche nach #demo und wähle "Alle Einträge löschen."'
     ],
     'open-lists': [
-        '#intro', '#todo'
+        '#demo', '#todo'
     ],
     'intro-tour': hash5.module.intro.initData_en['intro-tour'] // TODO translate
 };
