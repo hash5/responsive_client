@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>Unit Tests - hash5.model.collection</title>
-    <script src="../../../../closure-library/closure/goog/base.js"></script>
-    <script src="../../deps.js"></script>
+    <script src="http://localhost:9810/compile?id=hash5&mode=RAW"></script>
 </head>
 <body>
     <script>
@@ -83,6 +82,24 @@
 
         function testMerge()
         {
+            for(var i = 1; i < 10; i++) {
+                collection.insert(i);
+            }
+
+            var mergeArr = [1,2,11,12,5,7,6];
+            collection.merge(mergeArr);
+
+            for(var i = 0; i < mergeArr.length; i++) {
+                assertEquals(mergeArr[i], collection.getAt(i));
+            }
+
+            assertEquals(collection.count(), 7);
+        }
+
+        function disabled_testMerge()
+        {
+            // disabled test --> tests complex algo which is currently not used!
+            return;
             for(var i = 1; i < 10; i++)
             {
                 collection.insert(i);

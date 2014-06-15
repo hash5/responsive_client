@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>Unit Tests - hash5.ds.ConnectionManager</title>
-    <script src="../../../../closure-library/closure/goog/base.js"></script>
-    <script src="../../deps.js"></script>
+    <script src="http://localhost:9810/compile?id=hash5&mode=RAW"></script>
 </head>
 <body>
     <script>
@@ -25,7 +24,7 @@
 
             if(!userController.isLoggedIn())
             {
-                asyncTestCase.waitForAsync('wait for login and data preparation');
+                asyncTestCase.waitForAsync('wait for login');
 
                 goog.events.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
                     asyncTestCase.continueTesting();
@@ -35,13 +34,13 @@
             }
         }
 
-        function testSimpleCal()
+        function testSimpleRequest()
         {
             ensureLogin();
 
             asyncTestCase.waitForAsync('wait for request callback');
             hash5.ds.ConnectionManager.request('/entries', 'GET', undefined, function(e){
-                assert(e.getResponseJson());
+                assert(e.getResponseJson() != null);
                 asyncTestCase.continueTesting();
             });
 

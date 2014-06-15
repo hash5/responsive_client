@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>Unit Tests - hash5.parsing.EntryTextParser</title>
-    <script src="../../../../closure-library/closure/goog/base.js"></script>
-    <script src="../../deps.js"></script>
+    <script src="http://localhost:9810/compile?id=hash5&mode=RAW"></script>
 </head>
 <body>
     <script>
@@ -47,7 +46,7 @@
             var parser = testEntry.getTextParser();
 
             var parseResult = parser.toString();
-            var expected = 'Dies ist mein <a class="hash-link simple" href="/search/beispieltext">#beispieltext</a> mit <a class="hash-link simple" href="/search/hash">#hash</a> #hashCompex:bla';
+            var expected = 'Dies ist mein <a class="hash-link simple" href="/search/beispieltext">#beispieltext</a> mit <a class="hash-link simple" href="/search/hash">#hash</a> <a class="hash-link simple" href="/search/hashCompex">#hashCompex</a>:bla';
 
             assertEquals(parseResult, expected);
         }
