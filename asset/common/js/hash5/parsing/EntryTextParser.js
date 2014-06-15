@@ -131,7 +131,7 @@ hash5.parsing.EntryTextParser.prototype.replaceSimpleTags = function()
     });
 
     // characters to divide hashtags
-    var divideCharacters = [undefined, ' ', ':', '=', '\n'];
+    var divideCharacters = ['', ' ', ':', '=', '\n'];
 
     for(var i = 0; i < tags.length; i++) {
         var tag = '#' + tags[i];
@@ -140,7 +140,7 @@ hash5.parsing.EntryTextParser.prototype.replaceSimpleTags = function()
         entryText = entryText.replace(new RegExp(tag, 'gi'), function(match, pos){
             var nextChar = entryText.charAt(match.length + pos);
 
-            if(divideCharacters.indexOf(nextChar) > 0) {
+            if(divideCharacters.indexOf(nextChar) >= 0) {
                 return '<a class="hash-link simple" href="/search/'
                     + encodeURIComponent(tags[i]) + '">' + tag + '</a>';
             } else {
