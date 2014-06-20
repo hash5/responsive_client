@@ -80,7 +80,7 @@ hash5.ui.LoginForm.prototype.enterDocument = function()
         .listen(registerBtn, goog.events.EventType.CLICK, this.handleRegBtnClick_)
         .listen(pwdRecBtn, goog.events.EventType.CLICK, this.handlePwdRecoveryClick_)
 
-        .listen(this.form_, goog.events.EventType.SUBMIT, this.handleLoginClick_)
+        //.listen(this.form_, goog.events.EventType.SUBMIT, this.handleLoginClick_)
         .listen(this.form_.validation, hash5.validation.FormValidation.EventType.VALIDATION_COMPLETE, this.handleValidated_)
 
         .listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleLoggedIn_)
