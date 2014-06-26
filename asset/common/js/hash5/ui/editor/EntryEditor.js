@@ -78,7 +78,11 @@ hash5.ui.editor.EntryEditor.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
 
-    this.getHandler().listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_);
+    var closeBtn = this.getElementByClass('close-btn');
+
+    this.getHandler()
+        .listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_)
+        .listen(closeBtn, goog.events.EventType.CLICK, this.close);
 
     var autoSaver = new hash5.ui.editor.AutoSaver(this);
     this.addChild(autoSaver);

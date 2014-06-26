@@ -21,6 +21,19 @@
       max-width: 100%;
     }
 
+    .close-btn {
+      position: absolute;
+      right: 10px;
+      top: 65px;
+      cursor: pointer;
+      color: #cecece;
+      font-size: 25px;
+
+      &:hover {
+        color: #000;
+      }
+    }
+
     .goog-textarea {
         min-height: 100px;
         resize: none;
