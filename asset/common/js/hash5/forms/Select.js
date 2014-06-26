@@ -73,16 +73,25 @@ hash5.forms.Select.prototype.setConfig = function(config)
 
     if (config.options && goog.isArray(config.options))
     {
-        var options = config.options;
-        for (var i = 0; i < options.length; i++)
-        {
-            this.addItem(new goog.ui.Option(options[i].text, options[i].model));
-        }
+        this.addOptions(config.options);
     }
 
     if (goog.isDef(config.fieldName))
     {
         this.fieldName_ = config.fieldName;
+    }
+};
+
+/**
+ * adds given options to select
+ *
+ * @param {Array.<Object>} options
+ */
+hash5.forms.Select.prototype.addOptions = function(options)
+{
+    for (var i = 0; i < options.length; i++)
+    {
+        this.addItem(new goog.ui.Option(options[i].text, options[i].model));
     }
 };
 

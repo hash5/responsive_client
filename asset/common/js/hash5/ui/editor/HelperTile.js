@@ -29,9 +29,6 @@ hash5.ui.editor.HelperTile.prototype.createDom = function()
 
     var el = goog.soy.renderAsFragment(hash5.templates.ui.EntryEditor.helperTile, data);
     this.decorateInternal(/** @type {Element} */ (el));
-
-    //var subDom = this.createInnerDom();
-    //this.getElementByClass('helper-tile-content').appendChild(subDom);
 };
 
 /** @inheritDoc */
@@ -40,16 +37,6 @@ hash5.ui.editor.HelperTile.prototype.getContentElement = function()
   return this.getElementByClass('helper-tile-content');
 };
 
-/**
- * this method should be overriden from subclasses to create custom inner html
- *
- * @return {Element}
- */
-hash5.ui.editor.HelperTile.prototype.createInnerDom = function()
-{
-    // TODO remove?
-    return this.getDomHelper().createElement('div');
-};
 
 /** @inheritDoc */
 hash5.ui.editor.HelperTile.prototype.enterDocument = function()

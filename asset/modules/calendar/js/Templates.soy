@@ -1,0 +1,85 @@
+{namespace hash5.module.calendar.Templates}
+
+/**
+ */
+{template .wrapper}
+    <div class="calendar-helper-tile">
+        <div class="calendar-form">
+
+            <div class="floater-row">
+                <div class="form-item form-item-textbox">
+                    <div class="form-item-control">
+                        <input type="text" class="datepicker form-control" name="start" />
+                    </div>
+                </div>
+                <div class="form-item form-item-textbox all-day-hidden">
+                    <div class="form-item-control">
+                        <input type="text" class="timepicker form-control" name="start-time" />
+                    </div>
+                </div>
+                <span>to</span>
+                <div class="form-item form-item-textbox all-day-hidden">
+                    <div class="form-item-control">
+                        <input type="text" class="timepicker form-control"  name="end-time" />
+                    </div>
+                </div>
+                <div class="form-item form-item-textbox">
+                    <div class="form-item-control">
+                        <input type="text" class="datepicker form-control"  name="end" />
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form-item form-item-checkbox">
+                <div class="form-item-label">
+                    {msg desc="all day cb"}All day{/msg}
+                </div>
+                <div class="form-item-control">
+                    <span class="form-control checkbox" data-name="all-day"></span>
+                </div>
+            </div>
+
+            <div class="recurrent-event-details">
+
+                <div class="floater-row">
+                    <div class="form-item form-item-checkbox">
+                        <div class="form-item-label">
+                            {msg desc="recurrent checkbox title"}repeat{/msg}
+                        </div>
+                        <div class="form-item-control">
+                            <span class="form-control checkbox" data-name="recurrent-cb"></span>
+                        </div>
+                    </div>
+
+                    <div class="recurrent-options">
+                        <span style="margin: 0 10px;"> {msg desc="recurrent start title"}all{/msg}</span>
+                        <div class="form-item form-item-select">
+                            <div class="form-item-control">
+                                <div class="form-control select" data-name="recurrent"></div>
+                            </div>
+                        </div>
+                        <div class="form-item form-item-select">
+                            <div class="form-item-control">
+                                <div class="form-control select" data-name="recurrent-type"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="recurrent-options padded-options floater-row">
+                    <div class="form-item form-item-textbox">
+                        <div class="form-item-label">
+                            {msg desc="recurrent ends title"}until (optional){/msg}:&nbsp;
+                        </div>
+                        <div class="form-item-control">
+                            <input type="text" class="datepicker form-control" name="recend"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="btn add-exclude-btn hidden">exclude date</button>
+    </div>
+{/template}

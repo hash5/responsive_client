@@ -45,7 +45,6 @@
 	<translation id="5150468964842762536" key="MSG_GTP21E4MYC5O" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip undo">undo changes</translation>
 	<translation id="3475511796024271502" key="MSG_1AXN3ZNPKZKAS" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip redo">redo changes</translation>
 	<translation id="8461299294027390970" key="MSG_11Q8NMH0NV74G" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip to remove helper tile">remove</translation>
-	<translation id="7233944787889347873" key="MSG_MONTH_AND_YEAR" source="/closure/goog/date/date.js" desc="Month/year format given the month name and the numeric year."><ph name="monthName" /> <ph name="yearNum" /></translation>
 	<translation id="7656530172193016977" key="MSG_TIME_AM" source="/closure/goog/date/date.js" desc="Suffix for morning times.">am</translation>
 	<translation id="2650497251098773617" key="MSG_TIME_PM" source="/closure/goog/date/date.js" desc="Suffix for afternoon times.">pm</translation>
 	<translation id="7936095480982438927" key="MSG_DATEPICKER_TODAY_BUTTON_LABEL" source="/closure/goog/ui/defaultdatepickerrenderer.js" desc="Label for button that selects the current date.">Today</translation>

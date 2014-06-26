@@ -8,8 +8,10 @@ goog.require('hash5.forms.Textbox');
 goog.require('hash5.forms.Checkbox');
 goog.require('hash5.forms.Select');
 goog.require('hash5.module.calendar.ui.DatePickerInput');
+goog.require('hash5.module.calendar.ui.TimeInput');
 goog.require('hash5.module.calendar.DateUtils');
 goog.require('hash5.module.calendar.ui.ExcludeHelper');
+goog.require('hash5.module.calendar.Templates');
 
 /**
  * @param {hash5.module.calendar.Event=} event
@@ -44,62 +46,61 @@ hash5.module.calendar.ui.HelperTile = function(event)
 goog.inherits(hash5.module.calendar.ui.HelperTile, hash5.ui.editor.HelperTile);
 
 /** @inheritDoc */
+hash5.module.calendar.ui.HelperTile.prototype.createDom = function()
+{
+    goog.base(this, 'createDom');
+
+    var el = goog.soy.renderAsFragment(hash5.module.calendar.Templates.wrapper);
+    this.getContentElement().appendChild(/** @type {Element} */ (el));
+};
+
+/** @inheritDoc */
 hash5.module.calendar.ui.HelperTile.prototype.enterDocument = function()
 {
     goog.base(this, 'enterDocument');
     goog.dom.classes.add(this.getElement(), 'calendar-tile');
 
-    var excludeBtn = this.getDomHelper().createDom('button', 'btn add-exclude-btn hidden', 'exclude date');
-    this.getElement().appendChild(excludeBtn);
-
-    this.generateFormItems_();
+    //this.generateFormItems_();
+    this.decorateFormItems_();
     this.decorateFromEvent();
 
     this.getHandler()
         .listen(this.form_, goog.events.EventType.CHANGE, this.handleFormChanges_)
-        .listen(excludeBtn, goog.events.EventType.CLICK, this.handleAddExcludeClick_);
+        .listen(this.getElementByClass('add-exclude-btn'), goog.events.EventType.CLICK, this.handleAddExcludeClick_);
 };
 
 /**
- * generates form-items
- * @private
+ * decorates form from html and adds selection values
  */
-hash5.module.calendar.ui.HelperTile.prototype.generateFormItems_ = function()
+hash5.module.calendar.ui.HelperTile.prototype.decorateFormItems_ = function()
 {
-    this.startDate_ = this.form_.addFormItem('', 'datepicker', {fieldName: 'start'}).getControl();
-    this.startTime_ = this.form_.addFormItem('', 'textbox', {fieldName: 'start-time'}).getControl();
-    this.endTime_ = this.form_.addFormItem('to', 'textbox', {fieldName: 'end-time'}).getControl();
-    this.endDate_ = this.form_.addFormItem('', 'datepicker', {fieldName: 'end'}).getControl();
+    this.form_.decorate(this.getElementByClass('calendar-form'));
 
-    var allDay = this.form_.addFormItem('All day', 'checkbox', {fieldName: 'all-day'});
-    this.allDay_ = allDay.getControl();
-    allDay.addCssClass('all-day-row');
+    this.startDate_ = this.form_.getControlByName('start');
+    this.startTime_ = this.form_.getControlByName('start-time');
+    this.endTime_ = this.form_.getControlByName('end-time');
+    this.endDate_ = this.form_.getControlByName('end');
+    this.allDay_ = this.form_.getControlByName('all-day');
+    this.rec_ = this.form_.getControlByName('recurrent-cb');
+    this.recUnit_ = this.form_.getControlByName('recurrent-type');
+    this.recVal_ = this.form_.getControlByName('recurrent');
+    this.recend_ = this.form_.getControlByName('recend');
+
+    this.recUnit_.addOptions([
+        {text: 'days', model: 'd'},
+        {text: 'weeks', model: 'w'},
+        {text: 'months', model: 'm'},
+        {text: 'years', model: 'y'}
+    ]);
+    this.recUnit_.setSelectedIndex(0);
 
     var recurrentOptions = [];
     for(var i = 1; i < 30; i++) {
         recurrentOptions.push({text: i + ' ', model: i});
     }
-    /** @desc checkbox title to enable recurrent events */
-    var MSG_RECURRENT_CB_TITLE = goog.getMsg('recurrent event');
-    this.rec_ = this.form_.addFormItem(MSG_RECURRENT_CB_TITLE, 'checkbox', {fieldName: 'recurrent-cb'}).getControl();
-    this.recVal_ = this.form_.addFormItem('', 'select', {
-        fieldName: 'recurrent',
-        options: recurrentOptions
-    }).getControl();
+    this.recVal_.addOptions(recurrentOptions);
     this.recVal_.setSelectedIndex(0);
 
-    this.recUnit_ = this.form_.addFormItem('', 'select', {
-        fieldName: 'recurrent-type',
-        options: [
-            {text: 'daily', model: 'd'},
-            {text: 'weekly', model: 'w'},
-            {text: 'monthly', model: 'm'},
-            {text: 'yearly', model: 'y'}
-        ]
-    }).getControl();
-    this.recUnit_.setSelectedIndex(0);
-
-    this.recend_ = this.form_.addFormItem('ends', 'datepicker', {fieldName: 'recend'}).getControl();
 };
 
 /**
@@ -158,12 +159,12 @@ hash5.module.calendar.ui.HelperTile.prototype.decorateFromEvent = function()
     }
 
     // render exclude dates (after form)
-    /*if(event.getRecurrent()) {
+    if(event.getRecurrent()) {
         for(var i = 0; i < event.getExcluded().length; i++) {
             var excludeDateHelper = new hash5.module.calendar.ui.ExcludeHelper(this.event_, i);
             this.addChild(excludeDateHelper, true);
         }
-    }*/
+    }
 
     this.enableRecHelpers_(!!event.getRecurrent());
     this.enableTimesHelpers_(hasTime);
@@ -273,10 +274,7 @@ hash5.module.calendar.ui.HelperTile.prototype.handleFormChanges_ = function(e)
  */
 hash5.module.calendar.ui.HelperTile.prototype.enableRecHelpers_ = function(visible)
 {
-    goog.dom.classes.enable(this.form_.getControlByName('recurrent').getElement(), 'hidden', !visible);
-    goog.dom.classes.enable(this.form_.getControlByName('recurrent-type').getElement(), 'hidden', !visible);
-    goog.dom.classes.enable(this.form_.getFormItemByName('recend').getElement(), 'hidden', !visible);
-    //goog.dom.classes.enable(this.getElementByClass('add-exclude-btn'), 'hidden', !visible);
+    goog.dom.classes.enable(this.getElement(), 'recurrent-event', visible);
 };
 
 /**
@@ -287,8 +285,7 @@ hash5.module.calendar.ui.HelperTile.prototype.enableRecHelpers_ = function(visib
  */
 hash5.module.calendar.ui.HelperTile.prototype.enableTimesHelpers_ = function(visible)
 {
-    goog.dom.classes.enable(this.form_.getFormItemByName('start-time').getElement(), 'hidden', !visible);
-    goog.dom.classes.enable(this.form_.getFormItemByName('end-time').getElement(), 'hidden', !visible);
+    goog.dom.classes.enable(this.getElement(), 'all-day-event', !visible);
 };
 
 /**
@@ -297,6 +294,7 @@ hash5.module.calendar.ui.HelperTile.prototype.enableTimesHelpers_ = function(vis
  */
 hash5.module.calendar.ui.HelperTile.prototype.checkValidDates = function()
 {
+    // TODO not used yet!
     var changed = false,
         event = this.event_;
 

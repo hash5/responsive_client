@@ -2,9 +2,12 @@
 .helper-tile.calendar-tile {
     border-left: 2px solid #FFCD34;
 
-    .form-item, .form-item-control, .textbox {
-        float: left;
+    .floater-row {
+        .form-item, .form-item-control, .form-item-label, .textbox {
+            display: inline-block;
+        }
     }
+
     .form-item-label {
         height: 1em;
     }
@@ -17,6 +20,20 @@
     .textbox {
         width: 85px;
         margin-right: 5px;
+    }
+
+    &.all-day-event .all-day-hidden {
+        display: none;
+    }
+
+    .recurrent-options {display: none;}
+    &.recurrent-event {
+        .recurrent-options{display: block;}
+        .floater-row .recurrent-options{display: inline-block;}
+    }
+
+    .padded-options {
+        margin-left: 30px;
     }
 
     .hidden {
