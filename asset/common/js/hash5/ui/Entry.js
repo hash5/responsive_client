@@ -39,7 +39,7 @@ hash5.ui.Entry.prototype.createDom = function()
         prevBody = entry.getTextParser().toString(),
         restBody = '';
 
-    var needExpose = prevBody.length > splitLength;
+    var needExpose = entry.getText().length > splitLength;
 
     if(needExpose) {
         // make sure split does not break html tags
