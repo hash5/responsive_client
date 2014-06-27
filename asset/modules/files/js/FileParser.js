@@ -38,11 +38,18 @@ hash5.module.files.FileParser.prototype.parse = function(parser)
           var id = url.substr(url.lastIndexOf('/') + 1),
             info = this.getFileInfo(id, serverParsed);
 
-            return new hash5.module.files.File(id, url, info);
+            if(info != null) {
+              return new hash5.module.files.File(id, url, info);
+            } else {
+              return null;
+            }
         }, this);
     }
 
-    return files;
+    // remove null values
+    return goog.array.filter(files, function(file){
+      return file != null;
+    });
 };
 
 /**
