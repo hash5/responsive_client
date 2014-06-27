@@ -17,7 +17,7 @@
                         <input type="text" class="timepicker form-control" name="start-time" />
                     </div>
                 </div>
-                <span>to</span>
+                <span>{msg desc="start/end-date seperator"}to{/msg}&nbsp;</span>
                 <div class="form-item form-item-textbox all-day-hidden">
                     <div class="form-item-control">
                         <input type="text" class="timepicker form-control"  name="end-time" />
@@ -60,7 +60,14 @@
                         </div>
                         <div class="form-item form-item-select">
                             <div class="form-item-control">
-                                <div class="form-control select" data-name="recurrent-type"></div>
+                                <div class="form-control select" data-name="recurrent-type">
+                                    <ul class="goog-menu">
+                                      <li class="goog-menuitem">{msg desc="recurrent unit days"}days{/msg}</li>
+                                      <li class="goog-menuitem">{msg desc="recurrent unit days"}weeks{/msg}</li>
+                                      <li class="goog-menuitem">{msg desc="recurrent unit days"}months{/msg}</li>
+                                      <li class="goog-menuitem">{msg desc="recurrent unit days"}years{/msg}</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

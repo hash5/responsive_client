@@ -124,4 +124,14 @@
     <translation id="520674266778320185" key="520674266778320185" source="null" desc="">Datei auswählen</translation>
     <translation id="3934095444908305137" key="3934095444908305137" source="null" desc="">oder Drag&amp;Drop</translation>
     <translation id="7296342991010635787" key="7296342991010635787" source="null" desc="">Datei</translation>
+	<translation id="734675997229508540" key="MSG_IM1JRJGXCEP2" source="../asset/common/templates/ui/EntryEditor.soy" desc="tooltip close editor">Änderungen speichern und Editor schließen</translation>
+	<translation id="5733108348407731416" key="MSG_1PCM74ZRGMFXD" source="../asset/modules/calendar/js/Templates.soy" desc="start/end-date seperator">bis</translation>
+	<translation id="2867795560575900691" key="MSG_115HSKGNCLSXM" source="../asset/modules/calendar/js/Templates.soy" desc="all day cb">ganztägig</translation>
+	<translation id="1693539373826524585" key="MSG_1LAQJ14GX8J5E" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent checkbox title">wiederholen</translation>
+	<translation id="7778122844825814255" key="MSG_V9214FRAOIZI" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent start title">alle</translation>
+	<translation id="1135249586587194035" key="MSG_1EA7IO9BA1NDN" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent unit days">Tage</translation>
+	<translation id="2927253989819187081" key="MSG_1418LU9V5LLO0" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent unit days">Wochen</translation>
+	<translation id="9063925112729145476" key="MSG_IP623F5O4MYO" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent unit days">Monate</translation>
+	<translation id="5281790654666149857" key="MSG_167Q2EIIM0CD" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent unit days">Jahre</translation>
+	<translation id="8554385879199866343" key="MSG_19NFODHJKP6J0" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent ends title">bis (optional)</translation>
 </translationbundle>

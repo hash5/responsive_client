@@ -60,7 +60,6 @@ hash5.module.calendar.ui.HelperTile.prototype.enterDocument = function()
     goog.base(this, 'enterDocument');
     goog.dom.classes.add(this.getElement(), 'calendar-tile');
 
-    //this.generateFormItems_();
     this.decorateFormItems_();
     this.decorateFromEvent();
 
@@ -71,6 +70,7 @@ hash5.module.calendar.ui.HelperTile.prototype.enterDocument = function()
 
 /**
  * decorates form from html and adds selection values
+ * @private
  */
 hash5.module.calendar.ui.HelperTile.prototype.decorateFormItems_ = function()
 {
@@ -82,17 +82,16 @@ hash5.module.calendar.ui.HelperTile.prototype.decorateFormItems_ = function()
     this.endDate_ = this.form_.getControlByName('end');
     this.allDay_ = this.form_.getControlByName('all-day');
     this.rec_ = this.form_.getControlByName('recurrent-cb');
-    this.recUnit_ = this.form_.getControlByName('recurrent-type');
-    this.recVal_ = this.form_.getControlByName('recurrent');
+    this.recUnit_ = /** @type {hash5.forms.Select} */ (this.form_.getControlByName('recurrent-type'));
+    this.recVal_ = /** @type {hash5.forms.Select} */ (this.form_.getControlByName('recurrent'));
     this.recend_ = this.form_.getControlByName('recend');
 
-    this.recUnit_.addOptions([
-        {text: 'days', model: 'd'},
-        {text: 'weeks', model: 'w'},
-        {text: 'months', model: 'm'},
-        {text: 'years', model: 'y'}
-    ]);
-    this.recUnit_.setSelectedIndex(0);
+    // set values for recUnits (not possible with decoration):
+    var recUnitMenu = this.recUnit_.getMenu(),
+        recUnits = ['d', 'w', 'm', 'y'];
+    for(var i = 0; i < recUnitMenu.getChildCount(); i++) {
+        recUnitMenu.getChildAt(i).setValue(recUnits[i]);
+    }
 
     var recurrentOptions = [];
     for(var i = 1; i < 30; i++) {
@@ -112,7 +111,6 @@ hash5.module.calendar.ui.HelperTile.prototype.decorateFromEvent = function()
 
     if(this.newEvent_) {
         // generate new event with current times
-
         var startDate = new hash5.module.calendar.DateTime(new Date());
         startDate.setSeconds(0);
         startDate.setMilliseconds(0);
@@ -153,12 +151,8 @@ hash5.module.calendar.ui.HelperTile.prototype.decorateFromEvent = function()
         this.rec_.setValue(true);
     }
 
-    // render form
-    if(!this.form_.isInDocument()) {
-        this.addChild(this.form_, true);
-    }
 
-    // render exclude dates (after form)
+    // render exclude dates
     if(event.getRecurrent()) {
         for(var i = 0; i < event.getExcluded().length; i++) {
             var excludeDateHelper = new hash5.module.calendar.ui.ExcludeHelper(this.event_, i);
