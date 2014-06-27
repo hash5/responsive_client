@@ -82,6 +82,7 @@ hash5.ui.editor.EntryEditor.prototype.enterDocument = function()
 
     this.getHandler()
         .listen(this.textEditor_, goog.events.EventType.CHANGE, this.handleTextChanged_)
+        .listen(this.textEditor_, goog.events.EventType.KEYDOWN, this.handleKeyDown_)
         .listen(closeBtn, goog.events.EventType.CLICK, this.close);
 
     var autoSaver = new hash5.ui.editor.AutoSaver(this);
@@ -182,6 +183,18 @@ hash5.ui.editor.EntryEditor.prototype.disposeInternal = function()
     }, this);
 
     goog.base(this, 'disposeInternal');
+};
+
+/**
+ * handles key down in textarea
+ *
+ * @param  {goog.events.BrowserEvent} e
+ */
+hash5.ui.editor.EntryEditor.prototype.handleKeyDown_ = function(e)
+{
+    if (e.keyCode == goog.events.KeyCodes.ESC) {
+        this.close();
+    }
 };
 
 /**
