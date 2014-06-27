@@ -92,7 +92,7 @@ hash5.module.files.UploadHelperTile.prototype.setStatus = function(statusText)
 
 
 /**
- * @param {goog.events.Event} e
+ * @param {monin.ui.FileUploader.Event} e
  */
 hash5.module.files.UploadHelperTile.prototype.uploadFiles_ = function(e)
 {
@@ -142,7 +142,7 @@ hash5.module.files.UploadHelperTile.prototype.showPreview_ = function(files)
 };
 
 /**
- * @param {goog.events.Event} e
+ * @param {monin.ui.FileUploader.Event} e
  */
 hash5.module.files.UploadHelperTile.prototype.handleUploaded_ = function(e)
 {

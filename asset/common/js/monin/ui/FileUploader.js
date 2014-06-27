@@ -17,11 +17,12 @@
  */
 
 goog.provide('monin.ui.FileUploader');
+goog.provide('monin.ui.FileUploader.EventType');
+goog.provide('monin.ui.FileUploader.Event');
+goog.provide('monin.ui.FileUploader.File');
 
 goog.require('goog.json');
 goog.require('goog.ui.Component');
-goog.provide('monin.ui.FileUploader.EventType');
-goog.provide('monin.ui.FileUploader.File');
 
 /**
  * Abstract file uploader
@@ -77,3 +78,32 @@ monin.ui.FileUploader.File = function(name, size, original)
      */
     this.original = original;
 };
+
+
+/**
+ * Upload Event.
+ *
+ * @param {string} type Event Type.
+ * @param {goog.events.EventTarget} opt_target Reference to the object that is the target of
+ *     this event. It has to implement the {@code EventTarget} interface
+ *     declared at {@link http://developer.mozilla.org/en/DOM/EventTarget}.
+ * @constructor
+ * @extends {goog.events.Event}
+ */
+monin.ui.FileUploader.Event = function(type, opt_target)
+{
+    goog.base(this, type, opt_target);
+
+    /**
+     * uploading files.
+     * @type {Array.<Object>}
+     */
+    this.files = [];
+
+    /**
+     * server response data.
+     * @type {Object}
+     */
+    this.data = {};
+};
+goog.inherits(hash5.ui.editor.ChangedTagEvent, goog.events.Event);

@@ -38,6 +38,7 @@ hash5.module.files.FileParser.prototype.parse = function(parser)
           var id = url.substr(url.lastIndexOf('/') + 1),
             info = this.getFileInfo(id, serverParsed);
 
+            // TODO maybe se flag and inform user, that file is invalid??
             if(info != null) {
               return new hash5.module.files.File(id, url, info);
             } else {

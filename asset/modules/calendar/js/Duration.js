@@ -59,7 +59,7 @@ hash5.module.calendar.Duration.prototype.toJson = function()
  */
 hash5.module.calendar.Duration.prototype.equals = function(duration)
 {
-    return duration
+    return !!duration
         && duration.number === this.number
         && duration.unit === this.unit;
 };

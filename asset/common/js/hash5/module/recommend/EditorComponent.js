@@ -43,7 +43,7 @@ hash5.module.recommend.EditorComponent.prototype.init = function()
 
     // create holder element
     var wrapper = goog.dom.createElement('div');
-    goog.dom.append(editor.getBottomArea(), wrapper);
+    goog.dom.append(/** @type {!Node} */ (editor.getBottomArea()), wrapper);
     this.recEl_ = wrapper;
 
     this.getHandler()
