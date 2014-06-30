@@ -289,6 +289,21 @@ hash5.forms.Textbox.prototype.setValue = function(value)
     }
 };
 
+/**
+ * disables or enables textbox editing
+ * @param  {boolean} disabled
+ */
+hash5.forms.Textbox.prototype.disableEditing = function(disabled)
+{
+    if(this.isInDocument()) {
+        if(disabled) {
+            this.getElement().setAttribute('disabled', 'true');
+        } else {
+            this.getElement().removeAttribute('disabled');
+        }
+    }
+};
+
 /** @inheritDoc */
 hash5.forms.Textbox.prototype.CSS_CLASS = 'textbox';
 

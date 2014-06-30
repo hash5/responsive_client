@@ -3,7 +3,6 @@ goog.provide('hash5.ui.OverlayLoginForm');
 goog.require('hash5.ui.LoginForm');
 goog.require('hash5.ui.Overlay');
 
-// TODO get username and fill field. disable editing
 
 /**
  * OverlayLoginForm
@@ -32,6 +31,15 @@ hash5.ui.OverlayLoginForm.prototype.enterDocument = function()
     goog.dom.classes.add(this.getElementByClass('passw-rec-link'), 'hidden');
     var stayLoggedInEl = this.form_.getFormItemByName('stay-signed-in').getElement()
     goog.dom.classes.add(stayLoggedInEl, 'hidden');
+
+    var userController = hash5.controller.UserController.getInstance(),
+        curUser = userController.getCurrentUser(),
+        userName = curUser.getUserName();
+
+    var userNameCntr = this.form_.getControlByName('username');
+    userNameCntr.setValue(userName);
+    userNameCntr.disableEditing(true);
+
 };
 
 /** @inheritDoc */
