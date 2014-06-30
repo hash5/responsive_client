@@ -65,6 +65,8 @@ hash5.ds.ConnectionManager = function()
 
     var userController = hash5.controller.UserController.getInstance();
     goog.events.listen(userController, hash5.controller.UserController.EventType.LOGIN, this.handleServerAvailable_, false, this);
+
+    window.onbeforeunload = goog.bind(this.handleWinClose_, this);
 };
 goog.inherits(hash5.ds.ConnectionManager, goog.events.EventTarget);
 goog.addSingletonGetter(hash5.ds.ConnectionManager);
@@ -114,6 +116,21 @@ hash5.ds.ConnectionManager.prototype.handleError_ = function(e)
 hash5.ds.ConnectionManager.prototype.isOnline = function()
 {
     return this.online_;
+};
+
+/**
+ * window on close handler
+ * @return {string|undefined}
+ */
+hash5.ds.ConnectionManager.prototype.handleWinClose_ = function()
+{
+    if(this.requests_.getCount() > 0 || this.cachedRequests_.length > 0) {
+        /** @desc window close message */
+        var MSG_CLOSE_WARNING = goog.getMsg('There are pending server reqests!');
+        return MSG_CLOSE_WARNING;
+    }
+
+    return;
 };
 
 /**
