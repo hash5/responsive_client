@@ -13,6 +13,14 @@ hash5.ui.ConnectionStatus = function()
     goog.base(this);
 
 
+    /**
+     * true when user was already informed that he is
+     * working offline
+     *
+     * @type {boolean}
+     * @private
+     */
+    this.offlineMsgShown_ = false;
 };
 goog.inherits(hash5.ui.ConnectionStatus, goog.ui.Component);
 
@@ -48,7 +56,18 @@ hash5.ui.ConnectionStatus.prototype.enterDocument = function()
  */
 hash5.ui.ConnectionStatus.prototype.handleConnChange_ = function(e)
 {
-    var connManager = hash5.ds.ConnectionManager.getInstance();
+    var connManager = hash5.ds.ConnectionManager.getInstance(),
+        isOnline = connManager.isOnline();
 
-    goog.dom.classes.enable(this.getElement(), 'online', connManager.isOnline());
+    if(!isOnline && !this.offlineMsgShown_) {
+        /** @desc {offline info text} */
+        var MSG_OFFLINE_MSG_TITLE = goog.getMsg('Connection to server has been lost!');
+        /** @desc {offline info text} */
+        var MSG_OFFLINE_MSG_CONTENT = goog.getMsg('You are working in offline mode now. Your requests are cached and replayed as soon you are reconnected.');
+
+        hash5.ui.MessageBox.info(MSG_OFFLINE_MSG_TITLE, MSG_OFFLINE_MSG_CONTENT);
+        this.offlineMsgShown_ = true;
+    }
+
+    goog.dom.classes.enable(this.getElement(), 'online', isOnline);
 };
