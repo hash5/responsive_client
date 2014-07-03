@@ -21,6 +21,11 @@ hash5.module.intro.initData_en = {
             "title": "#demo",
             "type": "request",
             "query": "/entries?query=#demo"
+        },
+        {
+            "title": "#work",
+            "type": "request",
+            "query": "/entries?query=#work"
         }
     ],
     'entries': [
@@ -102,12 +107,19 @@ hash5.module.intro.initData_de = {
             "title": "#demo",
             "type": "request",
             "query": "/entries?query=#demo"
+        },
+        {
+            "title": "#work",
+            "type": "request",
+            "query": "/entries?query=#work"
         }
     ],
     'entries': [
         'Mit hashtags können Einträge sortiert werden #demo.',
         'Der Hashtag #todo könnte so zum Beispiel alle zu erledigende Aufgaben grupieren #demo.',
-        'Du möchtest alle Beispieleinträge löschen? -> Erstelle eine neue Spalte mit der Suche nach #demo und wähle "Alle Einträge löschen."'
+        'Du möchtest alle Beispieleinträge löschen? -> Erstelle eine neue Spalte mit der Suche nach #demo und wähle "Alle Einträge löschen."',
+        '#work #todo ein Aufgabe für die Arbeit',
+        '#private private Information'
     ],
     'open-lists': [
         '#demo', '#todo'
