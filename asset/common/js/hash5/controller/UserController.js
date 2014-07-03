@@ -7,6 +7,7 @@ goog.require('hash5.controller.BaseController');
 goog.require('hash5.controller.ErrorController');
 goog.require('hash5.model.User');
 goog.require('hash5.ui.OverlayLoginForm');
+goog.require('hash5.ds.ConnectionManager');
 
 // TODO use connectionmanager...
 
@@ -250,15 +251,13 @@ hash5.controller.UserController.prototype.isLoggedIn = function()
  */
 hash5.controller.UserController.prototype.login = function(username, password, staySignedIn)
 {
-    // TODO enable this check (maybe at extra msg)
     // ensure that only the same user can renew the session
-    /*
+
     if(this.currentUser_ && this.currentUser_.getUserName() != username)
     {
         this.dispatchEvent(hash5.controller.UserController.EventType.UNAUTHORIZED);
         return;
     }
-    */
 
     var xhr = new goog.net.XhrIo();
     xhr.listen(goog.net.EventType.COMPLETE, function(e) {

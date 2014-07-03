@@ -135,17 +135,16 @@ hash5.App.prototype.setLanguage = function(lang)
 {
   this.language_ = lang;
 
-  // TODO currently no lang-change in debug mode is possible!
-  if(goog.DEBUG)
+  // currently no lang-change in debug mode is possible!
+  if(goog.DEBUG) {
     return;
-
-  var moduleUris = PLOVR_MODULE_URIS;
-  for(var moduleId in moduleUris) {
-    moduleUris[moduleId] = moduleUris[moduleId].replace('LANG', lang);
   }
 
-  var moduleManager = goog.module.ModuleManager.getInstance();
-  moduleManager.setModuleUris(moduleUris);
+  if(lang != goog.LOCALE) {
+    var localeUrl = goog.uri.utils.setParam(document.location.href, 'lang', lang)
+    document.location.href = localeUrl;
+    return;
+  }
 };
 
 /**
@@ -178,18 +177,18 @@ hash5.bootstrap = function(config){
           alert(url + lineNumber);
           return true;
         };
+
+        if(goog.DEBUG)
+        {
+            var debugWindow = new goog.debug.FancyWindow('main');
+            debugWindow.setEnabled(true);
+            debugWindow.init();
+        }
     }
 
-    /*if(goog.DEBUG)
-    {
-        var debugWindow = new goog.debug.FancyWindow('main');
-        debugWindow.setEnabled(true);
-        debugWindow.init();
-    }*/
 
     var app = window.app = hash5.App.getInstance();
     app.setConfig(config);
-
 
     hash5.module.setLoaded(hash5.module.Modules.APP, hash5.module.LoaderModule);
 };

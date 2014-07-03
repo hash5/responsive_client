@@ -7,6 +7,7 @@ goog.require('hash5.forms.Textarea');
 goog.require('hash5.templates.ui.EntryEditor');
 goog.require('hash5.ui.editor.AutoSaver');
 goog.require('hash5.ui.editor.History');
+goog.require('hash5.ui.editor.HelperTile');
 
 
 // TODO check if entry is already loaded!

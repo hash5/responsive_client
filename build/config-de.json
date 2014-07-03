@@ -27,6 +27,7 @@
   "output-charset": "UTF-8",
 
   "languages": {
+    "en": "../asset/common/locales/en.xtb",
     "de": "../asset/common/locales/de.xtb"
   },
 
@@ -42,19 +43,19 @@
     },
     "calendar": {
       "inputs": "../asset/modules/calendar/js/CalendarModule.js",
-      "deps": ["app"]
+      "deps": ["app", "core"]
     },
     "geo5": {
       "inputs": "../asset/modules/geo5/js/Geo5Module.js",
-      "deps": ["app"]
+      "deps": ["app", "core"]
     },
     "files": {
       "inputs": "../asset/modules/files/js/FilesModule.js",
-      "deps": ["app"]
+      "deps": ["app", "core"]
     },
     "intro": {
       "inputs": "../asset/modules/intro/js/IntroModule.js",
-      "deps": ["app"]
+      "deps": ["app", "core"]
     }
   },
   "module-output-path": "../asset/common/js-min/de/%s.js",
