@@ -71,7 +71,7 @@ hash5.ui.editor.AutoSaver.prototype.saveChanges = function()
 
     this.unsavedChanges_ = true;
 
-    entry.setText(this.editor_.getEntryText());
+    entry.setText(this.editor_.getEntryText(), this.editor_.getParser());
     entry.save(this.handleSaved_, this);
 
     this.history_.push(entryText);

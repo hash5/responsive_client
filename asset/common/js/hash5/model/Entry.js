@@ -100,14 +100,17 @@ hash5.model.Entry.prototype.getId = function()
 };
 
 /**
+ * sets new entry text with optional parser.
+ * If no parser is given, a new one is created on demand.
+ *
  * @param {string} text
+ * @param {hash5.parsing.Parser=} parser
  */
-hash5.model.Entry.prototype.setText = function(text)
+hash5.model.Entry.prototype.setText = function(text, parser)
 {
     this.text_ = text;
     this.textParser_ = null;
-    this.parser_ = null;
-
+    this.parser_ = goog.isDef(parser) ? parser : null;
     this.dispatchEvent(hash5.model.Entry.EventType.TEXT_CHANGED);
 };
 
@@ -197,8 +200,6 @@ hash5.model.Entry.prototype.getParser = function()
         this.parser_ = new hash5.parsing.Parser(this.text_, this);
         this.parser_.setParsingResult(this.serverObj_ || {});
     }
-
-    // TODO update parsingResult on server fetch...
 
     return this.parser_;
 };
