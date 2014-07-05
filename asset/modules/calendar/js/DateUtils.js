@@ -188,7 +188,7 @@ hash5.module.calendar.DateUtils.dateFormatter_ = new goog.i18n.DateTimeFormat('d
  * @type {goog.i18n.DateTimeFormat}
  * @private
  */
-hash5.module.calendar.DateUtils.timeFormatter_ = new goog.i18n.DateTimeFormat('H:m');
+hash5.module.calendar.DateUtils.timeFormatter_ = new goog.i18n.DateTimeFormat('HH:mm');
 
 /**
  * returns string for time

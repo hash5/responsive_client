@@ -147,6 +147,7 @@ hash5.forms.Textbox.prototype.focus = function()
  * handles focus event and redispatches it
  *
  * @param {goog.events.BrowserEvent} e
+ * @protected
  */
 hash5.forms.Textbox.prototype.handleFocus_ = function(e)
 {

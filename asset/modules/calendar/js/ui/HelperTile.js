@@ -218,7 +218,9 @@ hash5.module.calendar.ui.HelperTile.prototype.handleFormChanges_ = function(e)
                 time = ' ' + this.startTime_.getValue()
             }
             var startDate = utils.stringToDate(this.startDate_.getValue() + time);
-            this.event_.setStartDate(startDate);
+            if(startDate != null) {
+               this.event_.setStartDate(startDate);   
+            }
             //this.checkValidDates(fieldName);
             break;
         case 'end':

@@ -18,14 +18,18 @@ hash5.module.calendar.ui.DatePickerInput = function(content)
 
     var PATTERN = 'd.M.y'; //"MM'/'dd'/'yyyy";
     var formatter = new goog.i18n.DateTimeFormat(PATTERN);
-    var parser = new goog.i18n.DateTimeParse(PATTERN);
+    /**
+     * @type {goog.i18n.DateTimeParse}
+     * @private
+     */
+    this.parser_ = new goog.i18n.DateTimeParse(PATTERN);
 
 
     /**
      * @type {goog.ui.InputDatePicker}
      * @private
      */
-    this.datePicker_ = new goog.ui.InputDatePicker(formatter, parser);
+    this.datePicker_ = new goog.ui.InputDatePicker(formatter, this.parser_);
     this.registerDisposable(this.datePicker_);
 };
 goog.inherits(hash5.module.calendar.ui.DatePickerInput, hash5.forms.Textbox);
@@ -49,6 +53,57 @@ hash5.module.calendar.ui.DatePickerInput.prototype.enterDocument = function()
 hash5.module.calendar.ui.DatePickerInput.prototype.handleDateSelect = function(e)
 {
     this.fireChangeEvent_();
+};
+
+
+/** @override */
+hash5.module.calendar.ui.DatePickerInput.prototype.fireChangeEvent_ = function()
+{
+    if(this.isValid() || this.tryCorrection()) {
+        goog.dom.classes.remove(this.getElement(), 'invalid');
+        goog.base(this, 'fireChangeEvent_');
+    } else {
+        goog.dom.classes.add(this.getElement(), 'invalid');
+    }
+};
+
+/**
+ * tries to correct invalid time
+ * @return {bollean}
+ */
+hash5.module.calendar.ui.DatePickerInput.prototype.tryCorrection = function()
+{
+    var curValue = this.getValue(),
+        // remove letters
+        newValue = curValue.match(/(\d+|:|\.)/gi).join('');
+
+
+    // fixed?
+    if(this.validateTime(newValue)) {
+        this.getElement().value = newValue;
+        return true;
+    }
+
+    return false;
+};
+
+/**
+ * @return {boolean}
+ */
+hash5.module.calendar.ui.DatePickerInput.prototype.isValid = function()
+{
+    var curValue = this.getValue();
+
+    return this.validateTime(curValue);
+};
+
+/**
+ * @param {string} dateStr
+ * @return {boolean}
+ */
+hash5.module.calendar.ui.DatePickerInput.prototype.validateTime = function(dateStr)
+{
+    return this.parser_.parse(dateStr, new Date()) > 0;
 };
 
 
