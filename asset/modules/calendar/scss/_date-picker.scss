@@ -15,18 +15,18 @@
 .goog-date-picker,
 .goog-date-picker th,
 .goog-date-picker td {
-  font: 13px Arial, sans-serif;
+  font-size: 13px;
 }
 
 .goog-date-picker {
   -moz-user-focus: normal;
   -moz-user-select: none;
   position: relative;
-  border: 1px solid #000;
+  border: 1px solid $colorDarkGray;
   float: left;
   padding: 2px;
   color: #000;
-  background: #c3d9ff;
+  background: $colorLighterGray;
   cursor: default;
   z-index: 999999999;
 }
@@ -77,13 +77,23 @@
   padding: 0px;
   margin: 1px 0;
   border: 0;
-  color: #20c;
+  color: $colorGreen1;
   font-weight: bold;
   background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    color: $colorDarkGray;
+  }
 }
 
 .goog-date-picker-date {
   background: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: $colorYellow;
+  }
 }
 
 .goog-date-picker-week,
