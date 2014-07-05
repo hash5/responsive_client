@@ -78,11 +78,20 @@ hash5.ui.Entry.prototype.enterDocument = function()
 
     entry.getTextParser().triggerDisplay(this);
 
-    var insertAnim = new hash5.fx.CssClassAnimation(el, hash5.fx.CssClassAnimation.Animations.INSERT);
-    insertAnim.play();
+    this.highlight();
 
     //var dlg = this.getParent().getDragHandler();
     //dlg.listenForDragEvents(this.getElement());
+};
+
+/**
+ * plays highlight animation.
+ */
+hash5.ui.Entry.prototype.highlight = function()
+{
+    var el = this.getElement(),
+        insertAnim = new hash5.fx.CssClassAnimation(el, hash5.fx.CssClassAnimation.Animations.INSERT);
+    insertAnim.play();
 };
 
 /**

@@ -74,6 +74,22 @@ hash5.ui.EntryListContainer.prototype.enterDocument = function()
 };
 
 /**
+ * plays highlight animation.
+ */
+hash5.ui.EntryListContainer.prototype.highlight = function()
+{
+    if(this.entryList_.getChildCount() > 0) {
+        this.entryList_.forEachChild(function(child){
+            child.highlight();
+        });
+    } else {
+        var el = this.getElement(),
+            focusAnim = new hash5.fx.CssClassAnimation(el, hash5.fx.CssClassAnimation.Animations.FOCUS);
+        focusAnim.play();
+    }
+};
+
+/**
  * adjust the top offset of the entrylist to create space for the editor
  *
  * @param {boolean=} visible
