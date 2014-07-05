@@ -21,6 +21,7 @@ goog.require('hash5.ui.editor.EntryEditor');
 goog.require('goog.module.ModuleManager');
 goog.require('hash5.module.RecommondationModule');
 goog.require('hash5.module.LinksModule');
+goog.require('hash5.module.EntryLayouterModule');
 
 
 /**
@@ -80,6 +81,7 @@ hash5.module.CoreModule.prototype.initialize = function(context)
 
     hash5.module.setStaticLoaded(hash5.module.Modules.RECOMMEND, hash5.module.RecommondationModule);
     hash5.module.setStaticLoaded(hash5.module.Modules.LINKS, hash5.module.LinksModule);
+    hash5.module.setStaticLoaded(hash5.module.Modules.ENTRY_LAYOUTER, hash5.module.EntryLayouterModule);
 };
 
 /** @inheritDoc */

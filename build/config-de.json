@@ -9,6 +9,7 @@
     "../asset/modules/links/js/",
     "../asset/modules/files/js/",
     "../asset/modules/intro/js/",
+    "../asset/modules/entry-layouter/js/",
 
     "../asset/closure-library/third_party/",
     "../asset/third-party/soyutils_usegoog.js"
