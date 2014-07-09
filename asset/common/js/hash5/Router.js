@@ -119,7 +119,7 @@ hash5.Router.prototype.handleClick_ = function(e)
     }
 
     // Static/extern urls
-    if (link.rel == 'redirect' || link.target == '_blank')
+    if (link.rel.toLowerCase() == 'redirect' || link.target.toLowerCase() == '_blank')
     {
         return;
     }
