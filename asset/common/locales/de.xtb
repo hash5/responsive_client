@@ -136,11 +136,6 @@
 	<translation id="8554385879199866343" key="MSG_19NFODHJKP6J0" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent ends title">bis (optional)</translation>
 	<translation id="4127531509820676057" key="MSG_CLOSE_WARNING" source="../asset/common/js/hash5/ds/ConnectionManager.js" desc="window close message">There are pending server reqests!</translation>
 	<translation id="3305572575634976156" key="MSG_OFFLINE_MSG_TITLE" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Verbindung zum Server verloren!</translation>
-	<translation id="9119040922682302764" key="MSG_OFFLINE_MSG_CONTENT" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Du arbeitest ab jetzt im offline Modus. Alle Anfragen werden zwischengespeichert und wiederholt sobald wieder eine Verbindung steht.</translation>
-	<translation id="8537340484785153646" key="MSG_HYP1E9B6AIG5" source="../asset/modules/intro/js/Template.soy" desc="intro layer text">Let's get inspiered and try to organize your life in a new way!
-                Hash5 is a innovative concept from the <a href="https://dbis-informatik.uibk.ac.at/" target="_BLANK">DBIS</a>-group
-                at the <a href="http://www.uibk.ac.at/" target="_BLANK">UIBK</a> to structure your daily used informations with
-                <strong> #hashtags</strong>. <br />
-                Like on Twitter each entry only contains text. It is you who can choose appropriate tags to structure your
-                information however. There are no limits which prevents you in finding your perfect flow.</translation>
+	<translation id="1131322531097168376" key="MSG_OFFLINE_MSG_CONTENT" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Du arbeitest ab jetzt im offline Modus. Alle Anfragen werden zwischengespeichert und wiederholt sobald wieder eine Verbindung steht.</translation>
+	<translation id="8537340484785153646" key="MSG_HYP1E9B6AIG5" source="../asset/modules/intro/js/Template.soy" desc="intro layer text">Let's get inspiered and try to organize your life in a new way! Hash5 is a innovative concept from the <ph name="startLink_1" />DBIS<ph name="endLink" />-group at the <ph name="startLink_2" />UIBK<ph name="endLink" /> to structure your daily used informations with<ph name="startStrong" /> #hashtags<ph name="endStrong" />. <ph name="break" />Like on Twitter each entry only contains text. It is you who can choose appropriate tags to structure your information however. There are no limits which prevents you in finding your perfect flow.</translation>
 </translationbundle>
