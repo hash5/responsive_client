@@ -21,19 +21,19 @@ goog.addSingletonGetter(hash5.ds.Recommondations);
  * calls api for autocomplete tag for given entry-text
  *
  * @param {string} text text of entry
- * @param {string} tag tag to complete, need to be at least 3 characters long
+ * @param {string} autocompleteTag tag to complete, need to be at least 3 characters long
  * @param {Function} callback called when suggests are loaded (Array.<String> as param)
  * @param {*=} handler
  */
-hash5.ds.Recommondations.prototype.autocomplete = function(text, tag, callback, handler)
+hash5.ds.Recommondations.prototype.autocomplete = function(text, autocompleteTag, callback, handler)
 {
-    goog.asserts.assert(tag.length > 2, 'Tag to complete need to be at least 3 characters long.');
+    goog.asserts.assert(autocompleteTag.length > 2, 'Tag to complete need to be at least 3 characters long.');
 
     var postData = {
         'text': text,
-        'tag': tag
+        'tag': autocompleteTag
     };
-    hash5.ds.ConnectionManager.simpleRequest('/autocomplete', 'POST', postData, function(e){
+    hash5.ds.ConnectionManager.simpleRequest('/autocomplete', 'POST', postData, function(e) {
         var data = e.getResponseJson();
         var result = [];
 
@@ -45,23 +45,22 @@ hash5.ds.Recommondations.prototype.autocomplete = function(text, tag, callback, 
             {"name":"early", "occurence": 1}
           ]
          */
-        if(data['tags'])
-        {
-            for(var i = 0; i < data['tags'].length; i++)
-            {
-                var suggest = data['tags'][i];
-                result.push('#' + suggest['name']);
+        if(data['tags']) {
+            for(var i = 0; i < data['tags'].length; i++) {
+                var suggest = data['tags'][i],
+                    suggestTag = '#' + suggest['name'];
 
-                if(suggest['values'])
-                {
-                    for(var j = 0; j < suggest['values'].length; j++)
-                    {
+                if(autocompleteTag !== suggestTag) {
+                    result.push(suggestTag);
+                }
+
+                if(suggest['values']) {
+                    for(var j = 0; j < suggest['values'].length; j++) {
                         result.push('#' + suggest['name'] + ':' + suggest['values'][j]['name']);
                     }
                 }
             }
         }
-
 
         callback.call(handler, result);
 
@@ -94,17 +93,13 @@ hash5.ds.Recommondations.prototype.recommend = function(text, callback, handler)
           ]
          */
 
-        if(data['recs'])
-        {
-            for(var i = 0; i < data['recs'].length; i++)
-            {
+        if(data['recs']) {
+            for(var i = 0; i < data['recs'].length; i++) {
                 var suggest = data['recs'][i];
                 result.push('#' + suggest['name']);
 
-                if(suggest['values'])
-                {
-                    for(var j = 0; j < suggest['values'].length; j++)
-                    {
+                if(suggest['values']) {
+                    for(var j = 0; j < suggest['values'].length; j++) {
                         result.push('#' + suggest['name'] + ':' + suggest['values'][j]['name']);
                     }
                 }
