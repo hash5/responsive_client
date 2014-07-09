@@ -63,7 +63,7 @@ hash5.ui.ConnectionStatus.prototype.handleConnChange_ = function(e)
         /** @desc {offline info text} */
         var MSG_OFFLINE_MSG_TITLE = goog.getMsg('Connection to server has been lost!');
         /** @desc {offline info text} */
-        var MSG_OFFLINE_MSG_CONTENT = goog.getMsg('You are working in offline mode now. Your requests are cached and replayed as soon you are reconnected.');
+        var MSG_OFFLINE_MSG_CONTENT = goog.getMsg('You are working in offline mode now. Your requests are cached and replayed as soon as you are reconnected.');
 
         hash5.ui.MessageBox.info(MSG_OFFLINE_MSG_TITLE, MSG_OFFLINE_MSG_CONTENT);
         this.offlineMsgShown_ = true;

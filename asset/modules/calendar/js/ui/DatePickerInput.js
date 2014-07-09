@@ -80,12 +80,12 @@ hash5.module.calendar.ui.DatePickerInput.prototype.handleBlur_ = function(e)
 
 /**
  * tries to correct invalid date
- * @return {bollean}
+ * @return {boolean}
  */
 hash5.module.calendar.ui.DatePickerInput.prototype.tryCorrection = function()
 {
     var curValue = this.getValue(),
-        newValue = this.getValue();
+        newValue = /** @type {string} */ (this.getValue());
 
     // remove letters
     var numbers = curValue.match(/(\d+|:|\.)/gi);
@@ -107,7 +107,7 @@ hash5.module.calendar.ui.DatePickerInput.prototype.tryCorrection = function()
  */
 hash5.module.calendar.ui.DatePickerInput.prototype.isValid = function()
 {
-    var curValue = this.getValue();
+    var curValue = /** @type {string} */ (this.getValue());
 
     return this.validateTime(curValue);
 };

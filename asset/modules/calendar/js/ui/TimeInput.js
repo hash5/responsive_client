@@ -49,7 +49,7 @@ hash5.module.calendar.ui.TimeInput.prototype.handleBlur_ = function(e)
 
 /**
  * tries to correct invalid time
- * @return {bollean}
+ * @return {boolean}
  */
 hash5.module.calendar.ui.TimeInput.prototype.tryCorrection = function()
 {
@@ -91,7 +91,7 @@ hash5.module.calendar.ui.TimeInput.prototype.tryCorrection = function()
  */
 hash5.module.calendar.ui.TimeInput.prototype.isValid = function()
 {
-    var curValue = this.getValue();
+    var curValue = /** @type {string} */ (this.getValue());
 
     return this.validateTime(curValue);
 };

@@ -133,4 +133,13 @@
 	<translation id="9063925112729145476" key="MSG_IP623F5O4MYO" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent unit days">months</translation>
 	<translation id="5281790654666149857" key="MSG_167Q2EIIM0CD" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent unit days">years</translation>
 	<translation id="8554385879199866343" key="MSG_19NFODHJKP6J0" source="../asset/modules/calendar/js/Templates.soy" desc="recurrent ends title">until (optional)</translation>
+	<translation id="4127531509820676057" key="MSG_CLOSE_WARNING" source="../asset/common/js/hash5/ds/ConnectionManager.js" desc="window close message">There are pending server reqests!</translation>
+	<translation id="3305572575634976156" key="MSG_OFFLINE_MSG_TITLE" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">Connection to server has been lost!</translation>
+	<translation id="9119040922682302764" key="MSG_OFFLINE_MSG_CONTENT" source="../asset/common/js/hash5/ui/ConnectionStatus.js" desc="{offline info text}">You are working in offline mode now. Your requests are cached and replayed as soon as you are reconnected.</translation>
+	<translation id="8537340484785153646" key="MSG_HYP1E9B6AIG5" source="../asset/modules/intro/js/Template.soy" desc="intro layer text">Let's get inspiered and try to organize your life in a new way!
+                Hash5 is a innovative concept from the <a href="https://dbis-informatik.uibk.ac.at/" target="_BLANK">DBIS</a>-group
+                at the <a href="http://www.uibk.ac.at/" target="_BLANK">UIBK</a> to structure your daily used informations with
+                <strong> #hashtags</strong>. <br />
+                Like on Twitter each entry only contains text. It is you who can choose appropriate tags to structure your
+                information however. There are no limits which prevents you in finding your perfect flow.</translation>
 </translationbundle>
