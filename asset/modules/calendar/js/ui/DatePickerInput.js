@@ -43,7 +43,8 @@ hash5.module.calendar.ui.DatePickerInput.prototype.enterDocument = function()
     this.datePicker_.decorate(this.getElement());
 
     this.getHandler()
-        .listen(this.datePicker_, goog.ui.DatePicker.Events.CHANGE, this.handleDateSelect);
+        .listen(this.datePicker_, goog.ui.DatePicker.Events.CHANGE, this.handleDateSelect)
+        .listen(this.getElement(), goog.events.EventType.BLUR, this.handleBlur_);
 };
 
 
@@ -59,7 +60,7 @@ hash5.module.calendar.ui.DatePickerInput.prototype.handleDateSelect = function(e
 /** @override */
 hash5.module.calendar.ui.DatePickerInput.prototype.fireChangeEvent_ = function()
 {
-    if(this.isValid() || this.tryCorrection()) {
+    if(this.isValid()) {
         goog.dom.classes.remove(this.getElement(), 'invalid');
         goog.base(this, 'fireChangeEvent_');
     } else {
@@ -68,15 +69,29 @@ hash5.module.calendar.ui.DatePickerInput.prototype.fireChangeEvent_ = function()
 };
 
 /**
- * tries to correct invalid time
+ * @param {goog.events.Event} e
+ */
+hash5.module.calendar.ui.DatePickerInput.prototype.handleBlur_ = function(e)
+{
+    if(!this.isValid() && this.tryCorrection()) {
+        this.fireChangeEvent_();
+    }
+};
+
+/**
+ * tries to correct invalid date
  * @return {bollean}
  */
 hash5.module.calendar.ui.DatePickerInput.prototype.tryCorrection = function()
 {
     var curValue = this.getValue(),
-        // remove letters
-        newValue = curValue.match(/(\d+|:|\.)/gi).join('');
+        newValue = this.getValue();
 
+    // remove letters
+    var numbers = curValue.match(/(\d+|:|\.)/gi);
+    if(numbers != null) {
+        newValue = numbers.join('');
+    }
 
     // fixed?
     if(this.validateTime(newValue)) {

@@ -17,14 +17,33 @@ hash5.module.calendar.ui.TimeInput = function(content)
 };
 goog.inherits(hash5.module.calendar.ui.TimeInput, hash5.forms.Textbox);
 
+/** @inheritDoc */
+hash5.module.calendar.ui.TimeInput.prototype.enterDocument = function()
+{
+    goog.base(this, 'enterDocument');
+
+    this.getHandler()
+        .listen(this.getElement(), goog.events.EventType.BLUR, this.handleBlur_);
+};
+
 /** @override */
 hash5.module.calendar.ui.TimeInput.prototype.fireChangeEvent_ = function()
 {
-    if(this.isValid() || this.tryCorrection()) {
+    if(this.isValid()) {
         goog.dom.classes.remove(this.getElement(), 'invalid');
         goog.base(this, 'fireChangeEvent_');
     } else {
         goog.dom.classes.add(this.getElement(), 'invalid');
+    }
+};
+
+/**
+ * @param {goog.events.Event} e
+ */
+hash5.module.calendar.ui.TimeInput.prototype.handleBlur_ = function(e)
+{
+    if(!this.isValid() && this.tryCorrection()) {
+        this.fireChangeEvent_();
     }
 };
 
@@ -38,13 +57,23 @@ hash5.module.calendar.ui.TimeInput.prototype.tryCorrection = function()
         newValue = curValue.replace('.', ':');
 
     // remove letters
-    newValue = curValue.match(/(\d+|:|\.)/gi).join('');
+    var numbers = curValue.match(/(\d+|:|\.)/gi);
+    if(numbers != null) {
+        newValue =  numbers.join('');
+    }
 
-    // insert colon when missing
+    // insert colon when missing (1000 --> 10:00 , 10 --> 10:00; 102 --> 10:20)
     if(newValue.indexOf(':') < 0 &&
-        goog.string.isNumeric(newValue.trim()) &&
-         newValue.length > 3) {
-        newValue = newValue.substr(0, 2) + ':' + newValue.substr(2);
+        goog.string.isNumeric(newValue.trim())) {
+        var end  = newValue.substr(2);
+
+        if(end.length == 0)  {
+            end += '00';
+        } else if (end.length == 1) {
+            end += '0';
+        }
+
+        newValue = newValue.substr(0, 2) + ':' + end;
     }
 
     // fixed?
@@ -56,11 +85,6 @@ hash5.module.calendar.ui.TimeInput.prototype.tryCorrection = function()
     return false;
 };
 
-/** @override */
-hash5.module.calendar.ui.TimeInput.prototype.handleFocus_ = function(e)
-{
-    goog.base(this, 'handleFocus_', e);
-};
 
 /**
  * @return {boolean}

@@ -219,7 +219,7 @@ hash5.module.calendar.ui.HelperTile.prototype.handleFormChanges_ = function(e)
             }
             var startDate = utils.stringToDate(this.startDate_.getValue() + time);
             if(startDate != null) {
-               this.event_.setStartDate(startDate);   
+               this.event_.setStartDate(startDate);
             }
             //this.checkValidDates(fieldName);
             break;
@@ -229,7 +229,9 @@ hash5.module.calendar.ui.HelperTile.prototype.handleFormChanges_ = function(e)
                 time = ' ' + this.endTime_.getValue()
             }
             var endDate = utils.stringToDate(this.endDate_.getValue() + time);
-            this.event_.setEndDate(endDate);
+            if(endDate != null) {
+                this.event_.setEndDate(endDate);
+            }
             //this.checkValidDates(fieldName);
             break;
 
