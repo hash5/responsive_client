@@ -83,6 +83,8 @@ hash5.ui.st.Node.prototype.handleEditClick_ = function(e)
 hash5.ui.st.Node.prototype.handleAction_ = function()
 {
     this.handleActionInternal_();
+
+    this.dispatchEvent(goog.ui.Component.EventType.SELECT);
 };
 
 /**

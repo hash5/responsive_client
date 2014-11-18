@@ -29,12 +29,6 @@ hash5.ui.st.SearchNode.prototype.createDom = function()
     this.decorateInternal(/** @type {Element} */ (el));
 };
 
-/** @inheritDoc */
-hash5.ui.st.SearchNode.prototype.enterDocument = function()
-{
-    goog.base(this, 'enterDocument');
-};
-
 
 /** @inheritDoc */
 hash5.ui.st.SearchNode.prototype.handleActionInternal_ = function()

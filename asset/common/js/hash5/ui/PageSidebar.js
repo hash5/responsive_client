@@ -61,6 +61,8 @@ hash5.ui.PageSidebar.prototype.enterDocument = function()
     // render searchtree
     this.searchTree_ = new hash5.ui.st.SearchTree();
     this.searchTree_.render(document.getElementById('searchtree'));
+
+    this.getHandler().listen(this.searchTree_, goog.ui.Component.EventType.SELECT, this.handleSidebarAction_);
 };
 
 /**
@@ -117,6 +119,19 @@ hash5.ui.PageSidebar.prototype.setListHover = function(isHover)
         goog.dom.classes.enable(this.getElement(), 'list-hover', isHover);
         this.isHover_ = isHover;
     }
+};
+
+
+/**
+ * handles sidebaractions and hides list on mobile view as result
+ * @param {goog.events.Event} e
+ */
+hash5.ui.PageSidebar.prototype.handleSidebarAction_ = function(e)
+{
+    if(hash5.App.isMobile) {
+        this.toggle();
+    }
+
 };
 
 

@@ -61,6 +61,8 @@ hash5.ui.st.FolderNode.prototype.handleAction_ = function()
     hash5.api.clearListPanel();
 
     this.handleActionInternal_();
+
+    this.dispatchEvent(goog.ui.Component.EventType.SELECT);
 };
 
 /** @inheritDoc */
