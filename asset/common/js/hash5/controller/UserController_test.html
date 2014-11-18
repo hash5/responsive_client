@@ -21,6 +21,8 @@
         /** @type {string} */
         var testUserName = 'testUser' + Date.now();
         /** @type {string} */
+        var testUserMail = 'testUser' + Date.now() + '@testProv.de';
+        /** @type {string} */
         var testPassword = 'testPass';
 
         function setUp()
@@ -40,11 +42,11 @@
             });
 
             eventHandler.listen(userController, hash5.controller.UserController.EventType.CONFLICT, function(){
-                fail('userName should be working!');
+                fail('userName should be valid!');
                 asyncTestCase.continueTesting();
             });
 
-            userController.register(testUserName, testPassword);
+            userController.register(testUserName, testPassword, testUserMail);
         }
 
         function testBConflictingRegister()
@@ -60,7 +62,7 @@
                 asyncTestCase.continueTesting();
             });
 
-            userController.register(testUserName, testPassword);
+            userController.register(testUserName, testPassword, testUserMail);
         }
 
         function testCFailingLogin()
