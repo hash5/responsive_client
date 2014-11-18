@@ -12,6 +12,7 @@ goog.require('hash5.ui.search.SearchOptionsHelper');
 
 
 /**
+ * Searchfield with Autocomplete and Preview for entries
  *
  * @constructor
  * @extends {goog.ui.Component}
