@@ -8,33 +8,24 @@
         goog.require('hash5.ds.Recommondations');
 
         goog.require('goog.testing.jsunit');
-        goog.require('goog.testing.AsyncTestCase');
+        goog.require('hash5.testing.AsyncTestCase');
         goog.require('hash5.controller.UserController');
         goog.require('hash5.model.Entry');
     </script>
     <script>
-        var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
+        var asyncTestCase = hash5.testing.AsyncTestCase.createAndInstallWithAuthUser();
 
         /** @type {hash5.ds.Recommondations} */
         var rec = hash5.ds.Recommondations.getInstance();
 
-        function testAEnsureLogin()
+        function testAInsertTestData()
         {
-            asyncTestCase.waitForAsync('wait for login and data preparation');
-
-            var userController = hash5.controller.UserController.getInstance();
-
-            goog.events.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
-
-                // insert test data:
-                var testEntry = new hash5.model.Entry();
-                testEntry.setText('#test tag for recommondation');
-                testEntry.save(function(){
-                    asyncTestCase.continueTesting();
-                });
+            var testEntry = new hash5.model.Entry();
+            testEntry.setText('#test');
+            asyncTestCase.waitForAsync('wait for callback');
+            testEntry.save(function(){
+                asyncTestCase.continueTesting();
             });
-
-            userController.login('testUser', 'testPass');
         }
 
         function testBAutocomplete()
@@ -43,6 +34,7 @@
 
             rec.autocomplete('test text', 'tes', function(suggests){
                 assert(goog.isArray(suggests));
+                console.log(suggests);
                 assert(goog.array.contains(suggests, '#test'));
 
                 asyncTestCase.continueTesting();

@@ -22,6 +22,12 @@ goog.require('goog.debug.FancyWindow');
 hash5.VERS_NUMBER = '';
 
 /**
+ * true on test mode (when running tests)
+ * @type {boolean}
+ */
+hash5.isTestMode = false;
+
+/**
  * @constructor
  */
 hash5.App = function(){

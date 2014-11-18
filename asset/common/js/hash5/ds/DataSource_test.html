@@ -7,8 +7,8 @@
     <script>
         goog.require('hash5.ds.DataSource');
 
+        goog.require('hash5.testing.AsyncTestCase');
         goog.require('goog.testing.jsunit');
-        goog.require('goog.testing.AsyncTestCase');
 
         goog.require('hash5.controller.UserController');
         goog.require('hash5.model.EntryCollection');
@@ -16,7 +16,8 @@
 
     </script>
     <script>
-        var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
+        var asyncTestCase = hash5.testing.AsyncTestCase.createAndInstallWithAuthUser();
+
 
         /** @type {hash5.ds.DataSource} */
         var ds = hash5.ds.DataSource.getInstance();
@@ -29,19 +30,6 @@
                 eventHandler.dispose();
             }
             eventHandler = new goog.events.EventHandler();
-        }
-
-        function testAEnsureLogin()
-        {
-            asyncTestCase.waitForAsync('wait for login');
-
-            var userController = hash5.controller.UserController.getInstance();
-
-            eventHandler.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
-                asyncTestCase.continueTesting();
-            });
-
-            userController.login('testUser', 'testPass');
         }
 
         var saveModel = new hash5.model.Entry();
@@ -80,7 +68,15 @@
 
             var collection = new hash5.model.EntryCollection();
             eventHandler.listen(collection, goog.net.EventType.COMPLETE, function(){
-                assert(collection.contains(saveModel));
+                var containsNewEntry = goog.array.find(collection.data_, function(arrEl){
+                    if(arrEl.getId() == saveModel.getId()) {
+                        return arrEl;
+                    }
+                });
+                assert(containsNewEntry != null);
+
+                // does not work....
+                //assert(collection.contains(saveModel));
 
                 asyncTestCase.continueTesting();
             });

@@ -8,36 +8,18 @@
         goog.require('hash5.ds.ConnectionManager');
 
         goog.require('goog.testing.jsunit');
-        goog.require('goog.testing.AsyncTestCase');
+        goog.require('hash5.testing.AsyncTestCase');
         goog.require('hash5.controller.UserController');
         goog.require('hash5.model.Entry');
     </script>
     <script>
-        var asyncTestCase = goog.testing.AsyncTestCase.createAndInstall();
+        var asyncTestCase = hash5.testing.AsyncTestCase.createAndInstallWithAuthUser();
 
         /** @type {hash5.ds.ConnectionManager} */
         var connManager = hash5.ds.ConnectionManager.getInstance();
 
-        function ensureLogin()
-        {
-            var userController = hash5.controller.UserController.getInstance();
-
-            if(!userController.isLoggedIn())
-            {
-                asyncTestCase.waitForAsync('wait for login');
-
-                goog.events.listen(userController, hash5.controller.UserController.EventType.LOGIN, function(){
-                    asyncTestCase.continueTesting();
-                });
-
-                userController.login('testUser', 'testPass');
-            }
-        }
-
         function testSimpleRequest()
         {
-            ensureLogin();
-
             asyncTestCase.waitForAsync('wait for request callback');
             hash5.ds.ConnectionManager.request('/entries', 'GET', undefined, function(e){
                 assert(e.getResponseJson() != null);

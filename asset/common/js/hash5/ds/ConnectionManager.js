@@ -124,6 +124,10 @@ hash5.ds.ConnectionManager.prototype.isOnline = function()
  */
 hash5.ds.ConnectionManager.prototype.handleWinClose_ = function()
 {
+    if(hash5.isTestMode) {
+        return;
+    }
+
     if(this.requests_.getCount() > 0 || this.cachedRequests_.length > 0) {
         /** @desc window close message */
         var MSG_CLOSE_WARNING = goog.getMsg('There are pending server reqests!');
