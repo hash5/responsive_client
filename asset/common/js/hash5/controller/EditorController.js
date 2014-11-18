@@ -23,14 +23,6 @@ hash5.controller.EditorController = function()
     this.components_ = [];
 
     /**
-     * element to render new editors
-     *
-     * @type {Element}
-     * @private
-     */
-    this.panelEl_ = null;
-
-    /**
      * current active entryEditor
      *
      * @type {hash5.ui.editor.EntryEditor}
@@ -46,7 +38,6 @@ goog.addSingletonGetter(hash5.controller.EditorController);
  */
 hash5.controller.EditorController.prototype.initialize = function(config)
 {
-    this.panelEl_ = goog.dom.getElementByClass('main-panel');
 };
 
 /**
@@ -92,7 +83,7 @@ hash5.controller.EditorController.prototype.createEntryEditor = function(entry)
     }
 
     var editor = new hash5.ui.editor.EntryEditor(entry);
-    editor.render(this.panelEl_);
+    editor.render(document.body);
 
     // add components
     goog.array.forEach(this.components_, function(comp){

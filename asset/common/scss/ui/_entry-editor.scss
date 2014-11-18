@@ -15,6 +15,7 @@
     background: #fff;
     @include box-shadow(0 2px 10px rgba(0, 0, 0, 0.2));
 
+    @include translate3d(0, 0, 0); // creates new view layer to improve animation
     @include animation(editor_slide-in .4s);
 
     @include breakpoint(mobile){

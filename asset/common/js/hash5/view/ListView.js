@@ -207,13 +207,18 @@ hash5.view.ListView.prototype.addEntryCollection = function(collection, title, a
  */
 hash5.view.ListView.prototype.slideToList = function(listUi)
 {
-    var el = listUi.getElement();
+    if (hash5.App.isMobile) {
+        var index = this.indexOfChild(listUi);
+        this.mobileShowList(index);
+    } else {
+        var el = listUi.getElement();
 
-    var scrollEl = this.getElement();
-    var scrollAnim = new monin.fx.WindowScroll(el, [scrollEl.scrollLeft, 0], [el.offsetLeft, 0], 500, goog.fx.easing.inAndOut, scrollEl);
-    scrollAnim.play();
+        var scrollEl = this.getElement();
+        var scrollAnim = new monin.fx.WindowScroll(el, [scrollEl.scrollLeft, 0], [el.offsetLeft, 0], 500, goog.fx.easing.inAndOut, scrollEl);
+        scrollAnim.play();
 
-    listUi.highlight();
+        listUi.highlight();
+    }
 };
 
 /**
