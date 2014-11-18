@@ -38,7 +38,7 @@ hash5.module.intro.IntroLayer.prototype.enterDocument = function()
         .listen(this.getElementByClass('btn-start'), goog.events.EventType.CLICK, this.handleStartTour_)
         .listen(this.getElementByClass('close'), goog.events.EventType.CLICK, this.close)
         .listen(this.getElementByClass('btn-cancel'), goog.events.EventType.CLICK, this.close)
-        .listen(overlay, goog.ui.Component.EventType.CLOSE, this.close)
+        .listen(overlay, goog.ui.Component.EventType.CLOSE, this.close);
 };
 
 /**
